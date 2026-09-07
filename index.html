@@ -1,1 +1,144 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#10372f"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="manifest" href="./manifest.webmanifest"><link rel="stylesheet" href="./styles.css?v=2.1"><title>Southeast Asia 2027</title></head><body><div id="app"></div><nav id="nav" hidden><button data-nav="now">◎<span>You are here</span></button><button data-nav="do">✓<span>Do here</span></button><button data-nav="next">→<span>Go next</span></button><button data-nav="miss">!<span>Don't miss</span></button><button data-nav="journey">⌁<span>Journey</span></button></nav><script src="./app.js?v=2.1"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#10372f">
+<title>Southeast Asia 2027</title>
+<style>
+:root{--paper:#f3ede1;--card:#fffaf1;--ink:#18221f;--muted:#68726e;--deep:#10372f;--accent:#c86b3d;--line:#d8cebd}
+*{box-sizing:border-box}html,body{margin:0;max-width:100%;overflow-x:hidden;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer;min-height:44px}
+#app{max-width:760px;margin:auto;padding:0 14px calc(86px + env(safe-area-inset-bottom))}
+.cover{position:fixed;inset:0;z-index:50;background:var(--deep);color:#fff;padding:calc(30px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:space-between}.cover h1{font:700 clamp(50px,15vw,82px)/.9 Georgia,serif;margin:18px 0}.kicker{font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.68}.enter{width:100%;border:0;border-radius:14px;padding:16px;background:#f1d39e;color:#17342f;font-weight:900}
+.top{position:sticky;top:0;z-index:20;margin:0 -14px;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;background:#f3ede1f2;backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center}.back{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 11px;font-weight:800}.top b{font-family:Georgia,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero{position:relative;overflow:hidden;border-radius:22px;margin:16px 0;background:var(--deep);color:#fff;min-height:235px;display:flex;align-items:flex-end}.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#092b25f2,#092b2520)}.heroText{position:relative;z-index:2;padding:20px}.hero h2{font:700 38px/1 Georgia,serif;margin:7px 0}.hero p{margin-bottom:0}.fallback{background:linear-gradient(135deg,#315d52,#0e302a)}
+h3{font:700 25px Georgia,serif;margin:25px 0 10px}.grid{display:grid;grid-template-columns:1fr;gap:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:14px;margin:10px 0;min-width:0}.country{height:175px;position:relative;overflow:hidden;border-radius:18px;color:#fff;background:#234a40}.country img{width:100%;height:100%;object-fit:cover}.country:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#092b25e8,#092b2515)}.ct{position:absolute;z-index:2;bottom:14px;left:14px;right:14px}.ct b{font:700 28px Georgia,serif}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip,.badge{display:inline-block;background:#e6d8c1;border-radius:999px;padding:6px 8px;font-size:11px;font-weight:850}.splus{background:#173a32;color:#fff}.meta{font-size:12px;color:var(--muted)}.stop{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#dfd3bf;font-weight:900}.btn{border:1px solid var(--line);background:#fff9ee;border-radius:11px;padding:10px 11px;font-weight:800}.primary{background:var(--deep);color:#fff;border-color:var(--deep)}.visual{aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,#d7c9b3,#eee4d5);display:grid;place-items:center;text-align:center;padding:20px}.social{border-left:3px solid var(--accent);background:#f2e6d5;padding:9px;margin-top:10px;font-size:12px}.check{display:flex;gap:10px;align-items:flex-start}.check input{width:22px;height:22px;accent-color:#315f4f}.done{opacity:.48}.search,select{width:100%;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:12px}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fffaf2f7;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);grid-template-columns:repeat(4,1fr)}#nav:not([hidden]){display:grid}#nav button{border:0;background:none;padding:9px 2px;font-size:19px}#nav span{display:block;font-size:10px;margin-top:2px}
+.notice{padding:12px;border-radius:13px;background:#eee2cc;font-size:13px}
+@media(min-width:650px){.grid{grid-template-columns:1fr 1fr}}
+
+/* Decision-engine V2 */
+#nav{grid-template-columns:repeat(5,1fr)}#nav button{font-size:18px}#nav span{font-size:9px}.dashboardHero{min-height:280px}.actionGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.action{min-height:135px;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:15px}.action strong{font:700 22px Georgia,serif;display:block;margin:6px 0}.action small{color:var(--muted)}.action .icon{font-size:24px}.urgent{border-left:4px solid var(--accent)}.locked{border-left:4px solid #8b5d35}.progress{height:9px;border-radius:999px;background:#ded4c3;overflow:hidden}.progress i{display:block;height:100%;background:var(--deep)}.decision{border:2px solid var(--deep)}.decision h2{font:700 31px Georgia,serif;margin:7px 0}.why{display:grid;grid-template-columns:1fr 1fr;gap:7px}.why div{background:#eee4d5;border-radius:11px;padding:9px;font-size:12px}.sectionLabel{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:800}.completeBtn{width:100%;margin-top:8px}.countryProgress{display:flex;justify-content:space-between;gap:8px;align-items:center}.timeline{border-left:2px solid #c9bba4;margin-left:10px;padding-left:18px}.timeline .card{position:relative}.timeline .card:before{content:"";position:absolute;left:-25px;top:18px;width:11px;height:11px;border-radius:50%;background:var(--deep);border:2px solid var(--paper)}@media(max-width:420px){.actionGrid{grid-template-columns:1fr 1fr}.action{min-height:125px;padding:12px}.action strong{font-size:19px}.hero h2{font-size:34px}}
+.errorbox{margin:30px 10px;padding:18px;background:#fff3f0;border:1px solid #d99;border-radius:14px}
+</style>
+</head>
+<body>
+<div id="app"><div style="padding:24px;font-family:system-ui">Loading trip companion…</div></div>
+<nav id="nav" hidden>
+<button data-nav="now">◎<span>You are here</span></button>
+<button data-nav="do">✓<span>Do here</span></button>
+<button data-nav="next">→<span>Go next</span></button>
+<button data-nav="miss">!<span>Don't miss</span></button>
+<button data-nav="journey">⌁<span>Journey</span></button>
+</nav>
+<script>
+const DATA={"countries": [{"id": "vietnam", "name": "Vietnam", "flag": "🇻🇳", "subtitle": "60-day experience-first route", "hero": "https://toquoc.mediacdn.vn/280518851207290880/2022/8/30/photo-1661832912088-1661832912900324250669.jpeg", "key": ["Tết in Saigon", "Mekong homestays", "Ghositaram Temple", "Yok Đôn elephant tracking", "Đà Lạt canyoning", "Hải Vân Pass", "Cao Bằng", "Hà Giang Easy Rider"]}, {"id": "laos", "name": "Laos", "flag": "🇱🇦", "subtitle": "River, jungle, wildlife and loops", "hero": "https://www.uniqhotels.com/media/cache/e7/4d/e74d843a2a4c5300a7cf33d4254a7f10.jpg", "key": ["Gibbon Experience", "Nam Et wildlife", "Nong Khiaw", "Mekong slow boat", "Vang Vieng paramotor", "Kong Lor", "Bolaven Loop"]}, {"id": "cambodia", "name": "Cambodia", "flag": "🇰🇭", "subtitle": "Khmer culture, jungle and island life", "hero": "https://freedomdestinations.co.uk/wp-content/uploads/Angkor-Wat-Cambodia-1.jpg", "key": ["Angkor", "Battambang bats", "Cardamoms", "Kampot pepper", "Koh Rong bioluminescence"]}, {"id": "thailand", "name": "Thailand", "flag": "🇹🇭", "subtitle": "Northern Thailand into TESOL", "hero": "https://travelthailand.com/images/destinations/Mae-Hong-Son-Loop3_2ba19.jpg", "key": ["Mae Hong Son Loop", "Lanna food", "Chiang Mai", "Bangkok", "TESOL 21 Jun–21 Jul"]}, {"id": "kazakhstan", "name": "Kazakhstan", "flag": "🇰🇿", "subtitle": "Compact southeast mountain circuit", "hero": "https://kartin.papik.pro/uploads/posts/2023-07/1689236919_kartin-papik-pro-p-kartinki-vse-s-ozer-kolsai-57.jpg", "key": ["Almaty", "Charyn Canyon", "Kolsai Lakes", "Kaindy Lake"]}, {"id": "kyrgyzstan", "name": "Kyrgyzstan", "flag": "🇰🇬", "subtitle": "Horse expedition and yurt country", "hero": "https://nomads-life.com/wp-content/uploads/2024/02/Horse-in-Son-Kul2-1024x768.jpg", "key": ["4–6 day horse trek", "Song-Köl", "Jailoo/yurts", "Kymyz", "Eagle culture", "Altyn Arashan"]}], "stops": {"vietnam": [["Ho Chi Minh City", "5–7", "Tết; street food; coffee; Chợ Lớn; Vietnamese immersion", "S+"], ["Cái Bè", "2", "Tân Phong Island; fruit farms; sampan canals; cycling; family homestay", "A"], ["Sa Đéc", "1–2", "Flower village; markets; colonial streets", "A"], ["Cần Thơ", "2", "Cái Răng floating market; river life; countryside cycling", "A"], ["Long Xuyên", "1", "Ông Hổ Island cycling; local markets; quieter Mekong life", "A"], ["Châu Đốc", "2", "Bà Chúa Xứ; Hang Pagoda; Núi Sam; floating communities", "A"], ["Trà Sư Cajuput Forest", "1", "Flooded forest boat; birdlife; An Giang wetlands", "A"], ["Tịnh Biên / Tri Tôn", "1–2", "Khmer villages; pagodas; rice country; Núi Cấm foothills", "A"], ["Bạc Liêu / Ghositaram Temple", "1", "Ornate Khmer Buddhist temple; distinctive architecture and social-media stop", "A"], ["Hà Tiên", "1–2", "Border-town markets; limestone hills; coast", "B"], ["Kiên Lương", "1", "Karst countryside; fishing and agricultural landscapes", "B"], ["Rạch Giá", "1", "Waterfront; seafood; ferry-port atmosphere", "B"], ["Vĩnh Long / Bến Tre", "2–3", "Canals; coconut groves; orchards; craft workshops; village cycling", "A"], ["Phú Quốc", "3–5", "Island option; seafood; villages; national park; snorkelling", "B"], ["Côn Đảo", "3–4", "Prison history; national park; beaches; marine life", "A"], ["Đồng Xoài", "1", "Rubber/cashew country; red-earth transition", "B"], ["Gia Nghĩa / Đắk Nông", "1–2", "Liêng Nung Waterfall; basalt highlands; coffee and pepper farms", "A"], ["Đà Lạt", "5–7", "Canyoning; coffee farms; waterfalls; markets; mountain climate", "S"], ["Đắk Lắk", "4–5", "Buôn Ma Thuột coffee; Yok Đôn elephant tracking; Buôn Đôn; Lắk Lake", "S+"], ["Pleiku", "2–3", "T’Nưng Lake; Chư Đăng Ya volcano; coffee countryside", "A"], ["Kon Tum", "3–4", "Bahnar villages; communal houses; countryside; homestay", "A"], ["Măng Đen", "3–4", "Pine forests; lakes; waterfalls; coffee; villages", "A"], ["Khâm Đức", "1", "Small mountain town; Ho Chi Minh Road scenery", "B"], ["Prao", "1", "Forested highlands; Cơ Tu cultural region", "B"], ["A Lưới", "1–2", "A Shau Valley; mountain scenery; minority communities; history", "A"], ["Khe Sanh", "1", "DMZ / Ta Con history; mountain scenery; coffee", "A"], ["Western Ho Chi Minh Road", "1", "Remote Khe Sanh → Phong Nha jungle-and-karst road", "S"], ["Quy Nhơn", "4–5", "Kỳ Co; Eo Gió; fishing villages; Cham towers; seafood", "A"], ["Phú Yên", "4–5", "Bãi Xép; Gành Đá Đĩa; Bãi Môn / Mũi Điện", "A"], ["Nha Trang", "2–3", "Marine option; mud baths; food; snorkelling/diving", "B"], ["Hội An", "5–7", "Ancient Town; lanterns; Trà Quế; basket boats; cooking; Mỹ Sơn", "S"], ["Đà Nẵng", "3–4", "Sơn Trà; Marble Mountains; beach; cafés; food", "A"], ["Hải Vân Pass", "1", "Easy Rider/legal transfer; Lăng Cô; mountain-to-sea road", "S"], ["Huế", "3–4", "Imperial City; royal tombs; Thiên Mụ; Perfume River; food", "S"], ["Bạch Mã National Park", "2", "Jungle hiking; waterfalls; wildlife; viewpoints", "A"], ["Phong Nha / Quảng Bình", "Flexible", "River; farms; Bồng Lai Valley. Cave expeditions excluded this trip", "A"], ["Ninh Bình", "4–5", "Tràng An/Tam Cốc boats; Hoa Lư; Vân Long; Cúc Phương; cycling", "S"], ["Pù Luông", "3–4", "Terraces; water wheels; Bản Hiêu; Kho Mường; stilt-house stay", "A"], ["Hà Nội", "5–7", "Old Quarter; street food; egg coffee; markets; museums; reset/editing", "S"], ["Hạ Long / Lan Hạ Bay", "2–3", "Kayaking; swimming; limestone islands; overnight boat option", "A"], ["Cát Bà Island", "2–3", "National park hiking; cycling; fishing villages; beaches", "A"], ["Ba Bể National Park", "3–4", "Lake boat; kayaking; Puông Cave; village homestay; hiking", "A"], ["Cao Bằng", "4–5", "Bản Giốc; Ngườm Ngao; Thang Hen; Pác Bó; God’s Eye Mountain", "S+"], ["Hà Giang Loop", "5–7", "Easy Rider; Quản Bạ; Yên Minh; Đồng Văn; Mèo Vạc; Du Già; Mã Pí Lèng", "S+"], ["Hoàng Su Phì", "3–4", "Terraces; Red Dao culture; trekking; village homestays", "A"], ["Mù Cang Chải", "3–4", "Tú Lệ; La Pán Tẩn; Chế Cu Nha; terraces; villages", "A"], ["Y Tý", "3", "Hà Nhì villages; remote mountains; terraces; cloud landscapes", "A"], ["Bắc Hà", "2–3", "Sunday ethnic market; villages; countryside", "A"], ["Sa Pa", "2–3", "Mường Hoa; Tả Van; Fansipan; trekking", "B"], ["Hà Nội Return", "1–2", "Laundry; admin; editing; onward planning", "B"]], "laos": [["Luang Prabang", "3–4", "Old town; Kuang Si; food; Mekong", "S"], ["Nong Khiaw", "3", "Karst viewpoints; overnight mountain trek", "S"], ["Muang Ngoi", "2–3", "Boat-in village slow stay; hikes", "A"], ["Nam Et–Phou Louey", "2–3", "Conservation-led wildlife/night experience", "S+"], ["Phonsavan", "2", "Plain of Jars; UXO history", "A"], ["Vang Vieng", "3", "Paramotor over karsts; viewpoints", "S+"], ["Vientiane", "1–2", "Mekong; temples; food; COPE context", "B"], ["Thakhek / Kong Lor", "3–4", "Loop with legal driver/guide; underground river", "S+"], ["Savannakhet", "1–2", "Colonial streets; local food; slower Mekong town", "B"], ["Bolaven Plateau", "3", "Coffee farms; waterfalls; loop", "S"], ["Sekong", "1–2", "Quieter southern Laos; highland landscapes", "A"], ["Attapeu", "1–2", "Remote south; markets; landscape", "A"], ["4000 Islands", "3", "Mekong island cycling; slow finish", "A"], ["Huay Xai / Gibbon Experience", "3–4", "Classic 3D/2N jungle, ziplines, canopy treehouse", "S+"], ["Mekong Slow Boat", "2", "Huay Xai → Pakbeng → Luang Prabang", "S"]], "cambodia": [["Siem Reap", "4–5", "Angkor sunrise + deeper temple circuit; countryside", "S+"], ["Battambang", "3", "Bamboo train; bat-cave exodus; countryside", "S"], ["Phnom Penh", "3", "Khmer history; markets; food", "S"], ["Cardamom Mountains", "3–4", "Jungle/conservation stay; river/forest experience", "S"], ["Kampot", "3", "Pepper farm; riverside town; food", "A"], ["Kep", "1", "Crab market; coast", "A"], ["Koh Rong", "4", "Island slow stay; bioluminescent plankton", "A"]], "thailand": [["Chiang Mai", "4", "Lanna food; cooking; markets; temples", "A"], ["Mae Hong Son Loop", "5–6", "Mountain road circuit; villages; viewpoints", "S+"], ["Pai", "2–3", "Canyon; countryside; mountain-town pause", "A"], ["Chiang Rai", "2–3", "Northern culture; food; selective temples", "A"], ["Bangkok", "5–7", "Street-food neighbourhoods; markets; canals; pre-TESOL buffer", "S"], ["TESOL Training", "21 Jun–21 Jul", "Fixed one-month training block", "S+"]], "kazakhstan": [["Almaty", "2–3", "Food; Green Bazaar; city/mountain contrast", "A"], ["Charyn Canyon", "1", "Canyon walk; golden-hour landscape", "S"], ["Kolsai Lakes", "1–2", "Alpine lakes; hiking; rural overnight", "S+"], ["Kaindy Lake", "0.5–1", "Submerged spruce forest in turquoise lake", "S+"]], "kyrgyzstan": [["Bishkek", "1–2", "Arrival/reset; bazaar; operator rendezvous", "A"], ["Tian Shan Horse Expedition", "4–6", "Multi-day riding; passes; jailoo; remote valleys", "S+"], ["Song-Köl", "2+", "Yurt nights; herder life; horses; kymyz; stars", "S+"], ["Issyk-Kul / Bokonbaevo", "1–2", "Lake; authentic eagle-culture encounter if credible", "A"], ["Karakol", "1–2", "Dungan/Uyghur food; mountain base", "A"], ["Altyn Arashan", "1–2", "Mountain valley trek; hot springs if route permits", "A"]]}, "constraints": [{"date": "2027-01-28", "label": "Arrive Vietnam", "type": "arrival"}, {"date": "2027-06-15", "label": "Be in Bangkok", "type": "deadline"}, {"start": "2027-06-21", "end": "2027-07-21", "label": "TESOL training", "type": "fixed"}, {"date": "2027-08-01", "label": "Kazakhstan / Kyrgyzstan leg", "type": "departure"}, {"date": "2027-08-14", "label": "Return to Cambodia", "type": "deadline"}], "settings": {"monthlyBudgetAUD": 2500, "tripStyle": "Slow travel · local experiences · unique experiences first"}};
+const app=document.getElementById('app');
+const nav=document.getElementById('nav');
+let state;
+try {
+ state=JSON.parse(localStorage.getItem('sea2027-simple-v1')||'{"here":"Pre-departure · Melbourne","done":{},"content":{}}');
+} catch(e) {
+ state={here:"Pre-departure · Melbourne",done:{},content:{}};
+}
+let history=[];
+const save=()=>localStorage.setItem('sea2027-simple-v1',JSON.stringify(state));
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+function shell(title,body,showBack=true){
+ app.innerHTML=`<header class="top">${showBack?'<button class="back" id="backButton">← Back</button>':''}<b>${esc(title)}</b></header>${body}`;
+ if(showBack) document.getElementById('backButton').onclick=goBack;
+ window.scrollTo(0,0);
+}
+function push(fn,args=[]){history.push({fn,args})}
+function goBack(){const h=history.pop(); h?h.fn(...h.args):now(false)}
+function countryByName(n){return DATA.countries.find(c=>c.name===n)}
+function parseHere(){
+ const p=state.here.split(' · ');
+ if(p.length<2)return null;
+ const c=countryByName(p[0]); if(!c)return null;
+ const name=p.slice(1).join(' · ');
+ const i=DATA.stops[c.id].findIndex(s=>s[0]===name);
+ return i<0?null:{c,i,s:DATA.stops[c.id][i]};
+}
+function eid(c,i){return c.id+'-'+i}
+function isDone(c,i){return !!state.done[eid(c,i)]}
+function allRows(){return DATA.countries.flatMap(c=>DATA.stops[c.id].map((s,i)=>({c,s,i,id:eid(c,i)})))}
+function nextUndone(){
+ const rows=allRows(),h=parseHere();
+ if(!h)return rows.find(r=>!state.done[r.id]);
+ const pos=rows.findIndex(r=>r.c.id===h.c.id&&r.i===h.i);
+ return rows.slice(pos+1).find(r=>!state.done[r.id])||rows.find(r=>!state.done[r.id]);
+}
+function now(record=true){
+ if(record)push(now,[false]);
+ const h=parseHere(),rows=allRows(),done=rows.filter(r=>state.done[r.id]).length,next=nextUndone();
+ const pct=Math.round(done/rows.length*100);
+ const context=h?`${h.c.flag} ${h.c.name} · ${h.s[0]}`:'Melbourne · pre-departure';
+ shell('YOU ARE HERE',`
+ <div class="hero fallback dashboardHero"><div class="heroText"><div class="kicker">Current position</div><h2>${esc(context)}</h2><p>${h?'What matters here, then the smartest next move.':'Departure 28 January 2027. Your master itinerary is loaded.'}</p></div></div>
+ <div class="actionGrid">
+ <button class="action" id="doBtn"><span class="icon">✓</span><strong>DO HERE</strong><small>${h?esc(h.s[1]):'See first experience'}</small></button>
+ <button class="action" id="nextBtn"><span class="icon">→</span><strong>GO NEXT</strong><small>${next?esc(next.s[0]):'Route complete'}</small></button>
+ <button class="action" id="missBtn"><span class="icon">!</span><strong>DON'T MISS</strong><small>High-priority + fixed dates</small></button>
+ <button class="action" id="journeyBtn"><span class="icon">⌁</span><strong>MY JOURNEY</strong><small>${done}/${rows.length} complete</small></button>
+ </div>
+ <h3>Journey progress</h3><div class="card"><b>${pct}% complete</b><div class="progress" style="margin-top:10px"><i style="width:${pct}%"></i></div></div>
+ <button class="btn" id="locationBtn" style="width:100%">Change “You are here”</button>`,false);
+ document.getElementById('doBtn').onclick=doHere;
+ document.getElementById('nextBtn').onclick=goNext;
+ document.getElementById('missBtn').onclick=dontMiss;
+ document.getElementById('journeyBtn').onclick=journey;
+ document.getElementById('locationBtn').onclick=setLocation;
+}
+function doHere(){
+ const h=parseHere();
+ if(h)return experience(h.c,h.i,'DO HERE');
+ const r=allRows()[0]; experience(r.c,r.i,'DO HERE');
+}
+function experience(c,i,title='EXPERIENCE'){
+ push(now,[false]); const s=DATA.stops[c.id][i],done=isDone(c,i),content=!!state.content[eid(c,i)];
+ shell(title,`<div class="hero fallback"><div class="heroText"><div class="kicker">${c.flag} ${esc(c.name)} · ${s[3]} priority</div><h2>${esc(s[0])}</h2><p>${esc(s[1])} nights/days</p></div></div>
+ <div class="card"><span class="badge ${s[3]==='S+'?'splus':''}">${s[3]}</span><h3 style="margin-top:10px">${esc(s[1])}</h3><p>${esc(s[2])}</p><div class="social"><b>Content mode</b><br>Wide establishing shot → human/detail → movement/reveal → one spoken observation.</div></div>
+ <button class="btn primary completeBtn" id="doneBtn">${done?'✓ COMPLETED':'MARK EXPERIENCE COMPLETE'}</button>
+ <button class="btn completeBtn" id="contentBtn">${content?'✓ FOOTAGE CAPTURED':'MARK FOOTAGE CAPTURED'}</button>`);
+ document.getElementById('doneBtn').onclick=()=>{state.done[eid(c,i)]=!done;save();history.pop();experience(c,i,title)};
+ document.getElementById('contentBtn').onclick=()=>{state.content[eid(c,i)]=!content;save();history.pop();experience(c,i,title)};
+}
+function goNext(){
+ push(now,[false]); const r=nextUndone();
+ if(!r)return shell('GO NEXT','<div class="notice">Everything is complete.</div>');
+ shell('GO NEXT',`<div class="card decision"><div class="sectionLabel">Recommended next</div><h2>${r.c.flag} ${esc(r.s[0])}</h2><p><b>${esc(r.s[1])}</b></p><p>${esc(r.s[2])}</p><div class="why"><div><b>Priority</b><br>${r.s[3]}</div><div><b>Sequence</b><br>Next unfinished stop</div></div></div><button class="btn primary" id="hereNow" style="width:100%">I'M HERE NOW →</button>`);
+ document.getElementById('hereNow').onclick=()=>{state.here=r.c.name+' · '+r.s[0];save();history=[];now(false)};
+}
+function dontMiss(){
+ push(now,[false]); const p=allRows().filter(r=>!state.done[r.id]&&(r.s[3]==='S+'||r.s[3]==='S'));
+ shell("DON'T MISS",`<div class="hero fallback"><div class="heroText"><div class="kicker">FOMO CONTROL</div><h2>${p.length} major experiences remain</h2></div></div>
+ <h3>Fixed commitments</h3>${(DATA.constraints||[]).map(x=>`<div class="card locked"><b>${esc(x.label)}</b><div class="meta">${esc(x.date||((x.start||'')+' → '+(x.end||'')))}</div></div>`).join('')}
+ <h3>High-priority experiences</h3>${p.map(r=>`<div class="card"><span class="badge ${r.s[3]==='S+'?'splus':''}">${r.s[3]}</span><b style="display:block;margin-top:7px">${esc(r.s[0])}</b><div class="meta">${r.c.flag} ${esc(r.c.name)}</div><p>${esc(r.s[1])} — ${esc(r.s[2])}</p></div>`).join('')}`);
+}
+function journey(){
+ push(now,[false]);
+ shell('MY JOURNEY',`<div class="hero fallback"><div class="heroText"><div class="kicker">Experience passport</div><h2>Your journey</h2><p>Open a country to see the complete sequence.</p></div></div>${DATA.countries.map(c=>{const a=DATA.stops[c.id],d=a.filter((s,i)=>isDone(c,i)).length,p=Math.round(d/a.length*100);return `<div class="card"><b>${c.flag} ${esc(c.name)}</b><div class="meta">${d}/${a.length} completed · ${p}%</div><button class="btn countryBtn" data-id="${c.id}" style="margin-top:10px">Open country →</button></div>`}).join('')}`);
+ document.querySelectorAll('.countryBtn').forEach(b=>b.onclick=()=>country(b.dataset.id));
+}
+function country(id){
+ const c=DATA.countries.find(x=>x.id===id); push(journey);
+ shell(c.flag+' '+c.name,`<div class="hero fallback"><div class="heroText"><div class="kicker">Country chapter</div><h2>${c.flag} ${esc(c.name)}</h2><p>${esc(c.subtitle)}</p></div></div><div class="chips">${c.key.map(x=>`<span class="chip">${esc(x)}</span>`).join('')}</div><h3>Travel sequence</h3>${DATA.stops[id].map((s,i)=>`<div class="card ${isDone(c,i)?'done':''}"><span class="badge ${s[3]==='S+'?'splus':''}">${s[3]}</span><b style="display:block;margin-top:6px">${i+1}. ${esc(s[0])}</b><div class="meta">${esc(s[1])} nights/days</div><p>${esc(s[2])}</p><button class="btn expBtn" data-i="${i}">Open →</button></div>`).join('')}`);
+ document.querySelectorAll('.expBtn').forEach(b=>b.onclick=()=>experience(c,+b.dataset.i,c.name.toUpperCase()));
+}
+function setLocation(){
+ push(now,[false]); const opts=['Pre-departure · Melbourne',...DATA.countries.flatMap(c=>DATA.stops[c.id].map(s=>c.name+' · '+s[0]))];
+ shell('SET LOCATION',`<div class="card"><select id="loc">${opts.map(x=>`<option ${x===state.here?'selected':''}>${esc(x)}</option>`).join('')}</select><button class="btn primary" id="set" style="width:100%;margin-top:10px">UPDATE LOCATION</button></div>`);
+ document.getElementById('set').onclick=()=>{state.here=document.getElementById('loc').value;save();history=[];now(false)};
+}
+nav.querySelectorAll('button').forEach(b=>b.onclick=()=>({now:()=>now(false),do:doHere,next:goNext,miss:dontMiss,journey}[b.dataset.nav])());
+try {
+ nav.hidden=false;
+ now(false);
+} catch(err) {
+ console.error(err);
+ app.innerHTML=`<div class="errorbox"><h2>App error</h2><p>${esc(err.message||err)}</p></div>`;
+}
+</script>
+</body></html>
