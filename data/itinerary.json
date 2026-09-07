@@ -1,0 +1,667 @@
+{
+  "countries": [
+    {
+      "id": "vietnam",
+      "name": "Vietnam",
+      "flag": "🇻🇳",
+      "subtitle": "60-day experience-first route",
+      "hero": "https://toquoc.mediacdn.vn/280518851207290880/2022/8/30/photo-1661832912088-1661832912900324250669.jpeg",
+      "key": [
+        "Tết in Saigon",
+        "Mekong homestays",
+        "Ghositaram Temple",
+        "Yok Đôn elephant tracking",
+        "Đà Lạt canyoning",
+        "Hải Vân Pass",
+        "Cao Bằng",
+        "Hà Giang Easy Rider"
+      ]
+    },
+    {
+      "id": "laos",
+      "name": "Laos",
+      "flag": "🇱🇦",
+      "subtitle": "River, jungle, wildlife and loops",
+      "hero": "https://www.uniqhotels.com/media/cache/e7/4d/e74d843a2a4c5300a7cf33d4254a7f10.jpg",
+      "key": [
+        "Gibbon Experience",
+        "Nam Et wildlife",
+        "Nong Khiaw",
+        "Mekong slow boat",
+        "Vang Vieng paramotor",
+        "Kong Lor",
+        "Bolaven Loop"
+      ]
+    },
+    {
+      "id": "cambodia",
+      "name": "Cambodia",
+      "flag": "🇰🇭",
+      "subtitle": "Khmer culture, jungle and island life",
+      "hero": "https://freedomdestinations.co.uk/wp-content/uploads/Angkor-Wat-Cambodia-1.jpg",
+      "key": [
+        "Angkor",
+        "Battambang bats",
+        "Cardamoms",
+        "Kampot pepper",
+        "Koh Rong bioluminescence"
+      ]
+    },
+    {
+      "id": "thailand",
+      "name": "Thailand",
+      "flag": "🇹🇭",
+      "subtitle": "Northern Thailand into TESOL",
+      "hero": "https://travelthailand.com/images/destinations/Mae-Hong-Son-Loop3_2ba19.jpg",
+      "key": [
+        "Mae Hong Son Loop",
+        "Lanna food",
+        "Chiang Mai",
+        "Bangkok",
+        "TESOL 21 Jun–21 Jul"
+      ]
+    },
+    {
+      "id": "kazakhstan",
+      "name": "Kazakhstan",
+      "flag": "🇰🇿",
+      "subtitle": "Compact southeast mountain circuit",
+      "hero": "https://kartin.papik.pro/uploads/posts/2023-07/1689236919_kartin-papik-pro-p-kartinki-vse-s-ozer-kolsai-57.jpg",
+      "key": [
+        "Almaty",
+        "Charyn Canyon",
+        "Kolsai Lakes",
+        "Kaindy Lake"
+      ]
+    },
+    {
+      "id": "kyrgyzstan",
+      "name": "Kyrgyzstan",
+      "flag": "🇰🇬",
+      "subtitle": "Horse expedition and yurt country",
+      "hero": "https://nomads-life.com/wp-content/uploads/2024/02/Horse-in-Son-Kul2-1024x768.jpg",
+      "key": [
+        "4–6 day horse trek",
+        "Song-Köl",
+        "Jailoo/yurts",
+        "Kymyz",
+        "Eagle culture",
+        "Altyn Arashan"
+      ]
+    }
+  ],
+  "stops": {
+    "vietnam": [
+      [
+        "Ho Chi Minh City",
+        "5–7",
+        "Tết; street food; coffee; Chợ Lớn; Vietnamese immersion",
+        "S+"
+      ],
+      [
+        "Cái Bè",
+        "2",
+        "Tân Phong Island; fruit farms; sampan canals; cycling; family homestay",
+        "A"
+      ],
+      [
+        "Sa Đéc",
+        "1–2",
+        "Flower village; markets; colonial streets",
+        "A"
+      ],
+      [
+        "Cần Thơ",
+        "2",
+        "Cái Răng floating market; river life; countryside cycling",
+        "A"
+      ],
+      [
+        "Long Xuyên",
+        "1",
+        "Ông Hổ Island cycling; local markets; quieter Mekong life",
+        "A"
+      ],
+      [
+        "Châu Đốc",
+        "2",
+        "Bà Chúa Xứ; Hang Pagoda; Núi Sam; floating communities",
+        "A"
+      ],
+      [
+        "Trà Sư Cajuput Forest",
+        "1",
+        "Flooded forest boat; birdlife; An Giang wetlands",
+        "A"
+      ],
+      [
+        "Tịnh Biên / Tri Tôn",
+        "1–2",
+        "Khmer villages; pagodas; rice country; Núi Cấm foothills",
+        "A"
+      ],
+      [
+        "Bạc Liêu / Ghositaram Temple",
+        "1",
+        "Ornate Khmer Buddhist temple; distinctive architecture and social-media stop",
+        "A"
+      ],
+      [
+        "Hà Tiên",
+        "1–2",
+        "Border-town markets; limestone hills; coast",
+        "B"
+      ],
+      [
+        "Kiên Lương",
+        "1",
+        "Karst countryside; fishing and agricultural landscapes",
+        "B"
+      ],
+      [
+        "Rạch Giá",
+        "1",
+        "Waterfront; seafood; ferry-port atmosphere",
+        "B"
+      ],
+      [
+        "Vĩnh Long / Bến Tre",
+        "2–3",
+        "Canals; coconut groves; orchards; craft workshops; village cycling",
+        "A"
+      ],
+      [
+        "Phú Quốc",
+        "3–5",
+        "Island option; seafood; villages; national park; snorkelling",
+        "B"
+      ],
+      [
+        "Côn Đảo",
+        "3–4",
+        "Prison history; national park; beaches; marine life",
+        "A"
+      ],
+      [
+        "Đồng Xoài",
+        "1",
+        "Rubber/cashew country; red-earth transition",
+        "B"
+      ],
+      [
+        "Gia Nghĩa / Đắk Nông",
+        "1–2",
+        "Liêng Nung Waterfall; basalt highlands; coffee and pepper farms",
+        "A"
+      ],
+      [
+        "Đà Lạt",
+        "5–7",
+        "Canyoning; coffee farms; waterfalls; markets; mountain climate",
+        "S"
+      ],
+      [
+        "Đắk Lắk",
+        "4–5",
+        "Buôn Ma Thuột coffee; Yok Đôn elephant tracking; Buôn Đôn; Lắk Lake",
+        "S+"
+      ],
+      [
+        "Pleiku",
+        "2–3",
+        "T’Nưng Lake; Chư Đăng Ya volcano; coffee countryside",
+        "A"
+      ],
+      [
+        "Kon Tum",
+        "3–4",
+        "Bahnar villages; communal houses; countryside; homestay",
+        "A"
+      ],
+      [
+        "Măng Đen",
+        "3–4",
+        "Pine forests; lakes; waterfalls; coffee; villages",
+        "A"
+      ],
+      [
+        "Khâm Đức",
+        "1",
+        "Small mountain town; Ho Chi Minh Road scenery",
+        "B"
+      ],
+      [
+        "Prao",
+        "1",
+        "Forested highlands; Cơ Tu cultural region",
+        "B"
+      ],
+      [
+        "A Lưới",
+        "1–2",
+        "A Shau Valley; mountain scenery; minority communities; history",
+        "A"
+      ],
+      [
+        "Khe Sanh",
+        "1",
+        "DMZ / Ta Con history; mountain scenery; coffee",
+        "A"
+      ],
+      [
+        "Western Ho Chi Minh Road",
+        "1",
+        "Remote Khe Sanh → Phong Nha jungle-and-karst road",
+        "S"
+      ],
+      [
+        "Quy Nhơn",
+        "4–5",
+        "Kỳ Co; Eo Gió; fishing villages; Cham towers; seafood",
+        "A"
+      ],
+      [
+        "Phú Yên",
+        "4–5",
+        "Bãi Xép; Gành Đá Đĩa; Bãi Môn / Mũi Điện",
+        "A"
+      ],
+      [
+        "Nha Trang",
+        "2–3",
+        "Marine option; mud baths; food; snorkelling/diving",
+        "B"
+      ],
+      [
+        "Hội An",
+        "5–7",
+        "Ancient Town; lanterns; Trà Quế; basket boats; cooking; Mỹ Sơn",
+        "S"
+      ],
+      [
+        "Đà Nẵng",
+        "3–4",
+        "Sơn Trà; Marble Mountains; beach; cafés; food",
+        "A"
+      ],
+      [
+        "Hải Vân Pass",
+        "1",
+        "Easy Rider/legal transfer; Lăng Cô; mountain-to-sea road",
+        "S"
+      ],
+      [
+        "Huế",
+        "3–4",
+        "Imperial City; royal tombs; Thiên Mụ; Perfume River; food",
+        "S"
+      ],
+      [
+        "Bạch Mã National Park",
+        "2",
+        "Jungle hiking; waterfalls; wildlife; viewpoints",
+        "A"
+      ],
+      [
+        "Phong Nha / Quảng Bình",
+        "Flexible",
+        "River; farms; Bồng Lai Valley. Cave expeditions excluded this trip",
+        "A"
+      ],
+      [
+        "Ninh Bình",
+        "4–5",
+        "Tràng An/Tam Cốc boats; Hoa Lư; Vân Long; Cúc Phương; cycling",
+        "S"
+      ],
+      [
+        "Pù Luông",
+        "3–4",
+        "Terraces; water wheels; Bản Hiêu; Kho Mường; stilt-house stay",
+        "A"
+      ],
+      [
+        "Hà Nội",
+        "5–7",
+        "Old Quarter; street food; egg coffee; markets; museums; reset/editing",
+        "S"
+      ],
+      [
+        "Hạ Long / Lan Hạ Bay",
+        "2–3",
+        "Kayaking; swimming; limestone islands; overnight boat option",
+        "A"
+      ],
+      [
+        "Cát Bà Island",
+        "2–3",
+        "National park hiking; cycling; fishing villages; beaches",
+        "A"
+      ],
+      [
+        "Ba Bể National Park",
+        "3–4",
+        "Lake boat; kayaking; Puông Cave; village homestay; hiking",
+        "A"
+      ],
+      [
+        "Cao Bằng",
+        "4–5",
+        "Bản Giốc; Ngườm Ngao; Thang Hen; Pác Bó; God’s Eye Mountain",
+        "S+"
+      ],
+      [
+        "Hà Giang Loop",
+        "5–7",
+        "Easy Rider; Quản Bạ; Yên Minh; Đồng Văn; Mèo Vạc; Du Già; Mã Pí Lèng",
+        "S+"
+      ],
+      [
+        "Hoàng Su Phì",
+        "3–4",
+        "Terraces; Red Dao culture; trekking; village homestays",
+        "A"
+      ],
+      [
+        "Mù Cang Chải",
+        "3–4",
+        "Tú Lệ; La Pán Tẩn; Chế Cu Nha; terraces; villages",
+        "A"
+      ],
+      [
+        "Y Tý",
+        "3",
+        "Hà Nhì villages; remote mountains; terraces; cloud landscapes",
+        "A"
+      ],
+      [
+        "Bắc Hà",
+        "2–3",
+        "Sunday ethnic market; villages; countryside",
+        "A"
+      ],
+      [
+        "Sa Pa",
+        "2–3",
+        "Mường Hoa; Tả Van; Fansipan; trekking",
+        "B"
+      ],
+      [
+        "Hà Nội Return",
+        "1–2",
+        "Laundry; admin; editing; onward planning",
+        "B"
+      ]
+    ],
+    "laos": [
+      [
+        "Luang Prabang",
+        "3–4",
+        "Old town; Kuang Si; food; Mekong",
+        "S"
+      ],
+      [
+        "Nong Khiaw",
+        "3",
+        "Karst viewpoints; overnight mountain trek",
+        "S"
+      ],
+      [
+        "Muang Ngoi",
+        "2–3",
+        "Boat-in village slow stay; hikes",
+        "A"
+      ],
+      [
+        "Nam Et–Phou Louey",
+        "2–3",
+        "Conservation-led wildlife/night experience",
+        "S+"
+      ],
+      [
+        "Phonsavan",
+        "2",
+        "Plain of Jars; UXO history",
+        "A"
+      ],
+      [
+        "Vang Vieng",
+        "3",
+        "Paramotor over karsts; viewpoints",
+        "S+"
+      ],
+      [
+        "Vientiane",
+        "1–2",
+        "Mekong; temples; food; COPE context",
+        "B"
+      ],
+      [
+        "Thakhek / Kong Lor",
+        "3–4",
+        "Loop with legal driver/guide; underground river",
+        "S+"
+      ],
+      [
+        "Savannakhet",
+        "1–2",
+        "Colonial streets; local food; slower Mekong town",
+        "B"
+      ],
+      [
+        "Bolaven Plateau",
+        "3",
+        "Coffee farms; waterfalls; loop",
+        "S"
+      ],
+      [
+        "Sekong",
+        "1–2",
+        "Quieter southern Laos; highland landscapes",
+        "A"
+      ],
+      [
+        "Attapeu",
+        "1–2",
+        "Remote south; markets; landscape",
+        "A"
+      ],
+      [
+        "4000 Islands",
+        "3",
+        "Mekong island cycling; slow finish",
+        "A"
+      ],
+      [
+        "Huay Xai / Gibbon Experience",
+        "3–4",
+        "Classic 3D/2N jungle, ziplines, canopy treehouse",
+        "S+"
+      ],
+      [
+        "Mekong Slow Boat",
+        "2",
+        "Huay Xai → Pakbeng → Luang Prabang",
+        "S"
+      ]
+    ],
+    "cambodia": [
+      [
+        "Siem Reap",
+        "4–5",
+        "Angkor sunrise + deeper temple circuit; countryside",
+        "S+"
+      ],
+      [
+        "Battambang",
+        "3",
+        "Bamboo train; bat-cave exodus; countryside",
+        "S"
+      ],
+      [
+        "Phnom Penh",
+        "3",
+        "Khmer history; markets; food",
+        "S"
+      ],
+      [
+        "Cardamom Mountains",
+        "3–4",
+        "Jungle/conservation stay; river/forest experience",
+        "S"
+      ],
+      [
+        "Kampot",
+        "3",
+        "Pepper farm; riverside town; food",
+        "A"
+      ],
+      [
+        "Kep",
+        "1",
+        "Crab market; coast",
+        "A"
+      ],
+      [
+        "Koh Rong",
+        "4",
+        "Island slow stay; bioluminescent plankton",
+        "A"
+      ]
+    ],
+    "thailand": [
+      [
+        "Chiang Mai",
+        "4",
+        "Lanna food; cooking; markets; temples",
+        "A"
+      ],
+      [
+        "Mae Hong Son Loop",
+        "5–6",
+        "Mountain road circuit; villages; viewpoints",
+        "S+"
+      ],
+      [
+        "Pai",
+        "2–3",
+        "Canyon; countryside; mountain-town pause",
+        "A"
+      ],
+      [
+        "Chiang Rai",
+        "2–3",
+        "Northern culture; food; selective temples",
+        "A"
+      ],
+      [
+        "Bangkok",
+        "5–7",
+        "Street-food neighbourhoods; markets; canals; pre-TESOL buffer",
+        "S"
+      ],
+      [
+        "TESOL Training",
+        "21 Jun–21 Jul",
+        "Fixed one-month training block",
+        "S+"
+      ]
+    ],
+    "kazakhstan": [
+      [
+        "Almaty",
+        "2–3",
+        "Food; Green Bazaar; city/mountain contrast",
+        "A"
+      ],
+      [
+        "Charyn Canyon",
+        "1",
+        "Canyon walk; golden-hour landscape",
+        "S"
+      ],
+      [
+        "Kolsai Lakes",
+        "1–2",
+        "Alpine lakes; hiking; rural overnight",
+        "S+"
+      ],
+      [
+        "Kaindy Lake",
+        "0.5–1",
+        "Submerged spruce forest in turquoise lake",
+        "S+"
+      ]
+    ],
+    "kyrgyzstan": [
+      [
+        "Bishkek",
+        "1–2",
+        "Arrival/reset; bazaar; operator rendezvous",
+        "A"
+      ],
+      [
+        "Tian Shan Horse Expedition",
+        "4–6",
+        "Multi-day riding; passes; jailoo; remote valleys",
+        "S+"
+      ],
+      [
+        "Song-Köl",
+        "2+",
+        "Yurt nights; herder life; horses; kymyz; stars",
+        "S+"
+      ],
+      [
+        "Issyk-Kul / Bokonbaevo",
+        "1–2",
+        "Lake; authentic eagle-culture encounter if credible",
+        "A"
+      ],
+      [
+        "Karakol",
+        "1–2",
+        "Dungan/Uyghur food; mountain base",
+        "A"
+      ],
+      [
+        "Altyn Arashan",
+        "1–2",
+        "Mountain valley trek; hot springs if route permits",
+        "A"
+      ]
+    ]
+  },
+  "constraints": [
+    {
+      "date": "2027-01-28",
+      "label": "Arrive Vietnam",
+      "type": "arrival"
+    },
+    {
+      "date": "2027-06-15",
+      "label": "Be in Bangkok",
+      "type": "deadline"
+    },
+    {
+      "start": "2027-06-21",
+      "end": "2027-07-21",
+      "label": "TESOL training",
+      "type": "fixed"
+    },
+    {
+      "date": "2027-08-01",
+      "label": "Kazakhstan / Kyrgyzstan leg",
+      "type": "departure"
+    },
+    {
+      "date": "2027-08-14",
+      "label": "Return to Cambodia",
+      "type": "deadline"
+    }
+  ],
+  "settings": {
+    "monthlyBudgetAUD": 2500,
+    "tripStyle": "Slow travel · local experiences · unique experiences first"
+  }
+}

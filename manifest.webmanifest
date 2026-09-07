@@ -1,0 +1,9 @@
+{
+  "name": "Southeast Asia 2027",
+  "short_name": "SEA 2027",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3ede1",
+  "theme_color": "#10372f",
+  "description": "Tristan's 2027 Southeast Asia experience navigator"
+}
