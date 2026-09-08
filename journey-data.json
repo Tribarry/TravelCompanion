@@ -1,0 +1,16 @@
+{
+  "location": "Pre-departure · Melbourne",
+  "country": "Australia",
+  "places": 0,
+  "completed": 0,
+  "foods": 0,
+  "drinks": 0,
+  "progress": 0,
+  "chapter": "Getting ready",
+  "progressText": "The journey starts 28 January 2027.",
+  "next": "Ho Chi Minh City",
+  "nextNote": "Vietnam · arrival 28 January 2027",
+  "currentRoute": 0,
+  "route": ["Melbourne", "Ho Chi Minh City", "Mekong Delta", "Central Highlands", "Central Vietnam", "Northern Vietnam", "Laos", "Cambodia", "Thailand", "Kazakhstan", "Kyrgyzstan"],
+  "latest": []
+}
