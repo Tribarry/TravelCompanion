@@ -2,81 +2,191 @@
 
 This is the content contract for the next generated app build.
 
-## Source of truth
-Preserve every destination and deliberate experience in Tristan's 52-row Vietnam master itinerary. Do not replace the route with a generic tourism list. The master route includes the Southern/Mekong loop, inland Central Highlands/Western HCM Road spine, separate coast chapters, islands, and northern route.
+## Canonical source of truth
+Preserve every destination and deliberate experience in Tristan's Vietnam master itinerary. Do not replace the route with a generic tourism list.
+
+The detailed locked state from the destination-by-destination research pass is now stored in:
+
+**`docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md`**
+
+That file is canonical for currently locked experiences, Food/Drink Passport items, MUST DO additions, Book Ahead flags, Date Watch items, access/safety flags and later-version feature notes.
+
+`LOCKED` means **saved to the experience bank**, not automatically compulsory in the final day-by-day itinerary. Duration optimisation happens after the bank is complete.
+
+## Product promise
+**Open the app anywhere on the trip and know what is worth experiencing next.**
+
+Journey model:
+
+**Discover → Decide → Experience → Remember → Share**
 
 ## Destination module standard
-Every Vietnam destination hub must use the HCMC destination-first model:
+Every Vietnam destination hub must support:
 - photographic hero
+- short historical/context intro
+- `COME FOR`
+- `DO DIFFERENTLY`
+- `EAT`
+- `WTF / UNIQUE`
+- `PACE`
 - Must Do
 - Food & Drink
-- Day Trips (only when geographically sensible)
+- Day Trips only when geographically sensible
 - Hidden Gems / Unique
+- Proposed Schedule
 - Trip Progress
 - Don't Miss
 - My Journey
 - Go Next
 - Map / My List
-- save + completed state
+- Save + Completed state
 
-Every experience record should support: title, specific image query/image, concise description, category/tags, indicative cost, best time, duration, solo suitability, booking requirement, and map location where available.
+### Historical/context copy rule
+Every region and destination gets a compact context paragraph explaining **how/when the place developed, what shaped it and why it matters today**. Avoid long essays and generic tourism copy.
 
-## Passport standard
-Every destination gets a Food Passport sized to the genuine local food culture, not an arbitrary fixed count. Major food destinations may have 12–25; small/transit stops can have 4–8. Add a Coffee/Drink Passport wherever there are enough locally meaningful drinks. Cards require a representative photo, Vietnamese name, English explanation, indicative price, Save and Tried controls, and persistent progress. Saved food/drinks feed My List.
+Every experience card gets **1–3 sentences of useful context** covering whichever of these makes it meaningful: history, date, people, cultural significance, unusual fact, local story or what actually happens there.
+
+Example style:
+
+> **Bình Thủy Ancient House**  
+> Built in **1870**, associated with the Dương family, combining French and Chinese/Vietnamese elements. It was also used as a filming location for *The Lover*, creating a narrative continuation from Sa Đéc.
+
+## Experience record standard
+Every experience record should support:
+- title
+- specific image query/image
+- concise contextual description
+- category/tags
+- priority (`MUST DO`, `HIGH`, `WANT`, `OPTIONAL`, `EXPEDITION` where later scoring is needed)
+- indicative cost
+- best time
+- duration
+- solo suitability
+- booking requirement
+- operational/access verification flags
+- map location where available
+- Save / Done state
 
 ## Image relevance rule
-Every destination, attraction, dish, activity, day trip and hidden gem must use imagery depicting that specific place/dish/activity or a genuinely representative scene. Never reuse unrelated Vietnam scenery as filler. If a suitable image cannot be resolved, show a designed text fallback naming the experience.
+Every destination, attraction, dish, activity, day trip and hidden gem must use imagery depicting that **specific place/dish/activity** or a genuinely representative scene.
 
-## Master itinerary experiences that must not be lost
-- HCMC: street food, coffee, markets, neighbourhoods; optional Cu Chi.
-- Cái Bè / Tân Phong: fruit farms, canals, sampan, cycling, family homestay; local markets/Cao Dai temple are worthwhile additions.
-- Sa Đéc: flower nurseries/village, colonial riverfront, market, Huỳnh Thủy Lê house.
-- Cần Thơ: Cái Răng dawn boat, river/canals, countryside cycling; add small rice-paper/noodle workshops and floating breakfast.
-- Châu Đốc: Núi Sam, Bà Chúa Xứ, Hang Pagoda, markets/floating communities and rice-field views.
-- Trà Sư: flooded cajuput forest, birdlife, wetlands by boat.
-- Phú Quốc: beaches, villages, seafood, national park, optional snorkelling/island hopping.
-- Côn Đảo: prison history, national park, fishing villages, beaches, marine activities.
-- Đà Lạt: Tuyền Lâm, Trại Mát, Langbiang, coffee farms, waterfalls, markets, canyoning (advance booking when dates matter).
-- Đắk Lắk: Buôn Ma Thuột coffee culture, Yok Đôn ethical elephant/forest experience, Buôn Đôn, Lắk Lake, Sêrêpốk, M’nông/Ede village culture; research-backed additions include dugout canoe, gong culture and Dray Nur/Dray Sáp.
-- Kon Tum: Bahnar villages, communal houses, countryside, waterfalls, coffee; community guide where appropriate.
-- Măng Đen: pine forests, lakes, waterfalls, coffee, villages; additions: Pa Sy, Đắk Ke, Konbring village, cloud hunting and local rượu cần/gong culture.
-- Khâm Đức: HCM Road mountain-town stop and scenery; do not pad with fake attractions.
-- Prao: forested highlands, local market, Cơ Tu cultural region; community visits only with appropriate local context/guide.
-- A Lưới: A Shau Valley, remote valleys, minority communities, mountain scenery and history.
-- Khe Sanh: DMZ/Ta Con history, coffee, mountain town, staging for western road.
-- Western HCM Road: remote jungle/karst riding section; fuel/weather/daylight planning is part of the experience.
-- Quy Nhơn: Kỳ Co, Eo Gió, fishing villages, Cham towers, beaches and seafood.
-- Phú Yên: Bãi Xép, Gành Đá Đĩa, Bãi Môn/Mũi Điện; research addition: Cù Lao Mái Nhà camping/fishing where current access permits.
-- Nha Trang: coast/islands, diving/snorkelling, mud baths and food.
-- Hội An: Ancient Town, Trà Quế, Cẩm Thanh, An Bàng, Mỹ Sơn, lanterns, food, rice fields, farming, cooking/basket-boat options.
-- Đà Nẵng: Sơn Trà, Marble Mountains, beach, cafés, optional wildlife/food experience.
-- Hải Vân: pass, Lăng Cô and legal Easy Rider/private-transfer/train alternatives.
-- Huế: Imperial City, royal tombs, Thiên Mụ, Perfume River and regional food.
-- Bạch Mã: summit, jungle, waterfalls, wildlife and viewpoints; check park access.
-- Phong Nha: Sơn Trạch, Bồng Lai Valley, Paradise Cave, Dark Cave, Nuoc Mooc, river/farms/countryside.
-- Hang Én: specialist pre-booked jungle/cave camping expedition.
-- Pygmy/Hung Thoong: specialist pre-booked remote cave/jungle expedition.
-- Sơn Đoòng: limited specialist expedition; book well in advance.
-- Ninh Bình: Tam Cốc, Tràng An, Hoa Lư, Vân Long, Cúc Phương, cycling, karsts/rice fields/caves/temples/wildlife.
-- Pù Luông: Bản Đôn, Bản Hiêu, Kho Mường, terraces, water wheels, waterfall, village/stilt-house stays.
-- Hà Nội: Old Quarter, West Lake, museums, food, coffee, markets and reset/editing time.
-- Hạ Long/Lan Hạ: kayaking, swimming, islands/caves and overnight cruise; pre-book overnight options.
-- Cát Bà: national park, villages, beaches, cycling/hiking and optional boat/kayak.
-- Ba Bể: lake, Puông Cave, kayaking, villages, boat and waterside homestay.
-- Cao Bằng: Bản Giốc, Ngườm Ngao, Thang Hen, Pác Bó, Núi Mắt Thần/God's Eye; local driver/guide optional.
-- Hà Giang Loop: Quản Bạ, Yên Minh, Đồng Văn, Mèo Vạc, Du Già, Mã Pí Lèng, villages/markets; Easy Rider pre-book if not appropriately licensed.
-- Hoàng Su Phì: terraces, Red Dao culture, villages and trekking; research deeper local trekking rather than generic viewpoints.
-- Mù Cang Chải: Tú Lệ, La Pán Tẩn, Chế Cu Nha, terraces, villages, trekking/cycling.
-- Y Tý: Hà Nhì villages, terraces, remote mountains and cloud landscapes.
-- Bắc Hà: Sunday ethnic market, villages, countryside, cycling/trekking.
-- Sa Pa: Mường Hoa, Tả Van, Fansipan, terraces and village trekking.
-- Hà Nội Return: reset, laundry, admin, editing and onward planning; intentionally not padded.
+Never use unrelated Vietnam scenery as filler. If a suitable verified image cannot be resolved, show a designed **`PHOTO TO VERIFY`** fallback naming the experience.
+
+## Passport standard
+Every destination gets a Food Passport sized to its genuine local food culture, not an arbitrary count. Add a Coffee/Drink Passport wherever there are enough locally meaningful drinks.
+
+Passports are **cumulative across the trip**:
+- `NEW HERE`
+- `ALREADY TRIED`
+- `STILL MISSING`
+
+Do not pretend repeated dishes such as cơm lam or rượu cần are new every time; use regional comparison cards where that is more meaningful.
+
+Food/drink cards should support:
+- representative image
+- Vietnamese name
+- English explanation
+- short context
+- indicative price
+- Save
+- Tried
+- persistent progress
+
+Saved food/drinks feed My List.
+
+## Proposed schedule model
+Destination pages should offer an editable proposed schedule rather than a rigid itinerary:
+
+**1 DAY | 2 DAYS | 3 DAYS | BUILD MY OWN**
+
+Experience blocks support:
+- Keep
+- Swap
+- Move
+- Remove
+
+V0.22 can later adapt the proposed schedule based on weather, time of day, completed experiences and operating status.
+
+Hierarchy:
+
+**Destination → Experiences → My Picks → Proposed Schedule → Do Now**
+
+## Route rule
+Geography beats spreadsheet row order. Preserve every locked destination but avoid unnecessary double-backs.
+
+The route contains multiple narrative/geographic chapters rather than one naïve linear list, including:
+- Southern/Mekong loop
+- Gulf islands / southeast coast
+- Central Highlands
+- Western Hồ Chí Minh Road / Trường Sơn
+- Central coast
+- Phong Nha/caves
+- northern karst/mountain route
+
+The next planning phase is **duration optimisation**, not deletion of the experience bank.
 
 ## Research principles
-Prioritise official/local tourism and conservation/operator sources for factual experience details. Add distinctive experiences only when they materially improve the destination and fit Tristan's preferences: local life, food, culture, nature, unusual experiences, slow travel and solo suitability. Avoid luxury filler and repetitive 'top 10' content.
+Prioritise official/local tourism, heritage, conservation and reputable operator sources for factual details. Add distinctive experiences when they materially improve the destination and fit the trip: local life, food, culture, nature, unusual/WTF experiences, slow travel and solo suitability.
 
-## Advance-booking flags retained from master
-Sơn Đoòng; Hang Én; Pygmy/Hung Thoong; overnight Lan Hạ/Hạ Long; Hà Giang Easy Rider; Đà Lạt canyoning if dates matter.
+Do not pad destinations to a fixed top-10 count. If a destination genuinely has 20–60 worthwhile bank items, keep them.
 
-## Route / legality rules retained
-Intercity travel defaults to bus/train/ferry/flight/private transfer. Rental motorbikes are local exploration unless a specific one-way arrangement exists. Self-riding requires appropriate licence and insurance; otherwise use legal alternatives such as Easy Rider.
+## BOOK AHEAD / DATE WATCH
+A global Book Ahead checklist is tracked in GitHub issue #3.
+
+The app should collect every `BOOK AHEAD` experience into a central checklist with states:
+
+**Not started → Enquired → Booked → Paid → Confirmed**
+
+When an activity date is known, offer to create a Google Calendar reminder/event **28 days before** with notifications. If the activity date changes, update the reminder rather than duplicate it.
+
+Current high-priority examples include:
+- Đà Lạt canyoning
+- Bidoup 2D/1N trek
+- Yok Đôn ethical elephant experience
+- **Buôn Ma Thuột Coffee Festival 2027 — MUST DO; DATE WATCH until official dates, then BOOK AHEAD**
+- Nha Trang Open Water scuba certification — **MUST DO / BOOK AHEAD / allow 3 days**
+- Sơn Đoòng
+- Hang Én
+- Pygmy/Hung Thoong
+- Hạ Long/Lan Hạ overnight boat
+- Hà Giang Easy Rider
+- selected community homestays, specialist guides, craft sessions and remote excursions where advance arrangement is required
+
+## Safety / legality / access flags
+Support explicit flags including:
+- `ACCESS CHECK`
+- `TIDE CHECK`
+- `WEATHER CHECK`
+- `SEA CONDITIONS`
+- `TRAIL STATUS`
+- `SEASON CHECK`
+- `BORDER AREA`
+- `REMOTE ROAD`
+- `UXO`
+
+Former battlefield and border-area content must never encourage off-trail exploration, ordnance handling or unverified border access.
+
+Intercity travel defaults to bus/train/ferry/flight/private transfer unless a specific self-riding plan is confirmed lawful, insured and practical. Northern Vietnam on a 50cc remains off the plan.
+
+## Later-version features — parked
+Do not interrupt V0.21 content work to implement these:
+- global language selector + per-card quick translation; start English/Vietnamese, later expand by country
+- Tinder/swipe-style experience passport/curator
+- influencer/creator video links on experience cards (`WATCH` / `SEE IT`), tracked separately in GitHub issue #4
+- public Journey/social features remain parked until Vietnam V0.21 content foundation is complete
+
+## Next phase
+The Vietnam experience bank is now broad enough. The next major planning task is:
+
+### **OPTIMISE VIETNAM**
+Score and prioritise the locked bank into a realistic route while preserving:
+- MUST DO items
+- Buôn Ma Thuột Coffee Festival
+- Nha Trang scuba certification
+- major cave expeditions
+- distinctive WTF/local experiences
+- slow-travel recovery time
+- visa/time constraints
+- onward Laos/Cambodia/Thailand/Central Asia commitments
+
+Do not delete lower-priority locked experiences during optimisation; move them to optional/backup layers instead.
