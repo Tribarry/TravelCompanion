@@ -32,7 +32,12 @@ jobs:
           assert 'hcmOverviewV15' not in js
           assert 'hcmExperiencesV15' not in js
           assert 'hcmMyListV16' not in js
-          print('V1 shell is the last UI layer and has no legacy-screen escape.')
+          assert 'COUNTRY_TILE_IMAGES' not in js
+          assert 'COVER_PHOTOS' not in js
+          for c in ['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan']:
+              assert re.search(rf"\b{c}:'https?://",js), f'missing explicit image for {c}'
+          assert "MAIN_COVER_IMAGE='https://" in js
+          print('V1 shell is last, country imagery is explicit, and there is no legacy-screen escape.')
           PY
       - name: Protect content and state invariants
         run: |
