@@ -850,4 +850,5 @@ function vnExperiences(filter='All'){let x=vnStop(),items=vnBaseItems(x);if(filt
 const _home019=home;home=function(){let x=cur();if(x&&x.c.id==='vietnam'){vnHub();return}_home019()};
 const _do019=doHere;doHere=function(){let x=cur();if(x&&x.c.id==='vietnam'){if(/ho chi minh|hcmc|sai gon|saigon/i.test(x.d.name))hcmExperiencesV15('All');else vnExperiences('All');return}_do019()};
 
-document.querySelectorAll("nav button").forEach(b=>b.onclick=function(){const p=b.dataset.page;if(p==="home")home();else if(p==="do")doHere();else if(p==="next")goNext();else if(p==="miss")dontMiss();else journey()});try{landing()}catch(err){app.innerHTML='<div class="card warn"><h2>App error</h2><p>'+String(err.message||err)+'</p></div>'}</script></body></html>
+document.querySelectorAll("nav button").forEach(b=>b.onclick=function(){const p=b.dataset.page;if(p==="home")home();else if(p==="do")doHere();else if(p==="next")goNext();else if(p==="miss")dontMiss();else journey()});try{landing()}catch(err){app.innerHTML='<div class="card warn"><h2>App error</h2><p>'+String(err.message||err)+'</p></div>'}</script><script src="data/vietnam-live-v021.js?v=20260910-full"></script>
+</body></html>
