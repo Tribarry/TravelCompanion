@@ -17,6 +17,8 @@ jobs:
         run: |
           node --check data/vietnam-photo-alignment-v026.js
           node --check data/vietnam-graphics-runtime-v028.js
+          grep -q "typeof state!='undefined'" data/vietnam-graphics-runtime-v028.js
+          grep -q "data-vnimg" data/vietnam-graphics-runtime-v028.js
       - name: Wire runtime last
         run: |
           python3 - <<'PY'
