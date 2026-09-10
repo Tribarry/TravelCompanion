@@ -1,0 +1,40 @@
+name: Fix Vietnam city entry
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-vietnam-city-entry.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fix city hub navigation name collision and bust cache
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          hub=Path('data/vietnam-city-hub-v025.js')
+          s=hub.read_text()
+          before=s
+          s=s.replace('function nav(){return `<nav class="cityNav25"', 'function cityNavMarkup25(){return `<nav class="cityNav25"')
+          s=s.replace('${nav()}</div>`;', '${cityNavMarkup25()}</div>`;')
+          if s == before:
+              raise SystemExit('Expected V0.25 nav collision patterns not found')
+          hub.write_text(s)
+
+          idx=Path('index.html')
+          html=idx.read_text()
+          html=re.sub(r'\s*<script src="data/vietnam-city-hub-v025\.js\?v=[^"]+"></script>', '', html)
+          html=html.replace('</body></html>', '<script src="data/vietnam-city-hub-v025.js?v=20260910-1821"></script>\n</body></html>')
+          idx.write_text(html)
+          PY
+      - name: Commit fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/vietnam-city-hub-v025.js index.html
+          git commit -m "Fix Vietnam city entry after hero redesign"
+          git push
