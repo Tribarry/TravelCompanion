@@ -34,29 +34,43 @@ jobs:
           import re, json, urllib.parse, urllib.request
           s=Path('data/vietnam-photo-alignment-v026.js').read_text()
           titles=set()
-          # Destination values and explicit regex-map page titles.
           dest=re.search(r'const DEST=\{(.*?)\n\};',s,re.S).group(1)
           titles.update(re.findall(r":'([^']+)'",dest))
           for block in ['LANDMARKS','DISHES']:
               body=re.search(rf'const {block}=\[(.*?)\n\];',s,re.S).group(1)
               titles.update(re.findall(r",'([^']+)'\]",body))
-          ok=[]; missing=[]; noimage=[]
-          for title in sorted(titles):
-              url='https://en.wikipedia.org/api/rest_v1/page/summary/'+urllib.parse.quote(title,safe='')
-              try:
-                  req=urllib.request.Request(url,headers={'User-Agent':'TravelCompanionGraphicsAudit/1.0'})
-                  with urllib.request.urlopen(req,timeout=12) as r: data=json.load(r)
-                  if data.get('type')=='disambiguation': missing.append((title,'disambiguation')); continue
-                  if data.get('originalimage') or data.get('thumbnail'): ok.append(title)
-                  else: noimage.append(title)
-              except Exception as e:
-                  missing.append((title,type(e).__name__))
-          print(f'Mapped titles: {len(titles)}; image: {len(ok)}; no image: {len(noimage)}; unresolved: {len(missing)}')
+          titles=sorted(titles)
+          resolved=set(); noimage=set(); missing=set()
+          headers={'User-Agent':'TravelCompanionGraphicsAudit/1.0 (personal travel app)'}
+          for i in range(0,len(titles),40):
+              batch=titles[i:i+40]
+              params={
+                'action':'query','format':'json','redirects':'1',
+                'titles':'|'.join(batch),'prop':'pageimages',
+                'piprop':'original|thumbnail','pithumbsize':'1000'
+              }
+              url='https://en.wikipedia.org/w/api.php?'+urllib.parse.urlencode(params)
+              req=urllib.request.Request(url,headers=headers)
+              with urllib.request.urlopen(req,timeout=20) as r: data=json.load(r)
+              pages=data.get('query',{}).get('pages',{})
+              norm_map={x['from']:x['to'] for x in data.get('query',{}).get('normalized',[])}
+              redir_map={x['from']:x['to'] for x in data.get('query',{}).get('redirects',[])}
+              by_title={p.get('title'):p for p in pages.values()}
+              for original in batch:
+                  name=norm_map.get(original,original); name=redir_map.get(name,name)
+                  p=by_title.get(name)
+                  if not p or 'missing' in p:
+                      missing.add(original)
+                  elif p.get('original') or p.get('thumbnail'):
+                      resolved.add(original)
+                  else:
+                      noimage.add(original)
+          print(f'Mapped titles: {len(titles)}; verified image: {len(resolved)}; no image: {len(noimage)}; unresolved title: {len(missing)}')
           if noimage:
               print('NO_IMAGE:')
-              for x in noimage: print(' -',x)
+              for x in sorted(noimage): print(' -',x)
           if missing:
-              print('UNRESOLVED:')
-              for x,e in missing: print(' -',x,'|',e)
-          # Unresolved mappings are safe at runtime because they become PHOTO TO VERIFY.
+              print('UNRESOLVED_TITLE:')
+              for x in sorted(missing): print(' -',x)
+          # Missing/no-image mappings are safe: runtime renders PHOTO TO VERIFY.
           PY
