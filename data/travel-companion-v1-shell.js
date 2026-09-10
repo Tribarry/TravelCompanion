@@ -16,14 +16,23 @@ const INTRO={
 };
 const COUNTRY_DATES={vietnam:'28 JAN → APRIL 2027',laos:'APRIL → MAY 2027',cambodia:'AUGUST 2027 →',thailand:'JUNE → JULY 2027',kazakhstan:'JULY 2027',kyrgyzstan:'30 JUL → 12 AUG 2027'};
 const FLAGS2={vietnam:'🇻🇳',laos:'🇱🇦',cambodia:'🇰🇭',thailand:'🇹🇭',kazakhstan:'🇰🇿',kyrgyzstan:'🇰🇬'};
+const COUNTRY_IMAGES={
+ vietnam:'https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1800&q=90',
+ laos:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90',
+ cambodia:'https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=1800&q=90',
+ thailand:'https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?auto=format&fit=crop&w=1800&q=90',
+ kazakhstan:'https://putidorogi-nn.ru/images/stories/aziya/kazahstan/kazahstan_2.jpg',
+ kyrgyzstan:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=90'
+};
+const MAIN_COVER_IMAGE='https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1800&q=90';
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const slug=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 function country(id){return DATA.countries.find(c=>c.id===id)}
 function destinations(id){return DATA.destinations[id]||[]}
 function current(){if(!state.here||state.here==='pre')return null;const [id,n]=String(state.here).split(':');const i=Number(n);if(!country(id)||!destinations(id)[i])return null;return {id,i,c:country(id),d:destinations(id)[i]}}
 function isCurrent(id,i){const x=current();return !!x&&x.id===id&&x.i===Number(i)}
-function countryImage(id){try{if(typeof COUNTRY_TILE_IMAGES!=='undefined'&&COUNTRY_TILE_IMAGES[id])return COUNTRY_TILE_IMAGES[id]}catch(e){}return ''}
-function mainImage(){try{if(typeof COVER_PHOTOS!=='undefined'&&COVER_PHOTOS.length)return COVER_PHOTOS[0].url}catch(e){}return countryImage('vietnam')}
+function countryImage(id){return COUNTRY_IMAGES[id]||''}
+function mainImage(){return MAIN_COVER_IMAGE}
 function setApp(html){
  try{if(nav){nav.hidden=true;nav.style.display='none'}}catch(e){}
  app.innerHTML=html;
