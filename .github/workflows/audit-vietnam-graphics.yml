@@ -1,0 +1,62 @@
+name: Audit Vietnam graphics
+on:
+  push:
+    branches: [audit-vietnam-graphics]
+    paths:
+      - 'data/vietnam-photo-alignment-v026.js'
+      - '.github/workflows/audit-vietnam-graphics.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax check
+        run: node --check data/vietnam-photo-alignment-v026.js
+      - name: Enforce verification-first image policy
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('data/vietnam-photo-alignment-v026.js').read_text()
+          required=['PHOTO TO VERIFY','const LANDMARKS=','const DISHES=','window.hydrateVN']
+          for token in required:
+              assert token in s, f'missing {token}'
+          banned=['strictSearchPhoto(','return currentName?destinationPhoto','legacyWiki']
+          for token in banned:
+              assert token not in s, f'unsafe graphics fallback still present: {token}'
+          print('Verification-first policy present; broad/generic fallbacks removed.')
+          PY
+      - name: Audit mapped Wikipedia pages
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, json, urllib.parse, urllib.request
+          s=Path('data/vietnam-photo-alignment-v026.js').read_text()
+          titles=set()
+          # Destination values and explicit regex-map page titles.
+          dest=re.search(r'const DEST=\{(.*?)\n\};',s,re.S).group(1)
+          titles.update(re.findall(r":'([^']+)'",dest))
+          for block in ['LANDMARKS','DISHES']:
+              body=re.search(rf'const {block}=\[(.*?)\n\];',s,re.S).group(1)
+              titles.update(re.findall(r",'([^']+)'\]",body))
+          ok=[]; missing=[]; noimage=[]
+          for title in sorted(titles):
+              url='https://en.wikipedia.org/api/rest_v1/page/summary/'+urllib.parse.quote(title,safe='')
+              try:
+                  req=urllib.request.Request(url,headers={'User-Agent':'TravelCompanionGraphicsAudit/1.0'})
+                  with urllib.request.urlopen(req,timeout=12) as r: data=json.load(r)
+                  if data.get('type')=='disambiguation': missing.append((title,'disambiguation')); continue
+                  if data.get('originalimage') or data.get('thumbnail'): ok.append(title)
+                  else: noimage.append(title)
+              except Exception as e:
+                  missing.append((title,type(e).__name__))
+          print(f'Mapped titles: {len(titles)}; image: {len(ok)}; no image: {len(noimage)}; unresolved: {len(missing)}')
+          if noimage:
+              print('NO_IMAGE:')
+              for x in noimage: print(' -',x)
+          if missing:
+              print('UNRESOLVED:')
+              for x,e in missing: print(' -',x,'|',e)
+          # Unresolved mappings are safe at runtime because they become PHOTO TO VERIFY.
+          PY
