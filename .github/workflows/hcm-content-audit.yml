@@ -1,0 +1,134 @@
+name: HCMC content audit
+on:
+  push:
+    branches: [hcm-content-audit]
+    paths:
+      - '.github/workflows/hcm-content-audit.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: hcm-content-audit
+      - name: Wire curated HCMC experience content
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          # Load the curated HCMC catalogue before the V1 shell.
+          p=Path('index.html')
+          s=p.read_text()
+          tag='<script src="data/hcm-v21-experiences.js?v=20260910-content-v2"></script>'
+          shell='<script src="data/travel-companion-v1-shell.js?v=20260910-v1"></script>'
+          if tag not in s:
+              if shell not in s: raise SystemExit('V1 shell script marker missing')
+              s=s.replace(shell,tag+'\n'+shell,1)
+          p.write_text(s)
+
+          p=Path('data/travel-companion-v1-shell.js')
+          s=p.read_text()
+
+          # Convert curated catalogue categories into the existing filters without changing the global schema.
+          marker="function itemFlags(raw,it){const out=[...(it?.flags||[])];const b=raw?.booking;if(b&&b!=='No'&&b!=='Check locally'&&!out.includes(b))out.push(b);return out}\n"
+          helper="""function hcmCatalogTags(x){const c=String(x?.cat||'').toLowerCase(),t=[];if(/food/.test(c))t.push('Food');if(/coffee|drink/.test(c))t.push('Drink');if(/history/.test(c))t.push('History');if(/culture|architecture|spiritual|medicine|workshop/.test(c))t.push('Culture');if(/local life|market/.test(c))t.push('Local Life');if(/unusual|unique|adventure|nature|wildlife/.test(c))t.push('Unique');if(/book ahead/.test(String(x?.booking||'').toLowerCase()))t.push('Book Ahead');if(!t.length)t.push('Local Life');return [...new Set(t)]}\n"""
+          if 'function hcmCatalogTags(' not in s:
+              if marker not in s: raise SystemExit('itemFlags marker missing')
+              s=s.replace(marker,marker+helper,1)
+
+          old="""function getItems(id,i){
+ const d=destinations(id)[i];if(!d)return[];
+ if(id==='vietnam'&&typeof window.vnBaseItems==='function'){
+   try{return window.vnBaseItems({c:country(id),d,i,id:id+'-'+i}).map((it,j)=>({id:it.id||'e'+j,title:it.title||it.name||d.experiences?.[j]?.name||'Experience',summary:it.summary||d.experiences?.[j]?.summary||'',tags:it.tags||rawTags(d.experiences?.[j]),flags:itemFlags(d.experiences?.[j],it),tier:it.tier||d.experiences?.[j]?.tier||'',raw:d.experiences?.[j]||{},index:j}))}catch(e){}
+ }
+ return (d.experiences||[]).map((e,j)=>({id:e.id||'e'+j,title:e.name||e.title||'Experience',summary:e.summary||'',tags:e.tags||rawTags(e),flags:itemFlags(e,e),tier:e.tier||'',raw:e,index:j}));
+}
+"""
+          new="""function getItems(id,i){
+ const d=destinations(id)[i];if(!d)return[];
+ if(id==='vietnam'&&i===0&&Array.isArray(window.HCM_V21_EXPERIENCES)){
+   return window.HCM_V21_EXPERIENCES.map((e,j)=>({id:e.id||e.imageKey||'hcm-'+j,title:e.title||'Experience',summary:e.summary||'',tags:hcmCatalogTags(e),flags:itemFlags(e,e),tier:e.tier||'',raw:e,index:j,legacyIndex:Number.isInteger(e.legacyIndex)?e.legacyIndex:null}));
+ }
+ if(id==='vietnam'&&typeof window.vnBaseItems==='function'){
+   try{return window.vnBaseItems({c:country(id),d,i,id:id+'-'+i}).map((it,j)=>({id:it.id||'e'+j,title:it.title||it.name||d.experiences?.[j]?.name||'Experience',summary:it.summary||d.experiences?.[j]?.summary||'',tags:it.tags||rawTags(d.experiences?.[j]),flags:itemFlags(d.experiences?.[j],it),tier:it.tier||d.experiences?.[j]?.tier||'',raw:d.experiences?.[j]||{},index:j}))}catch(e){}
+ }
+ return (d.experiences||[]).map((e,j)=>({id:e.id||'e'+j,title:e.name||e.title||'Experience',summary:e.summary||'',tags:e.tags||rawTags(e),flags:itemFlags(e,e),tier:e.tier||'',raw:e,index:j}));
+}
+"""
+          if old in s:
+              s=s.replace(old,new,1)
+          elif 'Array.isArray(window.HCM_V21_EXPERIENCES)' not in s:
+              raise SystemExit('getItems marker missing')
+
+          # Preserve obvious one-to-one legacy save/done keys after the curated HCMC split.
+          old="function allKeys(id,i,it,j){const a=[canonicalKey(id,i,it,j),id+'-'+i+'-'+j];if(id==='vietnam'&&i===0)a.push('hcm-'+j);return [...new Set(a)]}"
+          new="function allKeys(id,i,it,j){const a=[canonicalKey(id,i,it,j),id+'-'+i+'-'+j];if(id==='vietnam'&&i===0){a.push('hcm-'+j);if(Number.isInteger(it?.legacyIndex)){a.push('vn-live-ho-chi-minh-city-live-'+it.legacyIndex,'vietnam-0-'+it.legacyIndex,'hcm-'+it.legacyIndex)}}return [...new Set(a)]}"
+          if old in s:
+              s=s.replace(old,new,1)
+          elif 'it?.legacyIndex' not in s:
+              raise SystemExit('allKeys marker missing')
+
+          # Prefer the curated HCMC copy for details and practical metadata.
+          old="function hcmExtra(title){try{if(typeof HCMC30==='undefined')return null;const n=slug(title);return HCMC30.find(x=>slug(x.title)===n||n.includes(slug(x.title))||slug(x.title).includes(n))||null}catch(e){return null}}"
+          new="function hcmExtra(title){try{const n=slug(title);if(Array.isArray(window.HCM_V21_EXPERIENCES)){const hit=window.HCM_V21_EXPERIENCES.find(x=>slug(x.title)===n||n.includes(slug(x.title))||slug(x.title).includes(n));if(hit)return hit}if(typeof HCMC30!=='undefined')return HCMC30.find(x=>slug(x.title)===n||n.includes(slug(x.title))||slug(x.title).includes(n))||null;return null}catch(e){return null}}"
+          if old in s:
+              s=s.replace(old,new,1)
+          elif 'Array.isArray(window.HCM_V21_EXPERIENCES)' not in s[s.find('function hcmExtra'):s.find('function hcmExtra')+600]:
+              raise SystemExit('hcmExtra marker missing')
+
+          # Rater: show enough content to make a real priority decision. HCMC remains text-first until every exact photo is approved.
+          old="pos=Math.max(0,Math.min(pos,its.length-1));const it=its[pos],j=it.index??pos,r=personalRating(id,i,it,j),rated=its.length-counts.unrated;\n const photo=id==='vietnam'?`<div class=\"tc1RatePhoto vnFallback\" data-vnimg=\"${esc(it.title)}\" data-label=\"${esc(it.title)}\"></div>`:`<div class=\"tc1RatePhoto tc1NoPhoto\" data-label=\"${esc(it.title)}\"></div>`;"
+          new="pos=Math.max(0,Math.min(pos,its.length-1));const it=its[pos],j=it.index??pos,r=personalRating(id,i,it,j),rated=its.length-counts.unrated,extra=id==='vietnam'&&i===0?hcmExtra(it.title):null;\n const photo=id==='vietnam'&&i===0?'':id==='vietnam'?`<div class=\"tc1RatePhoto vnFallback\" data-vnimg=\"${esc(it.title)}\" data-label=\"${esc(it.title)}\"></div>`:`<div class=\"tc1RatePhoto tc1NoPhoto\" data-label=\"${esc(it.title)}\"></div>`;"
+          if old in s:
+              s=s.replace(old,new,1)
+          elif "id==='vietnam'&&i===0?'':" not in s:
+              raise SystemExit('rater photo marker missing')
+
+          oldfrag="<h2>${esc(it.title)}</h2><p>${esc(it.summary||'Open the full experience later for practical details.')}</p>${r?"
+          newfrag="<h2>${esc(it.title)}</h2><p>${esc(it.summary||'Open the full experience later for practical details.')}</p>${extra?`<div class=\"tc1RateFacts\"><div><small>AREA</small><b>${esc(extra.area||'Flexible')}</b></div><div><small>TIME</small><b>${esc(extra.time||'Flexible')}</b></div><div><small>COST</small><b>${esc(extra.cost||'Check locally')}</b></div><div><small>BOOKING</small><b>${esc(extra.booking||'Usually flexible')}</b></div></div>`:''}${r?"
+          if oldfrag in s:
+              s=s.replace(oldfrag,newfrag,1)
+          elif 'tc1RateFacts' not in s:
+              raise SystemExit('rater content marker missing')
+
+          p.write_text(s)
+
+          p=Path('data/travel-companion-v1-shell.css')
+          css=p.read_text()
+          marker='/* HCMC content-first rater */'
+          if marker not in css:
+              css += """
+
+/* HCMC content-first rater */
+.tc1RateCard:not(:has(.tc1RatePhoto)) .tc1RateCopy{padding-top:24px}.tc1RateFacts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}.tc1RateFacts>div{background:#1a1a1e;border:1px solid #2e2e34;border-radius:12px;padding:10px}.tc1RateFacts small{display:block;font-size:7px;font-weight:900;letter-spacing:.08em;color:#8f8f97;margin-bottom:4px}.tc1RateFacts b{display:block;font-size:11px;line-height:1.25;color:#eeeef0}.tc1RaterScreen .tc1RateCard:not(:has(.tc1RatePhoto)){margin-top:8px}.tc1RaterScreen .tc1RateCard:not(:has(.tc1RatePhoto)) .tc1RateCopy h2{font-size:34px}
+"""
+          p.write_text(css)
+          PY
+      - name: Validate content contract
+        run: |
+          node --check data/hcm-v21-experiences.js
+          node --check data/travel-companion-v1-shell.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          h=Path('data/hcm-v21-experiences.js').read_text()
+          s=Path('data/travel-companion-v1-shell.js').read_text()
+          index=Path('index.html').read_text()
+          assert len(re.findall(r"\{id:'",h)) == 33, 'expected 33 HCMC rating experiences'
+          assert 'Array.isArray(window.HCM_V21_EXPERIENCES)' in s
+          assert 'tc1RateFacts' in s
+          assert "id==='vietnam'&&i===0?'':" in s
+          assert 'hcm-v21-experiences.js?v=20260910-content-v2' in index
+          assert index.index('hcm-v21-experiences.js?v=20260910-content-v2') < index.index('travel-companion-v1-shell.js?v=20260910-v1')
+          assert "state.here=id+':'+i" in s
+          print('HCMC: 33 individually written experiences, practical rating facts, legacy state bridge, text-first photos.')
+          PY
+      - name: Commit audited HCMC content
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html data/travel-companion-v1-shell.js data/travel-companion-v1-shell.css
+          git commit -m "Use complete HCMC content in experience rater"
+          git push origin hcm-content-audit
