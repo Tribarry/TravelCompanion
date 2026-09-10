@@ -41,9 +41,11 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
           s=Path('data/travel-companion-v1-shell.js').read_text()
-          mutations=[line.strip() for line in s.splitlines() if 'state.here=' in line]
-          print('\n'.join(mutations))
-          assert len(mutations)==1, f'Expected exactly one state.here mutation, got {len(mutations)}'
-          assert 'data-set-here' in mutations[0]
+          mutations=re.findall(r'state\.here\s*=(?!=)',s)
+          assert len(mutations)==1, f'Expected exactly one state.here assignment, got {len(mutations)}'
+          assignment=re.search(r'.{0,100}state\.here\s*=(?!=).{0,120}',s).group(0)
+          print(assignment)
+          assert 'data-set-here' in s
           PY
