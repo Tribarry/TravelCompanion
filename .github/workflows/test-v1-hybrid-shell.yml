@@ -1,0 +1,49 @@
+name: Test V1 hybrid shell
+on:
+  push:
+    branches: [rebuild-hybrid-shell-v1]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rebuild-hybrid-shell-v1
+      - name: Syntax check V1 shell
+        run: node --check data/travel-companion-v1-shell.js
+      - name: Protect canonical content and state
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          idx=Path('index.html').read_text()
+          js=Path('data/travel-companion-v1-shell.js').read_text()
+          css=Path('data/travel-companion-v1-shell.css').read_text()
+          assert 'const SAIGON_FOOD_PASSPORT=[' in idx
+          assert 'const SAIGON_DRINK_PASSPORT=[' in idx
+          food=idx.split('const SAIGON_FOOD_PASSPORT=[',1)[1].split('];',1)[0]
+          drink=idx.split('const SAIGON_DRINK_PASSPORT=[',1)[1].split('];',1)[0]
+          assert len(re.findall(r'\{id:',food))==15, 'Saigon food passport must remain 15'
+          assert len(re.findall(r'\{id:',drink))==12, 'Saigon drink passport must remain 12'
+          for country in ['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan']:
+              assert country in idx
+          for token in ['renderMain','renderCountry','renderDestination','renderDetail','renderJourney','renderGlobalSaved','renderBookAhead']:
+              assert token in js, token
+          assert "state.here=id+':'+i" in js, 'explicit current-location action missing'
+          assert "data-set-here" in js
+          assert 'tc1Tabs' in css
+          assert 'body>nav{display:none!important}' in css
+          print('Canonical data/passports preserved; layered shell present.')
+          PY
+      - name: Verify browsing does not set current location
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('data/travel-companion-v1-shell.js').read_text()
+          mutations=[line.strip() for line in s.splitlines() if 'state.here=' in line]
+          print('\n'.join(mutations))
+          assert len(mutations)==1, f'Expected exactly one state.here mutation, got {len(mutations)}'
+          assert 'data-set-here' in mutations[0]
+          PY
