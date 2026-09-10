@@ -20,15 +20,17 @@ jobs:
           p=Path('data/travel-companion-v1-shell.js')
           s=p.read_text()
           marker="const FLAGS2={vietnam:'🇻🇳',laos:'🇱🇦',cambodia:'🇰🇭',thailand:'🇹🇭',kazakhstan:'🇰🇿',kyrgyzstan:'🇰🇬'};"
-          manifest="""const COUNTRY_IMAGES={
- vietnam:'https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1800&q=90',
- laos:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90',
- cambodia:'https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=1800&q=90',
- thailand:'https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?auto=format&fit=crop&w=1800&q=90',
- kazakhstan:'https://putidorogi-nn.ru/images/stories/aziya/kazahstan/kazahstan_2.jpg',
- kyrgyzstan:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=90'
-};
-const MAIN_COVER_IMAGE='https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1800&q=90';"""
+          manifest="\n".join([
+            "const COUNTRY_IMAGES={",
+            " vietnam:'https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1800&q=90',",
+            " laos:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90',",
+            " cambodia:'https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=1800&q=90',",
+            " thailand:'https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?auto=format&fit=crop&w=1800&q=90',",
+            " kazakhstan:'https://putidorogi-nn.ru/images/stories/aziya/kazahstan/kazahstan_2.jpg',",
+            " kyrgyzstan:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=90'",
+            "};",
+            "const MAIN_COVER_IMAGE='https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1800&q=90';"
+          ])
           if 'const COUNTRY_IMAGES=' not in s:
               if marker not in s: raise SystemExit('FLAGS2 marker missing')
               s=s.replace(marker,marker+'\n'+manifest,1)
