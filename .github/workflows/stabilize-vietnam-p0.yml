@@ -4,6 +4,9 @@ on:
     branches: [stabilize-vietnam-p0]
     paths:
       - '.github/workflows/stabilize-vietnam-p0.yml'
+      - 'data/vietnam-city-hub-v025.js'
+      - 'data/vietnam-retire-legacy-hcm-v027.js'
+      - 'index.html'
 permissions:
   contents: write
 jobs:
@@ -18,10 +21,24 @@ jobs:
           node --check data/vietnam-city-hub-v025.js
           node --check data/vietnam-photo-alignment-v026.js
           node --check data/vietnam-retire-legacy-hcm-v027.js
-          if grep -q "x.d.name==='Ho Chi Minh City'.*foodDrinkHubV17" data/vietnam-city-hub-v025.js; then
-            echo 'Legacy HCMC food special-case still present' >&2
-            exit 1
-          fi
+      - name: Validate Saigon passport preservation
+        run: |
+          grep -q "passportPageV17('food')" data/vietnam-city-hub-v025.js
+          grep -q "passportPageV17('drink')" data/vietnam-city-hub-v025.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('index.html').read_text()
+          f=re.search(r'const SAIGON_FOOD_PASSPORT=\[(.*?)\];\s*const SAIGON_DRINK_PASSPORT=',s,re.S)
+          d=re.search(r'const SAIGON_DRINK_PASSPORT=\[(.*?)\];\s*function passState',s,re.S)
+          if not f or not d:
+              raise SystemExit('Saigon passport datasets not found')
+          fc=len(re.findall(r'\{id:',f.group(1)))
+          dc=len(re.findall(r'\{id:',d.group(1)))
+          print('Saigon passport counts:',fc,'food /',dc,'drink')
+          if (fc,dc)!=(15,12):
+              raise SystemExit(f'Unexpected Saigon passport counts: {fc} food / {dc} drink')
+          PY
       - name: Wire legacy retirement last
         run: |
           python3 - <<'PY'
@@ -46,5 +63,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Wire shared Vietnam hub over legacy HCMC screens"
+          git commit -m "Keep shared Vietnam hub wiring stable"
           git push origin stabilize-vietnam-p0
