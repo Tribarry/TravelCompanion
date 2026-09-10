@@ -1,0 +1,104 @@
+name: Wire remaining-country content
+on:
+  push:
+    branches: [remaining-countries-content]
+    paths:
+      - '.github/workflows/wire-remaining-countries-content.yml'
+permissions:
+  contents: write
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: remaining-countries-content
+      - name: Wire content and text-first experience UI
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p=Path('index.html')
+          s=p.read_text()
+          content='<script src="data/remaining-countries-v1-content.js?v=20260910-content-v1"></script>'
+          shell='<script src="data/travel-companion-v1-shell.js?v=20260910-v1"></script>'
+          if content not in s:
+              if shell not in s: raise SystemExit('shell marker missing')
+              s=s.replace(shell,content+'\n'+shell,1)
+          p.write_text(s)
+
+          p=Path('data/travel-companion-v1-shell.js')
+          s=p.read_text()
+
+          old="function photoDiv(id,label,cls){if(id==='vietnam')return `<div class=\"${cls} vnFallback\" data-vnimg=\"${esc(label)}\" data-label=\"${esc(label)}\"></div>`;return `<div class=\"${cls} tc1NoPhoto\" data-label=\"${esc(label)}\"></div>`}"
+          new="function photoDiv(id,label,cls){if(id==='vietnam')return `<div class=\"${cls} vnFallback\" data-vnimg=\"${esc(label)}\" data-label=\"${esc(label)}\"></div>`;const ready=!!window.TC1_EXPERIENCE_PHOTO_COMPLETE?.[id];if(!ready&&/tc1ExpPhoto|tc1RatePhoto/.test(cls))return'';return `<div class=\"${cls} tc1NoPhoto\" data-label=\"${esc(label)}\"></div>`}"
+          if old in s:s=s.replace(old,new,1)
+          elif 'TC1_EXPERIENCE_PHOTO_COMPLETE' not in s:raise SystemExit('photoDiv marker missing')
+
+          # Make non-Vietnam destination spotlight cards text-only until full-country photo coverage is approved.
+          s=s.replace("${id==='vietnam'?'vnFallback':'tc1NoPhoto'}", "${id==='vietnam'?'vnFallback':'tc1TextOnly'}")
+
+          # Rating deck gets practical context from every curated experience.
+          marker="async function renderRatingDeck(id,i,pos=0){"
+          helper="function ratingFacts(it){const r=it?.raw||{};const facts=[['TIME',r.time||r.duration||'Flexible'],['COST',r.cost||'Check locally'],['BOOKING',r.booking||'No advance booking noted']];return `<div class=\"tc1RateFacts\">${facts.map(([a,b])=>`<div><small>${a}</small><b>${esc(b)}</b></div>`).join('')}</div>`}\n"
+          if 'function ratingFacts(' not in s:
+              if marker not in s:raise SystemExit('rating deck marker missing')
+              s=s.replace(marker,helper+marker,1)
+
+          oldphoto="const photo=id==='vietnam'?`<div class=\"tc1RatePhoto vnFallback\" data-vnimg=\"${esc(it.title)}\" data-label=\"${esc(it.title)}\"></div>`:`<div class=\"tc1RatePhoto tc1NoPhoto\" data-label=\"${esc(it.title)}\"></div>`;"
+          newphoto="const photo=id==='vietnam'?`<div class=\"tc1RatePhoto vnFallback\" data-vnimg=\"${esc(it.title)}\" data-label=\"${esc(it.title)}\"></div>`:(window.TC1_EXPERIENCE_PHOTO_COMPLETE?.[id]?`<div class=\"tc1RatePhoto tc1NoPhoto\" data-label=\"${esc(it.title)}\"></div>`:'');"
+          if oldphoto in s:s=s.replace(oldphoto,newphoto,1)
+          elif "TC1_EXPERIENCE_PHOTO_COMPLETE?.[id]?" not in s:raise SystemExit('rater photo marker missing')
+
+          oldcopy="<h2>${esc(it.title)}</h2><p>${esc(it.summary||'Open the full experience later for practical details.')}</p>${r?"
+          newcopy="<h2>${esc(it.title)}</h2><p>${esc(it.summary||'Open the full experience later for practical details.')}</p>${ratingFacts(it)}${r?"
+          if oldcopy in s:s=s.replace(oldcopy,newcopy,1)
+          elif '${ratingFacts(it)}' not in s:raise SystemExit('rating copy marker missing')
+
+          # Experience lists also show the practical facts needed to judge an item.
+          oldlist="<p>${esc(it.summary||'Open for the saved context and practical details.')}</p>${it.flags?.length?"
+          newlist="<p>${esc(it.summary||'Open for the saved context and practical details.')}</p>${ratingFacts(it)}${it.flags?.length?"
+          if oldlist in s:s=s.replace(oldlist,newlist,1)
+          elif s.count('${ratingFacts(it)}')<2:raise SystemExit('experience list marker missing')
+
+          p.write_text(s)
+
+          p=Path('data/travel-companion-v1-shell.css')
+          css=p.read_text()
+          if '/* Remaining-country content-first pass */' not in css:
+              css += '''\n\n/* Remaining-country content-first pass */\n.tc1RateFacts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.tc1RateFacts>div{background:#18181b;border:1px solid #303036;border-radius:11px;padding:9px}.tc1RateFacts small{display:block;font-size:7px;font-weight:900;letter-spacing:.08em;color:#909098;margin-bottom:4px}.tc1RateFacts b{display:block;font-size:10px;line-height:1.28;color:#f2f2f3}.tc1SpotlightCard.tc1TextOnly{background:#171719!important;border:1px solid #303036}.tc1SpotlightCard.tc1TextOnly:before,.tc1SpotlightCard.tc1TextOnly:after{display:none!important}.tc1SpotlightCard.tc1TextOnly span{position:relative;min-height:112px;display:flex;flex-direction:column;justify-content:flex-end}.tc1Exp:not(:has(.tc1ExpPhoto)) .tc1ExpCopy{padding-top:16px}.tc1RateCard:not(:has(.tc1RatePhoto)) .tc1RateCopy{padding-top:24px}@media(max-width:390px){.tc1RateFacts{grid-template-columns:1fr}.tc1RateFacts>div{display:grid;grid-template-columns:72px 1fr;align-items:start;gap:8px}}\n'''
+          p.write_text(css)
+          PY
+      - name: Validate all remaining-country content
+        run: |
+          node --check data/remaining-countries-v1-content.js
+          node --check data/travel-companion-v1-shell.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('data/remaining-countries-v1-content.js').read_text()
+          index=Path('index.html').read_text()
+          shell=Path('data/travel-companion-v1-shell.js').read_text()
+          for country,minimum in [('laos',45),('cambodia',30),('thailand',28),('kazakhstan',15),('kyrgyzstan',20)]:
+              assert f'DATA.destinations.{country}=' in s, country
+          assert 'Gibbon Experience Classic' in s
+          assert 'Kuang Si Waterfall' in s
+          assert 'Koh Rong' in s
+          assert 'Southern Islands' in s
+          assert 'Kolsai Lake 1' in s
+          assert 'Multi-day horse expedition' in s
+          assert 'remaining-countries-v1-content.js?v=20260910-content-v1' in index
+          assert index.index('remaining-countries-v1-content.js?v=20260910-content-v1') < index.index('travel-companion-v1-shell.js?v=20260910-v1')
+          assert 'function ratingFacts(' in shell
+          assert 'TC1_EXPERIENCE_PHOTO_COMPLETE' in shell
+          assert "state.here=id+':'+i" in shell
+          assert "window.TC1_EXPERIENCE_PHOTO_COMPLETE={laos:false,cambodia:false,thailand:false,kazakhstan:false,kyrgyzstan:false}" in s
+          print('Remaining countries: content bank wired; rating/list facts visible; experience photos intentionally text-only pending complete manifests.')
+          PY
+      - name: Commit content integration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html data/travel-companion-v1-shell.js data/travel-companion-v1-shell.css
+          git commit -m "Wire complete remaining-country experience content"
+          git push origin remaining-countries-content
