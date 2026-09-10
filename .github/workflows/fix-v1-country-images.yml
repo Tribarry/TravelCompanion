@@ -1,0 +1,68 @@
+name: Fix V1 country imagery
+on:
+  push:
+    branches: [rebuild-hybrid-shell-v1]
+    paths:
+      - '.github/workflows/fix-v1-country-images.yml'
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rebuild-hybrid-shell-v1
+      - name: Add explicit country image manifest
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('data/travel-companion-v1-shell.js')
+          s=p.read_text()
+          marker="const FLAGS2={vietnam:'🇻🇳',laos:'🇱🇦',cambodia:'🇰🇭',thailand:'🇹🇭',kazakhstan:'🇰🇿',kyrgyzstan:'🇰🇬'};"
+          manifest="""const COUNTRY_IMAGES={
+ vietnam:'https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1800&q=90',
+ laos:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90',
+ cambodia:'https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=1800&q=90',
+ thailand:'https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?auto=format&fit=crop&w=1800&q=90',
+ kazakhstan:'https://putidorogi-nn.ru/images/stories/aziya/kazahstan/kazahstan_2.jpg',
+ kyrgyzstan:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=90'
+};
+const MAIN_COVER_IMAGE='https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1800&q=90';"""
+          if 'const COUNTRY_IMAGES=' not in s:
+              if marker not in s: raise SystemExit('FLAGS2 marker missing')
+              s=s.replace(marker,marker+'\n'+manifest,1)
+          old="function countryImage(id){try{if(typeof COUNTRY_TILE_IMAGES!=='undefined'&&COUNTRY_TILE_IMAGES[id])return COUNTRY_TILE_IMAGES[id]}catch(e){}return ''}"
+          new="function countryImage(id){return COUNTRY_IMAGES[id]||''}"
+          if old not in s: raise SystemExit('old countryImage resolver missing')
+          s=s.replace(old,new,1)
+          old2="function mainImage(){try{if(typeof COVER_PHOTOS!=='undefined'&&COVER_PHOTOS.length)return COVER_PHOTOS[0].url}catch(e){}return countryImage('vietnam')}"
+          new2="function mainImage(){return MAIN_COVER_IMAGE}"
+          if old2 not in s: raise SystemExit('old mainImage resolver missing')
+          s=s.replace(old2,new2,1)
+          p.write_text(s)
+          PY
+      - name: Validate image manifest and shell invariants
+        run: |
+          node --check data/travel-companion-v1-shell.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          js=Path('data/travel-companion-v1-shell.js').read_text()
+          for c in ['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan']:
+              assert re.search(rf"\b{c}:'https?://",js), f'missing {c} image'
+          assert "MAIN_COVER_IMAGE='https://" in js
+          assert 'COUNTRY_TILE_IMAGES' not in js
+          assert 'COVER_PHOTOS' not in js
+          assert 'vietnamMapPage' not in js
+          assert len(re.findall(r'state\.here\s*=(?!=)',js))==1
+          print('Country/main imagery is explicit; navigation/state invariants pass.')
+          PY
+      - name: Commit image manifest
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/travel-companion-v1-shell.js
+          git commit -m "Use explicit V1 country chapter images"
+          git push origin rebuild-hybrid-shell-v1
