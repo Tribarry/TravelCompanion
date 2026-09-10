@@ -1,0 +1,78 @@
+name: Refresh V1 visual tone
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/refresh-v1-visual-tone.yml'
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Remove hero slogan and green palette
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          js_path=Path('data/travel-companion-v1-shell.js')
+          js=js_path.read_text()
+          old='<div class="tc1Eyebrow">Southeast Asia 2027</div><h1>Your year,<br>one story.</h1><p>Countries, chapters, commitments and every experience you have built into the journey.</p><div class="tc1MetaPills"><span>${DATA.countries.length} countries</span><span>12 months</span><span>slow travel</span></div>'
+          new='<div class="tc1Eyebrow">Travel Companion</div><h1>Southeast Asia<br>2027.</h1><p>Vietnam → Laos → Cambodia → Thailand → Kazakhstan → Kyrgyzstan.</p>'
+          if old not in js:
+              raise SystemExit('Main hero copy marker not found')
+          js=js.replace(old,new,1)
+          js_path.write_text(js)
+
+          css_path=Path('data/travel-companion-v1-shell.css')
+          css=css_path.read_text()
+          replacements={
+            ':root{--tc-paper:#f3eddf;--tc-paper2:#fbf7ef;--tc-ink:#17392f;--tc-forest:#153f35;--tc-forest2:#0e3029;--tc-orange:#c8613f;--tc-mustard:#d6ad55;--tc-muted:#6d7871;--tc-line:#ddd2c0}':
+            ':root{--tc-paper:#f2eee8;--tc-paper2:#fffaf3;--tc-ink:#25262c;--tc-forest:#2a2f3b;--tc-forest2:#191d26;--tc-orange:#c66649;--tc-mustard:#d5a64c;--tc-muted:#706d70;--tc-line:#ddd4ca}',
+            '#0e3029':'#191d26',
+            '#0d3029a8':'#1b202ba8',
+            '#0c2e27a6':'#202633a6',
+            '#244c43':'#343b49',
+            '#0d3029ef':'#1b202bef',
+            '#0d30291b':'#1b202b1b',
+            '#0f342caa':'#242b38aa',
+            '#17473b':'#2d3442',
+            '#0f3029':'#1b202b',
+            '#092c25ee':'#171c26ee',
+            '#092c2510':'#171c2610',
+            '#173d34':'#303745',
+            '#315d52':'#59616e',
+            'rgba(5,25,21,.06)':'rgba(12,15,22,.04)',
+            'rgba(5,25,21,.12)':'rgba(12,15,22,.10)',
+            'rgba(5,25,21,.82)':'rgba(12,15,22,.80)',
+            'rgba(5,25,21,.98)':'rgba(12,15,22,.96)'
+          }
+          for a,b in replacements.items():
+              css=css.replace(a,b)
+          css_path.write_text(css)
+          PY
+      - name: Validate refresh
+        run: |
+          node --check data/travel-companion-v1-shell.js
+          python3 - <<'PY'
+          from pathlib import Path
+          js=Path('data/travel-companion-v1-shell.js').read_text()
+          css=Path('data/travel-companion-v1-shell.css').read_text()
+          assert 'Your year,<br>one story.' not in js
+          assert 'tc1MetaPills"><span>${DATA.countries.length} countries' not in js
+          assert '<h1>Southeast Asia<br>2027.</h1>' in js
+          for old in ['#17392f','#153f35','#0e3029','#244c43','#17473b','#0f3029','#092c25ee','#173d34','#315d52']:
+              assert old not in css, old
+          assert '--tc-forest:#2a2f3b' in css
+          print('Hero slogan/pills removed; V1 green palette replaced with warm charcoal, parchment and terracotta.')
+          PY
+      - name: Commit visual refresh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/travel-companion-v1-shell.js data/travel-companion-v1-shell.css
+          git commit -m "Refresh V1 hero and remove green palette"
+          git push origin main
