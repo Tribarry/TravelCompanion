@@ -1,0 +1,32 @@
+name: Publish approved Vietnam city hero layout
+on:
+  push:
+    paths:
+      - '.github/workflows/wire-vietnam-city-hub-v025.yml'
+permissions:
+  contents: write
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wire V0.25 city hero override into live app
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text()
+          s=re.sub(r'\s*<script src="data/vietnam-city-hub-v025\.js\?v=[^"]+"></script>', '', s)
+          tag='<script src="data/vietnam-city-hub-v025.js?v=20260910-1806"></script>'
+          s=s.replace('</body></html>', tag+'\n</body></html>')
+          p.write_text(s)
+          PY
+      - name: Commit live wiring
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Match live Vietnam hubs to approved city hero design"
+          git push
