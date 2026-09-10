@@ -1,9 +1,8 @@
-/* V0.26 — deterministic Vietnam photo alignment
- * Fixes route-card photo/title drift caused by index-based image lookup after
- * destinations were inserted into the live Vietnam bank. Also replaces the
- * loose Wikipedia image search used by city/experience cards with a strict,
- * context-aware resolver: exact landmark when confident, otherwise the correct
- * destination image. Wrong imagery is never preferred over a relevant fallback.
+/* V0.28 — verification-first Vietnam graphics
+ * Product rule: an image must depict the actual destination, landmark, dish or
+ * activity. If we cannot resolve a verified visual, show PHOTO TO VERIFY rather
+ * than a loosely related destination/stock image. This deliberately removes the
+ * old broad-search and destination-fallback behaviour that caused mismatches.
  */
 (()=>{
 'use strict';
@@ -16,7 +15,7 @@ const DEST={
  'Long Xuyên':'Long Xuyên',
  'Châu Đốc / Núi Sam':'Châu Đốc',
  'Trà Sư':'Trà Sư Cajuput Forest',
- 'Tịnh Biên / Tri Tôn':'Tịnh Biên district',
+ 'Tịnh Biên / Tri Tôn':'Cấm Mountain',
  'Bạc Liêu':'Bạc Liêu',
  'Hà Tiên':'Hà Tiên',
  'Kiên Lương':'Kiên Lương district',
@@ -43,15 +42,15 @@ const DEST={
  'Măng Đen':'Măng Đen',
  'Khâm Đức / Phước Sơn':'Khâm Đức',
  'Khâm Đức':'Khâm Đức',
- 'Prao / Đông Giang':'Đông Giang district',
- 'Prao':'Đông Giang district',
- 'A Lưới / A Shau Valley':'A Lưới district',
- 'A Lưới':'A Lưới district',
+ 'Prao / Đông Giang':'Prao',
+ 'Prao':'Prao',
+ 'A Lưới / A Shau Valley':'A Shau Valley',
+ 'A Lưới':'A Lưới',
  'Khe Sanh':'Khe Sanh',
  'Western Ho Chi Minh Road':'Ho Chi Minh Highway',
  'Quy Nhơn':'Quy Nhơn',
- 'Phú Yên / Tuy Hòa':'Phú Yên province',
- 'Phú Yên':'Phú Yên province',
+ 'Phú Yên / Tuy Hòa':'Gành Đá Đĩa',
+ 'Phú Yên':'Gành Đá Đĩa',
  'Nha Trang':'Nha Trang',
  'Hội An':'Hội An',
  'Đà Nẵng':'Da Nang',
@@ -62,9 +61,9 @@ const DEST={
  'Bạch Mã National Park':'Bạch Mã National Park',
  'Phong Nha / Quảng Bình':'Phong Nha-Kẻ Bàng National Park',
  'Hang Én':'Hang Én',
- 'Pygmy / Hung Thoong':'Phong Nha-Kẻ Bàng National Park',
+ 'Pygmy / Hung Thoong':'Pygmy Cave',
  'Sơn Đoòng':'Sơn Đoòng Cave',
- 'Ninh Bình':'Ninh Bình',
+ 'Ninh Bình':'Tràng An Scenic Landscape Complex',
  'Pù Luông':'Pù Luông Nature Reserve',
  'Hà Nội':'Hanoi',
  'Hạ Long / Lan Hạ Bay':'Hạ Long Bay',
@@ -73,61 +72,89 @@ const DEST={
  'Cát Bà Island':'Cát Bà Island',
  'Ba Bể':'Ba Bể National Park',
  'Ba Bể National Park':'Ba Bể National Park',
- 'Cao Bằng':'Cao Bằng province',
- 'Hà Giang Loop':'Hà Giang province',
+ 'Cao Bằng':'Ban Gioc–Detian Falls',
+ 'Hà Giang Loop':'Mã Pí Lèng Pass',
  'Hoàng Su Phì':'Hoàng Su Phì district',
  'Mù Cang Chải':'Mù Cang Chải district',
- 'Y Tý':'Bát Xát district',
+ 'Y Tý':'Y Tý',
  'Bắc Hà':'Bắc Hà district',
  'Sa Pa':'Sa Pa',
  'Hà Nội Return':'Hanoi'
 };
 
-const REGION_FALLBACK={
- 'Trà Sư':'An Giang province','Tịnh Biên / Tri Tôn':'An Giang province',
- 'Kiên Lương':'Kiên Giang province','Nam Du Islands':'Kiên Giang province',
- 'Măng Đen':'Kon Tum province','Khâm Đức / Phước Sơn':'Quảng Nam province',
- 'Prao / Đông Giang':'Quảng Nam province','A Lưới / A Shau Valley':'Huế',
- 'Pygmy / Hung Thoong':'Phong Nha-Kẻ Bàng National Park',
- 'Pù Luông':'Thanh Hóa province','Y Tý':'Lào Cai province'
-};
-
+/* Only explicit, semantically verified matches belong here. A missing mapping is
+ * safer than a beautiful but wrong photo. */
 const LANDMARKS=[
- [/ghositaram/i,'Ghositaram Temple'],
- [/bình tây|cho lon|chợ lớn/i,'Cholon, Ho Chi Minh City'],
+ [/nguyễn văn bình|book street/i,'Nguyễn Văn Bình Book Street'],
  [/central post office|bưu điện trung tâm/i,'Saigon Central Post Office'],
  [/notre.?dame/i,'Notre-Dame Cathedral Basilica of Saigon'],
+ [/war remnants/i,'War Remnants Museum'],
  [/independence palace|reunification palace/i,'Independence Palace'],
  [/củ chi|cu chi/i,'Củ Chi tunnels'],
  [/bến thành|ben thanh/i,'Bến Thành Market'],
+ [/landmark 81/i,'Landmark 81'],
+ [/tân định|tan dinh/i,'Tân Định Church'],
+ [/jade emperor/i,'Jade Emperor Pagoda'],
+ [/cần giờ|can gio|rừng sác|rung sac/i,'Cần Giờ Mangrove Forest'],
+ [/bình tây|cho lon|chợ lớn/i,'Cholon, Ho Chi Minh City'],
  [/cái răng/i,'Cái Răng Floating Market'],
+ [/bình thủy|binh thuy/i,'Bình Thủy Ancient House'],
  [/trà sư|tra su/i,'Trà Sư Cajuput Forest'],
  [/núi sam|sam mountain/i,'Sam Mountain'],
- [/liêng nung|lieng nung/i,'Đắk Nông province'],
+ [/núi cấm|nui cam|cấm mountain/i,'Cấm Mountain'],
+ [/phú quốc prison|cây dừa prison|cay dua prison/i,'Phú Quốc Prison'],
+ [/hòn thơm|hon thom/i,'Hòn Thơm'],
+ [/christ the king|christ of vũng tàu|christ of vung tau/i,'Christ of Vũng Tàu'],
+ [/liêng nung|lieng nung/i,'Liêng Nung Waterfall'],
+ [/tà đùng|ta dung/i,'Tà Đùng National Park'],
+ [/datanla/i,'Datanla Falls'],
+ [/langbiang/i,'Langbiang Mountain'],
+ [/linh phước|linh phuoc/i,'Linh Phước Pagoda'],
+ [/pongour/i,'Pongour Falls'],
  [/yok đôn|yok don/i,'Yok Đôn National Park'],
  [/lắk lake|lak lake/i,'Lắk Lake'],
+ [/dray nur/i,'Dray Nur Waterfall'],
+ [/dray sáp|dray sap/i,'Dray Sap Waterfall'],
  [/t.?nưng|bien ho lake/i,'Tơ Nưng Lake'],
  [/chư đăng ya|chu dang ya/i,'Chư Đăng Ya'],
- [/kỳ co|ky co/i,'Quy Nhơn'],
- [/eo gió|eo gio/i,'Quy Nhơn'],
- [/gành đá đĩa|ganh da dia/i,'Phú Yên province'],
- [/mũi điện|mui dien/i,'Phú Yên province'],
+ [/kon tum wooden church|wooden church/i,'Kon Tum Cathedral'],
+ [/khe sanh combat|tà cơn|ta con/i,'Khe Sanh Combat Base'],
+ [/bánh ít towers|banh it towers/i,'Bánh Ít Towers'],
+ [/kỳ co|ky co/i,'Kỳ Co Beach'],
+ [/eo gió|eo gio/i,'Eo Gió'],
+ [/gành đá đĩa|ganh da dia/i,'Gành Đá Đĩa'],
+ [/mũi điện|mui dien/i,'Mũi Điện'],
+ [/vũng rô|vung ro/i,'Vũng Rô Bay'],
  [/pô nagar|po nagar/i,'Po Nagar'],
  [/mỹ sơn|my son/i,'Mỹ Sơn'],
  [/marble mountains|ngũ hành sơn/i,'Marble Mountains (Vietnam)'],
  [/sơn trà|son tra/i,'Sơn Trà Mountain'],
+ [/dragon bridge/i,'Dragon Bridge (Da Nang)'],
  [/hải vân|hai van/i,'Hải Vân Pass'],
- [/imperial city/i,'Imperial City of Huế'],
+ [/imperial city|forbidden purple city/i,'Imperial City of Huế'],
  [/thiên mụ|thien mu/i,'Thiên Mụ Temple'],
+ [/tự đức|tu duc/i,'Tomb of Tự Đức'],
+ [/minh mạng|minh mang/i,'Tomb of Minh Mạng'],
+ [/khải định|khai dinh/i,'Tomb of Khải Định'],
+ [/perfume river/i,'Perfume River'],
  [/bạch mã|bach ma/i,'Bạch Mã National Park'],
  [/phong nha/i,'Phong Nha-Kẻ Bàng National Park'],
+ [/paradise cave|thiên đường cave|thien duong cave/i,'Paradise Cave'],
  [/hang én|hang en/i,'Hang Én'],
  [/sơn đoòng|son doong/i,'Sơn Đoòng Cave'],
  [/tràng an|trang an/i,'Tràng An Scenic Landscape Complex'],
  [/tam cốc|tam coc/i,'Tam Cốc-Bích Động'],
  [/hoa lư|hoa lu/i,'Hoa Lư Ancient Capital'],
  [/cúc phương|cuc phuong/i,'Cúc Phương National Park'],
+ [/bích động|bich dong/i,'Bích Động Pagoda'],
  [/pù luông|pu luong/i,'Pù Luông Nature Reserve'],
+ [/temple of literature|văn miếu|van mieu/i,'Temple of Literature, Hanoi'],
+ [/hỏa lò|hoa lo/i,'Hỏa Lò Prison'],
+ [/long biên|long bien/i,'Long Biên Bridge'],
+ [/hoàn kiếm|hoan kiem/i,'Hoàn Kiếm Lake'],
+ [/imperial citadel|thăng long|thang long/i,'Imperial Citadel of Thăng Long'],
+ [/hồ chí minh mausoleum|ho chi minh mausoleum/i,'Ho Chi Minh Mausoleum'],
+ [/trấn quốc|tran quoc/i,'Trấn Quốc Pagoda'],
  [/old quarter/i,'Old Quarter, Hanoi'],
  [/west lake/i,'West Lake (Hanoi)'],
  [/hạ long|ha long|lan hạ|lan ha/i,'Hạ Long Bay'],
@@ -137,78 +164,78 @@ const LANDMARKS=[
  [/pác bó|pac bo/i,'Pác Bó'],
  [/mã pí lèng|ma pi leng/i,'Mã Pí Lèng Pass'],
  [/đồng văn|dong van/i,'Đồng Văn Karst Plateau Geopark'],
+ [/lũng cú|lung cu/i,'Lũng Cú Flag Tower'],
+ [/nho quế|nho que/i,'Nho Quế River'],
  [/hoàng su phì|hoang su phi/i,'Hoàng Su Phì district'],
  [/mù cang chải|mu cang chai/i,'Mù Cang Chải district'],
+ [/khau phạ|khau pha/i,'Khau Phạ Pass'],
  [/bắc hà|bac ha/i,'Bắc Hà district'],
+ [/hoàng a tưởng|hoang a tuong/i,'Hoàng A Tưởng Palace'],
  [/fansipan/i,'Fansipan'],
  [/mường hoa|muong hoa/i,'Sa Pa']
 ];
 
-const cache=new Map();
-function norm(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim()}
-const GENERIC=new Set(['vietnam','local','market','food','coffee','cafe','street','streets','village','villages','river','road','roads','culture','history','view','views','viewpoint','landscape','landscapes','mountain','mountains','forest','forests','waterfall','waterfalls','beach','beaches','island','islands','cycling','hiking','trek','trekking','homestay','countryside','farm','farms','temple','pagoda','sunrise','sunset','seafood','experience','national','park','province','district','city','lake']);
-function tokens(s){return norm(s).split(' ').filter(t=>t.length>=3&&!GENERIC.has(t))}
-function destCanonical(name){return DEST[name]||name}
+const DISHES=[
+ [/\bcơm tấm\b|\bcom tam\b/i,'Cơm tấm'],
+ [/\bbánh mì\b|\bbanh mi\b/i,'Bánh mì'],
+ [/\bhủ tiếu\b|\bhu tieu\b/i,'Hủ tiếu'],
+ [/\bbún riêu\b|\bbun rieu\b/i,'Bún riêu'],
+ [/\bbánh xèo\b|\bbanh xeo\b/i,'Bánh xèo'],
+ [/\bbò kho\b|\bbo kho\b/i,'Bò kho'],
+ [/\bchè\b|\bche\b/i,'Chè'],
+ [/\bphở\b|\bpho\b/i,'Phở'],
+ [/\bbún chả\b|\bbun cha\b/i,'Bún chả'],
+ [/\bcao lầu\b|\bcao lau\b/i,'Cao lầu'],
+ [/\bmì quảng\b|\bmi quang\b/i,'Mì Quảng'],
+ [/\bbún bò huế\b|\bbun bo hue\b/i,'Bún bò Huế'],
+ [/\bcơm hến\b|\bcom hen\b/i,'Cơm hến'],
+ [/\bbánh khọt\b|\bbanh khot\b/i,'Bánh khọt'],
+ [/\bnem nướng\b|\bnem nuong\b/i,'Nem nướng'],
+ [/\bbánh căn\b|\bbanh can\b/i,'Bánh căn'],
+ [/egg coffee|cà phê trứng|ca phe trung/i,'Egg coffee'],
+ [/thắng cố|thang co/i,'Thắng cố'],
+ [/cơm lam|com lam/i,'Cơm lam']
+];
 
+const cache=new Map();
 async function summaryPhoto(title){
  if(!title)return '';
  const key='sum:'+title;if(cache.has(key))return cache.get(key);
  try{
   const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title));
   if(!r.ok){cache.set(key,'');return ''}
-  const j=await r.json();const u=j.originalimage?.source||j.thumbnail?.source||'';cache.set(key,u);return u;
+  const j=await r.json();
+  if(j.type==='disambiguation'){cache.set(key,'');return ''}
+  const u=j.originalimage?.source||j.thumbnail?.source||'';cache.set(key,u);return u;
  }catch(e){cache.set(key,'');return ''}
 }
-
-async function strictSearchPhoto(q,currentName){
- const key='search:'+q+'|'+currentName;if(cache.has(key))return cache.get(key);
- const need=tokens(q);
- if(!need.length){cache.set(key,'');return ''}
- try{
-  const search=[q,currentName,'Vietnam'].filter(Boolean).join(' ');
-  const u='https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(search)+'&gsrlimit=4&prop=pageimages&piprop=original|thumbnail&pithumbsize=1000&format=json&origin=*';
-  const j=await (await fetch(u)).json();
-  const pages=Object.values(j.query?.pages||{}).sort((a,b)=>(a.index||99)-(b.index||99));
-  for(const p of pages){
-   const pt=tokens(p.title);const hits=need.filter(t=>pt.some(x=>x===t||x.includes(t)||t.includes(x)));
-   if(hits.length){const img=p.original?.source||p.thumbnail?.source||'';if(img){cache.set(key,img);return img}}
-  }
- }catch(e){}
- cache.set(key,'');return '';
-}
-
+function destCanonical(name){return DEST[name]||''}
 async function destinationPhoto(name){
- const canonical=destCanonical(name);let u=await summaryPhoto(canonical);
- if(!u)u=await strictSearchPhoto(canonical,name);
- if(!u&&REGION_FALLBACK[name])u=await summaryPhoto(REGION_FALLBACK[name]);
- return u||'';
+ const canonical=destCanonical(name);
+ return canonical?await summaryPhoto(canonical):'';
 }
-
+async function mappedPhoto(q,maps){
+ for(const [rx,title] of maps){if(rx.test(q)){const u=await summaryPhoto(title);if(u)return u}}
+ return '';
+}
 async function relevantPhoto(q,currentName){
  const qn=String(q||'').trim();
- if(DEST[qn])return destinationPhoto(qn);
- for(const [rx,title] of LANDMARKS){if(rx.test(qn)){const u=await summaryPhoto(title)||await strictSearchPhoto(title,currentName);if(u)return u}}
- const u=await strictSearchPhoto(qn,currentName);if(u)return u;
- return currentName?destinationPhoto(currentName):'';
+ if(!qn)return '';
+ if(Object.prototype.hasOwnProperty.call(DEST,qn))return destinationPhoto(qn);
+ let u=await mappedPhoto(qn,LANDMARKS);if(u)return u;
+ u=await mappedPhoto(qn,DISHES);if(u)return u;
+ /* Do not fall back to a generic search or the current destination here.
+  * That behaviour was the source of unrelated imagery on experience/passport cards. */
+ return '';
 }
-
 function applyIndex(){
  if(!window.DATA?.destinations?.vietnam)return;
  window.DEST_WIKI=window.DEST_WIKI||{};
- window.DEST_WIKI.vietnam=DATA.destinations.vietnam.map(d=>destCanonical(d.name));
+ window.DEST_WIKI.vietnam=DATA.destinations.vietnam.map(d=>destCanonical(d.name)||'');
  window.VN_DEST_PHOTO_TITLE=DEST;
 }
 
-// Journey V0.24 calls window.wikiPhoto with the aligned canonical title array.
-const legacyWiki=window.wikiPhoto;
-window.wikiPhoto=async function(title){
- let u=await summaryPhoto(title);
- if(!u)u=await strictSearchPhoto(title,'');
- if(u)return u;
- return typeof legacyWiki==='function'?await legacyWiki(title):'';
-};
-
-// City hubs / Don't Miss / passport cards use this global hydrator.
+window.wikiPhoto=async function(title){return summaryPhoto(title)};
 window.vnImg=async function(q){
  let current='';try{const x=typeof vnStop==='function'?vnStop():null;current=x?.d?.name||''}catch(e){}
  return relevantPhoto(q,current);
@@ -217,7 +244,8 @@ window.hydrateVN=function(){
  let current='';try{const x=typeof vnStop==='function'?vnStop():null;current=x?.d?.name||''}catch(e){}
  document.querySelectorAll('[data-vnimg]').forEach(async el=>{
   const q=el.dataset.vnimg||'';const u=await relevantPhoto(q,current);
-  if(u){el.style.backgroundImage=`url("${u}")`;el.classList.add('loaded')}
+  if(u){el.style.backgroundImage=`url("${u}")`;el.classList.add('loaded');el.dataset.photoVerified='true'}
+  else{el.classList.remove('loaded');el.dataset.photoVerified='false';el.dataset.label='PHOTO TO VERIFY'}
  });
 };
 
