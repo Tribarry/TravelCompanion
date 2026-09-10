@@ -1,0 +1,73 @@
+name: Wire remaining-country content v2
+on:
+  push:
+    branches: [remaining-countries-content]
+    paths:
+      - '.github/workflows/wire-remaining-countries-content-v2.yml'
+permissions:
+  contents: write
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: remaining-countries-content
+      - name: Patch shell and wire content
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html'); s=p.read_text()
+          content='<script src="data/remaining-countries-v1-content.js?v=20260910-content-v1"></script>'
+          shell='<script src="data/travel-companion-v1-shell.js?v=20260910-v1"></script>'
+          if content not in s:
+              assert shell in s
+              s=s.replace(shell,content+'\n'+shell,1)
+          p.write_text(s)
+
+          p=Path('data/travel-companion-v1-shell.js'); s=p.read_text()
+          old="function photoDiv(id,label,cls){if(id==='vietnam')return `<div class=\"${cls} vnFallback\" data-vnimg=\"${esc(label)}\" data-label=\"${esc(label)}\"></div>`;return `<div class=\"${cls} tc1NoPhoto\" data-label=\"${esc(label)}\"></div>`}"
+          new="function photoDiv(id,label,cls){if(id==='vietnam')return `<div class=\"${cls} vnFallback\" data-vnimg=\"${esc(label)}\" data-label=\"${esc(label)}\"></div>`;const ready=!!window.TC1_EXPERIENCE_PHOTO_COMPLETE?.[id];if(!ready&&/tc1ExpPhoto|tc1RatePhoto/.test(cls))return'';return `<div class=\"${cls} tc1NoPhoto\" data-label=\"${esc(label)}\"></div>`}"
+          if old in s:s=s.replace(old,new,1)
+          s=s.replace("${id==='vietnam'?'vnFallback':'tc1NoPhoto'}", "${id==='vietnam'?'vnFallback':'tc1TextOnly'}")
+          if 'function ratingFacts(' not in s:
+              marker='async function renderRatingDeck(id,i,pos=0){'
+              helper="function ratingFacts(it){const r=it?.raw||{};const facts=[['TIME',r.time||r.duration||'Flexible'],['COST',r.cost||'Check locally'],['BOOKING',r.booking||'No advance booking noted']];return `<div class=\"tc1RateFacts\">${facts.map(([a,b])=>`<div><small>${a}</small><b>${esc(b)}</b></div>`).join('')}</div>`}\n"
+              assert marker in s; s=s.replace(marker,helper+marker,1)
+          oldphoto="const photo=id==='vietnam'?`<div class=\"tc1RatePhoto vnFallback\" data-vnimg=\"${esc(it.title)}\" data-label=\"${esc(it.title)}\"></div>`:`<div class=\"tc1RatePhoto tc1NoPhoto\" data-label=\"${esc(it.title)}\"></div>`;"
+          newphoto="const photo=id==='vietnam'?`<div class=\"tc1RatePhoto vnFallback\" data-vnimg=\"${esc(it.title)}\" data-label=\"${esc(it.title)}\"></div>`:(window.TC1_EXPERIENCE_PHOTO_COMPLETE?.[id]?`<div class=\"tc1RatePhoto tc1NoPhoto\" data-label=\"${esc(it.title)}\"></div>`:'');"
+          if oldphoto in s:s=s.replace(oldphoto,newphoto,1)
+          oldcopy="<h2>${esc(it.title)}</h2><p>${esc(it.summary||'Open the full experience later for practical details.')}</p>${r?"
+          newcopy="<h2>${esc(it.title)}</h2><p>${esc(it.summary||'Open the full experience later for practical details.')}</p>${ratingFacts(it)}${r?"
+          if oldcopy in s:s=s.replace(oldcopy,newcopy,1)
+          oldlist="<p>${esc(it.summary||'Open for the saved context and practical details.')}</p>${it.flags?.length?"
+          newlist="<p>${esc(it.summary||'Open for the saved context and practical details.')}</p>${ratingFacts(it)}${it.flags?.length?"
+          if oldlist in s:s=s.replace(oldlist,newlist,1)
+          p.write_text(s)
+
+          p=Path('data/travel-companion-v1-shell.css'); css=p.read_text()
+          if '/* Remaining-country content-first pass */' not in css:
+              css += '''\n/* Remaining-country content-first pass */\n.tc1RateFacts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.tc1RateFacts>div{background:#18181b;border:1px solid #303036;border-radius:11px;padding:9px}.tc1RateFacts small{display:block;font-size:7px;font-weight:900;letter-spacing:.08em;color:#909098;margin-bottom:4px}.tc1RateFacts b{display:block;font-size:10px;line-height:1.28;color:#f2f2f3}.tc1SpotlightCard.tc1TextOnly{background:#171719!important;border:1px solid #303036}.tc1SpotlightCard.tc1TextOnly:before,.tc1SpotlightCard.tc1TextOnly:after{display:none!important}.tc1SpotlightCard.tc1TextOnly span{position:relative;min-height:112px;display:flex;flex-direction:column;justify-content:flex-end}.tc1Exp:not(:has(.tc1ExpPhoto)) .tc1ExpCopy{padding-top:16px}.tc1RateCard:not(:has(.tc1RatePhoto)) .tc1RateCopy{padding-top:24px}@media(max-width:390px){.tc1RateFacts{grid-template-columns:1fr}.tc1RateFacts>div{display:grid;grid-template-columns:72px 1fr;gap:8px}}\n'''
+          p.write_text(css)
+          PY
+      - name: Validate
+        run: |
+          node --check data/remaining-countries-v1-content.js
+          node --check data/travel-companion-v1-shell.js
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('data/remaining-countries-v1-content.js').read_text(); sh=Path('data/travel-companion-v1-shell.js').read_text(); idx=Path('index.html').read_text()
+          for token in ['Gibbon Experience Classic','Kuang Si Waterfall','Koh Rong','Southern Islands','Kolsai Lake 1','Multi-day horse expedition']: assert token in s
+          for c in ['laos','cambodia','thailand','kazakhstan','kyrgyzstan']: assert f'DATA.destinations.{c}=' in s
+          assert 'function ratingFacts(' in sh and 'TC1_EXPERIENCE_PHOTO_COMPLETE' in sh
+          assert 'remaining-countries-v1-content.js?v=20260910-content-v1' in idx
+          assert idx.index('remaining-countries-v1-content.js?v=20260910-content-v1') < idx.index('travel-companion-v1-shell.js?v=20260910-v1')
+          print('validated')
+          PY
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html data/travel-companion-v1-shell.js data/travel-companion-v1-shell.css
+          git commit -m "Wire complete remaining-country experience content"
+          git push origin remaining-countries-content
