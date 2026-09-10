@@ -1,0 +1,32 @@
+name: Publish Vietnam journey selector
+on:
+  push:
+    paths:
+      - '.github/workflows/wire-vietnam-journey.yml'
+permissions:
+  contents: write
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wire Vietnam journey selector into live app
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text()
+          s=re.sub(r'\s*<script src="data/vietnam-journey-v024\.js\?v=[^"]+"></script>', '', s)
+          tag='<script src="data/vietnam-journey-v024.js?v=20260910-1745"></script>'
+          s=s.replace('</body></html>', tag+'\n</body></html>')
+          p.write_text(s)
+          PY
+      - name: Commit live Vietnam journey selector
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Publish memory-first Vietnam journey page"
+          git push
