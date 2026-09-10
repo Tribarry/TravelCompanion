@@ -1,0 +1,56 @@
+name: Wire V1 hybrid shell
+on:
+  push:
+    branches: [rebuild-hybrid-shell-v1]
+    paths:
+      - '.github/workflows/wire-v1-hybrid-shell.yml'
+permissions:
+  contents: write
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rebuild-hybrid-shell-v1
+      - name: Validate shell source
+        run: |
+          node --check data/travel-companion-v1-shell.js
+          test -s data/travel-companion-v1-shell.css
+      - name: Wire V1 assets last
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html');s=p.read_text()
+          s=re.sub(r'\s*<link rel="stylesheet" href="data/travel-companion-v1-shell\.css\?v=[^"]+">','',s)
+          s=re.sub(r'\s*<script src="data/travel-companion-v1-shell\.js\?v=[^"]+"></script>','',s)
+          css='<link rel="stylesheet" href="data/travel-companion-v1-shell.css?v=20260910-v1">'
+          js='<script src="data/travel-companion-v1-shell.js?v=20260910-v1"></script>'
+          if '</head>' not in s or '</body></html>' not in s: raise SystemExit('expected closing tags missing')
+          s=s.replace('</head>',css+'\n</head>')
+          s=s.replace('</body></html>',js+'\n</body></html>')
+          p.write_text(s)
+          PY
+      - name: Validate script order and canonical bridges
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('index.html').read_text()
+          assert s.count('travel-companion-v1-shell.css')==1
+          assert s.count('travel-companion-v1-shell.js')==1
+          v28=s.rfind('vietnam-graphics-runtime-v028.js')
+          shell=s.rfind('travel-companion-v1-shell.js')
+          assert v28!=-1 and shell>v28, (v28,shell)
+          for token in ['vietnam-live-v021.js','vietnam-city-hub-v025.js','vietnam-photo-alignment-v026.js']:
+              assert token in s
+          print('V1 shell is loaded last; canonical Vietnam bridges remain present.')
+          PY
+      - name: Commit wiring
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Activate V1 hybrid navigation shell"
+          git push origin rebuild-hybrid-shell-v1
