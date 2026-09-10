@@ -1,0 +1,62 @@
+name: Final V1 release gate
+on:
+  push:
+    branches: [rebuild-hybrid-shell-v1]
+    paths:
+      - '.github/workflows/final-release-check-v1.yml'
+permissions:
+  contents: read
+jobs:
+  release-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rebuild-hybrid-shell-v1
+      - name: Syntax and asset wiring
+        run: |
+          node --check data/travel-companion-v1-shell.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          idx=Path('index.html').read_text()
+          js=Path('data/travel-companion-v1-shell.js').read_text()
+          css=Path('data/travel-companion-v1-shell.css').read_text()
+          assert idx.count('travel-companion-v1-shell.css')==1
+          assert idx.count('travel-companion-v1-shell.js')==1
+          assert idx.rfind('travel-companion-v1-shell.js') > idx.rfind('vietnam-graphics-runtime-v028.js')
+          assert 'body>nav{display:none!important}' in css
+          assert 'vietnamMapPage' not in js
+          assert 'data-full-map' not in js
+          assert 'foodDrinkHubV17' not in js
+          assert 'hcmOverviewV15' not in js
+          assert 'hcmExperiencesV15' not in js
+          assert 'hcmMyListV16' not in js
+          print('V1 shell is the last UI layer and has no legacy-screen escape.')
+          PY
+      - name: Protect content and state invariants
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          idx=Path('index.html').read_text()
+          js=Path('data/travel-companion-v1-shell.js').read_text()
+          live=Path('data/vietnam-live-v021.js').read_text()
+          assert 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md' in live
+          for c in ['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan']:
+              assert c in idx
+          food=idx.split('const SAIGON_FOOD_PASSPORT=[',1)[1].split('];',1)[0]
+          drink=idx.split('const SAIGON_DRINK_PASSPORT=[',1)[1].split('];',1)[0]
+          assert len(re.findall(r'\{id:',food))==15, 'food passport changed'
+          assert len(re.findall(r'\{id:',drink))==12, 'drink passport changed'
+          for fn in ['renderMain','renderCountry','renderDestination','renderDetail','renderJourney','renderGlobalSaved','renderBookAhead','passportView','toggleSaved','toggleDone','toggleSkip']:
+              assert fn in js, fn
+          assert len(re.findall(r'state\.here\s*=(?!=)',js))==1, 'browsing must not change current location'
+          assert "data-set-here" in js
+          assert "renderDestination(id,i+1,'overview')" in js, 'contextual next should browse only'
+          assert "data-neighbour" in js
+          assert "renderDestination(id,Number(b.dataset.neighbour),'map')" in js
+          assert 'DATA.constraints' in js
+          assert "passport-" in js and 'passTried' in js and 'togglePass' in js
+          print('Countries, canonical Vietnam bank, 15+12 passports, state and commitments preserved.')
+          PY
