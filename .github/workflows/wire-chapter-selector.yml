@@ -10,22 +10,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Wire chapter selector into live app
+      - name: Wire current chapter selector into live app
         run: |
           python3 - <<'PY'
           from pathlib import Path
+          import re
           p=Path('index.html')
           s=p.read_text()
-          tag='<script src="data/chapter-selector-v022.js?v=20260910"></script>'
-          if tag not in s:
-              s=s.replace('</body></html>', tag+'\n</body></html>')
+          # Remove any stale chapter-selector include, then inject the current cache-busted asset.
+          s=re.sub(r'\s*<script src="data/chapter-selector-v022\.js\?v=[^"]+"></script>', '', s)
+          tag='<script src="data/chapter-selector-v022.js?v=20260910-1730"></script>'
+          s=s.replace('</body></html>', tag+'\n</body></html>')
           p.write_text(s)
           PY
-      - name: Commit live selector
+      - name: Commit live selector wiring
         run: |
           if git diff --quiet; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Publish full-screen Choose Your Chapter carousel"
+          git commit -m "Wire selected 1-3-1-2-3-2 chapter photos into live app"
           git push
