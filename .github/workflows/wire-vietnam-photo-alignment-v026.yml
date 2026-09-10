@@ -1,0 +1,32 @@
+name: Publish Vietnam photo alignment fix
+on:
+  push:
+    paths:
+      - '.github/workflows/wire-vietnam-photo-alignment-v026.yml'
+permissions:
+  contents: write
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wire deterministic Vietnam photo resolver into live app
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text()
+          s=re.sub(r'\s*<script src="data/vietnam-photo-alignment-v026\.js\?v=[^"]+"></script>', '', s)
+          tag='<script src="data/vietnam-photo-alignment-v026.js?v=20260910-1830"></script>'
+          s=s.replace('</body></html>', tag+'\n</body></html>')
+          p.write_text(s)
+          PY
+      - name: Commit live photo alignment wiring
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Align all Vietnam journey photos to destination titles"
+          git push
