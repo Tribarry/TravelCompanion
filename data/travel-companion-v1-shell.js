@@ -1,0 +1,168 @@
+/* Travel Companion V1 — hybrid navigation shell.
+   Reuses every canonical DATA destination/experience and Vietnam live bank.
+   Browsing NEVER changes state.here; only the explicit I'M HERE NOW action does. */
+(()=>{
+'use strict';
+if(window.__TC_V1_SHELL__)return;window.__TC_V1_SHELL__=true;
+
+const V={country:null,dest:null,countryTab:'overview',destTab:'overview',filter:'All',passType:'food',last:'main'};
+const INTRO={
+ vietnam:'A long south-to-north chapter built around food, local life, history, highlands, caves and the northern mountains.',
+ laos:'A slower chapter of river journeys, mountain towns, conservation, caves and the southern plateau.',
+ cambodia:'Khmer history, local culture, jungle conservation, coastal food and the transition into your teaching chapter.',
+ thailand:'Northern Thailand, Bangkok and the fixed TESOL training block before Central Asia.',
+ kazakhstan:'A compact Almaty-based mountain circuit through canyon and alpine-lake country.',
+ kyrgyzstan:'Horse trekking, yurt country, mountain landscapes and the fixed travel window with friends.'
+};
+const COUNTRY_DATES={vietnam:'28 JAN → APRIL 2027',laos:'APRIL → MAY 2027',cambodia:'AUGUST 2027 →',thailand:'JUNE → JULY 2027',kazakhstan:'JULY 2027',kyrgyzstan:'30 JUL → 12 AUG 2027'};
+const FLAGS2={vietnam:'🇻🇳',laos:'🇱🇦',cambodia:'🇰🇭',thailand:'🇹🇭',kazakhstan:'🇰🇿',kyrgyzstan:'🇰🇬'};
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const slug=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+function country(id){return DATA.countries.find(c=>c.id===id)}
+function destinations(id){return DATA.destinations[id]||[]}
+function current(){if(!state.here||state.here==='pre')return null;const [id,n]=String(state.here).split(':');const i=Number(n);if(!country(id)||!destinations(id)[i])return null;return {id,i,c:country(id),d:destinations(id)[i]}}
+function isCurrent(id,i){const x=current();return !!x&&x.id===id&&x.i===Number(i)}
+function countryImage(id){try{if(typeof COUNTRY_TILE_IMAGES!=='undefined'&&COUNTRY_TILE_IMAGES[id])return COUNTRY_TILE_IMAGES[id]}catch(e){}return ''}
+function mainImage(){try{if(typeof COVER_PHOTOS!=='undefined'&&COVER_PHOTOS.length)return COVER_PHOTOS[0].url}catch(e){}return countryImage('vietnam')}
+function setApp(html){
+ try{if(nav){nav.hidden=true;nav.style.display='none'}}catch(e){}
+ app.innerHTML=html;
+ wireCommon();
+ if(typeof window.hydrateVN==='function')setTimeout(()=>window.hydrateVN(),0);
+}
+async function readyCountry(id){if(id==='vietnam'&&window.VN_LIVE_READY){try{await window.VN_LIVE_READY}catch(e){}}}
+function countryCounts(id){const ds=destinations(id);return {places:ds.length,experiences:ds.reduce((n,d)=>n+(d.experiences||[]).length,0)}}
+function rawTags(e){const t=[];if(e?.tier)t.push(e.tier);if(e?.type)t.push(String(e.type).replace(/(^|\s)\S/g,m=>m.toUpperCase()));return t}
+function itemFlags(raw,it){const out=[...(it?.flags||[])];const b=raw?.booking;if(b&&b!=='No'&&b!=='Check locally'&&!out.includes(b))out.push(b);return out}
+function getItems(id,i){
+ const d=destinations(id)[i];if(!d)return[];
+ if(id==='vietnam'&&typeof window.vnBaseItems==='function'){
+   try{return window.vnBaseItems({c:country(id),d,i,id:id+'-'+i}).map((it,j)=>({id:it.id||'e'+j,title:it.title||it.name||d.experiences?.[j]?.name||'Experience',summary:it.summary||d.experiences?.[j]?.summary||'',tags:it.tags||rawTags(d.experiences?.[j]),flags:itemFlags(d.experiences?.[j],it),tier:it.tier||d.experiences?.[j]?.tier||'',raw:d.experiences?.[j]||{},index:j}))}catch(e){}
+ }
+ return (d.experiences||[]).map((e,j)=>({id:e.id||'e'+j,title:e.name||e.title||'Experience',summary:e.summary||'',tags:e.tags||rawTags(e),flags:itemFlags(e,e),tier:e.tier||'',raw:e,index:j}));
+}
+function canonicalKey(id,i,it,j){
+ if(id==='vietnam'&&typeof window.vnSavedKey==='function'){
+  try{return window.vnSavedKey({c:country(id),d:destinations(id)[i],i,id:id+'-'+i},it)}catch(e){}
+ }
+ return id+'-'+i+'-'+j;
+}
+function allKeys(id,i,it,j){const a=[canonicalKey(id,i,it,j),id+'-'+i+'-'+j];if(id==='vietnam'&&i===0)a.push('hcm-'+j);return [...new Set(a)]}
+function hasState(bucket,id,i,it,j){const obj=state[bucket]||{};return allKeys(id,i,it,j).some(k=>!!obj[k])}
+function setBucket(bucket,id,i,it,j,value){state[bucket]=state[bucket]||{};allKeys(id,i,it,j).forEach(k=>state[bucket][k]=value);save()}
+function toggleSaved(id,i,it,j){setBucket('saved',id,i,it,j,!hasState('saved',id,i,it,j))}
+function toggleDone(id,i,it,j){const v=!hasState('done',id,i,it,j);setBucket('done',id,i,it,j,v);if(v)setBucket('skip',id,i,it,j,false)}
+function toggleSkip(id,i,it,j){const v=!hasState('skip',id,i,it,j);setBucket('skip',id,i,it,j,v);if(v)setBucket('done',id,i,it,j,false)}
+function status(id,i){if(isCurrent(id,i))return'<span class="tc1Status here">YOU ARE HERE</span>';const items=getItems(id,i),done=items.filter((it,j)=>hasState('done',id,i,it,j)).length;if(items.length&&done===items.length)return'<span class="tc1Status">COMPLETE</span>';return'<span class="tc1Status">UPCOMING</span>'}
+function heroAttrs(id,label,extra=''){if(id==='vietnam')return `class="${extra} vnFallback" data-vnimg="${esc(label)}" data-label="${esc(label)}"`;return `class="${extra}"`}
+function photoDiv(id,label,cls){if(id==='vietnam')return `<div class="${cls} vnFallback" data-vnimg="${esc(label)}" data-label="${esc(label)}"></div>`;return `<div class="${cls} tc1NoPhoto" data-label="${esc(label)}"></div>`}
+function drawer(){return `<div class="tc1Drawer" id="tc1Drawer" hidden><div class="tc1DrawerTop"><div class="tc1Brand">Travel Companion</div><button class="tc1Round" data-drawer-close>×</button></div><h2>Global</h2><p>Whole-trip utilities stay here instead of competing with the page you are using.</p><button class="tc1DrawerBtn" data-global="journey"><small>Whole year</small><b>Journey</b></button><button class="tc1DrawerBtn" data-global="saved"><small>Across all countries</small><b>Saved</b></button><button class="tc1DrawerBtn" data-global="book"><small>Lead-time items</small><b>Book Ahead</b></button><button class="tc1DrawerBtn" data-global="main"><small>Top level</small><b>Main Journey</b></button></div>`}
+function wireCommon(){
+ document.querySelectorAll('[data-drawer-open]').forEach(b=>b.onclick=()=>{const d=document.getElementById('tc1Drawer');if(d)d.hidden=false});
+ document.querySelectorAll('[data-drawer-close]').forEach(b=>b.onclick=()=>{const d=document.getElementById('tc1Drawer');if(d)d.hidden=true});
+ document.querySelectorAll('[data-global]').forEach(b=>b.onclick=()=>{const x=b.dataset.global;if(x==='main')renderMain();else if(x==='journey')renderJourney();else if(x==='saved')renderGlobalSaved();else if(x==='book')renderBookAhead()});
+ document.querySelectorAll('[data-back-main]').forEach(b=>b.onclick=renderMain);
+}
+function topButtons(backAction){return `<div class="tc1Top"><button class="tc1Round" ${backAction}>←</button><button class="tc1Round" data-drawer-open>☰</button></div>`}
+function localTabs(tabs,on){return `<div class="tc1Tabs">${tabs.map(([k,l])=>`<button class="tc1Tab ${on===k?'on':''}" data-local-tab="${k}">${l}</button>`).join('')}</div>`}
+
+/* MAIN — no persistent bottom navigation */
+async function renderMain(){
+ V.last='main';V.country=null;V.dest=null;
+ await readyCountry('vietnam');
+ const cur=current();
+ setApp(`<section class="tc1Screen"><div class="tc1MainHero" style="background-image:url('${esc(mainImage())}')"><div class="tc1Top"><div class="tc1Brand">Travel Companion</div><button class="tc1Round" data-drawer-open>☰</button></div><div class="tc1MainCopy"><div class="tc1Eyebrow">Southeast Asia 2027</div><h1>Your year,<br>one story.</h1><p>Countries, chapters, commitments and every experience you have built into the journey.</p><div class="tc1MetaPills"><span>${DATA.countries.length} countries</span><span>12 months</span><span>slow travel</span></div></div></div><div class="tc1Countries"><h2>Choose a chapter</h2><div class="tc1CountryStack">${DATA.countries.map((c,n)=>{const cc=countryCounts(c.id);return `<button class="tc1CountryCard" data-open-country="${c.id}" style="background-image:url('${esc(countryImage(c.id))}')"><span><small>Chapter ${String(n+1).padStart(2,'0')} · ${esc(COUNTRY_DATES[c.id]||'2027')}</small><b>${esc(c.name)}</b><em>${cc.places} places · ${cc.experiences}+ experiences</em></span></button>`}).join('')}</div></div>${cur?`<button class="tc1CurrentBanner" data-open-current><span><small>Current location</small><b>${esc(cur.c.name)} · ${esc(cur.d.name)}</b></span><span style="font-size:25px">→</span></button>`:''}${drawer()}</section>`);
+ document.querySelectorAll('[data-open-country]').forEach(b=>b.onclick=()=>renderCountry(b.dataset.openCountry,'overview'));
+ const c=document.querySelector('[data-open-current]');if(c)c.onclick=()=>{const x=current();if(x)renderDestination(x.id,x.i,'overview')};
+}
+
+function vietnamRegion(ds,i){
+ const q=ds.findIndex(d=>d.name==='Quy Nhơn'),p=ds.findIndex(d=>d.name==='Phong Nha / Quảng Bình'),h=ds.findIndex(d=>d.name==='Đồng Xoài / Bình Phước');
+ if(h<0||i<h)return'South & Mekong';if(q<0||i<q)return'Highlands & Ho Chi Minh Road';if(p<0||i<p)return'Central Coast & Imperial Vietnam';return'Caves & the North';
+}
+function groupedPlaces(id){const ds=destinations(id);const m=new Map();ds.forEach((d,i)=>{const r=id==='vietnam'?vietnamRegion(ds,i):'Your route';if(!m.has(r))m.set(r,[]);m.get(r).push({d,i})});return [...m.entries()]}
+async function renderCountry(id,tab='overview'){
+ await readyCountry(id);V.country=id;V.dest=null;V.countryTab=tab;V.last='country';const c=country(id),cc=countryCounts(id),img=countryImage(id),groups=groupedPlaces(id);
+ let body='';
+ if(tab==='overview'){
+  body=`<div class="tc1Section"><div class="tc1Head"><h2>Your ${esc(c.name)}</h2><small>${esc(COUNTRY_DATES[id]||'2027')}</small></div><p class="tc1Context">${esc(INTRO[id]||c.subtitle||'')}</p><div class="tc1RouteCard"><div class="tc1Scope" style="color:#fff">Route story</div><h3>${groups.length} route ${groups.length===1?'chapter':'chapters'}</h3><div class="tc1RouteLine">${groups.map(([r])=>`<div class="tc1RouteStop">${esc(r)}</div>`).join('')}</div></div></div>`;
+ }else if(tab==='route'){
+  body=`<div class="tc1Section"><div class="tc1Head"><h2>Route</h2><small>${cc.places} places</small></div></div>${groups.map(([r,a])=>`<div class="tc1Region"><div class="tc1RegionLabel">${esc(r)}</div><div class="tc1RouteCard" style="margin:0 0 14px"><div class="tc1RouteLine">${a.map(({d,i})=>`<div class="tc1RouteStop"><b>${String(i+1).padStart(2,'0')} · ${esc(d.name)}</b><br><small>${esc(d.stay||'Flexible')} days/nights</small></div>`).join('')}</div></div></div>`).join('')}`;
+ }else if(tab==='places'){
+  body=groups.map(([r,a])=>`<div class="tc1Region"><div class="tc1RegionLabel">${esc(r)}</div>${a.map(({d,i})=>{const its=getItems(id,i),must=its.filter(x=>(x.tags||[]).includes('Must Do')||x.tier==='S+'||x.tier==='S').length;return `<button class="tc1Place" data-open-dest="${i}">${photoDiv(id,d.name,'tc1PlacePhoto')}<span class="tc1PlaceCopy"><small>${String(i+1).padStart(2,'0')} · ${esc(d.stay||'Flexible')} days/nights</small><h3>${esc(d.name)}</h3><p>${esc(d.context||d.summary||d.orientation?.comeFor||its[0]?.summary||'Open this stop to see the complete experience bank.')}</p><span class="tc1Counts"><span>✦ ${its.length} experiences</span><span>🔥 ${must} priority</span>${status(id,i)}</span></span></button>`}).join('')}</div>`).join('');
+ }else{
+  const saved=countryEntries(id).filter(x=>x.saved);body=saved.length?`<div class="tc1GlobalList">${saved.map(globalCard).join('')}</div>`:`<div class="tc1Empty">Nothing saved in ${esc(c.name)} yet. Saving an experience or passport item will place it here without removing it from its destination.</div>`;
+ }
+ setApp(`<section class="tc1Screen"><div class="tc1CountryHero" style="background-image:url('${esc(img)}')">${topButtons('data-back-main')}<div class="tc1CountryBody"><div class="tc1Scope" style="color:#fff">${FLAGS2[id]||''} Country chapter</div><h1>${esc(c.name.toUpperCase())}</h1><p>${esc(INTRO[id]||c.subtitle||'')}</p><div class="tc1CountryStats"><div class="tc1CountryStat"><strong>${cc.places}</strong><small>Places</small></div><div class="tc1CountryStat"><strong>${cc.experiences}+</strong><small>Experiences</small></div><div class="tc1CountryStat"><strong>${destinations(id).reduce((n,d)=>n+(parseFloat(String(d.stay||0))||0),0)}+</strong><small>Route nights</small></div></div></div></div>${localTabs([['overview','OVERVIEW'],['route','ROUTE'],['places','PLACES'],['saved','SAVED']],tab)}${body}${drawer()}</section>`);
+ document.querySelectorAll('[data-local-tab]').forEach(b=>b.onclick=()=>renderCountry(id,b.dataset.localTab));
+ document.querySelectorAll('[data-open-dest]').forEach(b=>b.onclick=()=>renderDestination(id,Number(b.dataset.openDest),'overview'));
+}
+
+function destinationFood(id,i){const its=getItems(id,i);return its.filter(x=>(x.tags||[]).some(t=>/food/i.test(t))||/food/i.test(x.raw?.type||''))}
+function destinationDrinks(id,i){const its=getItems(id,i);return its.filter(x=>(x.tags||[]).some(t=>/drink|coffee/i.test(t))||/drink|coffee/i.test(x.raw?.type||''))}
+function progress(id,i){const its=getItems(id,i),done=its.filter((it,j)=>hasState('done',id,i,it,j)).length;return {done,total:its.length,pct:its.length?Math.round(done/its.length*100):0}}
+function destinationTabs(id,i){return [['overview','OVERVIEW'],['experiences','EXPERIENCES'],['food','FOOD & DRINK'],['map','MAP']]}
+async function renderDestination(id,i,tab='overview',filter='All',passType='food'){
+ await readyCountry(id);V.country=id;V.dest=i;V.destTab=tab;V.filter=filter;V.passType=passType;V.last='destination';const c=country(id),d=destinations(id)[i];if(!d)return renderCountry(id,'places');const its=getItems(id,i),p=progress(id,i),foods=id==='vietnam'&&i===0&&typeof SAIGON_FOOD_PASSPORT!=='undefined'?SAIGON_FOOD_PASSPORT:destinationFood(id,i),drinks=id==='vietnam'&&i===0&&typeof SAIGON_DRINK_PASSPORT!=='undefined'?SAIGON_DRINK_PASSPORT:destinationDrinks(id,i),must=its.filter(x=>(x.tags||[]).includes('Must Do')||x.tier==='S+'||x.tier==='S'),miss=(must.length?must:its).filter((it,j)=>!hasState('done',id,i,it,it.index??j)&&!hasState('skip',id,i,it,it.index??j)).slice(0,3),next=destinations(id)[i+1];
+ let body='';
+ if(tab==='overview'){
+  const o=d.orientation||{};body=`<div class="tc1DestOverview"><div class="tc1Head"><h2>${isCurrent(id,i)?'You are here':'Destination overview'}</h2><small>${p.done}/${p.total} complete</small></div><p class="tc1Context">${esc(d.context||d.summary||o.comeFor||c.subtitle||'')}</p>${Object.keys(o).length?`<div class="tc1Orient"><div><b>COME FOR</b>${esc(o.comeFor||'The strongest local experiences')}</div><div><b>DO DIFFERENTLY</b>${esc(o.doDifferently||'Slow down and go local')}</div><div><b>EAT / DRINK</b>${esc(o.eat||'Use the food passport where curated')}</div><div><b>WTF / UNIQUE</b>${esc(o.wtf||'Look for the one-off local experience')}</div></div>`:''}<div class="tc1Progress"><div class="tc1ProgressTop"><span>Trip progress</span><span>${p.pct}%</span></div><div class="tc1Bar"><i style="width:${p.pct}%"></i></div></div><div class="tc1Head"><h2>Don't leave without</h2><small>Priority</small></div>${miss.length?`<button class="tc1Feature ${id==='vietnam'?'vnFallback':''}" data-open-exp="${miss[0].index}" ${id==='vietnam'?`data-vnimg="${esc(miss[0].title)}" data-label="${esc(miss[0].title)}"`:''}><span><small>${esc((miss[0].tags||[]).slice(0,2).join(' · ')||miss[0].tier||'Priority')}</small><b>${esc(miss[0].title)}</b></span></button>`:'<div class="tc1Empty" style="margin:0">Everything in the current priority set is complete or skipped.</div>'}<div class="tc1ModuleGrid"><button class="tc1Module" data-dest-tab="food" data-pass="food"><strong>${foods.length}</strong><small>Food</small></button><button class="tc1Module" data-dest-tab="food" data-pass="drink"><strong>${drinks.length}</strong><small>Drinks</small></button><button class="tc1Module" data-dest-tab="experiences"><strong>${its.length}</strong><small>Experiences</small></button></div>${next?`<button class="tc1Next" data-next-dest><span><small>Next destination</small><b>${esc(next.name)}</b></span><span style="font-size:26px">→</span></button>`:''}</div>`;
+ }else if(tab==='experiences')body=experienceList(id,i,filter);
+ else if(tab==='food')body=passportView(id,i,passType);
+ else body=mapView(id,i);
+ const attrs=id==='vietnam'?`${heroAttrs(id,d.name,'tc1DestHero')}`:`class="tc1DestHero"`;
+ setApp(`<section class="tc1Screen"><div ${attrs}>${topButtons(`data-back-country="${id}"`)}<div class="tc1DestBody"><div class="tc1Eyebrow">${FLAGS2[id]||''} ${esc(c.name)} · ${String(i+1).padStart(2,'0')}</div><h1>${esc(d.name.toUpperCase())}</h1><div class="tc1DestMeta">${esc(d.stay||'Flexible')} days/nights · ${its.length} experiences</div>${!isCurrent(id,i)?'<button class="tc1HereButton" data-set-here>I\'M HERE NOW</button>':'<button class="tc1HereButton current" disabled>✓ YOU ARE HERE</button>'}</div></div>${localTabs(destinationTabs(id,i),tab)}${body}${drawer()}</section>`);
+ document.querySelector('[data-back-country]').onclick=()=>renderCountry(id,'places');
+ const sh=document.querySelector('[data-set-here]');if(sh)sh.onclick=()=>{state.here=id+':'+i;save();renderDestination(id,i,tab,filter,passType)};
+ document.querySelectorAll('[data-local-tab]').forEach(b=>b.onclick=()=>renderDestination(id,i,b.dataset.localTab,'All',b.dataset.localTab==='food'?passType:'food'));
+ document.querySelectorAll('[data-dest-tab]').forEach(b=>b.onclick=()=>renderDestination(id,i,b.dataset.destTab,'All',b.dataset.pass||'food'));
+ document.querySelectorAll('[data-open-exp]').forEach(b=>b.onclick=()=>renderDetail(id,i,Number(b.dataset.openExp)));
+ const nx=document.querySelector('[data-next-dest]');if(nx)nx.onclick=()=>renderDestination(id,i+1,'overview');
+ wireExperienceActions(id,i,tab,filter,passType);
+ wirePassport(id,i,passType);
+ const lm=document.querySelector('[data-full-map]');if(lm)lm.onclick=()=>{if(id==='vietnam'&&typeof window.vietnamMapPage==='function')window.vietnamMapPage()};
+}
+function experienceList(id,i,filter){let its=getItems(id,i);const filters=['All','Must Do','Food','Drink','History','Culture','Local Life','Book Ahead','Saved','Done','Skipped'];if(filter==='Saved')its=its.filter((it,j)=>hasState('saved',id,i,it,it.index??j));else if(filter==='Done')its=its.filter((it,j)=>hasState('done',id,i,it,it.index??j));else if(filter==='Skipped')its=its.filter((it,j)=>hasState('skip',id,i,it,it.index??j));else if(filter==='Book Ahead')its=its.filter(it=>isBookAhead(it));else if(filter!=='All')its=its.filter(it=>(it.tags||[]).some(t=>String(t).toLowerCase()===filter.toLowerCase())||(filter==='Must Do'&&(it.tier==='S+'||it.tier==='S'))||(filter==='Drink'&&(it.tags||[]).some(t=>/drink|coffee/i.test(t))));return `<div class="tc1Filters">${filters.map(f=>`<button class="tc1Filter ${f===filter?'on':''}" data-filter="${esc(f)}">${esc(f).toUpperCase()}</button>`).join('')}</div><div class="tc1ExpList">${its.length?its.map(it=>{const j=it.index;return `<article class="tc1Exp">${photoDiv(id,it.title,'tc1ExpPhoto')}<div class="tc1ExpCopy"><div class="tc1Tags">${(it.tags||[]).map(t=>`<i>${esc(t)}</i>`).join('')}</div><h3>${esc(it.title)}</h3><p>${esc(it.summary||'Open for the saved context and practical details.')}</p>${it.flags?.length?`<div class="tc1Flags">${it.flags.map(f=>`<span>${esc(f)}</span>`).join('')}</div>`:''}<div class="tc1Actions"><button class="${hasState('saved',id,i,it,j)?'on':''}" data-save-exp="${j}">${hasState('saved',id,i,it,j)?'♥ SAVED':'♡ SAVE'}</button><button class="${hasState('done',id,i,it,j)?'on':''}" data-done-exp="${j}">${hasState('done',id,i,it,j)?'✓ DONE':'DONE'}</button><button class="${hasState('skip',id,i,it,j)?'on':''}" data-skip-exp="${j}">${hasState('skip',id,i,it,j)?'SKIPPED':'SKIP'}</button><button class="detail" data-open-exp="${j}">DETAILS →</button></div></div></article>`}).join(''):`<div class="tc1Empty">No matching experiences in this destination.</div>`}</div>`}
+function wireExperienceActions(id,i,tab,filter,passType){
+ document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>renderDestination(id,i,'experiences',b.dataset.filter,passType));
+ document.querySelectorAll('[data-save-exp]').forEach(b=>b.onclick=()=>{const j=Number(b.dataset.saveExp),it=getItems(id,i).find(x=>x.index===j);if(it){toggleSaved(id,i,it,j);renderDestination(id,i,tab,filter,passType)}});
+ document.querySelectorAll('[data-done-exp]').forEach(b=>b.onclick=()=>{const j=Number(b.dataset.doneExp),it=getItems(id,i).find(x=>x.index===j);if(it){toggleDone(id,i,it,j);renderDestination(id,i,tab,filter,passType)}});
+ document.querySelectorAll('[data-skip-exp]').forEach(b=>b.onclick=()=>{const j=Number(b.dataset.skipExp),it=getItems(id,i).find(x=>x.index===j);if(it){toggleSkip(id,i,it,j);renderDestination(id,i,tab,filter,passType)}});
+}
+function passportView(id,i,type){
+ if(id==='vietnam'&&i===0&&typeof SAIGON_FOOD_PASSPORT!=='undefined'&&typeof SAIGON_DRINK_PASSPORT!=='undefined'){
+  const arr=type==='drink'?SAIGON_DRINK_PASSPORT:SAIGON_FOOD_PASSPORT;const done=arr.filter(x=>typeof passTried==='function'&&passTried(type,x.id)).length;return `<div class="tc1PassHead"><h2>${type==='drink'?'Coffee & Drink':'Saigon Food'} Passport</h2><p>${done} / ${arr.length} tried · your original curated ${arr.length}-item collection is preserved.</p></div><div class="tc1PassSwitcher"><button class="${type==='food'?'on':''}" data-pass-type="food">FOOD · ${SAIGON_FOOD_PASSPORT.length}</button><button class="${type==='drink'?'on':''}" data-pass-type="drink">DRINKS · ${SAIGON_DRINK_PASSPORT.length}</button></div><div class="tc1PassGrid">${arr.map(x=>{const tried=typeof passTried==='function'&&passTried(type,x.id),saved=!!(state.saved&&state.saved['passport-'+type+'-'+x.id]);return `<article class="tc1Pass"><div class="tc1PassPhoto vnFallback" data-vnimg="${esc(x.name)}" data-label="${esc(x.name)}"></div><div class="tc1PassBody"><div class="en">${esc(x.en)}</div><h3>${esc(x.name)}</h3><p>${esc(x.desc)}</p><div class="tc1PassMeta">${esc(x.price)} · ${esc(x.when)}</div>${tried?'<div class="tc1Stamp">✓ TRIED IN SAIGON</div>':''}<div class="tc1PassBtns"><button class="${saved?'on':''}" data-pass-save="${esc(x.id)}">${saved?'♥ SAVED':'♡ SAVE'}</button><button class="${tried?'on':''}" data-pass-tried="${esc(x.id)}">${tried?'✓ TRIED':'I TRIED THIS'}</button></div></div></article>`}).join('')}</div>`;
+ }
+ const food=destinationFood(id,i),drink=destinationDrinks(id,i),arr=type==='drink'?drink:food;return `<div class="tc1PassHead"><h2>${type==='drink'?'Drink':'Food'} Passport</h2><p>${arr.length?arr.length+' destination-specific items from the canonical experience bank.':'No destination-specific passport items have been curated here yet.'}</p></div><div class="tc1PassSwitcher"><button class="${type==='food'?'on':''}" data-pass-type="food">FOOD · ${food.length}</button><button class="${type==='drink'?'on':''}" data-pass-type="drink">DRINKS · ${drink.length}</button></div>${arr.length?`<div class="tc1ExpList">${arr.map(it=>{const j=it.index;return `<article class="tc1Exp">${photoDiv(id,it.title,'tc1ExpPhoto')}<div class="tc1ExpCopy"><h3>${esc(it.title)}</h3><p>${esc(it.summary)}</p><div class="tc1Actions"><button class="${hasState('saved',id,i,it,j)?'on':''}" data-save-exp="${j}">${hasState('saved',id,i,it,j)?'♥ SAVED':'♡ SAVE'}</button><button class="${hasState('done',id,i,it,j)?'on':''}" data-done-exp="${j}">${hasState('done',id,i,it,j)?'✓ TRIED':'MARK TRIED'}</button><button class="detail" data-open-exp="${j}">DETAILS →</button></div></div></article>`}).join('')}</div>`:'<div class="tc1Empty">This page stays intentionally empty rather than inventing generic food or drink cards. Existing destination content is untouched.</div>'}`;
+}
+function wirePassport(id,i,type){
+ document.querySelectorAll('[data-pass-type]').forEach(b=>b.onclick=()=>renderDestination(id,i,'food','All',b.dataset.passType));
+ document.querySelectorAll('[data-pass-tried]').forEach(b=>b.onclick=()=>{if(typeof togglePass==='function'){togglePass(type,b.dataset.passTried);renderDestination(id,i,'food','All',type)}});
+ document.querySelectorAll('[data-pass-save]').forEach(b=>b.onclick=()=>{state.saved=state.saved||{};const k='passport-'+type+'-'+b.dataset.passSave;state.saved[k]=!state.saved[k];save();renderDestination(id,i,'food','All',type)});
+}
+function mapView(id,i){const ds=destinations(id),prev=ds[i-1],next=ds[i+1],d=ds[i];return `<div class="tc1MapPanel"><div class="tc1MapCard"><div class="tc1Scope" style="color:#fff">Route context</div><h2>${esc(d.name)}</h2><p>The redesigned map tab keeps geography contextual. Browsing this page does not change your current location.</p><div class="tc1MapNeighbours">${prev?`<button data-neighbour="${i-1}">← ${esc(prev.name)}</button>`:''}<button disabled>● ${esc(d.name)}</button>${next?`<button data-neighbour="${i+1}">${esc(next.name)} →</button>`:''}</div>${id==='vietnam'&&typeof window.vietnamMapPage==='function'?'<button class="tc1MapLegacy" data-full-map>OPEN FULL INTERACTIVE VIETNAM MAP</button>':''}</div></div>`}
+function hcmExtra(title){try{if(typeof HCMC30==='undefined')return null;const n=slug(title);return HCMC30.find(x=>slug(x.title)===n||n.includes(slug(x.title))||slug(x.title).includes(n))||null}catch(e){return null}}
+async function renderDetail(id,i,j){await readyCountry(id);const d=destinations(id)[i],it=getItems(id,i).find(x=>x.index===j);if(!it)return renderDestination(id,i,'experiences');V.last='detail';const extra=id==='vietnam'&&i===0?hcmExtra(it.title):null,raw=it.raw||{},facts=[['Priority',it.tier||'Saved'],['Booking',raw.booking||it.flags?.join(' · ')||'Check locally'],['Time',extra?.time||raw.time||raw.duration||'Flexible'],['Cost',extra?.cost||raw.cost||'Estimate locally'],['Best time',extra?.best||raw.best||'Depends on conditions'],['Content',raw.content||'Optional']];const attrs=id==='vietnam'?heroAttrs(id,it.title,'tc1DetailHero'):'class="tc1DetailHero"';setApp(`<section class="tc1Screen"><div ${attrs}>${topButtons(`data-back-dest="${id}:${i}"`)}<div class="tc1DetailTitle"><div class="tc1Scope" style="color:#fff">${esc(d.name)} · ${esc((it.tags||[]).slice(0,2).join(' · ')||it.tier||'Experience')}</div><h1>${esc(it.title)}</h1><p>${esc(it.summary||'')}</p></div></div><div class="tc1DetailBody"><div class="tc1DetailBlock"><h2>Why go</h2><p>${esc(it.summary||d.context||d.summary||'This experience is part of the saved destination bank.')}</p></div>${extra?.do?.length?`<div class="tc1DetailBlock"><h2>Do</h2><ul>${extra.do.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}<div class="tc1DetailBlock"><h2>Good to know</h2><div class="tc1FactGrid">${facts.map(([a,b])=>`<div class="tc1Fact"><small>${esc(a)}</small><b>${esc(b)}</b></div>`).join('')}</div></div>${d.context?`<div class="tc1DetailBlock"><h2>Destination context</h2><p>${esc(d.context)}</p></div>`:''}<div class="tc1DetailActions"><button class="save" data-detail-save>${hasState('saved',id,i,it,j)?'♥ SAVED':'♡ SAVE'}</button><button class="done" data-detail-done>${hasState('done',id,i,it,j)?'✓ COMPLETED':'MARK COMPLETE'}</button></div></div>${drawer()}</section>`);document.querySelector('[data-back-dest]').onclick=()=>renderDestination(id,i,'experiences');document.querySelector('[data-detail-save]').onclick=()=>{toggleSaved(id,i,it,j);renderDetail(id,i,j)};document.querySelector('[data-detail-done]').onclick=()=>{toggleDone(id,i,it,j);renderDetail(id,i,j)};}
+
+function countryEntries(id){const out=[];destinations(id).forEach((d,i)=>getItems(id,i).forEach((it,j)=>{const idx=it.index??j;out.push({country:id,c:country(id),d,i,it,j:idx,saved:hasState('saved',id,i,it,idx),done:hasState('done',id,i,it,idx),skip:hasState('skip',id,i,it,idx),book:isBookAhead(it)})}));return out}
+function allEntries(){let a=[];DATA.countries.forEach(c=>a=a.concat(countryEntries(c.id)));return a}
+function isBookAhead(it){const s=[...(it.flags||[]),it.raw?.booking||''].join(' ');return /BOOK AHEAD|advance booking|seasonal booking|fixed|pass\/guide|vet operator|book weather|plan transport|verify border/i.test(s)}
+function globalCard(x){return `<article class="tc1GlobalCard"><small>${FLAGS2[x.country]||''} ${esc(x.c.name)} · ${esc(x.d.name)}</small><h3>${esc(x.it.title)}</h3><p>${esc(x.it.summary||x.it.flags?.join(' · ')||'Saved experience')}</p></article>`}
+async function renderGlobalSaved(){await readyCountry('vietnam');const a=allEntries().filter(x=>x.saved);let pass=[];try{if(typeof SAIGON_FOOD_PASSPORT!=='undefined')SAIGON_FOOD_PASSPORT.forEach(x=>{if(state.saved?.['passport-food-'+x.id])pass.push({type:'Food Passport',x})});if(typeof SAIGON_DRINK_PASSPORT!=='undefined')SAIGON_DRINK_PASSPORT.forEach(x=>{if(state.saved?.['passport-drink-'+x.id])pass.push({type:'Drink Passport',x})})}catch(e){}setApp(`<section class="tc1Screen"><div class="tc1GlobalHead"><button class="tc1Round" data-global-back>←</button><div class="tc1Scope" style="color:#fff;margin-top:18px">Global collection</div><h1>Saved</h1><p>Everything you saved across the whole journey.</p></div><div class="tc1GlobalList">${a.map(globalCard).join('')}${pass.map(p=>`<article class="tc1GlobalCard"><small>🇻🇳 Saigon · ${esc(p.type)}</small><h3>${esc(p.x.name)}</h3><p>${esc(p.x.en)} · ${esc(p.x.desc)}</p></article>`).join('')}${!a.length&&!pass.length?'<div class="tc1Empty" style="margin:0">Nothing saved yet.</div>':''}</div>${drawer()}</section>`);document.querySelector('[data-global-back]').onclick=restoreContext;}
+async function renderBookAhead(){await readyCountry('vietnam');const a=allEntries().filter(x=>x.book&&!x.done&&!x.skip);setApp(`<section class="tc1Screen"><div class="tc1GlobalHead"><button class="tc1Round" data-global-back>←</button><div class="tc1Scope" style="color:#fff;margin-top:18px">Lead-time workflow</div><h1>Book Ahead</h1><p>Only items that actually carry an advance/fixed booking signal.</p></div><div class="tc1GlobalList">${a.length?a.map(globalCard).join(''):'<div class="tc1Empty" style="margin:0">No outstanding Book Ahead items in the current content bank.</div>'}</div>${drawer()}</section>`);document.querySelector('[data-global-back]').onclick=restoreContext;}
+async function renderJourney(){await readyCountry('vietnam');const cur=current();setApp(`<section class="tc1Screen"><div class="tc1GlobalHead"><button class="tc1Round" data-global-back>←</button><div class="tc1Scope" style="color:#fff;margin-top:18px">Whole year</div><h1>Journey</h1><p>One timeline. Countries remain chapters; destinations remain inside them.</p></div><div class="tc1GlobalList">${DATA.constraints.map(x=>`<article class="tc1GlobalCard tc1Constraint"><small>FIXED COMMITMENT · ${esc(x.date)}</small><h3>${esc(x.label)}</h3></article>`).join('')}${DATA.countries.map(c=>`<article class="tc1GlobalCard"><small>${FLAGS2[c.id]||''} ${esc(COUNTRY_DATES[c.id]||'2027')}</small><h3>${esc(c.name)}</h3><p>${destinations(c.id).map((d,i)=>`${isCurrent(c.id,i)?'●':'○'} ${d.name}`).join(' · ')}</p></article>`).join('')}</div>${drawer()}</section>`);document.querySelector('[data-global-back]').onclick=restoreContext;}
+function restoreContext(){if(V.last==='detail'&&V.country!=null&&V.dest!=null)return renderDestination(V.country,V.dest,'experiences');if(V.country!=null&&V.dest!=null)return renderDestination(V.country,V.dest,V.destTab,V.filter,V.passType);if(V.country)return renderCountry(V.country,V.countryTab);renderMain()}
+
+/* compatibility entry points: old app actions enter the V1 shell rather than legacy screens */
+window.tc1Main=renderMain;window.tc1Country=renderCountry;window.tc1Destination=renderDestination;
+window.landing=renderMain;
+window.countrySelector=renderMain;
+window.destinationSelector=function(id){return renderCountry(id,'places')};
+window.home=function(){const x=current();return x?renderDestination(x.id,x.i,'overview'):renderMain()};
+window.doHere=function(){const x=current();return x?renderDestination(x.id,x.i,'experiences'):renderMain()};
+window.goNext=function(){const x=current();if(!x)return renderMain();const n=destinations(x.id)[x.i+1];return n?renderDestination(x.id,x.i+1,'overview'):renderCountry(x.id,'route')};
+window.dontMiss=function(){const x=current();return x?renderDestination(x.id,x.i,'experiences','Must Do'):renderBookAhead()};
+
+/* Shell owns first paint, but underlying data/state stays untouched. */
+setTimeout(()=>renderMain(),0);
+})();
