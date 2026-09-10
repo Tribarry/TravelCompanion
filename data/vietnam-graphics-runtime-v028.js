@@ -51,7 +51,7 @@ if(typeof window.vnExperienceDetail==='function'){
 if(typeof window.passportCardV17==='function'){
  window.passportCardV17=function(type,x){
   const tried=typeof passTried==='function'?passTried(type,x.id):false;
-  const saved=!!(window.state?.saved&&state.saved['passport-'+type+'-'+x.id]);
+  const saved=!!(typeof state!=='undefined'&&state.saved&&state.saved['passport-'+type+'-'+x.id]);
   return `<article class="passportItem">${tried?'<div class="stamp">✓ TRIED IN SAIGON</div>':''}<div class="passportImg vnFallback" data-vnimg="${esc(x.name)}" data-label="${esc(x.name)}"></div><div class="passportBody"><div class="vn">${x.en||''}</div><h3>${x.name||''}</h3><p>${x.desc||''}</p><div class="passportMeta">${x.price||''} · ${x.when||''}</div><div class="passportBtns"><button data-savepass="${x.id}">${saved?'♥ SAVED':'♡ SAVE'}</button><button class="${tried?'tried':''}" data-trypass="${x.id}">${tried?'✓ TRIED':'I TRIED THIS'}</button></div></div></article>`;
  };
  if(typeof window.passportPageV17==='function'){
