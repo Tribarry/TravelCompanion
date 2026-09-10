@@ -32,3 +32,18 @@ html,body{background:#000!important}body{margin:0!important;color:var(--tc-ink)!
 
 /* Remaining-country content-first pass */
 .tc1RateFacts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.tc1RateFacts>div{background:#18181b;border:1px solid #303036;border-radius:11px;padding:9px}.tc1RateFacts small{display:block;font-size:7px;font-weight:900;letter-spacing:.08em;color:#909098;margin-bottom:4px}.tc1RateFacts b{display:block;font-size:10px;line-height:1.28;color:#f2f2f3}.tc1SpotlightCard.tc1TextOnly{background:#171719!important;border:1px solid #303036}.tc1SpotlightCard.tc1TextOnly:before,.tc1SpotlightCard.tc1TextOnly:after{display:none!important}.tc1SpotlightCard.tc1TextOnly span{position:relative;min-height:112px;display:flex;flex-direction:column;justify-content:flex-end}.tc1Exp:not(:has(.tc1ExpPhoto)) .tc1ExpCopy{padding-top:16px}.tc1RateCard:not(:has(.tc1RatePhoto)) .tc1RateCopy{padding-top:24px}@media(max-width:390px){.tc1RateFacts{grid-template-columns:1fr}.tc1RateFacts>div{display:grid;grid-template-columns:72px 1fr;gap:8px}}
+
+
+/* Final content pass — all-or-nothing experience imagery */
+.tc1ExpPhoto,.tc1RatePhoto{display:none!important}
+.tc1SpotlightHero,.tc1SpotlightCard{background-image:none!important;background:#171719!important;border:1px solid #303036!important}
+.tc1SpotlightHero{min-height:0!important;padding:28px 20px!important}
+.tc1SpotlightHero span,.tc1SpotlightCard span{position:relative!important;min-height:0!important;padding:0!important;background:none!important}
+.tc1SpotlightGrid{align-items:stretch}
+.tc1SpotlightCard{min-height:118px!important;padding:18px!important;text-align:left}
+.tc1DetailHero.tc1DetailTextHero{background-image:none!important;background:linear-gradient(145deg,#161619,#242429)!important;min-height:42vh}
+.tc1RateCard:not(:has(.tc1RatePhoto)){background:#121214;border:1px solid #2d2d32}
+.tc1RateAction{margin-top:15px;padding:13px 14px;border-left:3px solid var(--tc-accent,#c96742);background:#18181b;border-radius:0 12px 12px 0}
+.tc1RateAction small{display:block;font-size:8px;font-weight:900;letter-spacing:.1em;color:#aaaab1;margin-bottom:6px}
+.tc1RateAction p{margin:0!important;font-size:12px!important;line-height:1.5!important;color:#ededf0!important}
+.tc1Exp:not(:has(.tc1ExpPhoto)) .tc1ExpCopy{padding-top:18px}
