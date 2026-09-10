@@ -1,0 +1,70 @@
+name: Finalize Vietnam graphics
+on:
+  push:
+    branches: [audit-vietnam-graphics]
+    paths:
+      - '.github/workflows/finalize-vietnam-graphics.yml'
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit-vietnam-graphics
+      - name: Correct canonical image titles and cache bust
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('data/vietnam-photo-alignment-v026.js')
+          s=p.read_text()
+          replacements={
+            "'Tịnh Biên / Tri Tôn':'Cấm Mountain'":"'Tịnh Biên / Tri Tôn':'Bảy Núi'",
+            "'Lắk Lake':'Lắk Lake'":"'Lắk Lake':'Lak Lake'",
+            "'Phú Yên / Tuy Hòa':'Gành Đá Đĩa'":"'Phú Yên / Tuy Hòa':'Ganh Da Dia'",
+            "'Phú Yên':'Gành Đá Đĩa'":"'Phú Yên':'Ganh Da Dia'",
+            "'Hội An':'Hội An'":"'Hội An':'Hội An (city)'",
+            "'Pygmy / Hung Thoong':'Pygmy Cave'":"'Pygmy / Hung Thoong':'Hang Pygmy'",
+            "'Pù Luông':'Pù Luông Nature Reserve'":"'Pù Luông':'Pu Luong'",
+            "[/núi cấm|nui cam|cấm mountain/i,'Cấm Mountain']":"[/núi cấm|nui cam|cấm mountain/i,'Bảy Núi']",
+            "[/lắk lake|lak lake/i,'Lắk Lake']":"[/lắk lake|lak lake/i,'Lak Lake']",
+            "[/gành đá đĩa|ganh da dia/i,'Gành Đá Đĩa']":"[/gành đá đĩa|ganh da dia/i,'Ganh Da Dia']",
+            "[/pù luông|pu luong/i,'Pù Luông Nature Reserve']":"[/pù luông|pu luong/i,'Pu Luong']"
+          }
+          for old,new in replacements.items():
+              if old not in s:
+                  raise SystemExit(f'Expected mapping not found: {old}')
+              s=s.replace(old,new)
+          p.write_text(s)
+
+          idx=Path('index.html')
+          h=idx.read_text()
+          import re
+          h,n=re.subn(r'data/vietnam-photo-alignment-v026\.js\?v=[^"\']+', 'data/vietnam-photo-alignment-v026.js?v=20260910-graphics-v028', h, count=1)
+          if n!=1:
+              raise SystemExit(f'Expected one v026 script reference, changed {n}')
+          idx.write_text(h)
+          PY
+      - name: Validate scripts and unsafe fallbacks
+        run: |
+          node --check data/vietnam-photo-alignment-v026.js
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('data/vietnam-photo-alignment-v026.js').read_text()
+          for token in ['strictSearchPhoto(','return currentName?destinationPhoto','legacyWiki']:
+              assert token not in s, token
+          for token in ['PHOTO TO VERIFY','Hang Pygmy','Lak Lake','Hội An (city)','Pu Luong','Ganh Da Dia','Bảy Núi']:
+              assert token in s, token
+          h=Path('index.html').read_text()
+          assert 'vietnam-photo-alignment-v026.js?v=20260910-graphics-v028' in h
+          print('Graphics resolver validated.')
+          PY
+      - name: Commit verified graphics resolver
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/vietnam-photo-alignment-v026.js index.html
+          git commit -m "Use verification-first Vietnam graphics resolver"
+          git push origin audit-vietnam-graphics
