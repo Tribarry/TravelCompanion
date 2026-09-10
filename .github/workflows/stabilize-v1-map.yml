@@ -1,0 +1,59 @@
+name: Stabilize V1 map navigation
+on:
+  push:
+    branches: [rebuild-hybrid-shell-v1]
+    paths:
+      - '.github/workflows/stabilize-v1-map.yml'
+permissions:
+  contents: write
+jobs:
+  stabilize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rebuild-hybrid-shell-v1
+      - name: Remove legacy map escape and wire route neighbours
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('data/travel-companion-v1-shell.js')
+          s=p.read_text()
+          old=" const lm=document.querySelector('[data-full-map]');if(lm)lm.onclick=()=>{if(id==='vietnam'&&typeof window.vietnamMapPage==='function')window.vietnamMapPage()};"
+          new=" document.querySelectorAll('[data-neighbour]').forEach(b=>b.onclick=()=>renderDestination(id,Number(b.dataset.neighbour),'map'));"
+          if old not in s: raise SystemExit('legacy map handler not found')
+          s=s.replace(old,new,1)
+          legacy="${id==='vietnam'&&typeof window.vietnamMapPage==='function'?'<button class=\"tc1MapLegacy\" data-full-map>OPEN FULL INTERACTIVE VIETNAM MAP</button>':''}"
+          if legacy not in s: raise SystemExit('legacy map button not found')
+          s=s.replace(legacy,'',1)
+          p.write_text(s)
+          PY
+      - name: Validate V1 runtime
+        run: |
+          node --check data/travel-companion-v1-shell.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          js=Path('data/travel-companion-v1-shell.js').read_text()
+          idx=Path('index.html').read_text()
+          assert 'vietnamMapPage' not in js, 'V1 shell must not escape into legacy positional map'
+          assert 'data-full-map' not in js
+          assert 'data-neighbour' in js
+          assert 'renderDestination(id,Number(b.dataset.neighbour),\'map\')' in js
+          assert len(re.findall(r'state\.here\s*=(?!=)',js))==1, 'Only I AM HERE NOW may set current location'
+          food=idx.split('const SAIGON_FOOD_PASSPORT=[',1)[1].split('];',1)[0]
+          drink=idx.split('const SAIGON_DRINK_PASSPORT=[',1)[1].split('];',1)[0]
+          assert len(re.findall(r'\{id:',food))==15
+          assert len(re.findall(r'\{id:',drink))==12
+          for c in ['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan']:
+              assert c in idx
+          print('Map stays inside V1 shell; state and passport invariants pass.')
+          PY
+      - name: Commit stabilization
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/travel-companion-v1-shell.js
+          git commit -m "Keep V1 map navigation inside hybrid shell"
+          git push origin rebuild-hybrid-shell-v1
