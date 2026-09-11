@@ -198,16 +198,28 @@ const DISHES=[
 ];
 
 const cache=new Map();
+let manifestReady=null;
+function ensurePhotoManifest(){
+ if(window.VN_PHOTO_MANIFEST)return Promise.resolve(window.VN_PHOTO_MANIFEST);
+ if(manifestReady)return manifestReady;
+ manifestReady=new Promise(resolve=>{
+  const s=document.createElement('script');
+  s.src='data/vietnam-photo-manifest-v1.js?v=20260912-local-v1';
+  s.async=true;
+  s.onload=()=>resolve(window.VN_PHOTO_MANIFEST||{});
+  s.onerror=()=>resolve({});
+  document.head.appendChild(s);
+ });
+ return manifestReady;
+}
 async function summaryPhoto(title){
  if(!title)return '';
- const key='sum:'+title;if(cache.has(key))return cache.get(key);
- try{
-  const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title));
-  if(!r.ok){cache.set(key,'');return ''}
-  const j=await r.json();
-  if(j.type==='disambiguation'){cache.set(key,'');return ''}
-  const u=j.originalimage?.source||j.thumbnail?.source||'';cache.set(key,u);return u;
- }catch(e){cache.set(key,'');return ''}
+ const key='sum:'+title;
+ if(cache.has(key))return cache.get(key);
+ const manifest=await ensurePhotoManifest();
+ const u=manifest?.[title]?.local||'';
+ cache.set(key,u);
+ return u;
 }
 function destCanonical(name){return DEST[name]||''}
 async function destinationPhoto(name){

@@ -26,22 +26,36 @@ async function walk(dir) {
 await fs.mkdir(SOURCE, { recursive: true });
 await fs.mkdir(OUTPUT, { recursive: true });
 const files = await walk(SOURCE);
+let optimised = 0;
+let skipped = 0;
 
 for (const file of files) {
   const relative = path.relative(SOURCE, file);
   const dir = path.join(OUTPUT, path.dirname(relative));
   const base = path.basename(relative, path.extname(relative));
-  await fs.mkdir(dir, { recursive: true });
-  const metadata = await sharp(file).metadata();
-  for (const width of WIDTHS) {
-    if (metadata.width && width > metadata.width) continue;
-    const target = path.join(dir, `${base}-${width}.webp`);
-    await sharp(file)
-      .rotate()
-      .resize({ width, withoutEnlargement: true })
-      .webp({ quality: QUALITY, effort: 5, smartSubsample: true })
-      .toFile(target);
-    console.log(`${relative} -> ${path.relative(ROOT, target)}`);
+
+  try {
+    await fs.mkdir(dir, { recursive: true });
+    const metadata = await sharp(file, { failOn: 'none' }).metadata();
+    let wroteVariant = false;
+
+    for (const width of WIDTHS) {
+      if (metadata.width && width > metadata.width) continue;
+      const target = path.join(dir, `${base}-${width}.webp`);
+      await sharp(file, { failOn: 'none' })
+        .rotate()
+        .resize({ width, withoutEnlargement: true })
+        .webp({ quality: QUALITY, effort: 5, smartSubsample: true })
+        .toFile(target);
+      wroteVariant = true;
+      console.log(`${relative} -> ${path.relative(ROOT, target)}`);
+    }
+
+    if (wroteVariant) optimised++;
+  } catch (err) {
+    skipped++;
+    console.warn(`Skipping unreadable image ${relative}: ${err.message}`);
   }
 }
-console.log(`Optimised ${files.length} source image(s).`);
+
+console.log(`Optimised ${optimised} source image(s); skipped ${skipped} unreadable source image(s).`);
