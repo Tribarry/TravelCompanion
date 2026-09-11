@@ -9,6 +9,9 @@ if(!document.querySelector('script[data-vn-photo-ui-fixes]')){
 if(!document.querySelector('script[data-vn-b2-sadec]')){
  const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v2.js?v=20260912-s2';s.dataset.vnB2Sadec='1';document.head.appendChild(s);
 }
+if(!document.querySelector('script[data-vn-b2-sadec-render]')){
+ const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v3.js?v=20260912-s3';s.dataset.vnB2SadecRender='1';document.head.appendChild(s);
+}
 const COPY={
  vietnam:'Food, local life, highlands, caves and the long journey north.',
  laos:'River towns, mountain country, conservation, caves and the southern plateau.',
