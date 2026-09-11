@@ -1,0 +1,35 @@
+name: Test AI image pipeline
+on:
+  workflow_dispatch:
+  push:
+    branches: [rater-fit-and-photo-v4]
+    paths: ['.github/workflows/test-ai-image-pipeline.yml']
+permissions:
+  contents: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rater-fit-and-photo-v4
+      - name: Generate one AI travel photo
+        run: |
+          mkdir -p assets/ai/hcm
+          URL='https://image.pollinations.ai/prompt/photorealistic%20travel%20photography%20Jade%20Emperor%20Pagoda%20Ho%20Chi%20Minh%20City%20incense%20temple%20interior%20candid%20visitors%20natural%20light%20no%20text%20no%20watermark?width=1024&height=640&nologo=true&seed=1207&model=flux'
+          curl -L --fail --retry 2 --max-time 120 "$URL" -o assets/ai/hcm/jade-emperor.jpg
+          file assets/ai/hcm/jade-emperor.jpg
+          python3 - <<'PY'
+          from PIL import Image
+          p='assets/ai/hcm/jade-emperor.jpg'
+          im=Image.open(p)
+          print(im.size, im.format)
+          assert im.width >= 700 and im.height >= 400
+          PY
+      - name: Commit generated test image
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/ai/hcm/jade-emperor.jpg
+          git commit -m "Generate Jade Emperor AI photo" || exit 0
+          git push origin HEAD:rater-fit-and-photo-v4
