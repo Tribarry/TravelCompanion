@@ -1,0 +1,37 @@
+name: Apply main country carousel v1
+on:
+  push:
+    branches: [main-country-carousel-v1]
+    paths:
+      - 'scripts/apply_main_country_carousel_v1.py'
+      - '.github/workflows/apply-main-country-carousel-v1.yml'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main-country-carousel-v1
+      - run: python3 scripts/apply_main_country_carousel_v1.py
+      - run: node --check data/main-country-carousel-v1.js
+      - name: Validate protected shell contracts
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('data/travel-companion-v1-shell.js').read_text()
+          i=Path('index.html').read_text()
+          assert "state.here=id+':'+i" in s
+          assert 'main-country-carousel-v1.css' in i
+          assert 'main-country-carousel-v1.js' in i
+          assert 'data-open-country' in s
+          print('CONTRACT PASS')
+          PY
+      - name: Commit wiring
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Wire cinematic main country carousel"
+          git push origin HEAD:main-country-carousel-v1
