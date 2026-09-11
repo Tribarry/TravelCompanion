@@ -44,7 +44,7 @@
 
 /* Saigon direct rater photos: never show the legacy PHOTO TO VERIFY overlay. */
 .tc1RatePhotoDirect{background-color:#1a1b20!important}
-.tc1RatePhotoDirect:before{content:"AI VISUAL";display:block!important;position:absolute;right:10px;top:10px;z-index:3;padding:4px 6px;border-radius:999px;background:#0009;color:#fff;font-size:7px;font-weight:900;letter-spacing:.08em}
+.tc1RatePhotoDirect:before{display:none!important}
 
 /* V4 mobile fit: preserve the approved orange rater kicker. */
 .tc1RaterHead .tc1Scope{display:block!important;visibility:visible!important;opacity:1!important;color:#e0734b!important;position:relative!important;z-index:2!important}
