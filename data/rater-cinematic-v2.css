@@ -79,3 +79,7 @@
  .tc1ExpList{grid-template-columns:1fr!important}
  .tc1ExpPhoto{height:180px!important}
 }
+
+
+/* V6 spotlight direct-photo protection */
+.tc1SpotlightHero[style*="background-image"],.tc1SpotlightCard[style*="background-image"]{background-position:center!important;background-size:cover!important;background-repeat:no-repeat!important}
