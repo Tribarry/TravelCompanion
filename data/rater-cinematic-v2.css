@@ -10,7 +10,7 @@
 .tc1RateProgress i{display:block;height:100%;background:#eb6f47!important;border-radius:999px}
 .tc1RateStage{padding:0 18px!important}
 .tc1RateCard{border:1px solid #32343a!important;background:#111215!important;border-radius:24px!important;overflow:hidden!important;box-shadow:0 22px 60px rgba(0,0,0,.38);padding:0!important;margin:0!important}
-.tc1RatePhoto{display:block!important;height:150px!important;background:#24262b center/cover no-repeat!important;position:relative!important;border-radius:0!important;overflow:hidden!important}
+.tc1RatePhoto{display:block!important;height:150px!important;background-color:#24262b!important;background-position:center!important;background-size:cover!important;background-repeat:no-repeat!important;position:relative!important;border-radius:0!important;overflow:hidden!important}
 .tc1RatePhoto:after{content:"";position:absolute;inset:50% 0 0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.22));pointer-events:none}
 .tc1RateCopy{padding:13px 17px 15px!important}
 .tc1RateMeta{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
