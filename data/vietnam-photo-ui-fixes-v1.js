@@ -15,11 +15,11 @@ const SOURCES={
  comWorkshop:S('https://hd1.hotdeal.vn/images/uploads/2015/11/25/206095/206095-tour-cai-be-cho-noi-body-%20%289%29.jpg','Cái Bè rice-snack / pop-rice workshop'),
  banhPhongSua:S('https://mia.vn/media/uploads/blog-du-lich/banh-phong-sua-ben-tre-vi-ngot-ngao-tu-san-vat-thien-nhien-3-1664889359.jpg','Bánh phồng sữa drying process'),
  tatMuong:S('https://thanhnienmoi.com/upload/images/vuon-trai-cay-ba-hiep-can-tho-07.jpg','Mekong tát mương bắt cá activity'),
- hammock:S('https://www.exoticvoyages.com/uploads/images/userfiles/2023/09/13/mekong_destination_Exotic_Voyages_%287%29.jpg','Mekong hammock café'),
+ hammock:S('https://cms.vietnamcoracle.com/wp-content/uploads/2023/05/Hammock-Ode-71-scaled.jpg','Mekong hammock café'),
  familyDinner:S('https://izitour.com/media/ckeditor/dormir-chez-habitant-delta-du-mekong_2026-04-22_413.webp','Mekong homestay family dinner'),
  caLoc:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/C%C3%A1%20l%C3%B3c%20n%C6%B0%E1%BB%9Bng%20trui.JPG?width=1400','Cá lóc nướng trui'),
  banhTamBi:S('https://timtour.vn/files/images/AnGiNgon/banh-tam-bi-2.jpg','Bánh tằm bì'),
- lauMam:S('https://kenh14cdn.com/203336854389633024/2023/1/4/photo-3-16727997043171480871231.jpg','Lẩu mắm'),
+ lauMam:S('https://statics.vinpearl.com/Lau-mam-02_1709226532.jpg','Lẩu mắm'),
  tanPhong:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/T%C3%A2n%20Phong%2C%20Cai%20L%E1%BA%ADy%2C%20Ti%E1%BB%81n%20Giang%2C%20Vietnam%20-%20panoramio%20%2821%29.jpg?width=1400','Tân Phong Island'),
  water:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/Vietnam%2008%20-%20118%20-%20Cai%20Be%20on%20the%20water%20%283185052919%29.jpg?width=1400','Cái Bè waterways'),
  ferry:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/Bateaux%20de%20transport%20%28Cai%20Be%2C%20Vietnam%29%20%286654160317%29.jpg?width=1400','Cái Bè local river transport'),
@@ -58,7 +58,10 @@ const FOOD={
  'banh xeo':'assets/images/generated/vietnam-resolved/ba-nh-xe-o-183280ce-480.webp',
  'ca loc nuong trui':SOURCES.caLoc.url,
  'banh tam bi':SOURCES.banhTamBi.url,
- 'lau mam':SOURCES.lauMam.url
+ 'lau mam':SOURCES.lauMam.url,
+ 'bun ca': 'https://vietcruisetours.com/uploads/news/2014/5.2.jpg',
+ 'bun mam': 'https://image-fworker.momocdn.net/common/u/2e02fb5fe4f64fb55bc713540643c6f8eae702d101cea8c59afc49cfc505fc37/92315567-47fc-44dc-bb1c-826fe55126e1624ybmae.jpeg?referer=attachment.momocdn.net&size=XL',
+ 'bun nuoc leo': 'https://bizweb.dktcdn.net/100/489/006/files/bun-nuoc-leo-8-e02e941e-3713-4b4b-b594-43a7e4d7f8e2.jpg?v=1697719214502'
 };
 
 function currentDestination(){return norm(document.querySelector('.tc1DestBody h1')?.textContent||'')}
@@ -138,7 +141,13 @@ function injectStyle(){
  `;document.head.appendChild(s);
 }
 let scheduled=false;
-function run(){scheduled=false;injectStyle();hydrateSaigonFood();hydrateCaiBeFood();hydrateCaiBeExperiences()}
+function hydrateNextTenFood(){
+ const title=norm(document.querySelector('.tc1DestBody h1')?.textContent||'');
+ const allowed=['can tho','long xuyen','chau doc','tra su cajuput forest','tinh bien tri ton','bac lieu ghositaram temple','ha tien','kien luong','rach gia','vinh long ben tre'];
+ if(!allowed.includes(title))return;
+ document.querySelectorAll('.tc1FoodPass').forEach(card=>{const dish=card.querySelector('h3')?.textContent||'';const url=sourceForFood(dish);if(url)ensureFoodPhoto(card,url,dish)});
+}
+function run(){scheduled=false;injectStyle();hydrateSaigonFood();hydrateCaiBeFood();hydrateCaiBeExperiences();hydrateNextTenFood()}
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{run();setTimeout(run,160);setTimeout(run,650)})}
 const mo=new MutationObserver(schedule);mo.observe(document.documentElement,{childList:true,subtree:true});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
