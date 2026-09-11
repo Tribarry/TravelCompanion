@@ -66,3 +66,18 @@ html,body{background:#000!important}body{margin:0!important;color:var(--tc-ink)!
 .tc1ExpMeta{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
 .tc1ExpMeta span{font-size:7px;font-weight:800;line-height:1.2;border:1px solid #33353b;border-radius:999px;padding:5px 7px;color:#c7c7ca;background:#16171a}
 .tc1ExpPhotoDirect{background-position:center;background-size:cover;background-repeat:no-repeat}
+
+
+/* Cái Bè + Sa Đéc food-passport pilot — match the approved Sài Gòn card stencil. */
+.tc1ReferenceFoodGrid{grid-template-columns:1fr 1fr!important;gap:10px!important;padding:12px 18px 28px!important}
+.tc1ReferenceFoodGrid .tc1FoodPass{display:block!important;min-height:0!important;padding:0!important;margin:0!important;border-radius:16px!important;overflow:hidden!important}
+.tc1ReferenceFoodGrid .tc1FoodPass .tc1PassPhoto{display:block!important;height:118px!important;min-height:118px!important;border-radius:0!important;background-position:center!important;background-size:cover!important}
+.tc1ReferenceFoodGrid .tc1FoodPass .tc1PassBody{padding:10px!important;min-width:0!important}
+.tc1ReferenceFoodGrid .tc1FoodStatus{display:none!important}
+.tc1ReferenceFoodGrid .tc1FoodPass .en{font-size:7px!important;font-weight:900!important;letter-spacing:.06em!important;color:var(--tc-orange)!important}
+.tc1ReferenceFoodGrid .tc1FoodPass h3{font:700 17px Georgia,serif!important;margin:3px 0 5px!important}
+.tc1ReferenceFoodGrid .tc1FoodPass p{font-size:9px!important;line-height:1.35!important;color:var(--tc-muted)!important;margin:0!important;min-height:48px!important}
+.tc1ReferenceFoodGrid .tc1FoodPass .tc1PassMeta{font-size:8px!important;font-weight:900!important;line-height:normal!important;margin-top:7px!important;color:var(--tc-ink)!important}
+.tc1ReferenceFoodGrid .tc1FoodPass .tc1PassBtns{grid-template-columns:1fr 1fr!important;gap:5px!important;margin-top:8px!important}
+.tc1ReferenceFoodGrid .tc1FoodPass .tc1PassBtns button{min-height:42px!important;border-radius:8px!important;padding:7px 3px!important;font-size:7px!important}
+@media(max-width:375px){.tc1ReferenceFoodGrid{gap:8px!important;padding-left:12px!important;padding-right:12px!important}}
