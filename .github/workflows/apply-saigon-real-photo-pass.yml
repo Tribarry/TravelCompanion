@@ -41,21 +41,36 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import re, urllib.request
+          import re, urllib.request, urllib.error, time
           h=Path('data/hcm-rater-content-v2.js').read_text()
           urls=re.findall(r"photo:'(https://commons\.wikimedia\.org/wiki/Special:Redirect/file/[^']+)'",h)
           opener=urllib.request.build_opener()
-          opener.addheaders=[('User-Agent','TravelCompanion-photo-audit/1.0')]
+          opener.addheaders=[('User-Agent','TravelCompanion-photo-audit/1.0 (personal travel app)')]
           failures=[]
           for n,u in enumerate(urls,1):
-              try:
-                  req=urllib.request.Request(u, method='HEAD')
-                  with opener.open(req, timeout=25) as r:
-                      ct=r.headers.get('Content-Type','')
-                      if not ct.startswith('image/'):
-                          failures.append((n,ct,r.geturl()))
-              except Exception as e:
-                  failures.append((n,str(e),u))
+              ok=False
+              for attempt in range(4):
+                  try:
+                      req=urllib.request.Request(u, method='HEAD')
+                      with opener.open(req, timeout=25) as r:
+                          ct=r.headers.get('Content-Type','')
+                          if ct.startswith('image/'):
+                              ok=True
+                              break
+                          failures.append((n,'not-image:'+ct,r.geturl()))
+                          break
+                  except urllib.error.HTTPError as e:
+                      if e.code == 429 and attempt < 3:
+                          time.sleep(3 + attempt*2)
+                          continue
+                      failures.append((n,f'HTTP {e.code}',u))
+                      break
+                  except Exception as e:
+                      failures.append((n,str(e),u))
+                      break
+              if not ok and failures and failures[-1][0] != n:
+                  failures.append((n,'unresolved',u))
+              time.sleep(0.6)
           if failures:
               raise SystemExit('Image validation failures: '+repr(failures))
           print('21/21 Wikimedia photo URLs resolve to images')
