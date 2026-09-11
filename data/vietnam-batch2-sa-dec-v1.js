@@ -14,7 +14,11 @@ const commons=file=>`https://commons.wikimedia.org/wiki/Special:Redirect/file/${
 const S=(url,note)=>({url,note,licenseStatus:'TO CHECK',attributionStatus:'TO CHECK'});
 
 const SRC={
- hero:S(commons('Sông Sa Đéc.jpg'),'Sa Đéc river'),
+ flowerVillage:S(commons('Làng hoa Tân Quy Đông.jpg'),'Tân Quy Đông flower village, Sa Đéc'),
+ flowerBeds:S(commons('Vườn hoa ở Tân Quy Đông.jpg'),'Flower garden in Tân Quy Đông, Sa Đéc'),
+ flowerClose:S(commons('Hoa ở Tân Quy Đông.jpg'),'Flowers in Tân Quy Đông, Sa Đéc'),
+ orchids:S(commons('Một vườn hoa lan ở Sa Đéc.jpg'),'Orchid garden in Sa Đéc'),
+ hero:S(commons('Làng hoa Tân Quy Đông.jpg'),'Tân Quy Đông flower village, Sa Đéc'),
  street:S(commons('Sadec.JPG'),'Hùng Vương Street, Sa Đéc'),
  market:S(commons('Sa Dec City Agricultural Market.jpg'),'Sa Đéc City Agricultural Market'),
  marketHeritage:S(commons('Le marché central de Sa Dec (Vietnam) (6662965877).jpg'),'Historic central market, Sa Đéc'),
@@ -24,6 +28,7 @@ const SRC={
  ironBridge:S(commons('Chỗ cầu sắt Sa Đéc.jpg'),'Iron bridge site, Sa Đéc'),
  nightMarket:S(commons('Sa Dec Night Market in the night 02.jpg'),'Sa Đéc night market'),
  workingBoat:S(commons('Sa Dec rice container on Mekong river.jpg'),'Working rice transport boat at Sa Đéc'),
+ brickKilns:S(commons('Briqueteries (région de Sa Dec, Vietnam) (6662960297).jpg'),'Brick kilns in the Sa Đéc region'),
  temple:S(commons('Dai le vesak sa dec.JPG'),'Buddhist observance in Sa Đéc'),
  caLoc:S(commons('Cá lóc nướng trui.JPG'),'Cá lóc nướng trui'),
  banhTamBi:S('https://timtour.vn/files/images/AnGiNgon/banh-tam-bi-2.jpg','Bánh tằm bì'),
@@ -33,7 +38,10 @@ window.VN_SA_DEC_PHOTO_SOURCES=SRC;
 
 const R=(re,photo)=>({re,photo});
 const PHOTOS=[
- R(/flower village|flower road|flower nurser|elevated flower|pre.?tet flower|flower loading|farmer.*flower|sa nhien|cai dao/,PENDING),
+ R(/flower village/,SRC.flowerVillage.url),
+ R(/elevated flower|flower nurser/,SRC.flowerBeds.url),
+ R(/flower garden|orchid/,SRC.orchids.url),
+ R(/pre.?tet flower|flower loading|farmer.*flower|sa nhien|cai dao/,PENDING),
  R(/cycling|bicycle/,SRC.street.url),
  R(/colonial|old streets|heritage.*street/,SRC.street.url),
  R(/wet market/,SRC.market.url),
@@ -41,7 +49,7 @@ const PHOTOS=[
  R(/riverfront|river front/,SRC.river.url),
  R(/huynh thuy le|the lover/,SRC.huynh.url),
  R(/kien an cung|chua ong quach/,SRC.kienAn.url),
- R(/brick.?kiln/,PENDING),
+ R(/brick.?kiln/,SRC.brickKilns.url),
  R(/nguyen hue.*heritage|heritage.?house walk/,SRC.street.url),
  R(/market.*riverside|riverside.*lane|market.*lane/,SRC.marketHeritage.url),
  R(/iron bridge|cau sat/,SRC.ironBridge.url),
