@@ -46,7 +46,7 @@ for(const s of sections){
     const dest={name:s.name,context:''};
     const raw={raw:it.raw,tags:[]};
     const x=V.enrich(dest,{title:it.title,raw});
-    if(V.ruleFor(it.title,raw))exactHits++;
+    if(V.ruleFor(dest,it.title,raw))exactHits++;
     if(!x.summary||x.summary.length<105)short.push(`${s.name} / ${it.title} / summary ${x.summary?.length||0}`);
     if(!x.action||x.action.length<55)short.push(`${s.name} / ${it.title} / action ${x.action?.length||0}`);
     for(const b of banned)if(b.test(x.summary)||b.test(x.action))throw new Error(`Banned generic copy: ${s.name} / ${it.title}`);
@@ -64,11 +64,62 @@ for(const d of runtimeDestinations){
   if(!l||/^the local story of/i.test(l))throw new Error('No destination-specific profile for '+d);
   const sample=V.enrich({name:d},{title:'Local neighbourhood walk',raw:{raw:'Local neighbourhood walk',tags:[]}});
   if(sample.summary.length<105)throw new Error('Runtime destination fallback too short for '+d);
+  if(!sample.summary.includes(d.split(' / ')[0].split(' + ')[0]) && d!=='Ho Chi Minh City'){
+    // The wording may use the destination lens rather than repeating the title,
+    // so source/lens coverage is the hard requirement rather than forced keyword stuffing.
+    if(!V.lens({name:d}))throw new Error('Missing runtime lens for '+d);
+  }
 }
 
-const exactMustDo=['War Remnants Museum','Cái Răng before dawn','Ghositaram Temple','Datanla canyoning','Yok Đôn ethical elephant experience — no riding/touching/tricks','A Bia/Hamburger Hill','Khe Gát secret airfield','GET OPEN WATER SCUBA LICENCE IN VIETNAM','Mỹ Sơn sanctuary at opening','Imperial City','Hang Én','Sơn Đoòng','Hang Múa','Temple of Literature','Hospital Cave','Bản Giốc','Nho Quế River','Mã Pí Lèng Sky Path','Lùng Tám hemp weaving','Tả Phìn Red Dao herbal bath'];
-for(const t of exactMustDo)if(!V.ruleFor(t,{raw:t}))throw new Error('Missing exact must-do copy rule: '+t);
+const exactMustDo=[
+['Ho Chi Minh City','War Remnants Museum'],
+['Cần Thơ','Cái Răng before dawn'],
+['Bạc Liêu','Ghositaram Temple'],
+['Đà Lạt','Datanla canyoning'],
+['Yok Đôn / Buôn Đôn','Yok Đôn ethical elephant experience — no riding/touching/tricks'],
+['A Lưới / A Shau Valley','A Bia/Hamburger Hill'],
+['Western Ho Chi Minh Road','Khe Gát secret airfield'],
+['Nha Trang','GET OPEN WATER SCUBA LICENCE IN VIETNAM'],
+['Hội An','Mỹ Sơn sanctuary at opening'],
+['Huế','Imperial City'],
+['Hang Én','Hang Én jungle approach'],
+['Sơn Đoòng','Sơn Đoòng multi-day expedition — LIFE-LIST / LONG-LEAD BOOKING'],
+['Ninh Bình','Hang Múa MUST DO'],
+['Hà Nội','Temple of Literature MUST'],
+['Cát Bà','Hospital Cave MUST'],
+['Cao Bằng','Bản Giốc'],
+['Hà Giang Loop','Nho Quế River MUST'],
+['Hà Giang Loop','Mã Pí Lèng Sky Path MUST'],
+['Hà Giang Loop','Lùng Tám hemp weaving MUST'],
+['Sa Pa','Tả Phìn Red Dao herbal bath MUST']
+];
+for(const [d,t] of exactMustDo){
+  const dest={name:d};
+  if(!V.ruleFor(dest,t,{raw:t}))throw new Error(`Missing exact must-do copy rule: ${d} / ${t}`);
+}
 
-const report=`# Vietnam Experience Content V3 Audit\n\n- Runtime destination profiles: **${V.profileCount}** (required: all 59 Vietnam stops).\n- Canonical locked-bank records exercised through the V3 writer: **${records}**.\n- High-value exact-content matches in the canonical bank audit: **${exactHits}**.\n- Exact rule bank: **${V.exactRuleCount}** named/high-value patterns.\n- Every audited record returns a readable summary and a concrete “what you’ll actually do” action.\n- Previous placeholder/generic fallback phrases are rejected by the audit.\n- HCMC’s separately curated exact catalogue remains allowed to override V3 where it has a stronger exact match.\n- Route order, locked-bank membership, Saved/Done/Skip, ratings and current-location semantics are not changed by this content pass.\n- This is a copy-quality/coverage audit, **not** verification of 2027 opening hours, prices, transport, border access or weather. Those remain operational checks.\n`;
+// Guard against the exact-match leakage that previously allowed broad words to
+// inject the wrong destination's bespoke story. Each item below should use the
+// correct destination fallback instead of another place's exact rule.
+const leakage=[
+['Cái Bè / Tân Phong','Sampan canals'],
+['Sa Đéc','Brick-kiln waterways'],
+['Đà Lạt','Vạn Thành flower village'],
+['Ninh Bình','Turtle rescue centre'],
+['Hà Giang Loop','Corn wine'],
+['Khe Sanh','Trenches and bunkers'],
+['A Lưới / A Shau Valley','Former airfield'],
+['Phú Yên / Tuy Hòa','Ô Loan oysters'],
+['Hà Nội','Imperial Citadel'],
+['Cần Thơ','Overnight boat idea']
+];
+for(const [d,t] of leakage){
+  const dest={name:d},raw={raw:t,tags:[]};
+  if(V.ruleFor(dest,t,raw))throw new Error(`Cross-destination exact-rule leak: ${d} / ${t}`);
+  const x=V.enrich(dest,{title:t,raw});
+  if(x.source!=='vietnam-v3'||x.summary.length<105)throw new Error(`Bad guarded fallback: ${d} / ${t}`);
+}
+
+const report=`# Vietnam Experience Content V3 Audit\n\n- Runtime destination profiles: **${V.profileCount}** (required: all 59 Vietnam stops).\n- Canonical locked-bank records exercised through the V3 writer: **${records}**.\n- High-value exact-content matches in the canonical bank audit: **${exactHits}**.\n- Exact rule bank: **${V.exactRuleCount}** named/high-value patterns.\n- Every audited record returns a readable summary and a concrete “what you’ll actually do” action.\n- Previous placeholder/generic fallback phrases are rejected by the audit.\n- Broad exact-match patterns are destination-scoped; cross-destination leakage tests pass.\n- HCMC’s separately curated exact catalogue remains allowed to override V3 where it has a stronger exact match.\n- Route order, locked-bank membership, Saved/Done/Skip, ratings and current-location semantics are not changed by this content pass.\n- This is a copy-quality/coverage audit, **not** verification of 2027 opening hours, prices, transport, border access or weather. Those remain operational checks.\n`;
 fs.writeFileSync('docs/VIETNAM_EXPERIENCE_CONTENT_V3_AUDIT.md',report);
 console.log(`VIETNAM V3 CONTENT PASS: ${runtimeDestinations.length} destinations / ${records} canonical records / ${exactHits} exact hits`);
