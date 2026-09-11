@@ -1,5 +1,4 @@
 from pathlib import Path
-import re
 
 idx=Path('index.html')
 s=idx.read_text()
@@ -33,7 +32,7 @@ async function renderRatingDeck(id,i,pos=0){
  const showPhoto=!!directPhoto||!!window.TC1_EXPERIENCE_PHOTO_COMPLETE?.[id];
  const photo=showPhoto?`<div class="tc1RatePhoto ${id==='vietnam'?'vnFallback':''}" ${directPhoto?`style="background-image:url('${esc(directPhoto)}')"`:''} ${id==='vietnam'?`data-vnimg="${esc(it.title)}" data-label="${esc(it.title)}"`:''}></div>`:'';
  const area=it.area||d.name;
- setApp(`<section class="tc1Screen tc1RaterScreen">${topButtons(`data-back-rater="${id}:${i}"`)}<div class="tc1RaterHead"><div><div class="tc1Scope">RATE · ${esc(d.name)}</div><h1>How does this sound?</h1></div><small>${rated}/${its.length} rated</small></div><div class="tc1RateProgress"><i style="width:${Math.round((rated/its.length)*100)}%"></i></div><div class="tc1RateStage"><article class="tc1RateCard" data-rate-card>${photo}<div class="tc1RateCopy"><div class="tc1RateMeta"><div class="tc1Tags">${(it.tags||[]).slice(0,3).map(t=>`<i>${esc(t)}</i>`).join('')}</div><div class="tc1RateArea"><b>●</b>${esc(area)}</div></div><h2>${esc(it.title)}</h2><p>${esc(it.summary||'Open the full experience later for practical details.')}</p>${it.action?`<div class="tc1RateAction"><small>WHAT YOU'LL ACTUALLY DO</small><p>${esc(it.action)}</p></div>`:''}${ratingFacts(it)}${r?`<div class="tc1CurrentRating ${r}">${RATING_LABELS[r]}</div>`:'<div class="tc1CurrentRating unrated">Not rated yet</div>'}</div></article></div><div class="tc1RatingButtons"><button data-rate-value="must" class="${r==='must'?'on':''}"><b>🔥</b><span>CAN'T MISS</span></button><button data-rate-value="keen" class="${r==='keen'?'on':''}"><b>👍</b><span>KEEN</span></button><button data-rate-value="maybe" class="${r==='maybe'?'on':''}"><b>🤔</b><span>MAYBE</span></button><button data-rate-value="pass" class="${r==='pass'?'on':''}"><b>×</b><span>PASS</span></button></div><div class="tc1RateNav"><button data-rate-prev ${pos===0?'disabled':''}>← PREV</button><button data-rate-later>RATE LATER</button><button data-rate-next>NEXT →</button></div>${drawer()}</section>`);
+ setApp(`<section class="tc1Screen tc1RaterScreen">${topButtons(`data-back-rater="${id}:${i}"`)}<div class="tc1RaterHead"><div><div class="tc1Scope">RATE · ${esc(d.name)}</div><h1>How does this sound?</h1></div><small>${rated}/${its.length} rated</small></div><div class="tc1RateProgress"><i style="width:${Math.round((rated/its.length)*100)}%"></i></div><div class="tc1RateStage"><article class="tc1RateCard" data-rate-card>${photo}<div class="tc1RateCopy"><div class="tc1RateMeta"><div class="tc1Tags">${(it.tags||[]).slice(0,3).map(t=>`<i>${esc(t)}</i>`).join('')}</div><div class="tc1RateArea"><b>📍</b>${esc(area)}</div></div><h2>${esc(it.title)}</h2><p>${esc(it.summary||'Open the full experience later for practical details.')}</p>${it.action?`<div class="tc1RateAction"><small>WHAT YOU'LL ACTUALLY DO</small><p>${esc(it.action)}</p></div>`:''}${ratingFacts(it)}${r?`<div class="tc1CurrentRating ${r}">${RATING_LABELS[r]}</div>`:'<div class="tc1CurrentRating unrated">Not rated yet</div>'}</div></article></div><div class="tc1RatingButtons"><button data-rate-value="must" class="${r==='must'?'on':''}"><b>🔥</b><span>CAN'T MISS</span></button><button data-rate-value="keen" class="${r==='keen'?'on':''}"><b>👍</b><span>KEEN</span></button><button data-rate-value="maybe" class="${r==='maybe'?'on':''}"><b>🤔</b><span>MAYBE</span></button><button data-rate-value="pass" class="${r==='pass'?'on':''}"><b>×</b><span>PASS</span></button></div><div class="tc1RateNav"><button data-rate-prev ${pos===0?'disabled':''}>← PREV</button><button data-rate-later>RATE LATER</button><button data-rate-next>NEXT →</button></div>${drawer()}</section>`);
  const back=document.querySelector('[data-back-rater]');if(back)back.onclick=()=>renderDestination(id,i,'overview');
  document.querySelectorAll('[data-rate-value]').forEach(b=>b.onclick=()=>{setPersonalRating(id,i,it,j,b.dataset.rateValue);renderRatingDeck(id,i,pos)});
  const prev=document.querySelector('[data-rate-prev]');if(prev)prev.onclick=()=>renderRatingDeck(id,i,Math.max(0,pos-1));
@@ -42,7 +41,8 @@ async function renderRatingDeck(id,i,pos=0){
  const card=document.querySelector('[data-rate-card]');if(card){let x0=null;card.addEventListener('touchstart',e=>{x0=e.changedTouches?.[0]?.clientX??null},{passive:true});card.addEventListener('touchend',e=>{if(x0===null)return;const x1=e.changedTouches?.[0]?.clientX??x0,dx=x1-x0;x0=null;if(Math.abs(dx)<55)return;if(dx<0)renderRatingDeck(id,i,pos+1);else if(pos>0)renderRatingDeck(id,i,pos-1)},{passive:true})}
 }
 '''
-pat=r'function ratingFacts\(it\)\{.*?\nasync function renderRatingDeck\(id,i,pos=0\)\{.*?\n\}\n(?=function countryEntries)'
-s,n=re.subn(pat,new,s,flags=re.S)
-assert n==1,f'rater replacement count {n}'
+start=s.find('function ratingFacts(it){')
+end=s.find('function countryEntries(id){',start)
+assert start>=0 and end>start,'rating deck boundaries not found'
+s=s[:start]+new+'\n'+s[end:]
 p.write_text(s)
