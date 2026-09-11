@@ -45,7 +45,11 @@ if old_rule in v:
     v = v.replace(old_rule, new_rule, 1)
 elif 'function exactScopeAllows(' not in v:
     raise AssertionError('ruleFor marker missing')
-v = v.replace('const exact=ruleFor(title,raw)', 'const exact=ruleFor(destination,title,raw)')
+# The exact-rule lookup inside enrich must pass the destination too.
+if 'exact=ruleFor(title,raw)' in v:
+    v = v.replace('exact=ruleFor(title,raw)', 'exact=ruleFor(destination,title,raw)', 1)
+elif 'exact=ruleFor(destination,title,raw)' not in v:
+    raise AssertionError('destination-aware enrich rule lookup missing')
 vp.write_text(v)
 
 # Make the generic normaliser defer to the Vietnam V3 content layer for every
