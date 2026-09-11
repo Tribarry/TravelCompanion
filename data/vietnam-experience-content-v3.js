@@ -227,7 +227,26 @@ R(/tả phìn|ta phin|herbal bath/i,'Make a Red Dao herbal bath in Tả Phìn a 
 R(/fansipan/i,'Choose Fansipan based on weather and energy: the cable car gives rapid access to the summit complex, while a trek is a separate full mountain objective. Cloud can erase the views, so do not force the day just because it is booked.','Check the forecast, choose cable car or trek deliberately and keep the rest of the day light if you hike.','Clear-weather morning')
 ];
 
-function ruleFor(title,raw){const q=String(title||'')+' '+String(raw?.raw||'');return RULES.find(r=>r.re.test(q))}
+function exactScopeAllows(r,destination){
+  const d=destKey(destination?.name||destination),src=r.re.source;
+  const guards=[
+    ['secret commando|bunker',['Ho Chi Minh City']],
+    ['flower village|flower road|flower nurser',['Sa Đéc']],
+    ['sampan|tắc ráng|tac rang',['Trà Sư']],
+    ['brick-kiln|brick kiln|kiln country',['Vĩnh Long / Mang Thít']],
+    ['turtle',['Côn Đảo']],
+    ['old airfield',['Khâm Đức / Phước Sơn']],
+    ['arabica farm',['Khe Sanh']],
+    ['oyster',['Hải Vân / Lăng Cô']],
+    ['full pass',['Hải Vân / Lăng Cô']],
+    ['citadel',['Huế']],
+    ['overnight boat',['Hạ Long / Lan Hạ Bay']],
+    ['corn wine',['Bắc Hà']]
+  ];
+  for(const [needle,allowed] of guards){if(src.includes(needle)&&!allowed.includes(d))return false}
+  return true;
+}
+function ruleFor(destination,title,raw){const q=String(title||'')+' '+String(raw?.raw||'');return RULES.find(r=>r.re.test(q)&&exactScopeAllows(r,destination))}
 function cleanTitle(title,raw){
   let t=escSentence(title).replace(/\s*[.;]+$/,'');
   const q=norm((raw?.raw||'')+' '+t);
