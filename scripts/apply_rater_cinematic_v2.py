@@ -5,9 +5,8 @@ idx=Path('index.html')
 s=idx.read_text()
 css='<link rel="stylesheet" href="data/rater-cinematic-v2.css?v=20260911-cinematic-v2">'
 if css not in s:
-    marker='<link rel="stylesheet" href="data/travel-companion-v1-shell.css?v=20260910-v1">'
-    assert marker in s, 'V1 shell CSS link not found'
-    s=s.replace(marker,marker+'\n'+css,1)
+    assert '</head>' in s, 'head close not found'
+    s=s.replace('</head>',css+'\n</head>',1)
 js='<script src="data/hcm-rater-content-v2.js?v=20260911-cinematic-v2"></script>'
 if js not in s:
     marker='<script src="data/experience-copy-v2.js?v=20260911-vietnam-v3"></script>'
