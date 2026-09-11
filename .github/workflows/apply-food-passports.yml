@@ -1,0 +1,60 @@
+name: Apply food passports
+on:
+  push:
+    branches: [food-passports-all-destinations-v2]
+    paths:
+      - '.github/workflows/apply-food-passports.yml'
+      - 'scripts/apply_food_passports.py'
+      - 'data/destination-food-passports-v1.js'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: food-passports-all-destinations-v2
+          fetch-depth: 0
+      - name: Apply integration patch
+        run: python3 scripts/apply_food_passports.py
+      - name: Validate JavaScript and passport contract
+        run: |
+          node --check data/destination-food-passports-v1.js
+          node --check data/travel-companion-v1-shell.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re,subprocess,tempfile
+          idx=Path('index.html').read_text()
+          sh=Path('data/travel-companion-v1-shell.js').read_text()
+          css=Path('data/travel-companion-v1-shell.css').read_text()
+          assert 'destination-food-passports-v1.js?v=20260911-food-passports' in idx
+          assert idx.index('destination-food-passports-v1.js?v=20260911-food-passports') < idx.index('travel-companion-v1-shell.js?v=20260911-food-passports')
+          for token in ['function foodPassportItems(','function foodPassportStatus(','data-food-tried','data-food-save','NEW HERE','ALREADY TRIED','STILL MISSING']:
+              assert token in sh, token
+          assert "foods=foodPassportItems(id,i)" in sh
+          assert 'tc1FoodPassGrid' in css
+          assert sh.count("state.here=id+':'+i") == 1
+          # HCMC's original curated passport remains intact.
+          assert 'SAIGON_FOOD_PASSPORT' in sh and 'SAIGON_DRINK_PASSPORT' in sh
+          hc=idx
+          assert 'hcm-v21-experiences.js' in hc
+          # Validate the food module resolves at least four items for representative
+          # stops from all countries, including inserted Vietnam stops.
+          js=Path('data/destination-food-passports-v1.js').read_text()
+          check="""global.window=global;\n"""+js+"""\nconst tests={vietnam:['Cái Bè / Tân Phong','Bạc Liêu','Nam Du','Vũng Tàu','Hang Én','Sơn Đoòng','Hà Giang Loop','Sa Pa'],laos:['Huay Xai / Bokeo','Luang Prabang','Attapeu'],cambodia:['Siem Reap','Kep','Koh Rong'],thailand:['Bangkok','Mae Hong Son Loop','Southern Islands','TESOL Training'],kazakhstan:['Almaty','Saty / Kolsai Lakes','Kaindy Lake'],kyrgyzstan:['Bishkek','Tian Shan horse trek','Song-Köl','Karakol']};for(const [c,ds] of Object.entries(tests))for(const d of ds){const a=TC1FoodPassport.get(c,d);if(a.length<4)throw new Error(c+' / '+d+' has '+a.length)}console.log('food passport resolver pass');\n"""
+          Path('/tmp/check-food.js').write_text(check)
+          subprocess.run(['node','/tmp/check-food.js'],check=True)
+          print('FOOD PASSPORT CONTRACT PASS')
+          PY
+      - name: Commit integrated food passports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html data/travel-companion-v1-shell.js data/travel-companion-v1-shell.css docs/FOOD_PASSPORT_AUDIT.md
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Integrate food passports across all destinations"
+            git push origin HEAD:food-passports-all-destinations-v2
+          fi
