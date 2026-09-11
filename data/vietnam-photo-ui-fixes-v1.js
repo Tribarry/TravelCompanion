@@ -109,10 +109,8 @@ function ensureFoodPhoto(card,url,title){
 function hydrateCaiBeFood(){
  if(currentDestination()!=='cai be tan phong')return;
  const grid=document.querySelector('.tc1FoodPassGrid');if(!grid)return;
- grid.classList.add('vnPhotoFixFoodList','tc1ExpList');
+ grid.classList.add('tc1ReferenceFoodHydrated');
  grid.querySelectorAll('.tc1FoodPass').forEach(card=>{
-  card.classList.add('tc1Exp');
-  const body=card.querySelector('.tc1PassBody');if(body)body.classList.add('tc1ExpCopy');
   const title=card.querySelector('h3')?.textContent||'';const url=sourceForFood(title);if(url)ensureFoodPhoto(card,url,title);
  });
 }
