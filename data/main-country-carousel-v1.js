@@ -4,7 +4,7 @@ if(!document.querySelector('script[data-vn-b1-caibe]')){
  const s=document.createElement('script');s.src='data/vietnam-batch1-cai-be-v1.js?v=20260911-b2';s.dataset.vnB1Caibe='1';document.head.appendChild(s);
 }
 if(!document.querySelector('script[data-vn-photo-ui-fixes]')){
- const p=document.createElement('script');p.src='data/vietnam-photo-ui-fixes-v1.js?v=20260912-f1';p.dataset.vnPhotoUiFixes='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/vietnam-photo-ui-fixes-v1.js?v=20260912-food-passport-pilot';p.dataset.vnPhotoUiFixes='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-b2-sadec]')){
  const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v2.js?v=20260912-s2';s.dataset.vnB2Sadec='1';document.head.appendChild(s);
