@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: image-migration-output
+          ref: main
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
@@ -33,4 +33,4 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add assets/images
           git commit -m 'chore: localise current remote travel images'
-          git push origin HEAD:image-migration-output
+          git push --force-with-lease origin HEAD:image-migration-output
