@@ -1,0 +1,961 @@
+{
+  "generatedAt": "2026-09-11T12:38:48.049Z",
+  "note": "Source URLs were already referenced by the app. Licence and attribution must be checked before relying on local copies.",
+  "images": [
+    {
+      "source": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1800&q=90",
+      "resolvedSource": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1800&q=90",
+      "localOriginal": "assets/images/originals/remote/photo-1583417319070-4a69db38a482-d27b8465.jpg",
+      "usedBy": [
+        "data/chapter-selector-v022.js",
+        "data/travel-companion-v1-shell.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90",
+      "resolvedSource": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90",
+      "localOriginal": "assets/images/originals/remote/photo-1500530855697-b586d89ba3ee-ba73f954.jpg",
+      "usedBy": [
+        "data/chapter-selector-v022.js",
+        "data/travel-companion-v1-shell.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=1800&q=90",
+      "resolvedSource": "https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=1800&q=90",
+      "localOriginal": "assets/images/originals/remote/photo-1562602833-0f4ab2fc46e3-b5305e41.jpg",
+      "usedBy": [
+        "data/chapter-selector-v022.js",
+        "data/travel-companion-v1-shell.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?auto=format&fit=crop&w=1800&q=90",
+      "resolvedSource": "https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?auto=format&fit=crop&w=1800&q=90",
+      "localOriginal": "assets/images/originals/remote/photo-1598970605070-a38a6ccd3a2d-dca2b1ab.jpg",
+      "usedBy": [
+        "data/chapter-selector-v022.js",
+        "data/travel-companion-v1-shell.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=90",
+      "resolvedSource": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=90",
+      "localOriginal": "assets/images/originals/remote/photo-1500534314209-a25ddb2bd429-94319b7a.jpg",
+      "usedBy": [
+        "data/chapter-selector-v022.js",
+        "data/travel-companion-v1-shell.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Nguyen%20Van%20Binh%20Street%20%2852681309899%29.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Nguyen_Van_Binh_Street_%2852681309899%29.jpg/1920px-Nguyen_Van_Binh_Street_%2852681309899%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/nguyen-van-binh-street-52681309899-ffb45cb4.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/20190923%20Saigon%20Central%20Post%20Office%20interior-2.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/20190923_Saigon_Central_Post_Office_interior-2.jpg/1920px-20190923_Saigon_Central_Post_Office_interior-2.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/20190923-saigon-central-post-office-interior-2-2673f662.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Saigon%20Notre-Dame%20Basilica.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Saigon_Notre-Dame_Basilica.jpg/1920px-Saigon_Notre-Dame_Basilica.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/saigon-notre-dame-basilica-b5318673.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/War%20Remnants%20Museum.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/War_Remnants_Museum.jpg/1920px-War_Remnants_Museum.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/war-remnants-museum-db76beb8.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/CSS%20Thaco%20Sightseeing%20120SS%2C%20L%C3%AA%20L%E1%BB%A3i%20Boulevard%2C%20Ho%20Chi%20Minh%20City%2C%202023%20%2801%29.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/CSS_Thaco_Sightseeing_120SS%2C_L%C3%AA_L%E1%BB%A3i_Boulevard%2C_Ho_Chi_Minh_City%2C_2023_%2801%29.jpg/1920px-CSS_Thaco_Sightseeing_120SS%2C_L%C3%AA_L%E1%BB%A3i_Boulevard%2C_Ho_Chi_Minh_City%2C_2023_%2801%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/css-thaco-sightseeing-120ss-le-lo-i-boulevard-ho-chi-minh-city-2023-01-b1a98778.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bui%20Vien%20Street.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Bui_Vien_Street.jpg/1920px-Bui_Vien_Street.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/bui-vien-street-4092a442.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Administrator%20Power%20joins%20a%20street%20food%20tour%20in%20Ho%20Chi%20Minh%20City%20to%20appreciate%20Vietnam%E2%80%99s%20signature%20local%20dishes%20and%20cultural%20history.%20%2852733438298%29.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Administrator_Power_joins_a_street_food_tour_in_Ho_Chi_Minh_City_to_appreciate_Vietnam%E2%80%99s_signature_local_dishes_and_cultural_history._%2852733438298%29.jpg/1920px-Administrator_Power_joins_a_street_food_tour_in_Ho_Chi_Minh_City_to_appreciate_Vietnam%E2%80%99s_signature_local_dishes_and_cultural_history._%2852733438298%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/administrator-power-joins-a-street-food-tour-in-ho-chi-minh-city-to-ap-8797084e.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Landmark%2081.png?width=1400",
+      "resolvedSource": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Landmark_81.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail_unscaled",
+      "localOriginal": "assets/images/originals/remote/landmark-81-5ee2daf5.png",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Church%20of%20the%20Sacred%20Heart%20of%20Jesus%2C%20Ho%20Chi%20Minh%20City.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Church_of_the_Sacred_Heart_of_Jesus%2C_Ho_Chi_Minh_City.jpg/1920px-Church_of_the_Sacred_Heart_of_Jesus%2C_Ho_Chi_Minh_City.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/church-of-the-sacred-heart-of-jesus-ho-chi-minh-city-8a940a61.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/42%20Nguyen%20Hue%20Boulevard%2C%20Saigon%20%2853547606514%29.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/42_Nguyen_Hue_Boulevard%2C_Saigon_%2853547606514%29.jpg/1920px-42_Nguyen_Hue_Boulevard%2C_Saigon_%2853547606514%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/42-nguyen-hue-boulevard-saigon-53547606514-fa84f4dc.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/20190925%20Cu%20Chi%20tunnel%20entrance.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/20190925_Cu_Chi_tunnel_entrance.jpg/1920px-20190925_Cu_Chi_tunnel_entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/20190925-cu-chi-tunnel-entrance-50f40797.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Jade%20Emperor%20Pagoda%20%289981966414%29.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Jade_Emperor_Pagoda_%289981966414%29.jpg/1920px-Jade_Emperor_Pagoda_%289981966414%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/jade-emperor-pagoda-9981966414-b47a4894.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Nighttime%20boat%20in%20the%20Saigon%20River.jpg?width=1400",
+      "resolvedSource": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Nighttime_boat_in_the_Saigon_River.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail_unscaled",
+      "localOriginal": "assets/images/originals/remote/nighttime-boat-in-the-saigon-river-9f32c781.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/2023-12-10%20Memorial%20stele%20for%20Special%20Forces%20soldiers%20who%20died%20at%20the%20Independence%20Palace%2001.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/2023-12-10_Memorial_stele_for_Special_Forces_soldiers_who_died_at_the_Independence_Palace_01.jpg/1920px-2023-12-10_Memorial_stele_for_Special_Forces_soldiers_who_died_at_the_Independence_Palace_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/2023-12-10-memorial-stele-for-special-forces-soldiers-who-died-at-the--fbd527e8.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Binh%20Tay%20market.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Binh_Tay_market.jpg/1920px-Binh_Tay_market.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/binh-tay-market-05865896.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/20180413%20201710Saigon%20Hotpot%20Night%20Food%20Tour%20Ho%20Thi%20Ky%20Flower%20Market%20Thanh%20H%E1%BA%B1ng%20L%C3%BD%20Th%C3%A1i%20Minh%20Hi%E1%BA%BFu%20Kim%20Euncheol%20Lee%20Junho%20Choi%20Kwangmo.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/20180413_201710Saigon_Hotpot_Night_Food_Tour_Ho_Thi_Ky_Flower_Market_Thanh_H%E1%BA%B1ng_L%C3%BD_Th%C3%A1i_Minh_Hi%E1%BA%BFu_Kim_Euncheol_Lee_Junho_Choi_Kwangmo.jpg/1920px-20180413_201710Saigon_Hotpot_Night_Food_Tour_Ho_Thi_Ky_Flower_Market_Thanh_H%E1%BA%B1ng_L%C3%BD_Th%C3%A1i_Minh_Hi%E1%BA%BFu_Kim_Euncheol_Lee_Junho_Choi_Kwangmo.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/20180413-201710saigon-hotpot-night-food-tour-ho-thi-ky-flower-market-t-4fbe837a.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Dishes%20in%20Saigon.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Dishes_in_Saigon.jpg/1920px-Dishes_in_Saigon.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/dishes-in-saigon-9f9e0a27.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Nuocmam1.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Nuocmam1.jpg/1920px-Nuocmam1.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/nuocmam1-572d28fd.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Traditional%20Vietnamese%20Medicine%20store%20in%20Pho%20Truc%20%282017%29.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Traditional_Vietnamese_Medicine_store_in_Pho_Truc_%282017%29.jpg/1920px-Traditional_Vietnamese_Medicine_store_in_Pho_Truc_%282017%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/traditional-vietnamese-medicine-store-in-pho-truc-2017-7d4f98c9.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Hai%20thuong%20lang%20ong%20street-%20ph%C6%B0%E1%BB%9Dng%2010%2C%20Qu%E1%BA%ADn%205%2C%20TPHCM%2C%20Vi%E1%BB%87t%20Nam%20-%20panoramio.jpg?width=1400",
+      "resolvedSource": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Hai_thuong_lang_ong_street-_ph%C6%B0%E1%BB%9Dng_10%2C_Qu%E1%BA%ADn_5%2C_TPHCM%2C_Vi%E1%BB%87t_Nam_-_panoramio.jpg/1920px-Hai_thuong_lang_ong_street-_ph%C6%B0%E1%BB%9Dng_10%2C_Qu%E1%BA%ADn_5%2C_TPHCM%2C_Vi%E1%BB%87t_Nam_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail",
+      "localOriginal": "assets/images/originals/remote/hai-thuong-lang-ong-street-phu-o-ng-10-qua-n-5-tphcm-vie-t-nam-panoram-0806b9cd.jpg",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Can%20Gio%20mangrove%20forest.jpg?width=1400",
+      "usedBy": [
+        "data/hcm-rater-content-v2.js"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1583417319070-4a69db38a482-bb19d0b2.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1528127269322-539801943592-bd3f8f84.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1528181304800-259b08848526-4be10c51.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1509030450996-dd1a26dda07a-93ecff54.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1559592413-7cec4d0cae2b-5e0a217f.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-4e597ba0.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1563492065599-3520f775eeed?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1563492065599-3520f775eeed?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1563492065599-3520f775eeed-a4a13fba.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1570366583862-f91883984fde?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1570366583862-f91883984fde?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1570366583862-f91883984fde-1f06c1cd.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1500530855697-b586d89ba3ee-71a439c8.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1562602833-0f4ab2fc46e3-8d716e1c.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1600664356348-10686526af4f?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1600664356348-10686526af4f?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1600664356348-10686526af4f-8e6dba20.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1507525428034-b723cf961d3e-00cd0e53.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1508009603885-50cf7c579365-d6e7469a.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1598970605070-a38a6ccd3a2d-50a77b73.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1552465011-b4e21bf6e79a-19d103cf.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1596395819057-e37f55a8516b?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1596395819057-e37f55a8516b?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1596395819057-e37f55a8516b-4b98420f.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1500534314209-a25ddb2bd429-8536abc7.jpg",
+      "usedBy": [
+        "data/home-carousel-v023.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Charyn%20Canyon%2C%20Kazakhstan%2004.jpg",
+      "resolvedSource": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Charyn_Canyon%2C_Kazakhstan_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
+      "localOriginal": "assets/images/originals/remote/charyn-canyon-kazakhstan-04-d0bbc530.jpg",
+      "usedBy": [
+        "data/main-country-carousel-v1.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Ala-Kul%20lake.jpg",
+      "usedBy": [
+        "data/main-country-carousel-v1.js"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Phnom%20Penh%20sunset.jpg",
+      "usedBy": [
+        "data/main-country-carousel-v1.js"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/War%20Remnants%20Museum.jpg",
+      "usedBy": [
+        "data/main-country-carousel-v1.js"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/2023-12-10%20Memorial%20stele%20for%20Special%20Forces%20soldiers%20who%20died%20at%20the%20Independence%20Palace%2001.jpg",
+      "usedBy": [
+        "data/main-country-carousel-v1.js"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Nguyen%20Van%20Binh%20Street%20%2852681309899%29.jpg",
+      "usedBy": [
+        "data/main-country-carousel-v1.js"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1800&q=90",
+      "resolvedSource": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1800&q=90",
+      "localOriginal": "assets/images/originals/remote/photo-1559592413-7cec4d0cae2b-38f74c54.jpg",
+      "usedBy": [
+        "data/travel-companion-v1-shell.js"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/${encodeURIComponent(file",
+      "usedBy": [
+        "data/vietnam-batch1-cai-be-v1.js"
+      ],
+      "downloadError": "Error: HTTP 404",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://en.wikipedia.org/api/rest_v1/page/summary/",
+      "usedBy": [
+        "data/vietnam-photo-alignment-v026.js",
+        "index.html"
+      ],
+      "downloadError": "Error: HTTP 404",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1800&q=82",
+      "resolvedSource": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1800&q=82",
+      "localOriginal": "assets/images/originals/remote/photo-1528127269322-539801943592-19e3d2e7.jpg",
+      "usedBy": [
+        "experience-swipe.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=1200&q=85",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=1200&q=85",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-9b0087dd.jpg",
+      "usedBy": [
+        "experience-swipe.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85",
+      "resolvedSource": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85",
+      "localOriginal": "assets/images/originals/remote/photo-1495474472287-4d71bcdd2085-a8243da1.jpg",
+      "usedBy": [
+        "experience-swipe.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1555921015-5532091f6026?auto=format&fit=crop&w=1200&q=85",
+      "resolvedSource": "https://images.unsplash.com/photo-1555921015-5532091f6026?auto=format&fit=crop&w=1200&q=85",
+      "localOriginal": "assets/images/originals/remote/photo-1555921015-5532091f6026-9206cc27.jpg",
+      "usedBy": [
+        "experience-swipe.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=85",
+      "resolvedSource": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=85",
+      "localOriginal": "assets/images/originals/remote/photo-1528127269322-539801943592-7907f5b5.jpg",
+      "usedBy": [
+        "experience-swipe.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1565073624497-7144969d0a07?auto=format&fit=crop&w=1200&q=85",
+      "resolvedSource": "https://images.unsplash.com/photo-1565073624497-7144969d0a07?auto=format&fit=crop&w=1200&q=85",
+      "localOriginal": "assets/images/originals/remote/photo-1565073624497-7144969d0a07-d4bd507c.jpg",
+      "usedBy": [
+        "experience-swipe.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1200&q=85",
+      "resolvedSource": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1200&q=85",
+      "localOriginal": "assets/images/originals/remote/photo-1583417319070-4a69db38a482-f8100fd1.jpg",
+      "usedBy": [
+        "experience-swipe.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1200&q=85",
+      "resolvedSource": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1200&q=85",
+      "localOriginal": "assets/images/originals/remote/photo-1559592413-7cec4d0cae2b-6bf29cb1.jpg",
+      "usedBy": [
+        "experience-swipe.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1761127138372-cad230082b19?auto=format&fit=crop&fm=jpg&q=88&w=1800",
+      "resolvedSource": "https://images.unsplash.com/photo-1761127138372-cad230082b19?auto=format&fit=crop&fm=jpg&q=88&w=1800",
+      "localOriginal": "assets/images/originals/remote/photo-1761127138372-cad230082b19-6dce48a4.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Ho_Chi_Minh_City_Skyline_%28night%29.jpg/1280px-Ho_Chi_Minh_City_Skyline_%28night%29.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1400&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1400&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1583417319070-4a69db38a482-9b8dee1d.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1400&q=88",
+      "resolvedSource": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1400&q=88",
+      "localOriginal": "assets/images/originals/remote/photo-1528127269322-539801943592-efb8c429.jpg",
+      "usedBy": [
+        "index.html",
+        "journey.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Nguyen_Hue_Flower_Street_Tet.jpg/1280px-Nguyen_Hue_Flower_Street_Tet.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=900&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=900&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559592413-7cec4d0cae2b-c3c695aa.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=900&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=900&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-31474f7f.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Vietnamese_iced_coffee.jpg/1280px-Vietnamese_iced_coffee.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=900&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=900&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1583417319070-4a69db38a482-86cae65e.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=900&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=900&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1528127269322-539801943592-2e8cf67b.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Ben_Thanh_market_2.jpg/1280px-Ben_Thanh_market_2.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "downloadError": "Error: HTTP 429",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=700&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=700&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-5af1cf0c.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=701&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=701&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-f88bf1f9.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=702&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=702&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-4dbd7e09.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=703&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=703&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-54b8a684.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=700&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=700&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1547592180-85f173990554-034cd95b.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=700&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=700&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559847844-5315695dadae-9f931585.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=704&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=704&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-35e9a159.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=701&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=701&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1547592180-85f173990554-94734bb3.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=705&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=705&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-db025861.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=700&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=700&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1563805042-7684c019e1cb-f70cfa48.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=706&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=706&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1559314809-0d155014e29e-48eeb130.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=700&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=700&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1495474472287-4d71bcdd2085-4facfcea.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=701&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=701&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1495474472287-4d71bcdd2085-5dbc48f5.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=702&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=702&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1495474472287-4d71bcdd2085-49ccb068.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=703&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=703&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1495474472287-4d71bcdd2085-c0324d03.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=700&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=700&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1544145945-f90425340c7e-22a91e92.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1580984969071-a8da5656c2fb?auto=format&fit=crop&w=700&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1580984969071-a8da5656c2fb?auto=format&fit=crop&w=700&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1580984969071-a8da5656c2fb-bcefb815.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=704&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=704&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1495474472287-4d71bcdd2085-d45f363d.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1557750255-c76072a7aad1?auto=format&fit=crop&w=900&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1557750255-c76072a7aad1?auto=format&fit=crop&w=900&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1557750255-c76072a7aad1-f7edbe08.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1495474472287-4d71bcdd2085-f61bdb8f.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1549490349-8643362247b5-74d36fd8.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1445205170230-053b83016050-0c17001e.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=86",
+      "resolvedSource": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=86",
+      "localOriginal": "assets/images/originals/remote/photo-1516280440614-37939bbacd81-1706ca92.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1500&q=90",
+      "resolvedSource": "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1500&q=90",
+      "localOriginal": "assets/images/originals/remote/photo-1583417319070-4a69db38a482-59e8fe65.jpg",
+      "usedBy": [
+        "index.html"
+      ],
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    },
+    {
+      "source": "https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=",
+      "usedBy": [
+        "index.html",
+        "saigon-v021.html"
+      ],
+      "downloadError": "Error: Not an image: text/html; charset=UTF-8",
+      "licenseStatus": "TO CHECK",
+      "attributionStatus": "TO CHECK"
+    }
+  ]
+}
