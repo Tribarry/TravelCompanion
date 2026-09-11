@@ -41,3 +41,7 @@
 .tc1RateNav button:disabled{opacity:.36!important}.tc1RateNav button:last-child{background:linear-gradient(180deg,#df7048,#c95938)!important;color:#fff!important;border:1px solid #ef8b69!important}
 .tc1RaterSummary{padding:24px 18px}.tc1RaterSummary h1{font:700 46px/.95 Georgia,serif}.tc1RatingSummaryGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tc1RatingSummaryGrid>div{background:#141519;border:1px solid #303238;border-radius:14px;padding:14px}.tc1RatingSummaryGrid b{display:block;font:700 30px Georgia,serif}.tc1RatingSummaryGrid small{font-size:8px;color:#aaa}
 @media(max-width:370px){.tc1RatePhoto{height:200px!important}.tc1RateCopy h2{font-size:34px!important}.tc1RateFacts>div{grid-template-columns:1fr!important}.tc1RateFactIcon{display:none}.tc1RatingButtons button{min-height:90px!important}.tc1RateNav button{font-size:14px!important}}
+
+/* Saigon direct rater photos: never show the legacy PHOTO TO VERIFY overlay. */
+.tc1RatePhotoDirect{background-color:#1a1b20!important}
+.tc1RatePhotoDirect:before{display:none!important}
