@@ -262,5 +262,5 @@ function enrich(destination,item){
   const raw=item?.raw||{},title=cleanTitle(item?.title||item?.name||'Experience',raw),exact=ruleFor(title,raw),base=exact?{summary:exact.summary,action:exact.action,best:exact.best||bestFor(cat(title,raw),raw)}:generic(destination,title,raw);
   return {title,summary:escSentence(base.summary),why:escSentence(base.summary),action:escSentence(base.action),best:base.best||'Flexible',source:'vietnam-v3'};
 }
-window.TC1VietnamExperienceContent={enrich,destKey,lens,category:cat,ruleFor,version:'2026-09-11-v3'};
+window.TC1VietnamExperienceContent={enrich,destKey,lens,category:cat,ruleFor,profileCount:Object.keys(DEST).length,exactRuleCount:RULES.length,version:'2026-09-11-v3'};
 })();

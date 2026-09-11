@@ -151,16 +151,24 @@ function enrich(countryId,destination,item){
   const raw=item?.raw||{};
   const tags=item?.tags||[];
   const hcm=countryId==='vietnam'&&destination?.name==='Ho Chi Minh City'?findHcm(item?.title):null;
-  const summary=hcm?.summary||(!weak(item?.summary,item?.title)?sentence(item.summary):generatedSummary(item?.title,destination,tags,raw));
+  let vn=null;
+  if(countryId==='vietnam'&&window.TC1VietnamExperienceContent?.enrich){
+    try{vn=window.TC1VietnamExperienceContent.enrich(destination,item)}catch(e){vn=null}
+  }
+  const title=vn?.title||item?.title;
+  const summary=hcm?.summary||vn?.summary||(!weak(item?.summary,item?.title)?sentence(item.summary):generatedSummary(item?.title,destination,tags,raw));
   return {
     ...item,
+    title,
     summary:sentence(summary),
-    why:sentence(hcm?.summary||summary),
-    action:sentence(actionLine(item?.title,destination,tags,raw)),
-    area:hcm?.area||raw.area||'',
-    time:hcm?.time||estimateTime(item?.title,tags,raw),
-    cost:hcm?.cost||estimateCost(item?.title,tags,raw),
-    booking:hcm?.booking||bookingText(raw,item?.flags),
+    why:sentence(hcm?.summary||vn?.why||summary),
+    action:sentence(hcm?.action||vn?.action||actionLine(title,destination,tags,raw)),
+    area:hcm?.area||vn?.area||raw.area||'',
+    time:hcm?.time||vn?.time||estimateTime(title,tags,raw),
+    cost:hcm?.cost||vn?.cost||estimateCost(title,tags,raw),
+    booking:hcm?.booking||vn?.booking||bookingText(raw,item?.flags),
+    best:hcm?.best||vn?.best||raw.best||'',
+    contentSource:hcm?'hcm-curated':(vn?.source||'normalised'),
     photoReady:!!window.TC1_EXPERIENCE_PHOTO_COMPLETE?.[countryId]
   };
 }
