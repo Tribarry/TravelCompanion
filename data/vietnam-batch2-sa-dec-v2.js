@@ -27,7 +27,7 @@ const SRC={
  brickKilns:S(commons('Briqueteries (région de Sa Dec, Vietnam) (6662960297).jpg'),'Brick kilns in the Sa Đéc region'),
  farmer:S('https://cdn.insidevina.com/news/photo/202001/12343_13025_5616.jpg','Flower grower tending plants in Sa Đéc before Tết'),
  preTet:S('https://kampatour.com/pic/blog/images/Sa%20Dec%208%282%29.jpg','Sa Đéc growers wrapping flowers for transport before Tết'),
- flowerRoad:S('https://media-cdn-v2.laodong.vn/storage/newsportal/2025/1/7/1446670/Hoa-Tet-Sa-Dec-13.JPG','Flower-village street scene in Sa Đéc'),
+ flowerRoad:S('https://cdn2.tuoitre.vn/thumb_w/730/tto/i/s626//2015/01/13/CHKalqMD.jpg','Grower beside Sa Nhiên–Cái Dao Flower Road, Sa Đéc'),
  vegetarian:S('https://thanhnien.mediacdn.vn/uploaded/thanhthuy/2018_10_28/hutieuchay8_KTQC.jpg?width=500','Vegetarian Sa Đéc-style hủ tiếu'),
  coffee:S('https://gcs.tripi.vn/public-tripi/tripi-feed/img/474257tkO/p-coffee-1139203.jpg','Coffee shop in Sa Đéc'),
  huTieu:S('https://mekongsen.vn/datafiles/1989319905715032064/2025-11/1763202012-28617054-hu-tieu-sa-dec-3.png','Hủ tiếu Sa Đéc'),
@@ -60,7 +60,7 @@ const COPY=[
 const matchCopy=title=>{const q=norm(title);return COPY.find(x=>x.re.test(q))||null};
 const parserArtefact=title=>{
  const q=norm(title);
- return q==='hu tieu sa dec'||q==='banh tam bi'||q==='never scheduled transport'||q.startsWith('temple side vegetarian food')||q.includes('cargo working boat hitch toward can tho');
+ return q==='hu tieu sa dec'||q==='banh tam bi'||q==='never scheduled transport'||q.startsWith('temple side vegetarian food')||q.includes('cargo working boat hitch toward can tho')||(q.includes('working boat')&&q.includes('can tho')&&q.includes('wildcard'));
 };
 
 function installExperienceOverrides(){
@@ -82,9 +82,10 @@ function installExperienceOverrides(){
   const wrapped=function(countryId,destination,item){
    const base=prior(countryId,destination,item);
    if(countryId!=='vietnam'||!isSaDec(destination))return base;
+   const flags=(base?.flags||[]).filter(f=>norm(f)!=='no advance booking noted');
    const c=matchCopy(base?.title||item?.title||item?.name||'');
-   if(!c)return base;
-   return {...base,title:c.title,summary:c.summary,photo:c.photo,photoReady:true,contentSource:'sa-dec-v2'};
+   if(!c)return {...base,flags};
+   return {...base,title:c.title,summary:c.summary,photo:c.photo,photoReady:true,flags,contentSource:'sa-dec-v2'};
   };
   wrapped.__saDecV2=true;window.TC1ExperienceCopy.enrich=wrapped;
  }
@@ -152,13 +153,12 @@ function hydratePage(){
   const flags=card.querySelector('.tc1Flags');if(flags&&!flags.children.length)flags.remove();
  });
 }
-
-const priorHydrate=window.hydrateVN;
-if(typeof priorHydrate==='function'&&!priorHydrate.__saDecV2){
- const wrapped=function(){priorHydrate();hydratePage()};wrapped.__saDecV2=true;window.hydrateVN=wrapped;
+function installHydrateOverride(){
+ const prior=window.hydrateVN;if(typeof prior!=='function'||prior.__saDecV2)return;
+ const wrapped=function(){prior();hydratePage()};wrapped.__saDecV2=true;window.hydrateVN=wrapped;
 }
 let queued=false;
-function run(){queued=false;installExperienceOverrides();installFoodOverride();hydratePage()}
+function run(){queued=false;installExperienceOverrides();installFoodOverride();installHydrateOverride();hydratePage()}
 function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{run();setTimeout(run,120);setTimeout(run,450)})}
 new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
