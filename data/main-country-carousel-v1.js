@@ -14,39 +14,30 @@ const CAROUSEL_PHOTOS={
  kyrgyzstan:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Ala-Kul%20lake.jpg',
  teaching:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Phnom%20Penh%20sunset.jpg'
 };
+const SAIGON_SPOTLIGHT_PHOTOS={
+ 'War Remnants Museum':'https://commons.wikimedia.org/wiki/Special:Redirect/file/War%20Remnants%20Museum.jpg',
+ 'Secret Saigon Commando Trail + Bunker':'https://commons.wikimedia.org/wiki/Special:Redirect/file/2023-12-10%20Memorial%20stele%20for%20Special%20Forces%20soldiers%20who%20died%20at%20the%20Independence%20Palace%2001.jpg',
+ 'Nguyễn Văn Bình Book Street + Slow Saigon Wander':'https://commons.wikimedia.org/wiki/Special:Redirect/file/Nguyen%20Van%20Binh%20Street%20%2852681309899%29.jpg'
+};
+function hydrateSaigonSpotlights(){
+ document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(card=>{
+   const title=card.querySelector('b')?.textContent?.trim();const photo=SAIGON_SPOTLIGHT_PHOTOS[title];if(!photo)return;
+   card.style.setProperty('background-image',`linear-gradient(180deg,rgba(0,0,0,.04) 18%,rgba(0,0,0,.16) 48%,rgba(0,0,0,.88) 100%),url("${photo}")`,'important');
+   card.style.setProperty('background-size','cover','important');card.style.setProperty('background-position','center','important');
+   card.classList.remove('vnFallback','tc1TextOnly');
+ });
+}
 function enhance(){
  const stack=document.querySelector('.tc1CountryStack');
  if(!stack||stack.dataset.carousel==='1')return;
  let cards=[...stack.querySelectorAll('.tc1CountryCard')];if(!cards.length)return;
- cards.sort((a,b)=>ORDER.indexOf(a.dataset.openCountry)-ORDER.indexOf(b.dataset.openCountry));
- cards.forEach(card=>stack.appendChild(card));
- const cambodia=cards.find(card=>card.dataset.openCountry==='cambodia');
- const teaching=cambodia?.cloneNode(true);
- if(teaching){
-   teaching.dataset.openCountry='';
-   teaching.dataset.teachingPlaceholder='1';
-   teaching.removeAttribute('onclick');
-   teaching.style.backgroundImage=`url('${CAROUSEL_PHOTOS.teaching}')`;
-   const b=teaching.querySelector('b'),em=teaching.querySelector('em'),sm=teaching.querySelector('small');
-   if(b)b.textContent='Cambodia · Teaching';
-   if(em)em.textContent='Teaching chapter · coming soon';
-   if(sm)sm.textContent='Chapter 7 · FROM 14 AUG 2027';
-   stack.appendChild(teaching);
-   cards.push(teaching);
- }
- stack.dataset.carousel='1';stack.className='tc1CountryCarousel';
- const parent=stack.parentElement;parent.className='tc1MainCarouselWrap';
- const oldHead=parent.querySelector(':scope > h2');if(oldHead)oldHead.outerHTML='<div class="tc1MainCarouselHead"><div><small>Your journey</small><h2>Choose a chapter</h2></div><small>Swipe →</small></div>';
- cards.forEach((card,index)=>{
-   const id=card.dataset.openCountry||'';
-   if(CAROUSEL_PHOTOS[id])card.style.backgroundImage=`url('${CAROUSEL_PHOTOS[id]}')`;
-   card.classList.remove('tc1CountryCard');card.classList.add('tc1CountrySlide');
-   const span=card.querySelector('span');
-   if(span){span.className='tc1CountrySlideCopy';const b=span.querySelector('b'),em=span.querySelector('em'),sm=span.querySelector('small');const title=b?.textContent||'';const meta=em?.textContent||'';const date=sm?.textContent?.replace(/^Chapter\s+\d+\s+·\s*/i,'')||'';const desc=card.dataset.teachingPlaceholder==='1'?'Placeholder for your Cambodia teaching/living chapter. We’ll build this separately from the Cambodia travel chapter.':COPY[id]||'';span.innerHTML=`<small>Chapter ${index+1} · ${date}</small><b>${title}</b><p>${desc}</p><div class="tc1CountrySlideMeta"><span>${date}</span><span>${card.dataset.teachingPlaceholder==='1'?'COMING SOON':meta+'   →'}</span></div>`}
- });
- const dots=document.createElement('div');dots.className='tc1CarouselDots';dots.innerHTML=cards.map(()=>'<i></i>').join('');parent.appendChild(dots);
- const ds=[...dots.children];stack.addEventListener('scroll',()=>{const idx=Math.round(stack.scrollLeft/(cards[0].offsetWidth+12));ds.forEach((d,i)=>{d.style.width=i===idx?'18px':'5px';d.style.background=i===idx?'#d66a45':'#555'})},{passive:true});
+ cards.sort((a,b)=>ORDER.indexOf(a.dataset.openCountry)-ORDER.indexOf(b.dataset.openCountry));cards.forEach(card=>stack.appendChild(card));
+ const cambodia=cards.find(card=>card.dataset.openCountry==='cambodia');const teaching=cambodia?.cloneNode(true);
+ if(teaching){teaching.dataset.openCountry='';teaching.dataset.teachingPlaceholder='1';teaching.removeAttribute('onclick');teaching.style.backgroundImage=`url('${CAROUSEL_PHOTOS.teaching}')`;const b=teaching.querySelector('b'),em=teaching.querySelector('em'),sm=teaching.querySelector('small');if(b)b.textContent='Cambodia · Teaching';if(em)em.textContent='Teaching chapter · coming soon';if(sm)sm.textContent='Chapter 7 · FROM 14 AUG 2027';stack.appendChild(teaching);cards.push(teaching)}
+ stack.dataset.carousel='1';stack.className='tc1CountryCarousel';const parent=stack.parentElement;parent.className='tc1MainCarouselWrap';const oldHead=parent.querySelector(':scope > h2');if(oldHead)oldHead.outerHTML='<div class="tc1MainCarouselHead"><div><small>Your journey</small><h2>Choose a chapter</h2></div><small>Swipe →</small></div>';
+ cards.forEach((card,index)=>{const id=card.dataset.openCountry||'';if(CAROUSEL_PHOTOS[id])card.style.backgroundImage=`url('${CAROUSEL_PHOTOS[id]}')`;card.classList.remove('tc1CountryCard');card.classList.add('tc1CountrySlide');const span=card.querySelector('span');if(span){span.className='tc1CountrySlideCopy';const b=span.querySelector('b'),em=span.querySelector('em'),sm=span.querySelector('small');const title=b?.textContent||'',meta=em?.textContent||'',date=sm?.textContent?.replace(/^Chapter\s+\d+\s+·\s*/i,'')||'',desc=card.dataset.teachingPlaceholder==='1'?'Placeholder for your Cambodia teaching/living chapter. We’ll build this separately from the Cambodia travel chapter.':COPY[id]||'';span.innerHTML=`<small>Chapter ${index+1} · ${date}</small><b>${title}</b><p>${desc}</p><div class="tc1CountrySlideMeta"><span>${date}</span><span>${card.dataset.teachingPlaceholder==='1'?'COMING SOON':meta+'   →'}</span></div>`}});
+ const dots=document.createElement('div');dots.className='tc1CarouselDots';dots.innerHTML=cards.map(()=>'<i></i>').join('');parent.appendChild(dots);const ds=[...dots.children];stack.addEventListener('scroll',()=>{const idx=Math.round(stack.scrollLeft/(cards[0].offsetWidth+12));ds.forEach((d,i)=>{d.style.width=i===idx?'18px':'5px';d.style.background=i===idx?'#d66a45':'#555'})},{passive:true});
 }
-const mo=new MutationObserver(enhance);mo.observe(document.documentElement,{childList:true,subtree:true});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance);else enhance();
+const mo=new MutationObserver(()=>{enhance();hydrateSaigonSpotlights()});mo.observe(document.documentElement,{childList:true,subtree:true});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{enhance();hydrateSaigonSpotlights()});else{enhance();hydrateSaigonSpotlights()}
 })();
