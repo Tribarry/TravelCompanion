@@ -47,3 +47,7 @@ html,body{background:#000!important}body{margin:0!important;color:var(--tc-ink)!
 .tc1RateAction small{display:block;font-size:8px;font-weight:900;letter-spacing:.1em;color:#aaaab1;margin-bottom:6px}
 .tc1RateAction p{margin:0!important;font-size:12px!important;line-height:1.5!important;color:#ededf0!important}
 .tc1Exp:not(:has(.tc1ExpPhoto)) .tc1ExpCopy{padding-top:18px}
+
+
+/* Destination food passports — complete coverage */
+.tc1FoodPassGrid{grid-template-columns:1fr!important}.tc1FoodPass{min-height:0}.tc1FoodPass .tc1PassBody{padding:15px}.tc1FoodStatus{display:inline-flex;border:1px solid #3a3a3f;border-radius:999px;padding:5px 8px;margin-bottom:8px;font-size:7px;font-weight:900;letter-spacing:.09em}.tc1FoodStatus.new{color:#f1bd64;border-color:#6f5428}.tc1FoodStatus.already,.tc1FoodStatus.tried{color:#7bd3a7;border-color:#315d48}.tc1FoodStatus.missing{color:#d99076;border-color:#714030}.tc1FoodPass .en{color:#9a9691;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.tc1FoodPass h3{font:700 23px/1.05 Georgia,serif;margin:5px 0 7px}.tc1FoodPass p{font-size:11px;line-height:1.48;color:#c7c3bf;margin:0 0 10px}.tc1FoodPass .tc1PassMeta{font-size:9px;line-height:1.4;color:#9d9995}.tc1FoodPass .tc1PassBtns{margin-top:12px}
