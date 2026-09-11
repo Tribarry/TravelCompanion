@@ -1,0 +1,55 @@
+name: Apply cinematic rater V2
+on:
+  push:
+    branches: [rater-cinematic-v2]
+    paths:
+      - 'data/hcm-rater-content-v2.js'
+      - 'data/rater-cinematic-v2.css'
+      - 'scripts/apply_rater_cinematic_v2.py'
+      - '.github/workflows/apply-rater-cinematic-v2.yml'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rater-cinematic-v2
+          fetch-depth: 0
+      - name: Apply cinematic rater integration
+        run: python3 scripts/apply_rater_cinematic_v2.py
+      - name: Validate JavaScript
+        run: |
+          node --check data/hcm-rater-content-v2.js
+          node --check data/travel-companion-v1-shell.js
+      - name: Validate presentation contract
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          idx=Path('index.html').read_text()
+          shell=Path('data/travel-companion-v1-shell.js').read_text()
+          css=Path('data/rater-cinematic-v2.css').read_text()
+          hcm=Path('data/hcm-rater-content-v2.js').read_text()
+          assert 'rater-cinematic-v2.css?v=20260911-cinematic-v2' in idx
+          assert 'hcm-rater-content-v2.js?v=20260911-cinematic-v2' in idx
+          assert idx.index('experience-copy-v2.js') < idx.index('hcm-rater-content-v2.js') < idx.index('travel-companion-v1-shell.js')
+          assert 'tc1RateMeta' in shell and 'TC1RaterPhoto' in shell and 'WHAT YOU\\'LL ACTUALLY DO' in shell
+          assert 'grid-template-columns:repeat(4,1fr)' in css
+          assert 'height:225px' in css
+          assert hcm.count("R(/") >= 21
+          assert "state.here=id+':'+i" in shell and shell.count("state.here=id+':'+i") == 1
+          assert 'foodPassportItems(id,i)' in shell
+          print('CINEMATIC RATER CONTRACT PASS')
+          PY
+      - name: Commit integrated rater
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html data/travel-companion-v1-shell.js data/hcm-rater-content-v2.js data/rater-cinematic-v2.css
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Match experience rater to approved cinematic design"
+            git push origin HEAD:rater-cinematic-v2
+          fi
