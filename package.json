@@ -1,0 +1,10 @@
+{
+  "name": "travel-companion",
+  "private": true,
+  "scripts": {
+    "images": "node scripts/optimize-images.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.3"
+  }
+}
