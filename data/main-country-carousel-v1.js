@@ -3,22 +3,40 @@
 const COPY={
  vietnam:'Food, local life, highlands, caves and the long journey north.',
  laos:'River towns, mountain country, conservation, caves and the southern plateau.',
- thailand:'Northern Thailand, Bangkok and the fixed TESOL chapter.',
+ cambodia:'Khmer history, coast and islands before the Thailand training chapter.',
+ thailand:'One month of training in Thailand before Central Asia.',
  kazakhstan:'Almaty, canyon country and alpine lakes before Kyrgyzstan.',
- kyrgyzstan:'Horse trekking, yurt country and high mountain landscapes.',
- cambodia:'Khmer history, coast and islands, then the teaching chapter.'
+ kyrgyzstan:'Horse trekking, yurt country and high mountain landscapes.'
 };
+const ORDER=['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan'];
 function enhance(){
  const stack=document.querySelector('.tc1CountryStack');
  if(!stack||stack.dataset.carousel==='1')return;
- const cards=[...stack.querySelectorAll('.tc1CountryCard')];if(!cards.length)return;
+ let cards=[...stack.querySelectorAll('.tc1CountryCard')];if(!cards.length)return;
+ // The carousel follows the actual 2027 travel sequence. Cambodia's later teaching
+ // chapter is intentionally not duplicated here; it gets a separate placeholder card.
+ cards.sort((a,b)=>ORDER.indexOf(a.dataset.openCountry)-ORDER.indexOf(b.dataset.openCountry));
+ cards.forEach(card=>stack.appendChild(card));
+ const cambodia=cards.find(card=>card.dataset.openCountry==='cambodia');
+ const teaching=cambodia?.cloneNode(true);
+ if(teaching){
+   teaching.dataset.openCountry='';
+   teaching.dataset.teachingPlaceholder='1';
+   teaching.removeAttribute('onclick');
+   const b=teaching.querySelector('b'),em=teaching.querySelector('em'),sm=teaching.querySelector('small');
+   if(b)b.textContent='Cambodia · Teaching';
+   if(em)em.textContent='Teaching chapter · coming soon';
+   if(sm)sm.textContent='Chapter 7 · FROM 14 AUG 2027';
+   stack.appendChild(teaching);
+   cards.push(teaching);
+ }
  stack.dataset.carousel='1';stack.className='tc1CountryCarousel';
  const parent=stack.parentElement;parent.className='tc1MainCarouselWrap';
  const oldHead=parent.querySelector(':scope > h2');if(oldHead)oldHead.outerHTML='<div class="tc1MainCarouselHead"><div><small>Your journey</small><h2>Choose a chapter</h2></div><small>Swipe →</small></div>';
- cards.forEach(card=>{
+ cards.forEach((card,index)=>{
    card.classList.remove('tc1CountryCard');card.classList.add('tc1CountrySlide');
    const id=card.dataset.openCountry||'';const span=card.querySelector('span');
-   if(span){span.className='tc1CountrySlideCopy';const b=span.querySelector('b'),em=span.querySelector('em'),sm=span.querySelector('small');const title=b?.textContent||'';const meta=em?.textContent||'';const date=sm?.textContent?.replace(/^Chapter\s+\d+\s+·\s*/i,'')||'';span.innerHTML=`<small>${sm?.textContent||''}</small><b>${title}</b><p>${COPY[id]||''}</p><div class="tc1CountrySlideMeta"><span>${date}</span><span>${meta} &nbsp; →</span></div>`}
+   if(span){span.className='tc1CountrySlideCopy';const b=span.querySelector('b'),em=span.querySelector('em'),sm=span.querySelector('small');const title=b?.textContent||'';const meta=em?.textContent||'';const date=sm?.textContent?.replace(/^Chapter\s+\d+\s+·\s*/i,'')||'';const desc=card.dataset.teachingPlaceholder==='1'?'Placeholder for your Cambodia teaching/living chapter. We’ll build this separately from the Cambodia travel chapter.':COPY[id]||'';span.innerHTML=`<small>Chapter ${index+1} · ${date}</small><b>${title}</b><p>${desc}</p><div class="tc1CountrySlideMeta"><span>${date}</span><span>${card.dataset.teachingPlaceholder==='1'?'COMING SOON':meta+'   →'}</span></div>`}
  });
  const dots=document.createElement('div');dots.className='tc1CarouselDots';dots.innerHTML=cards.map(()=>'<i></i>').join('');parent.appendChild(dots);
  const ds=[...dots.children];stack.addEventListener('scroll',()=>{const idx=Math.round(stack.scrollLeft/(cards[0].offsetWidth+12));ds.forEach((d,i)=>{d.style.width=i===idx?'18px':'5px';d.style.background=i===idx?'#d66a45':'#555'})},{passive:true});
