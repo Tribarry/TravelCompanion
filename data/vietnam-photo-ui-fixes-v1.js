@@ -143,11 +143,16 @@ function injectStyle(){
 let scheduled=false;
 function hydrateNextTenFood(){
  const title=norm(document.querySelector('.tc1DestBody h1')?.textContent||'');
- const allowed=['can tho','long xuyen','chau doc','tra su cajuput forest','tinh bien tri ton','bac lieu ghositaram temple','ha tien','kien luong','rach gia','vinh long ben tre'];
+ const allowed=['can tho','long xuyen','chau doc nui sam','tra su','tinh bien tri ton','bac lieu','ha tien','kien luong','rach gia','nam du islands'];
  if(!allowed.includes(title))return;
  document.querySelectorAll('.tc1FoodPass').forEach(card=>{const dish=card.querySelector('h3')?.textContent||'';const url=sourceForFood(dish);if(url)ensureFoodPhoto(card,url,dish)});
 }
-function run(){scheduled=false;injectStyle();hydrateSaigonFood();hydrateCaiBeFood();hydrateCaiBeExperiences();hydrateNextTenFood()}
+function hydrateNextTenPlaces(){
+ const chauDoc='https://commons.wikimedia.org/wiki/Special:Redirect/file/Chau%20Doc%20Floating%20Village.jpg?width=1600';
+ document.querySelectorAll('.tc1Place').forEach(card=>{if(norm(card.querySelector('h3')?.textContent||'')!=='chau doc nui sam')return;const image=card.querySelector('.tc1PlacePhoto');if(image)setBg(image,chauDoc)});
+ if(currentDestination()==='chau doc nui sam'){const hero=document.querySelector('.tc1DestHero');if(hero)setSpotlightBg(hero,chauDoc)}
+}
+function run(){scheduled=false;injectStyle();hydrateSaigonFood();hydrateCaiBeFood();hydrateCaiBeExperiences();hydrateNextTenFood();hydrateNextTenPlaces()}
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{run();setTimeout(run,160);setTimeout(run,650)})}
 const mo=new MutationObserver(schedule);mo.observe(document.documentElement,{childList:true,subtree:true});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
