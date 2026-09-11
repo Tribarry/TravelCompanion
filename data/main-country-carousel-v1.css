@@ -1,0 +1,20 @@
+/* Main country carousel V1 — presentation only. */
+.tc1MainHero{min-height:42vh!important;background-position:center!important}
+.tc1MainCopy{padding-bottom:28px!important}
+.tc1MainCopy h1{font-size:clamp(54px,16vw,70px)!important}
+.tc1MainCarouselWrap{padding:24px 0 34px;background:#050505}
+.tc1MainCarouselHead{padding:0 18px 14px;display:flex;justify-content:space-between;align-items:end}
+.tc1MainCarouselHead h2{font:700 32px/1 Georgia,serif;margin:0;color:#f4f2ee}
+.tc1MainCarouselHead small{font-size:8px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#aaa6a1}
+.tc1CountryCarousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 18px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tc1CountryCarousel::-webkit-scrollbar{display:none}
+.tc1CountrySlide{flex:0 0 84%;height:440px;scroll-snap-align:center;border:1px solid #303030;border-radius:26px;position:relative;overflow:hidden;color:#fff;text-align:left;background:#191d26 center/cover no-repeat;padding:0;box-shadow:0 18px 44px #0008}
+.tc1CountrySlide:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04) 25%,rgba(0,0,0,.18) 50%,rgba(0,0,0,.92) 100%)}
+.tc1CountrySlideCopy{position:absolute;z-index:2;left:20px;right:20px;bottom:22px}
+.tc1CountrySlideCopy small{display:block;font-size:8px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.tc1CountrySlideCopy b{display:block;font:700 43px/.92 Georgia,serif;letter-spacing:-.03em;margin-bottom:10px}
+.tc1CountrySlideCopy p{font-size:10px;line-height:1.45;margin:0 0 12px;color:#eee;max-width:290px}
+.tc1CountrySlideMeta{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #ffffff55;padding-top:11px;font-size:8px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.tc1CarouselDots{display:flex;justify-content:center;gap:6px;padding-top:12px}
+.tc1CarouselDots i{width:5px;height:5px;border-radius:50%;background:#555}.tc1CarouselDots i:first-child{width:18px;border-radius:99px;background:#d66a45}
+@media(max-width:370px){.tc1CountrySlide{flex-basis:86%;height:400px}.tc1CountrySlideCopy b{font-size:38px}}
