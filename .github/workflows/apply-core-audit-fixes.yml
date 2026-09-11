@@ -1,0 +1,49 @@
+name: Apply core audit fixes
+on:
+  push:
+    branches: [audit-core-fixes-v1]
+    paths:
+      - '.github/workflows/apply-core-audit-fixes.yml'
+      - 'scripts/apply_audit_core_fixes.py'
+      - 'data/experience-copy-v2.js'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit-core-fixes-v1
+          fetch-depth: 0
+      - name: Apply audit fixes
+        run: python3 scripts/apply_audit_core_fixes.py
+      - name: Validate syntax and audit contract
+        run: |
+          node --check data/experience-copy-v2.js
+          node --check data/travel-companion-v1-shell.js
+          node --check data/destination-food-passports-v1.js
+          python3 - <<'PY'
+          from pathlib import Path
+          idx=Path('index.html').read_text(); sh=Path('data/travel-companion-v1-shell.js').read_text(); cp=Path('data/experience-copy-v2.js').read_text(); css=Path('data/travel-companion-v1-shell.css').read_text()
+          assert '<title>Asia 2027 - Travel Companion</title>' in idx
+          for token in ["const JOURNEY_ORDER=['vietnam','laos','thailand','kazakhstan','kyrgyzstan','cambodia']",'function destinationStableId(','function setCurrentLocation(','function stableExperienceKey(','function countryRegion(','const BOOK_STATES=',"'Enquired'","'Confirmed'"]:
+              assert token in sh, token
+          assert "setCurrentLocation(id,i)" in sh
+          assert sh.count("state.here=id+':'+i") == 1, 'legacy location assignment should exist only in stable setter'
+          assert 'normaliseRawCost' in cp and "return'Est. A$0–15'" in cp and 'elsewhere on the trip' in cp
+          assert 'Core audit contrast repair' in css
+          assert 'destination-food-passports-v1.js' in idx
+          print('CORE AUDIT CONTRACT PASS')
+          PY
+      - name: Commit fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html data/travel-companion-v1-shell.js data/travel-companion-v1-shell.css docs/CORE_AUDIT_FIXES.md
+          if git diff --cached --quiet; then
+            echo "No generated changes"
+          else
+            git commit -m "Fix core audit issues in V1 shell"
+            git push origin HEAD:audit-core-fixes-v1
+          fi
