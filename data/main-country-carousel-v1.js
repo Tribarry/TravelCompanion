@@ -7,7 +7,7 @@ if(!document.querySelector('script[data-vn-photo-ui-fixes]')){
  const p=document.createElement('script');p.src='data/vietnam-photo-ui-fixes-v1.js?v=20260912-f1';p.dataset.vnPhotoUiFixes='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-b2-sadec]')){
- const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v1.js?v=20260912-s1';s.dataset.vnB2Sadec='1';document.head.appendChild(s);
+ const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v2.js?v=20260912-s2';s.dataset.vnB2Sadec='1';document.head.appendChild(s);
 }
 const COPY={
  vietnam:'Food, local life, highlands, caves and the long journey north.',
