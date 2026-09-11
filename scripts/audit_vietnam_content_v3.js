@@ -64,11 +64,6 @@ for(const d of runtimeDestinations){
   if(!l||/^the local story of/i.test(l))throw new Error('No destination-specific profile for '+d);
   const sample=V.enrich({name:d},{title:'Local neighbourhood walk',raw:{raw:'Local neighbourhood walk',tags:[]}});
   if(sample.summary.length<105)throw new Error('Runtime destination fallback too short for '+d);
-  if(!sample.summary.includes(d.split(' / ')[0].split(' + ')[0]) && d!=='Ho Chi Minh City'){
-    // The wording may use the destination lens rather than repeating the title,
-    // so source/lens coverage is the hard requirement rather than forced keyword stuffing.
-    if(!V.lens({name:d}))throw new Error('Missing runtime lens for '+d);
-  }
 }
 
 const exactMustDo=[
@@ -94,13 +89,14 @@ const exactMustDo=[
 ['Sa Pa','Tả Phìn Red Dao herbal bath MUST']
 ];
 for(const [d,t] of exactMustDo){
-  const dest={name:d};
-  if(!V.ruleFor(dest,t,{raw:t}))throw new Error(`Missing exact must-do copy rule: ${d} / ${t}`);
+  const dest={name:d},raw={raw:t,tags:[]};
+  const rule=V.ruleFor(dest,t,raw);
+  if(!rule)throw new Error(`Missing exact must-do copy rule: ${d} / ${t}`);
+  const rendered=V.enrich(dest,{title:t,raw});
+  if(rendered.summary!==rule.summary||rendered.action!==rule.action)throw new Error(`Exact rule is not being rendered: ${d} / ${t}`);
 }
 
-// Guard against the exact-match leakage that previously allowed broad words to
-// inject the wrong destination's bespoke story. Each item below should use the
-// correct destination fallback instead of another place's exact rule.
+// Guard against broad keywords injecting another destination's exact story.
 const leakage=[
 ['Cái Bè / Tân Phong','Sampan canals'],
 ['Sa Đéc','Brick-kiln waterways'],
@@ -120,6 +116,6 @@ for(const [d,t] of leakage){
   if(x.source!=='vietnam-v3'||x.summary.length<105)throw new Error(`Bad guarded fallback: ${d} / ${t}`);
 }
 
-const report=`# Vietnam Experience Content V3 Audit\n\n- Runtime destination profiles: **${V.profileCount}** (required: all 59 Vietnam stops).\n- Canonical locked-bank records exercised through the V3 writer: **${records}**.\n- High-value exact-content matches in the canonical bank audit: **${exactHits}**.\n- Exact rule bank: **${V.exactRuleCount}** named/high-value patterns.\n- Every audited record returns a readable summary and a concrete “what you’ll actually do” action.\n- Previous placeholder/generic fallback phrases are rejected by the audit.\n- Broad exact-match patterns are destination-scoped; cross-destination leakage tests pass.\n- HCMC’s separately curated exact catalogue remains allowed to override V3 where it has a stronger exact match.\n- Route order, locked-bank membership, Saved/Done/Skip, ratings and current-location semantics are not changed by this content pass.\n- This is a copy-quality/coverage audit, **not** verification of 2027 opening hours, prices, transport, border access or weather. Those remain operational checks.\n`;
+const report=`# Vietnam Experience Content V3 Audit\n\n- Runtime destination profiles: **${V.profileCount}** (required: all 59 Vietnam stops).\n- Canonical locked-bank records exercised through the V3 writer: **${records}**.\n- High-value exact-content matches in the canonical bank audit: **${exactHits}**.\n- Exact rule bank: **${V.exactRuleCount}** named/high-value patterns.\n- Every audited record returns a readable summary and a concrete “what you’ll actually do” action.\n- Named high-value rules are verified to be the copy actually rendered, not merely present in the rule bank.\n- Previous placeholder/generic fallback phrases are rejected by the audit.\n- Broad exact-match patterns are destination-scoped; cross-destination leakage tests pass.\n- HCMC’s separately curated exact catalogue remains allowed to override V3 where it has a stronger exact match.\n- Route order, locked-bank membership, Saved/Done/Skip, ratings and current-location semantics are not changed by this content pass.\n- This is a copy-quality/coverage audit, **not** verification of 2027 opening hours, prices, transport, border access or weather. Those remain operational checks.\n`;
 fs.writeFileSync('docs/VIETNAM_EXPERIENCE_CONTENT_V3_AUDIT.md',report);
 console.log(`VIETNAM V3 CONTENT PASS: ${runtimeDestinations.length} destinations / ${records} canonical records / ${exactHits} exact hits`);
