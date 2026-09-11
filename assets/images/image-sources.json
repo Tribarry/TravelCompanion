@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T12:38:48.049Z",
+  "generatedAt": "2026-09-11T12:43:00.061Z",
   "note": "Source URLs were already referenced by the app. Licence and attribution must be checked before relying on local copies.",
   "images": [
     {
@@ -438,11 +438,10 @@
     },
     {
       "source": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Charyn%20Canyon%2C%20Kazakhstan%2004.jpg",
-      "resolvedSource": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Charyn_Canyon%2C_Kazakhstan_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original",
-      "localOriginal": "assets/images/originals/remote/charyn-canyon-kazakhstan-04-d0bbc530.jpg",
       "usedBy": [
         "data/main-country-carousel-v1.js"
       ],
+      "downloadError": "Error: HTTP 429",
       "licenseStatus": "TO CHECK",
       "attributionStatus": "TO CHECK"
     },
