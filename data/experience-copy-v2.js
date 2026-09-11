@@ -89,8 +89,28 @@ function estimateTime(title,tags,raw){
   return ({cave:'2–4 hr',waterfall:'1–3 hr',market:'1–2 hr',spiritual:'45–90 min',history:'1–3 hr',coffee:'1–2 hr',food:'1–3 hr',homestay:'Overnight',cycling:'2–5 hr',water:'1–4 hr',marine:'Half/full day',active:'2–5 hr',nature:'2–5 hr',culture:'1–4 hr',journey:'Half/full day',local:'1–3 hr'})[c]||'Flexible';
 }
 
+function normaliseRawCost(v){
+  const raw=String(v||'').trim(),q=norm(raw);
+  if(!raw)return'';
+  if(/^a\$|aud|\d[,\d.]*\s*(vnd|lak|khr|thb|kzt|kgs)/i.test(raw))return raw;
+  if(q==='free')return'Free';
+  if(/included/.test(q))return'Included';
+  if(/fixed programme cost|fixed program cost/.test(q))return'Fixed programme cost';
+  if(/pass required/.test(q))return'Entry pass required · check current price';
+  if(q==='low')return'Est. A$0–15';
+  if(q==='low mid'||q==='mid low')return'Est. A$5–30';
+  if(q==='mid')return'Est. A$15–60';
+  if(q==='mid high'||q==='high mid')return'Est. A$40–120';
+  if(q==='high')return'Est. A$80+';
+  if(/free low/.test(q))return'Free–Est. A$15';
+  if(/low premium/.test(q))return'Est. A$0–100+ depending option';
+  if(/variable|varies/.test(q))return'Variable · check locally';
+  if(/check locally|tbc/.test(q))return'Estimate pending · check locally';
+  return raw;
+}
+
 function estimateCost(title,tags,raw){
-  if(raw?.cost)return raw.cost;
+  const supplied=normaliseRawCost(raw?.cost);if(supplied)return supplied;
   const c=category(title,tags,raw),q=norm(title);
   if(/son doong|pygmy|hung thoong|hang en/.test(q))return'High · advance-booked expedition';
   if(/canyoning|diving|easy rider|food tour|guided trek/.test(q))return'Est. A$40–150';
@@ -113,7 +133,7 @@ function actionLine(title,destination,tags,raw){
     market:`Go while the market is active, walk slowly, try something local and watch how the space actually functions.`,
     spiritual:`Walk the site quietly, notice the architecture and rituals, and follow local dress and photography etiquette.`,
     history:`Read or listen to the interpretation, connect the site to the wider destination story and avoid rushing the difficult material.`,
-    coffee:`Taste the local style, ask how it is prepared and compare it with the coffee you have tried elsewhere in Vietnam.`,
+    coffee:`Taste the local style, ask how it is prepared and compare it with coffee you try elsewhere on the trip.`,
     food:`Order the local speciality, eat where it is normally served and note it in the food passport if it is a new dish.`,
     homestay:`Arrive early enough to settle in, share a meal and leave room for unscheduled time with the hosts or village.`,
     cycling:`Ride the quieter roads, stop often and use the bicycle to reach places that would otherwise be bypassed.`,
@@ -145,5 +165,5 @@ function enrich(countryId,destination,item){
   };
 }
 
-window.TC1ExperienceCopy={enrich,weak,category};
+window.TC1ExperienceCopy={enrich,weak,category,normaliseRawCost};
 })();
