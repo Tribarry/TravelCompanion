@@ -1,0 +1,30 @@
+name: Build Vietnam photo manifest
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/eliminate-runtime-photo-lookups
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/build-vietnam-photo-manifest.mjs
+      - run: npm install --no-audit --no-fund
+      - run: npm run images
+      - run: node scripts/finalize-vietnam-photo-manifest.mjs
+      - name: Commit resolved local photos
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/images/originals/vietnam-resolved assets/images/generated/vietnam-resolved data/vietnam-photo-manifest-v1.js
+          git commit -m 'chore: resolve Vietnam photos at build time' || exit 0
+          git push origin HEAD:feature/eliminate-runtime-photo-lookups
