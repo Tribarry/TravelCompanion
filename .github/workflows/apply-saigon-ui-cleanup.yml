@@ -1,0 +1,43 @@
+name: Apply Saigon UI cleanup
+on:
+  push:
+    branches: [saigon-real-photo-pass]
+    paths:
+      - 'scripts/apply_saigon_ui_cleanup.py'
+      - '.github/workflows/apply-saigon-ui-cleanup.yml'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: saigon-real-photo-pass
+      - name: Apply UI cleanup
+        run: python3 scripts/apply_saigon_ui_cleanup.py
+      - name: Validate
+        run: |
+          node --check data/hcm-rater-content-v2.js
+          python3 - <<'PY'
+          from pathlib import Path
+          c=Path('data/rater-cinematic-v2.css').read_text()
+          h=Path('data/hcm-rater-content-v2.js').read_text()
+          i=Path('index.html').read_text()
+          assert '.tc1OverviewContext{display:none!important}' in c
+          assert 'grid-template-columns:repeat(2,minmax(0,1fr))!important' in c
+          assert '.tc1RatePhoto{height:330px!important' in c
+          assert 'Nuocmam1.jpg?width=1400' in h
+          assert 'N%C6%B0%E1%BB%9Bc%20m%E1%BA%AFm%20bottle.JPG?width=1400' not in h
+          assert '20260911-ui-v5' in i
+          print('UI CLEANUP CONTRACT PASS')
+          PY
+      - name: Commit product changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/hcm-rater-content-v2.js data/rater-cinematic-v2.css index.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Polish Saigon rater and experience library'
+            git push origin HEAD:saigon-real-photo-pass
+          fi
