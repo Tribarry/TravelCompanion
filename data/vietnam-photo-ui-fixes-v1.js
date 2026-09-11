@@ -58,7 +58,10 @@ const FOOD={
  'banh xeo':'assets/images/generated/vietnam-resolved/ba-nh-xe-o-183280ce-480.webp',
  'ca loc nuong trui':SOURCES.caLoc.url,
  'banh tam bi':SOURCES.banhTamBi.url,
- 'lau mam':SOURCES.lauMam.url
+ 'lau mam':SOURCES.lauMam.url,
+ 'bun ca': 'https://vietcruisetours.com/uploads/news/2014/5.2.jpg',
+ 'bun mam': 'https://image-fworker.momocdn.net/common/u/2e02fb5fe4f64fb55bc713540643c6f8eae702d101cea8c59afc49cfc505fc37/92315567-47fc-44dc-bb1c-826fe55126e1624ybmae.jpeg?referer=attachment.momocdn.net&size=XL',
+ 'bun nuoc leo': 'https://bizweb.dktcdn.net/100/489/006/files/bun-nuoc-leo-8-e02e941e-3713-4b4b-b594-43a7e4d7f8e2.jpg?v=1697719214502'
 };
 
 function currentDestination(){return norm(document.querySelector('.tc1DestBody h1')?.textContent||'')}
@@ -138,7 +141,13 @@ function injectStyle(){
  `;document.head.appendChild(s);
 }
 let scheduled=false;
-function run(){scheduled=false;injectStyle();hydrateSaigonFood();hydrateCaiBeFood();hydrateCaiBeExperiences()}
+function hydrateNextTenFood(){
+ const title=norm(document.querySelector('.tc1DestBody h1')?.textContent||'');
+ const allowed=['can tho','long xuyen','chau doc','tra su cajuput forest','tinh bien tri ton','bac lieu ghositaram temple','ha tien','kien luong','rach gia','vinh long ben tre'];
+ if(!allowed.includes(title))return;
+ document.querySelectorAll('.tc1FoodPass').forEach(card=>{const dish=card.querySelector('h3')?.textContent||'';const url=sourceForFood(dish);if(url)ensureFoodPhoto(card,url,dish)});
+}
+function run(){scheduled=false;injectStyle();hydrateSaigonFood();hydrateCaiBeFood();hydrateCaiBeExperiences();hydrateNextTenFood()}
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{run();setTimeout(run,160);setTimeout(run,650)})}
 const mo=new MutationObserver(schedule);mo.observe(document.documentElement,{childList:true,subtree:true});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
