@@ -1,5 +1,8 @@
 (()=>{
 'use strict';
+if(!document.querySelector('script[data-vn-b1-caibe]')){
+ const s=document.createElement('script');s.src='data/vietnam-batch1-cai-be-v1.js?v=20260911-b1';s.dataset.vnB1Caibe='1';document.head.appendChild(s);
+}
 const COPY={
  vietnam:'Food, local life, highlands, caves and the long journey north.',
  laos:'River towns, mountain country, conservation, caves and the southern plateau.',
