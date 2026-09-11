@@ -2,9 +2,21 @@ name: Build Vietnam photo manifest
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/vietnam-photo-alignment-v026.js'
+      - 'scripts/build-vietnam-photo-manifest.mjs'
+      - 'scripts/finalize-vietnam-photo-manifest.mjs'
+      - 'scripts/optimize-images.mjs'
+      - 'assets/images/originals/vietnam-resolved/**'
 
 permissions:
   contents: write
+
+concurrency:
+  group: vietnam-photo-manifest-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -12,7 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: feature/eliminate-runtime-photo-lookups
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
@@ -26,5 +37,9 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add assets/images/originals/vietnam-resolved assets/images/generated/vietnam-resolved data/vietnam-photo-manifest-v1.js
-          git commit -m 'chore: resolve Vietnam photos at build time' || exit 0
-          git push origin HEAD:feature/eliminate-runtime-photo-lookups
+          if git diff --cached --quiet; then
+            echo 'Vietnam photo manifest is already up to date.'
+            exit 0
+          fi
+          git commit -m 'chore: resolve Vietnam photos at build time'
+          git push origin HEAD:${GITHUB_REF_NAME}
