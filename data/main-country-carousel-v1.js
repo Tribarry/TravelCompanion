@@ -9,12 +9,15 @@ const COPY={
  kyrgyzstan:'Horse trekking, yurt country and high mountain landscapes.'
 };
 const ORDER=['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan'];
+const CAROUSEL_PHOTOS={
+ kazakhstan:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Charyn%20Canyon%2C%20Kazakhstan%2004.jpg',
+ kyrgyzstan:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Ala-Kul%20lake.jpg',
+ teaching:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Phnom%20Penh%20sunset.jpg'
+};
 function enhance(){
  const stack=document.querySelector('.tc1CountryStack');
  if(!stack||stack.dataset.carousel==='1')return;
  let cards=[...stack.querySelectorAll('.tc1CountryCard')];if(!cards.length)return;
- // The carousel follows the actual 2027 travel sequence. Cambodia's later teaching
- // chapter is intentionally not duplicated here; it gets a separate placeholder card.
  cards.sort((a,b)=>ORDER.indexOf(a.dataset.openCountry)-ORDER.indexOf(b.dataset.openCountry));
  cards.forEach(card=>stack.appendChild(card));
  const cambodia=cards.find(card=>card.dataset.openCountry==='cambodia');
@@ -23,6 +26,7 @@ function enhance(){
    teaching.dataset.openCountry='';
    teaching.dataset.teachingPlaceholder='1';
    teaching.removeAttribute('onclick');
+   teaching.style.backgroundImage=`url('${CAROUSEL_PHOTOS.teaching}')`;
    const b=teaching.querySelector('b'),em=teaching.querySelector('em'),sm=teaching.querySelector('small');
    if(b)b.textContent='Cambodia · Teaching';
    if(em)em.textContent='Teaching chapter · coming soon';
@@ -34,8 +38,10 @@ function enhance(){
  const parent=stack.parentElement;parent.className='tc1MainCarouselWrap';
  const oldHead=parent.querySelector(':scope > h2');if(oldHead)oldHead.outerHTML='<div class="tc1MainCarouselHead"><div><small>Your journey</small><h2>Choose a chapter</h2></div><small>Swipe →</small></div>';
  cards.forEach((card,index)=>{
+   const id=card.dataset.openCountry||'';
+   if(CAROUSEL_PHOTOS[id])card.style.backgroundImage=`url('${CAROUSEL_PHOTOS[id]}')`;
    card.classList.remove('tc1CountryCard');card.classList.add('tc1CountrySlide');
-   const id=card.dataset.openCountry||'';const span=card.querySelector('span');
+   const span=card.querySelector('span');
    if(span){span.className='tc1CountrySlideCopy';const b=span.querySelector('b'),em=span.querySelector('em'),sm=span.querySelector('small');const title=b?.textContent||'';const meta=em?.textContent||'';const date=sm?.textContent?.replace(/^Chapter\s+\d+\s+·\s*/i,'')||'';const desc=card.dataset.teachingPlaceholder==='1'?'Placeholder for your Cambodia teaching/living chapter. We’ll build this separately from the Cambodia travel chapter.':COPY[id]||'';span.innerHTML=`<small>Chapter ${index+1} · ${date}</small><b>${title}</b><p>${desc}</p><div class="tc1CountrySlideMeta"><span>${date}</span><span>${card.dataset.teachingPlaceholder==='1'?'COMING SOON':meta+'   →'}</span></div>`}
  });
  const dots=document.createElement('div');dots.className='tc1CarouselDots';dots.innerHTML=cards.map(()=>'<i></i>').join('');parent.appendChild(dots);
