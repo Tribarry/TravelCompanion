@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 if(!document.querySelector('script[data-vn-b1-caibe]')){
- const s=document.createElement('script');s.src='data/vietnam-batch1-cai-be-v1.js?v=20260911-b1';s.dataset.vnB1Caibe='1';document.head.appendChild(s);
+ const s=document.createElement('script');s.src='data/vietnam-batch1-cai-be-v1.js?v=20260911-b2';s.dataset.vnB1Caibe='1';document.head.appendChild(s);
 }
 const COPY={
  vietnam:'Food, local life, highlands, caves and the long journey north.',
@@ -22,12 +22,26 @@ const SAIGON_SPOTLIGHT_PHOTOS={
  'Secret Saigon Commando Trail + Bunker':'https://commons.wikimedia.org/wiki/Special:Redirect/file/2023-12-10%20Memorial%20stele%20for%20Special%20Forces%20soldiers%20who%20died%20at%20the%20Independence%20Palace%2001.jpg',
  'Nguyễn Văn Bình Book Street + Slow Saigon Wander':'https://commons.wikimedia.org/wiki/Special:Redirect/file/Nguyen%20Van%20Binh%20Street%20%2852681309899%29.jpg'
 };
+function setSpotlightPhoto(card,photo){
+ if(!card||!photo)return;
+ card.style.setProperty('background-image',`linear-gradient(180deg,rgba(0,0,0,.04) 18%,rgba(0,0,0,.16) 48%,rgba(0,0,0,.88) 100%),url("${photo}")`,'important');
+ card.style.setProperty('background-size','cover','important');card.style.setProperty('background-position','center','important');
+ card.classList.remove('vnFallback','tc1TextOnly');
+}
 function hydrateSaigonSpotlights(){
  document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(card=>{
    const title=card.querySelector('b')?.textContent?.trim();const photo=SAIGON_SPOTLIGHT_PHOTOS[title];if(!photo)return;
-   card.style.setProperty('background-image',`linear-gradient(180deg,rgba(0,0,0,.04) 18%,rgba(0,0,0,.16) 48%,rgba(0,0,0,.88) 100%),url("${photo}")`,'important');
-   card.style.setProperty('background-size','cover','important');card.style.setProperty('background-position','center','important');
-   card.classList.remove('vnFallback','tc1TextOnly');
+   setSpotlightPhoto(card,photo);
+ });
+}
+function hydrateCaiBeSpotlights(){
+ const heading=document.querySelector('.tc1DestBody h1')?.textContent?.trim().toUpperCase();
+ if(heading!=='CÁI BÈ / TÂN PHONG'||typeof window.TC1RaterPhoto!=='function')return;
+ const destination={name:'Cái Bè / Tân Phong'};
+ document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(card=>{
+   const title=card.querySelector('b')?.textContent?.trim();if(!title)return;
+   const photo=window.TC1RaterPhoto('vietnam',destination,{title});if(!photo)return;
+   setSpotlightPhoto(card,photo);
  });
 }
 function enhance(){
@@ -41,6 +55,6 @@ function enhance(){
  cards.forEach((card,index)=>{const id=card.dataset.openCountry||'';if(CAROUSEL_PHOTOS[id])card.style.backgroundImage=`url('${CAROUSEL_PHOTOS[id]}')`;card.classList.remove('tc1CountryCard');card.classList.add('tc1CountrySlide');const span=card.querySelector('span');if(span){span.className='tc1CountrySlideCopy';const b=span.querySelector('b'),em=span.querySelector('em'),sm=span.querySelector('small');const title=b?.textContent||'',meta=em?.textContent||'',date=sm?.textContent?.replace(/^Chapter\s+\d+\s+·\s*/i,'')||'',desc=card.dataset.teachingPlaceholder==='1'?'Placeholder for your Cambodia teaching/living chapter. We’ll build this separately from the Cambodia travel chapter.':COPY[id]||'';span.innerHTML=`<small>Chapter ${index+1} · ${date}</small><b>${title}</b><p>${desc}</p><div class="tc1CountrySlideMeta"><span>${date}</span><span>${card.dataset.teachingPlaceholder==='1'?'COMING SOON':meta+'   →'}</span></div>`}});
  const dots=document.createElement('div');dots.className='tc1CarouselDots';dots.innerHTML=cards.map(()=>'<i></i>').join('');parent.appendChild(dots);const ds=[...dots.children];stack.addEventListener('scroll',()=>{const idx=Math.round(stack.scrollLeft/(cards[0].offsetWidth+12));ds.forEach((d,i)=>{d.style.width=i===idx?'18px':'5px';d.style.background=i===idx?'#d66a45':'#555'})},{passive:true});
 }
-const mo=new MutationObserver(()=>{enhance();hydrateSaigonSpotlights()});mo.observe(document.documentElement,{childList:true,subtree:true});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{enhance();hydrateSaigonSpotlights()});else{enhance();hydrateSaigonSpotlights()}
+const mo=new MutationObserver(()=>{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights()});mo.observe(document.documentElement,{childList:true,subtree:true});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights()});else{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights()}
 })();
