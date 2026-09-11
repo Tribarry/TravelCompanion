@@ -18,14 +18,14 @@ const COUNTRY_DATES={vietnam:'28 JAN → APRIL 2027',laos:'APRIL → MAY 2027',c
 const JOURNEY_ORDER=['vietnam','laos','thailand','kazakhstan','kyrgyzstan','cambodia'];
 const FLAGS2={vietnam:'🇻🇳',laos:'🇱🇦',cambodia:'🇰🇭',thailand:'🇹🇭',kazakhstan:'🇰🇿',kyrgyzstan:'🇰🇬'};
 const COUNTRY_IMAGES={
- vietnam:'https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1800&q=90',
- laos:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90',
- cambodia:'https://images.unsplash.com/photo-1562602833-0f4ab2fc46e3?auto=format&fit=crop&w=1800&q=90',
- thailand:'https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?auto=format&fit=crop&w=1800&q=90',
+ vietnam:'assets/images/generated/remote/photo-1583417319070-4a69db38a482-d27b8465-1600.webp',
+ laos:'assets/images/generated/remote/photo-1500530855697-b586d89ba3ee-ba73f954-1600.webp',
+ cambodia:'assets/images/generated/remote/photo-1562602833-0f4ab2fc46e3-b5305e41-1600.webp',
+ thailand:'assets/images/generated/remote/photo-1598970605070-a38a6ccd3a2d-dca2b1ab-1600.webp',
  kazakhstan:'https://putidorogi-nn.ru/images/stories/aziya/kazahstan/kazahstan_2.jpg',
- kyrgyzstan:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1800&q=90'
+ kyrgyzstan:'assets/images/generated/remote/photo-1500534314209-a25ddb2bd429-94319b7a-1600.webp'
 };
-const MAIN_COVER_IMAGE='https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1800&q=90';
+const MAIN_COVER_IMAGE='assets/images/generated/remote/photo-1559592413-7cec4d0cae2b-38f74c54-1600.webp';
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const slug=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
 function country(id){return DATA.countries.find(c=>c.id===id)}
