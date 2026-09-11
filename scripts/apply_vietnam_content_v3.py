@@ -13,11 +13,39 @@ s = s.replace('data/experience-copy-v2.js?v=20260911-content-finish', 'data/expe
 s = s.replace('data/travel-companion-v1-shell.js?v=20260911-food-passports', 'data/travel-companion-v1-shell.js?v=20260911-vietnam-v3')
 idx.write_text(s)
 
-# Export coverage metadata from the new content layer for the audit gate.
+# Export coverage metadata from the new content layer for the audit gate and
+# make exact rules destination-aware so a broad word (e.g. "sampan", "oyster",
+# "turtle", "citadel") cannot leak the wrong destination's story into another stop.
 vp = Path('data/vietnam-experience-content-v3.js')
 v = vp.read_text()
 v = v.replace("window.TC1VietnamExperienceContent={enrich,destKey,lens,category:cat,ruleFor,version:'2026-09-11-v3'};",
               "window.TC1VietnamExperienceContent={enrich,destKey,lens,category:cat,ruleFor,profileCount:Object.keys(DEST).length,exactRuleCount:RULES.length,version:'2026-09-11-v3'};")
+old_rule = "function ruleFor(title,raw){const q=String(title||'')+' '+String(raw?.raw||'');return RULES.find(r=>r.re.test(q))}"
+new_rule = r'''function exactScopeAllows(r,destination){
+  const d=destKey(destination?.name||destination),src=r.re.source;
+  const guards=[
+    ['secret commando|bunker',['Ho Chi Minh City']],
+    ['flower village|flower road|flower nurser',['Sa Đéc']],
+    ['sampan|tắc ráng|tac rang',['Trà Sư']],
+    ['brick-kiln|brick kiln|kiln country',['Vĩnh Long / Mang Thít']],
+    ['turtle',['Côn Đảo']],
+    ['old airfield',['Khâm Đức / Phước Sơn']],
+    ['arabica farm',['Khe Sanh']],
+    ['oyster',['Hải Vân / Lăng Cô']],
+    ['full pass',['Hải Vân / Lăng Cô']],
+    ['citadel',['Huế']],
+    ['overnight boat',['Hạ Long / Lan Hạ Bay']],
+    ['corn wine',['Bắc Hà']]
+  ];
+  for(const [needle,allowed] of guards){if(src.includes(needle)&&!allowed.includes(d))return false}
+  return true;
+}
+function ruleFor(destination,title,raw){const q=String(title||'')+' '+String(raw?.raw||'');return RULES.find(r=>r.re.test(q)&&exactScopeAllows(r,destination))}'''
+if old_rule in v:
+    v = v.replace(old_rule, new_rule, 1)
+elif 'function exactScopeAllows(' not in v:
+    raise AssertionError('ruleFor marker missing')
+v = v.replace('const exact=ruleFor(title,raw)', 'const exact=ruleFor(destination,title,raw)')
 vp.write_text(v)
 
 # Make the generic normaliser defer to the Vietnam V3 content layer for every
