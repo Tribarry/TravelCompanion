@@ -71,6 +71,15 @@ function setBg(el,url){
  el.style.setProperty('background-position','center','important');
  el.classList.remove('vnFallback','tc1NoPhoto','tc1TextOnly');
 }
+function setSpotlightBg(el,url){
+ if(!el||!url)return;
+ if(el.dataset.vnPhotoFix===url)return;
+ el.dataset.vnPhotoFix=url;
+ el.style.setProperty('background-image',`linear-gradient(180deg,rgba(0,0,0,.04) 18%,rgba(0,0,0,.16) 48%,rgba(0,0,0,.88) 100%),url("${url}")`,'important');
+ el.style.setProperty('background-size','cover','important');
+ el.style.setProperty('background-position','center','important');
+ el.classList.remove('vnFallback','tc1NoPhoto','tc1TextOnly');
+}
 function sourceForExperience(title){return EXP[norm(title)]?.url||''}
 function sourceForFood(title){return FOOD[norm(title)]||''}
 
@@ -93,13 +102,17 @@ function hydrateSaigonFood(){
 function ensureFoodPhoto(card,url,title){
  if(!card||!url)return;
  let photo=card.querySelector('.tc1PassPhoto');
- if(!photo){photo=document.createElement('div');photo.className='tc1PassPhoto tc1FoodPhoto';photo.dataset.label=title||'';card.prepend(photo)}
+ if(!photo){photo=document.createElement('div');photo.className='tc1PassPhoto tc1FoodPhoto tc1ExpPhoto';photo.dataset.label=title||'';card.prepend(photo)}
+ else photo.classList.add('tc1ExpPhoto');
  setBg(photo,url);
 }
 function hydrateCaiBeFood(){
  if(currentDestination()!=='cai be tan phong')return;
- const grid=document.querySelector('.tc1FoodPassGrid');if(!grid)return;grid.classList.add('vnPhotoFixFoodList');
+ const grid=document.querySelector('.tc1FoodPassGrid');if(!grid)return;
+ grid.classList.add('vnPhotoFixFoodList','tc1ExpList');
  grid.querySelectorAll('.tc1FoodPass').forEach(card=>{
+  card.classList.add('tc1Exp');
+  const body=card.querySelector('.tc1PassBody');if(body)body.classList.add('tc1ExpCopy');
   const title=card.querySelector('h3')?.textContent||'';const url=sourceForFood(title);if(url)ensureFoodPhoto(card,url,title);
  });
 }
@@ -110,7 +123,7 @@ function hydrateCaiBeExperiences(){
   const photo=card.querySelector('.tc1ExpPhoto');if(photo)setBg(photo,url);
  });
  document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(card=>{
-  const title=card.querySelector('b')?.textContent||'';const url=sourceForExperience(title);if(url)setBg(card,url);
+  const title=card.querySelector('b')?.textContent||'';const url=sourceForExperience(title);if(url)setSpotlightBg(card,url);
  });
 }
 function injectStyle(){
