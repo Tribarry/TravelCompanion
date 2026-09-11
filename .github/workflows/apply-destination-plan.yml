@@ -1,0 +1,39 @@
+name: Apply destination planning fixes
+on:
+  push:
+    branches: [destination-plan-and-next-v1]
+    paths:
+      - '.github/workflows/apply-destination-plan.yml'
+      - 'scripts/apply_destination_plan.py'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: destination-plan-and-next-v1
+          fetch-depth: 0
+      - run: python3 scripts/apply_destination_plan.py
+      - name: Validate
+        run: |
+          node --check data/travel-companion-v1-shell.js
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('data/travel-companion-v1-shell.js').read_text();css=Path('data/travel-companion-v1-shell.css').read_text()
+          for t in ['function nextJourneyDestination(','function scheduleView(','1 DAY','2 DAYS','3 DAYS','BUILD MY OWN','data-plan-action="keep"','data-plan-action="swap"','data-plan-action="move"','data-plan-action="remove"','async function renderDontMiss()','window.dontMiss=renderDontMiss']:
+              assert t in s,t
+          assert "window.goNext=function(){const x=current();if(!x)return renderMain();const n=nextJourneyDestination" in s
+          assert "next=nextJourneyDestination(id,i)" in s
+          assert "data-global=\"miss\"" in s
+          assert 'Destination schedule' in css
+          assert s.count("state.here=id+':'+i") == 1
+          print('DESTINATION PLAN CONTRACT PASS')
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/travel-companion-v1-shell.js data/travel-companion-v1-shell.css docs/DESTINATION_PLAN_AUDIT.md
+          if git diff --cached --quiet; then echo no-change; else git commit -m "Add destination schedules and restore journey controls" && git push origin HEAD:destination-plan-and-next-v1; fi
