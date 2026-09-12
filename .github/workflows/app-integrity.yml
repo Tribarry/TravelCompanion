@@ -73,7 +73,7 @@ jobs:
       - name: Verify loader wiring
         run: |
           grep -q 'adhd-focus-mode-v1.js?v=20260912-focus2' data/main-country-carousel-v1.js
-          grep -q 'country-route-map-v1.js?v=20260912-map2' data/main-country-carousel-v1.js
+          grep -q 'country-route-map-v1.js?v=20260912-map3' data/main-country-carousel-v1.js
           grep -q 'mekong-closeup-v1.js?v=20260912-mekong1' data/main-country-carousel-v1.js
           grep -q 'remaining-countries-photo-audit-v1.js?v=20260912-rp1' data/main-country-carousel-v1.js
           grep -q 'remaining-countries-photo-bridge-v1.js?v=20260912-rpb1' data/main-country-carousel-v1.js
