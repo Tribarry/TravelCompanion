@@ -313,7 +313,7 @@ window.VN_PHOTO_MANIFEST={
     "original": "assets/images/originals/vietnam-resolved/ho-chi-minh-highway-d3e69324.png",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
-    "local": "assets/images/generated/vietnam-resolved/ho-chi-minh-highway-d3e69324-800.webp"
+    "local": ""
   },
   "Ho Chi Minh Mausoleum": {
     "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/L%C4%83ng_B%C3%A1c_-_NKS.jpg/3840px-L%C4%83ng_B%C3%A1c_-_NKS.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
@@ -712,7 +712,7 @@ window.VN_PHOTO_MANIFEST={
     "original": "assets/images/originals/vietnam-resolved/tra-su-cajuput-forest-33eda71e.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
-    "local": "assets/images/generated/vietnam-resolved/tra-su-cajuput-forest-33eda71e-1600.webp"
+    "local": ""
   },
   "Trà Vinh": {
     "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/C%E1%BB%95ng_ch%C3%A0o_Tr%C3%A0_Vinh.jpg/3840px-C%E1%BB%95ng_ch%C3%A0o_Tr%C3%A0_Vinh.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
