@@ -1,5 +1,8 @@
 (()=>{
 'use strict';
+if(!document.querySelector('script[data-global-data-bridge]')){
+ const p=document.createElement('script');p.src='data/global-data-bridge-v1.js?v=20260912-g1';p.dataset.globalDataBridge='1';document.head.appendChild(p);
+}
 if(!document.querySelector('script[data-vn-b1-caibe]')){
  const s=document.createElement('script');s.src='data/vietnam-batch1-cai-be-v1.js?v=20260911-b2';s.dataset.vnB1Caibe='1';document.head.appendChild(s);
 }
