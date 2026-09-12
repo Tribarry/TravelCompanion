@@ -97,9 +97,9 @@ const LANDMARKS=[
  [/jade emperor/i,'Jade Emperor Pagoda'],
  [/cần giờ|can gio|rừng sác|rung sac/i,'Cần Giờ Mangrove Forest'],
  [/bình tây|cho lon|chợ lớn/i,'Cholon, Ho Chi Minh City'],
- [/cái răng/i,'Cái Răng Floating Market'],
+ /* Cái Răng is only shown where the photograph is specifically assigned. */
  [/bình thủy|binh thuy/i,'Bình Thủy Ancient House'],
- [/trà sư|tra su/i,'Trà Sư Cajuput Forest'],
+ /* Do not fall back to the former Trà Sư logo or reuse a single swamp shot. */
  [/núi sam|sam mountain/i,'Sam Mountain'],
  [/núi cấm|nui cam|cấm mountain/i,'Bảy Núi'],
  [/phú quốc prison|cây dừa prison|cay dua prison/i,'Phú Quốc Prison'],
@@ -178,7 +178,7 @@ const LANDMARKS=[
 const DISHES=[
  [/\bcơm tấm\b|\bcom tam\b/i,'Cơm tấm'],
  [/\bbánh mì\b|\bbanh mi\b/i,'Bánh mì'],
- [/\bhủ tiếu\b|\bhu tieu\b/i,'Hủ tiếu'],
+ /* The current Hủ tiếu source carries a watermark; retain PHOTO TO VERIFY. */
  [/\bbún riêu\b|\bbun rieu\b/i,'Bún riêu'],
  [/\bbánh xèo\b|\bbanh xeo\b/i,'Bánh xèo'],
  [/\bbò kho\b|\bbo kho\b/i,'Bò kho'],
