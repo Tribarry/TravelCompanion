@@ -145,7 +145,10 @@ function hydrateNextTenFood(){
  const title=norm(document.querySelector('.tc1DestBody h1')?.textContent||'');
  const allowed=['can tho','long xuyen','chau doc nui sam','tra su','tinh bien tri ton','bac lieu','ha tien','kien luong','rach gia','nam du islands'];
  if(!allowed.includes(title))return;
- document.querySelectorAll('.tc1FoodPass').forEach(card=>{const dish=card.querySelector('h3')?.textContent||'';const url=sourceForFood(dish);if(url)ensureFoodPhoto(card,url,dish)});
+ /* Only Bánh xèo has a reviewed, card-specific photograph in this group.
+    Other dishes must stay PHOTO TO VERIFY rather than showing watermarks,
+    trees, or a reused regional food image. */
+ document.querySelectorAll('.tc1FoodPass').forEach(card=>{const dish=card.querySelector('h3')?.textContent||'';if(norm(dish)!=='banh xeo')return;const url=sourceForFood(dish);if(url)ensureFoodPhoto(card,url,dish)});
 }
 function hydrateNextTenPlaces(){
  const chauDoc='https://commons.wikimedia.org/wiki/Special:Redirect/file/Chau%20Doc%20Floating%20Village.jpg?width=1600';
