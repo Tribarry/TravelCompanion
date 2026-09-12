@@ -233,6 +233,8 @@ async function mappedPhoto(q,maps){
 async function relevantPhoto(q,currentName){
  const qn=String(q||'').trim();
  if(!qn)return '';
+ /* Place identity outranks dish matching: Phong Nha must never resolve through\n    the similarly spelled Phở manifest entry. */
+ if(/phong\\s+nha/i.test(qn))return summaryPhoto('Phong Nha-Kẻ Bàng National Park');
  if(Object.prototype.hasOwnProperty.call(DEST,qn))return destinationPhoto(qn);
  let u=await mappedPhoto(qn,LANDMARKS);if(u)return u;
  u=await mappedPhoto(qn,DISHES);if(u)return u;
