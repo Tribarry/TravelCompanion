@@ -42,6 +42,35 @@ jobs:
           node --check data/remaining-countries-photo-bridge-v1.js
           node --check data/laos-audited-structure-v1.js
           node --check data/vietnam-curated-photo-supplement-v1.js
+          node --check data/vietnam-experience-content-v3.js
+          node --check data/vietnam-next10-exact-photo-audit-v1.js
+          node --check data/vietnam-remaining-content-audit-v1.js
+          node --check data/vietnam-remaining-photo-audit-v1.js
+          node --check data/vietnam-photo-manifest-v1.js
+          node --check data/vietnam-photo-ui-fixes-v1.js
+          node --check data/vietnam-quality-curation-v1.js
+      - name: Protect Vietnam content and state invariants
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          idx=Path('index.html').read_text()
+          shell=Path('data/travel-companion-v1-shell.js').read_text()
+          live=Path('data/vietnam-live-v021.js').read_text()
+          remaining=Path('data/vietnam-remaining-photo-audit-v1.js').read_text()
+          assert 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md' in live
+          food=idx.split('const SAIGON_FOOD_PASSPORT=[',1)[1].split('];',1)[0]
+          drink=idx.split('const SAIGON_DRINK_PASSPORT=[',1)[1].split('];',1)[0]
+          assert len(re.findall(r'\{id:',food))==15, 'Sài Gòn Food Passport changed'
+          assert len(re.findall(r'\{id:',drink))==12, 'Sài Gòn Drink Passport changed'
+          assert len(re.findall(r'state\.here\s*=(?!=)',shell))==1, 'browsing must not change current location'
+          assert 'data-set-here' in shell
+          assert "renderDestination(id,i+1,'overview')" in shell
+          assert 'Unresolved cards remain PHOTO TO VERIFY' in remaining
+          assert "licenseStatus:'TO CHECK'" in remaining
+          assert "attributionStatus:'TO CHECK'" in remaining
+          print('Vietnam canonical bank, Sài Gòn passports, state and unresolved-photo policy preserved.')
+          PY
       - name: Verify loader wiring
         run: |
           grep -q 'adhd-focus-mode-v1.js?v=20260912-focus2' data/main-country-carousel-v1.js
