@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for asset in vietnam-country.png vietnam-zone-south.png vietnam-zone-highlands.png vietnam-zone-central.png vietnam-zone-north.png; do
+          for asset in vietnam-country.png vietnam-zone-south.png vietnam-zone-mekong.png vietnam-zone-highlands.png vietnam-zone-central.png vietnam-zone-north.png; do
             test -s "$asset"
           done
       - name: Syntax-check critical runtimes
@@ -37,6 +37,7 @@ jobs:
           node --check data/main-country-carousel-v1.js
           node --check data/adhd-focus-mode-v1.js
           node --check data/country-route-map-v1.js
+          node --check data/mekong-closeup-v1.js
           node --check data/remaining-countries-photo-audit-v1.js
           node --check data/remaining-countries-photo-bridge-v1.js
           node --check data/laos-audited-structure-v1.js
@@ -45,5 +46,6 @@ jobs:
         run: |
           grep -q 'adhd-focus-mode-v1.js?v=20260912-focus2' data/main-country-carousel-v1.js
           grep -q 'country-route-map-v1.js?v=20260912-map2' data/main-country-carousel-v1.js
+          grep -q 'mekong-closeup-v1.js?v=20260912-mekong1' data/main-country-carousel-v1.js
           grep -q 'remaining-countries-photo-audit-v1.js?v=20260912-rp1' data/main-country-carousel-v1.js
           grep -q 'remaining-countries-photo-bridge-v1.js?v=20260912-rpb1' data/main-country-carousel-v1.js
