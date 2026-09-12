@@ -12,112 +12,28 @@ const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u03
 const sentence=s=>{const t=String(s||'').trim().replace(/\s+/g,' ');return t&&!/[.!?]$/.test(t)?t+'.':t};
 const weak=s=>!String(s||'').trim()||/locked during the destination deep.research pass/i.test(String(s))||/^part of the locked (food|drink) passport/i.test(String(s));
 const technicalSummary=s=>weak(s)||/^(must do|date watch|watch 2027|book ahead|access check|verify|check before going|no advance booking noted)\b/i.test(String(s||'').trim())||String(s||'').trim().length<24;
-
-const DROP=[
- /^ho may not required$/,/^commercial cong troi dong giang not required$/,/^historic trail exploration only with legitimate guide and uxo warning$/,
- /^northern vietnam on 50cc remains off the plan$/,/^border access check 2027$/,/^border area recheck 2027$/,/^guide homestay book ahead$/,
- /^avoid mass party cruise$/,/^weather trail status flags$/,/^food passport focuses on /,/^remote road fuel plan weather uxo$/,/^joke you drank fish sauce badge$/
-];
+const DROP=[/^ho may not required$/,/^commercial cong troi dong giang not required$/,/^historic trail exploration only with legitimate guide and uxo warning$/,/^northern vietnam on 50cc remains off the plan$/,/^border access check 2027$/,/^border area recheck 2027$/,/^guide homestay book ahead$/,/^avoid mass party cruise$/,/^weather trail status flags$/,/^food passport focuses on /,/^remote road fuel plan weather uxo$/,/^joke you drank fish sauce badge$/];
 const EMBEDDED=[
- /\.\s*hồ mây not required.*$/i,/\.\s*commercial cổng trời đông giang not required.*$/i,/\.\s*historic[- ]trail exploration only with legitimate guide and uxo warning.*$/i,
- /\.\s*northern vietnam on 50cc remains off the plan.*$/i,/\.\s*border access check 2027.*$/i,/\.\s*border area[^.]*recheck 2027.*$/i,
- /\.\s*guide\s*\/\s*homestay\s*=\s*book ahead.*$/i,/\.\s*remote road[^.]*uxo.*$/i,/\.\s*weather\s*\/\s*trail-status flags.*$/i,
- /\.\s*food passport focuses on.*$/i,/\.\s*book ahead\s*:\s*canyoning.*$/i,/\.\s*buôn ma thuột coffee festival 2027.*$/i,
- /\.\s*a lưới mountain festival.*$/i,/\.\s*huế\s*\/\s*lăng cô scuba.*$/i,/\.\s*festival huế 2027.*$/i,
- /\.\s*easy rider\s*=\s*book ahead.*$/i,/\.\s*joke\s+you drank fish sauce badge.*$/i,/\.\s*night squid fishing remains a book ahead option.*$/i
+ /\.\s*hồ mây not required.*$/i,/\.\s*commercial cổng trời đông giang not required.*$/i,/\.\s*historic[- ]trail exploration only with legitimate guide and uxo warning.*$/i,/\.\s*northern vietnam on 50cc remains off the plan.*$/i,
+ /\.\s*border access check 2027.*$/i,/\.\s*border area[^.]*recheck 2027.*$/i,/\.\s*guide\s*\/\s*homestay\s*=\s*book ahead.*$/i,/\.\s*remote road[^.]*uxo.*$/i,/\.\s*weather\s*\/\s*trail-status flags.*$/i,
+ /\.\s*food passport focuses on.*$/i,/\.\s*book ahead\s*:\s*canyoning.*$/i,/\.\s*buôn ma thuột coffee festival 2027.*$/i,/\.\s*a lưới mountain festival.*$/i,/\.\s*huế\s*\/\s*lăng cô scuba.*$/i,
+ /\.\s*festival huế 2027.*$/i,/\.\s*easy rider\s*=\s*book ahead.*$/i,/\.\s*joke\s+you drank fish sauce badge.*$/i,/\.\s*night squid fishing remains a book ahead option.*$/i,
+ /\.\s*(?:hcm|hồ chí minh) road ride.*$/i,/\.\s*coastal road.*$/i
 ];
 const FIXES=[
- [/^fishing boat experience investigate$/i,'Fishing-boat experience — investigate locally'],[/^pearl cultivation investigate$/i,'Pearl cultivation — investigate locally'],
- [/^dugong luck only$/i,'Dugong sighting — luck only'],[/^bay canh turtle conservation experience seasonal$/i,'Bảy Cạnh turtle-conservation experience'],
- [/^optional bu gia map national park$/i,'Bù Gia Mập National Park — optional'],[/^cashew wine investigate$/i,'Cashew wine — investigate locally'],
- [/^cascara style drink verify$/i,'Cascara-style coffee drink — verify locally'],[/^camping options verify$/i,'Camping options — verify locally'],
- [/^ngoc linh ginseng tourism.*$/i,'Ngọc Linh ginseng tourism'],[/^village homestay find$/i,'Bh’noong village homestay — find locally'],
- [/^co tu festival.*$/i,'Cơ Tu festival'],[/^a da koonh new rice culture.*$/i,'A Da Koonh / New Rice culture'],
- [/^a luoi mountain festival.*$/i,'A Lưới Mountain Festival'],[/^khe sanh coffee festival 2027.*$/i,'Khe Sanh Coffee Festival 2027'],
- [/^cau ngu whale festival.*$/i,'Cầu Ngư / whale festival'],[/^get open water scuba licence in vietnam.*$/i,'Open Water scuba certification in Nha Trang'],
- [/^keep qualifying dives and first post cert dive$/i,'Qualifying dives + first post-certification dive'],[/^po nagar festival.*$/i,'Po Nagar Festival'],
- [/^optional golden bridge ba na as commercial wtf only$/i,'Golden Bridge / Bà Nà Hills — optional commercial WTF stop'],
- [/^avocado coffee if a good local example exists$/i,'Avocado coffee — only if a good local example exists'],[/^hue lang co scuba.*$/i,'Huế / Lăng Cô scuba — watch only'],
- [/^optional gia long tombs$/i,'Gia Long Tomb — optional'],[/^legal access watch for abandoned waterpark$/i,'Abandoned waterpark — access watch only'],
- [/^festival hue 2027.*$/i,'Festival Huế 2027'],[/^overnight verify$/i,'Overnight in Bạch Mã — verify availability'],
- [/^longer trek.*$/i,'Longer Bạch Mã trek'],[/^hang tam co if not already visited$/i,'Hang Tám Cô / Eight Ladies Cave — if not already visited'],
- [/^nguom puc cave save access check$/i,'Ngườm Pục Cave — access check'],[/^easy rider.*$/i,'Hà Giang Easy Rider'],
- [/^paragliding date season watch$/i,'Khau Phạ paragliding — date / season watch'],[/^bamboo forest secondary$/i,'Bamboo forest — secondary'],
- [/^train street only if legitimate access$/i,'Train Street — only with legitimate access']
+ [/^fishing boat experience investigate$/i,'Fishing-boat experience — investigate locally'],[/^pearl cultivation investigate$/i,'Pearl cultivation — investigate locally'],[/^dugong luck only$/i,'Dugong sighting — luck only'],[/^bay canh turtle conservation experience seasonal$/i,'Bảy Cạnh turtle-conservation experience'],[/^optional bu gia map national park$/i,'Bù Gia Mập National Park — optional'],[/^cashew wine investigate$/i,'Cashew wine — investigate locally'],[/^cascara style drink verify$/i,'Cascara-style coffee drink — verify locally'],[/^camping options verify$/i,'Camping options — verify locally'],[/^ngoc linh ginseng tourism.*$/i,'Ngọc Linh ginseng tourism'],[/^village homestay find$/i,'Bh’noong village homestay — find locally'],[/^co tu festival.*$/i,'Cơ Tu festival'],[/^a da koonh new rice culture.*$/i,'A Da Koonh / New Rice culture'],[/^a luoi mountain festival.*$/i,'A Lưới Mountain Festival'],[/^khe sanh coffee festival 2027.*$/i,'Khe Sanh Coffee Festival 2027'],[/^cau ngu whale festival.*$/i,'Cầu Ngư / whale festival'],[/^get open water scuba licence in vietnam.*$/i,'Open Water scuba certification in Nha Trang'],[/^keep qualifying dives and first post cert dive$/i,'Qualifying dives + first post-certification dive'],[/^po nagar festival.*$/i,'Po Nagar Festival'],[/^optional golden bridge ba na as commercial wtf only$/i,'Golden Bridge / Bà Nà Hills — optional commercial WTF stop'],[/^avocado coffee if a good local example exists$/i,'Avocado coffee — only if a good local example exists'],[/^hue lang co scuba.*$/i,'Huế / Lăng Cô scuba — watch only'],[/^optional gia long tombs$/i,'Gia Long Tomb — optional'],[/^legal access watch for abandoned waterpark$/i,'Abandoned waterpark — access watch only'],[/^festival hue 2027.*$/i,'Festival Huế 2027'],[/^overnight verify$/i,'Overnight in Bạch Mã — verify availability'],[/^longer trek.*$/i,'Longer Bạch Mã trek'],[/^hang tam co if not already visited$/i,'Hang Tám Cô / Eight Ladies Cave — if not already visited'],[/^nguom puc cave save access check$/i,'Ngườm Pục Cave — access check'],[/^easy rider.*$/i,'Hà Giang Easy Rider'],[/^paragliding date season watch$/i,'Khau Phạ paragliding — date / season watch'],[/^bamboo forest secondary$/i,'Bamboo forest — secondary'],[/^train street only if legitimate access$/i,'Train Street — only with legitimate access']
 ];
 function stripEmbedded(t){let s=String(t||'').trim();for(const rx of EMBEDDED)s=s.replace(rx,'');return s.trim().replace(/[.;]+$/,'')}
-function stripDirectives(name){
- let t=stripEmbedded(String(name||'').replace(/\*\*/g,'').replace(/`/g,'').replace(/\s+/g,' ').trim());
- t=t.replace(/\s*=\s*(?:must do|date watch|watch 2027|book ahead).*$/i,'');
- t=t.replace(/\s+—\s+(?:must do|book ahead|date watch|life-list|long-lead booking)(?:\s*\/\s*[^—]+)?$/i,'');
- t=t.replace(/\s+\+\s+(?:date watch|book ahead)$/i,'').replace(/\s+date watch$/i,'').replace(/\s+watch 2027$/i,'');
- t=t.replace(/\s+verify operating$/i,' — verify operating').replace(/\s+verify$/i,' — verify locally');
- return t.replace(/\s*\/\s*/g,' / ').replace(/\s+([,.;:])/g,'$1').trim();
-}
-function fixedTitle(name){
- const stripped=stripDirectives(name),q=norm(stripped);for(const [rx,to] of FIXES)if(rx.test(q))return to;
- if(/buon ma thuot coffee festival 2027/i.test(norm(name)))return'Buôn Ma Thuột Coffee Festival 2027';
- if(/bo y indochina tri border marker/i.test(q))return'Bờ Y Indochina tri-border marker — optional access check';
- if(/starfish beach wildlife rule/i.test(q))return'Starfish Beach — wildlife-safe visit';
- if(/bai nhat disappearing beach/i.test(q))return'Bãi Nhát disappearing beach';
- if(/dam trau planes/i.test(q))return'Đầm Trầu Beach + low-flying planes';
- return stripped;
-}
+function stripDirectives(name){let t=stripEmbedded(String(name||'').replace(/\*\*/g,'').replace(/`/g,'').replace(/\s+/g,' ').trim());t=t.replace(/\s*=\s*(?:must do|date watch|watch 2027|book ahead).*$/i,'');t=t.replace(/\s+—\s+(?:must do|book ahead|date watch|life-list|long-lead booking)(?:\s*\/\s*[^—]+)?$/i,'');t=t.replace(/\s+\+\s+(?:date watch|book ahead)$/i,'').replace(/\s+date watch$/i,'').replace(/\s+watch 2027$/i,'');t=t.replace(/\s+verify operating$/i,' — verify operating').replace(/\s+verify$/i,' — verify locally');return t.replace(/\s*\/\s*/g,' / ').replace(/\s+([,.;:])/g,'$1').trim()}
+function fixedTitle(name){const stripped=stripDirectives(name),q=norm(stripped);for(const [rx,to] of FIXES)if(rx.test(q))return to;if(/buon ma thuot coffee festival 2027/i.test(norm(name)))return'Buôn Ma Thuột Coffee Festival 2027';if(/bo y indochina tri border marker/i.test(q))return'Bờ Y Indochina tri-border marker — optional access check';if(/starfish beach wildlife rule/i.test(q))return'Starfish Beach — wildlife-safe visit';if(/bai nhat disappearing beach/i.test(q))return'Bãi Nhát disappearing beach';if(/dam trau planes/i.test(q))return'Đầm Trầu Beach + low-flying planes';return stripped}
 function shouldDrop(name){const q=norm(name);return !q||DROP.some(rx=>rx.test(q))}
-function enrichSummary(d,e){
- try{if(window.TC1VietnamExperienceContent?.enrich){const x=window.TC1VietnamExperienceContent.enrich(d,{title:e.name,name:e.name,raw:e,tags:e.tags||[]});if(x?.summary)return sentence(x.summary)}}catch(_e){}
- return `Explore ${e.name} in ${d.name} with enough time to understand why it belongs in this stop.`;
-}
-function addTag(e,tag){e.tags=e.tags||[];if(!e.tags.includes(tag))e.tags.push(tag)}
-function addFlag(e,flag){e.flags=e.flags||[];if(!e.flags.includes(flag))e.flags.push(flag)}
-function inferAfterFix(e,oldName,dname){
- const q=norm(oldName+' '+e.name),d=norm(dname);
- if(/date watch|watch 2027|festival hue|co tu festival|a luoi mountain festival|khe sanh coffee festival|cau ngu whale festival|po nagar festival|paragliding/.test(q)){addTag(e,'Date Watch');addFlag(e,'DATE WATCH')}
- if(/book ahead|open water scuba|qualifying dives|night squid fishing|longer bach ma trek|easy rider/.test(q)||(d.includes('da lat')&&/canyoning|bidoup/.test(q))||(d.includes('hoang su phi')&&/homestay|longer trek/.test(q))){addTag(e,'Book Ahead');addFlag(e,'BOOK AHEAD');e.booking='Book ahead'}
- if(/access|uxo|border/.test(q)||(d.includes('cao bang')&&/ban gioc|pac bo|border market/.test(q))||(d==='y ty'))addTag(e,'Check');
- if(/open water scuba|qualifying dives/.test(q))addTag(e,'Outdoors');
-}
-function makeExtra(d,title,tags=[],flags=[]){
- const e={id:'audit-'+norm(title).replace(/\s+/g,'-'),name:title,tier:tags.includes('Must Do')?'S+':'A',type:tags[0]||'experience',summary:'',booking:flags.includes('BOOK AHEAD')?'Book ahead':(flags.length?'Check before going':'No advance booking noted'),content:tags.includes('Must Do')?'Very high':'High',tags:[...tags],flags:[...flags]};
- e.summary=enrichSummary(d,e);return e;
-}
+function enrichSummary(d,e){try{if(window.TC1VietnamExperienceContent?.enrich){const x=window.TC1VietnamExperienceContent.enrich(d,{title:e.name,name:e.name,raw:e,tags:e.tags||[]});if(x?.summary)return sentence(x.summary)}}catch(_e){}return `Explore ${e.name} in ${d.name} with enough time to understand why it belongs in this stop.`}
+function addTag(e,tag){e.tags=e.tags||[];if(!e.tags.includes(tag))e.tags.push(tag)}function addFlag(e,flag){e.flags=e.flags||[];if(!e.flags.includes(flag))e.flags.push(flag)}
+function inferAfterFix(e,oldName,dname){const q=norm(oldName+' '+e.name),d=norm(dname);if(/date watch|watch 2027|festival hue|co tu festival|a luoi mountain festival|khe sanh coffee festival|cau ngu whale festival|po nagar festival|paragliding/.test(q)){addTag(e,'Date Watch');addFlag(e,'DATE WATCH')}if(/book ahead|open water scuba|qualifying dives|night squid fishing|longer bach ma trek|easy rider/.test(q)||(d.includes('da lat')&&/canyoning|bidoup/.test(q))||(d.includes('hoang su phi')&&/homestay|longer trek/.test(q))){addTag(e,'Book Ahead');addFlag(e,'BOOK AHEAD');e.booking='Book ahead'}if(/access|uxo|border/.test(q)||(d.includes('cao bang')&&/ban gioc|pac bo|border market/.test(q))||d==='y ty')addTag(e,'Check');if(/open water scuba|qualifying dives/.test(q))addTag(e,'Outdoors')}
+function makeExtra(d,title,tags=[],flags=[]){const e={id:'audit-'+norm(title).replace(/\s+/g,'-'),name:title,tier:tags.includes('Must Do')?'S+':'A',type:tags[0]||'experience',summary:'',booking:flags.includes('BOOK AHEAD')?'Book ahead':(flags.length?'Check before going':'No advance booking noted'),content:tags.includes('Must Do')?'Very high':'High',tags:[...tags],flags:[...flags]};e.summary=enrichSummary(d,e);return e}
 function ensureExtra(out,d,title,tags=[],flags=[]){const k=norm(title);if(out.some(e=>norm(e.name)===k))return false;out.push(makeExtra(d,title,tags,flags));return true}
-function restoreSwallowed(d,out,source){
- let added=0,q=norm(source),dn=norm(d.name);
- if(dn.includes('buon ma thuot')&&/coffee festival 2027/.test(q))added+=ensureExtra(out,d,'Buôn Ma Thuột Coffee Festival 2027',['Must Do','Date Watch'],['DATE WATCH'])?1:0;
- if(dn.includes('prao')&&/hcm road ride|ho chi minh road ride/.test(q))added+=ensureExtra(out,d,'Hồ Chí Minh Road ride + mountain market',['Local Life','Outdoors'],[])?1:0;
- if(dn.includes('a luoi')&&/mountain festival/.test(q))added+=ensureExtra(out,d,'A Lưới Mountain Festival',['Culture','Date Watch'],['DATE WATCH'])?1:0;
- if(dn.includes('phu yen')&&/coastal road/.test(q))added+=ensureExtra(out,d,'Coastal road + fishing-village roulette + no-English-menu challenge',['Local Life','Outdoors'],[])?1:0;
- if(dn.includes('nha trang')&&/night squid fishing/.test(q))added+=ensureExtra(out,d,'Night squid fishing',['Local Life','Outdoors','Book Ahead'],['BOOK AHEAD'])?1:0;
- if(dn.includes('hai van')&&/scuba/.test(q))added+=ensureExtra(out,d,'Huế / Lăng Cô scuba — watch only',['Outdoors','Date Watch'],['DATE WATCH'])?1:0;
- if(dn==='hue'&&/festival hue 2027/.test(q))added+=ensureExtra(out,d,'Festival Huế 2027',['Culture','Date Watch'],['DATE WATCH'])?1:0;
- if(dn.includes('ha giang')&&/easy rider/.test(q))added+=ensureExtra(out,d,'Hà Giang Easy Rider',['Must Do','Book Ahead'],['BOOK AHEAD'])?1:0;
- return added;
-}
-function auditDestination(d){
- const originals=d.experiences||[],source=originals.map(e=>(e.name||'')+' '+(e.summary||'')).join(' | '),before=originals.length,out=[],seen=new Set();let dropped=0,renamed=0,summaryFixed=0;
- for(const original of originals){
-  const e={...original,tags:[...(original.tags||[])],flags:[...(original.flags||[])]},old=e.name||e.title||'';
-  if(shouldDrop(old)){dropped++;continue}
-  e.name=fixedTitle(old);if(e.name!==old)renamed++;
-  if(shouldDrop(e.name)){dropped++;continue}
-  const key=norm(e.name);if(seen.has(key)){dropped++;continue}seen.add(key);
-  inferAfterFix(e,old,d.name);
-  if(e.name!==old||technicalSummary(e.summary)){e.summary=enrichSummary(d,e);summaryFixed++}else e.summary=sentence(stripEmbedded(e.summary));
-  out.push(e);
- }
- const restored=restoreSwallowed(d,out,source);restored&&out.forEach(e=>seen.add(norm(e.name)));
- d.experiences=out;
- const food=out.filter(e=>(e.tags||[]).includes('Food')).map(e=>e.name),unique=out.find(e=>(e.tags||[]).includes('Unique')),local=out.find(e=>(e.tags||[]).includes('Local Life')||(e.tags||[]).includes('Culture'));
- d.orientation={...(d.orientation||{}),comeFor:out.slice(0,2).map(e=>e.name).join(' + ')||'The strongest local experiences',doDifferently:local?.name||out[2]?.name||out[0]?.name||'Slow down and go local',eat:food.slice(0,2).join(' · ')||'Local food passport',wtf:unique?.name||'Find the distinctly local experience',pace:d.stay||'Flexible'};
- d.context=sentence(d.context||d.summary||'');d.summary=d.context;
- return {destination:d.name,before,after:out.length,dropped,renamed,summaryFixed,restored};
-}
-async function run(){
- await (window.VN_LIVE_READY||Promise.resolve());const list=window.DATA?.destinations?.vietnam||[],rows=[];for(let i=13;i<list.length;i++)rows.push(auditDestination(list[i]));
- window.VN_REMAINING_CONTENT_AUDIT.lastReport={scope:'Vietnam destinations after Nam Du',destinations:rows.length,before:rows.reduce((n,r)=>n+r.before,0),after:rows.reduce((n,r)=>n+r.after,0),dropped:rows.reduce((n,r)=>n+r.dropped,0),renamed:rows.reduce((n,r)=>n+r.renamed,0),summaryFixed:rows.reduce((n,r)=>n+r.summaryFixed,0),restored:rows.reduce((n,r)=>n+r.restored,0),rows};
- return window.VN_REMAINING_CONTENT_AUDIT.lastReport;
-}
-window.VN_REMAINING_CONTENT_AUDIT={run,lastReport:null,version:'2026-09-12-v2'};
-run().catch(err=>console.error('Vietnam remaining content audit:',err));
+function restoreSwallowed(d,out,source){let added=0,q=norm(source),dn=norm(d.name);if(dn.includes('buon ma thuot')&&/coffee festival 2027/.test(q))added+=ensureExtra(out,d,'Buôn Ma Thuột Coffee Festival 2027',['Must Do','Date Watch'],['DATE WATCH'])?1:0;if(dn.includes('prao')&&/hcm road ride|ho chi minh road ride/.test(q))added+=ensureExtra(out,d,'Hồ Chí Minh Road ride + mountain market',['Local Life','Outdoors'],[])?1:0;if(dn.includes('a luoi')&&/mountain festival/.test(q))added+=ensureExtra(out,d,'A Lưới Mountain Festival',['Culture','Date Watch'],['DATE WATCH'])?1:0;if(dn.includes('phu yen')&&/coastal road/.test(q))added+=ensureExtra(out,d,'Coastal road + fishing-village roulette + no-English-menu challenge',['Local Life','Outdoors'],[])?1:0;if(dn.includes('nha trang')&&/night squid fishing/.test(q))added+=ensureExtra(out,d,'Night squid fishing',['Local Life','Outdoors','Book Ahead'],['BOOK AHEAD'])?1:0;if(dn.includes('hai van')&&/scuba/.test(q))added+=ensureExtra(out,d,'Huế / Lăng Cô scuba — watch only',['Outdoors','Date Watch'],['DATE WATCH'])?1:0;if(dn==='hue'&&/festival hue 2027/.test(q))added+=ensureExtra(out,d,'Festival Huế 2027',['Culture','Date Watch'],['DATE WATCH'])?1:0;if(dn.includes('ha giang')&&/easy rider/.test(q))added+=ensureExtra(out,d,'Hà Giang Easy Rider',['Must Do','Book Ahead'],['BOOK AHEAD'])?1:0;return added}
+function auditDestination(d){const originals=d.experiences||[],source=originals.map(e=>(e.name||'')+' '+(e.summary||'')).join(' | '),before=originals.length,out=[],seen=new Set();let dropped=0,renamed=0,summaryFixed=0;for(const original of originals){const e={...original,tags:[...(original.tags||[])],flags:[...(original.flags||[])]},old=e.name||e.title||'';if(shouldDrop(old)){dropped++;continue}e.name=fixedTitle(old);if(e.name!==old)renamed++;if(shouldDrop(e.name)){dropped++;continue}const key=norm(e.name);if(seen.has(key)){dropped++;continue}seen.add(key);inferAfterFix(e,old,d.name);if(e.name!==old||technicalSummary(e.summary)){e.summary=enrichSummary(d,e);summaryFixed++}else e.summary=sentence(stripEmbedded(e.summary));out.push(e)}const restored=restoreSwallowed(d,out,source);d.experiences=out;const food=out.filter(e=>(e.tags||[]).includes('Food')).map(e=>e.name),unique=out.find(e=>(e.tags||[]).includes('Unique')),local=out.find(e=>(e.tags||[]).includes('Local Life')||(e.tags||[]).includes('Culture'));d.orientation={...(d.orientation||{}),comeFor:out.slice(0,2).map(e=>e.name).join(' + ')||'The strongest local experiences',doDifferently:local?.name||out[2]?.name||out[0]?.name||'Slow down and go local',eat:food.slice(0,2).join(' · ')||'Local food passport',wtf:unique?.name||'Find the distinctly local experience',pace:d.stay||'Flexible'};d.context=sentence(d.context||d.summary||'');d.summary=d.context;return {destination:d.name,before,after:out.length,dropped,renamed,summaryFixed,restored}}
+async function run(){await (window.VN_LIVE_READY||Promise.resolve());const list=window.DATA?.destinations?.vietnam||[],rows=[];for(let i=13;i<list.length;i++)rows.push(auditDestination(list[i]));window.VN_REMAINING_CONTENT_AUDIT.lastReport={scope:'Vietnam destinations after Nam Du',destinations:rows.length,before:rows.reduce((n,r)=>n+r.before,0),after:rows.reduce((n,r)=>n+r.after,0),dropped:rows.reduce((n,r)=>n+r.dropped,0),renamed:rows.reduce((n,r)=>n+r.renamed,0),summaryFixed:rows.reduce((n,r)=>n+r.summaryFixed,0),restored:rows.reduce((n,r)=>n+r.restored,0),rows};return window.VN_REMAINING_CONTENT_AUDIT.lastReport}
+window.VN_REMAINING_CONTENT_AUDIT={run,lastReport:null,version:'2026-09-12-v3'};run().catch(err=>console.error('Vietnam remaining content audit:',err));
 })();
