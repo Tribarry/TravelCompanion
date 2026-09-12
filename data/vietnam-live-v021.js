@@ -66,6 +66,10 @@
   };
 
   function clean(s){return (s||'').replace(/\*\*/g,'').replace(/`/g,'').replace(/\s+/g,' ').trim().replace(/[.]+$/,'');}
+  function sentenceTitle(s){
+    const t=clean(s);if(!t)return'';
+    return t.charAt(0).toLocaleUpperCase('vi-VN')+t.slice(1);
+  }
   function canonicalHeading(raw){return clean(raw).replace(/\s+—\s+LOCKED.*$/,'').trim();}
   function parseSections(md){
     const out={}; let current=null;
@@ -100,15 +104,20 @@
     return {title:clean(title),summary:clean(summary)};
   }
   function explode(raw,dest){
-    const text=clean(raw).replace(/\.\s+(Drinks?|Food\/WTF|Food|Drink):/g,'; $1:').replace(/\.\s+(Keep|Avoid|Commercial|Current)/g,'; $1');
+    const text=clean(raw)
+      .replace(/\.\s+Household-dependent WTF items\s*=\s*VERIFY OPERATING\.?/gi,'.')
+      .replace(/\.\s+Dry-season expectation must be explicit[^.]*\.?/gi,'.')
+      .replace(/\.\s+Food includes\s+/gi,'; Food: ')
+      .replace(/\.\s+(Drinks?|Food\/WTF|Food|Drink):/g,'; $1:')
+      .replace(/\.\s+(Keep|Avoid|Commercial|Current)/g,'; $1');
     const chunks=text.split(/\s*;\s*/).map(clean).filter(Boolean); const items=[];
     for(const chunk of chunks){
       const m=chunk.match(/^(Food\/WTF|Food|Drinks?|Drink):\s*(.+)$/i);
       if(m){
         const kind=/drink/i.test(m[1])?'Drink':'Food';
-        m[2].split(/,\s+(?![^()]*\))/).map(clean).filter(Boolean).forEach(v=>items.push({raw:v,title:v,summary:'Part of the locked '+kind.toLowerCase()+' passport for '+dest+'.',tags:[kind,'Local Life']}));
+        m[2].split(/,\s+(?![^()]*\))/).map(clean).filter(Boolean).forEach(v=>items.push({raw:v,title:sentenceTitle(v),summary:'Part of the locked '+kind.toLowerCase()+' passport for '+dest+'.',tags:[kind,'Local Life']}));
       } else {
-        const ts=titleSummary(chunk,dest); items.push({raw:chunk,title:ts.title,summary:ts.summary,tags:tagFor(chunk)});
+        const ts=titleSummary(chunk,dest); items.push({raw:chunk,title:sentenceTitle(ts.title),summary:ts.summary,tags:tagFor(chunk)});
       }
     }
     return items.filter((x,i,a)=>x.title && a.findIndex(y=>y.title.toLowerCase()===x.title.toLowerCase())===i);

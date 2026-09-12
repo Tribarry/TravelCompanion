@@ -48,7 +48,7 @@ function setApp(html){
 async function readyCountry(id){if(id==='vietnam'&&window.VN_LIVE_READY){try{await window.VN_LIVE_READY}catch(e){}}}
 function countryCounts(id){const ds=destinations(id);return {places:ds.length,experiences:ds.reduce((n,d)=>n+(d.experiences||[]).length,0)}}
 function rawTags(e){const t=[];if(e?.tier)t.push(e.tier);if(e?.type)t.push(String(e.type).replace(/(^|\s)\S/g,m=>m.toUpperCase()));return t}
-function itemFlags(raw,it){const out=[...(it?.flags||[])];const b=raw?.booking;if(b&&b!=='No'&&b!=='Check locally'&&!out.includes(b))out.push(b);return out}
+function itemFlags(raw,it){return [...new Set(it?.flags||[])]}
 function enrichItem(id,d,it){try{return window.TC1ExperienceCopy?.enrich?window.TC1ExperienceCopy.enrich(id,d,it):it}catch(e){return it}}
 function getItems(id,i){
  const d=destinations(id)[i];if(!d)return[];
@@ -123,7 +123,7 @@ async function renderCountry(id,tab='overview'){
 }
 
 function destinationFood(id,i){const its=getItems(id,i);return its.filter(x=>(x.tags||[]).some(t=>/food/i.test(t))||/food/i.test(x.raw?.type||''))}
-function destinationDrinks(id,i){const its=getItems(id,i);return its.filter(x=>(x.tags||[]).some(t=>/drink|coffee/i.test(t))||/drink|coffee/i.test(x.raw?.type||''))}
+function destinationDrinks(id,i){const its=getItems(id,i);return its.filter(x=>(x.tags||[]).some(t=>/^(drink|coffee)$/i.test(String(t).trim()))||/^(drink|coffee)$/i.test(String(x.raw?.type||'').trim()))}
 function foodPassportItems(id,i){
  const d=destinations(id)[i];if(!d)return[];
  if(id==='vietnam'&&i===0&&typeof SAIGON_FOOD_PASSPORT!=='undefined')return SAIGON_FOOD_PASSPORT;
@@ -221,7 +221,7 @@ function passportView(id,i,type){
  }
  const food=foodPassportItems(id,i),drink=destinationDrinks(id,i);
  if(type==='food')return `<div class="tc1PassHead"><h2>Food Passport</h2><p>${food.length} local or regional dishes selected for ${esc(destinations(id)[i]?.name||'this stop')}. Costs are planning estimates in AUD.</p></div><div class="tc1PassSwitcher"><button class="on" data-pass-type="food">FOOD · ${food.length}</button><button data-pass-type="drink">DRINKS · ${drink.length}</button></div><div class="tc1PassGrid tc1FoodPassGrid${id==='vietnam'&&i>=1&&i<=12?' tc1ReferenceFoodGrid':''}">${food.map(it=>foodPassportCard(id,i,it)).join('')}</div>`;
- const arr=drink;return `<div class="tc1PassHead"><h2>Drink Passport</h2><p>${arr.length?arr.length+' destination-specific drink or coffee experiences from the experience bank.':'No separate drink passport has been curated here yet. The food passport remains complete.'}</p></div><div class="tc1PassSwitcher"><button data-pass-type="food">FOOD · ${food.length}</button><button class="on" data-pass-type="drink">DRINKS · ${drink.length}</button></div>${arr.length?`<div class="tc1ExpList">${arr.map(it=>{const j=it.index;return `<article class="tc1Exp"><div class="tc1ExpCopy"><h3>${esc(it.title)}</h3><p>${esc(it.summary)}</p><div class="tc1Actions"><button class="${hasState('saved',id,i,it,j)?'on':''}" data-save-exp="${j}">${hasState('saved',id,i,it,j)?'♥ SAVED':'♡ SAVE'}</button><button class="${hasState('done',id,i,it,j)?'on':''}" data-done-exp="${j}">${hasState('done',id,i,it,j)?'✓ TRIED':'MARK TRIED'}</button><button class="detail" data-open-exp="${j}">DETAILS →</button></div></div></article>`}).join('')}</div>`:'<div class="tc1Empty">No separate drink items here yet. This does not affect the destination food passport.</div>'}`;
+ const arr=drink;return `<div class="tc1PassHead"><h2>Drink Passport</h2><p>${arr.length?arr.length+' destination-specific drink or coffee experiences from the experience bank.':'No separate drink passport has been curated here yet. The food passport remains complete.'}</p></div><div class="tc1PassSwitcher"><button data-pass-type="food">FOOD · ${food.length}</button><button class="on" data-pass-type="drink">DRINKS · ${drink.length}</button></div>${arr.length?`<div class="tc1ExpList">${arr.map(it=>{const j=it.index;return `<article class="tc1Exp">${it.photo?`<div class="tc1ExpPhoto tc1ExpPhotoDirect" style="background-image:url('${esc(it.photo)}')"></div>`:photoDiv(id,it.title,'tc1ExpPhoto')}<div class="tc1ExpCopy"><h3>${esc(it.title)}</h3><p>${esc(it.summary)}</p><div class="tc1Actions"><button class="${hasState('saved',id,i,it,j)?'on':''}" data-save-exp="${j}">${hasState('saved',id,i,it,j)?'♥ SAVED':'♡ SAVE'}</button><button class="${hasState('done',id,i,it,j)?'on':''}" data-done-exp="${j}">${hasState('done',id,i,it,j)?'✓ TRIED':'MARK TRIED'}</button><button class="detail" data-open-exp="${j}">DETAILS →</button></div></div></article>`}).join('')}</div>`:'<div class="tc1Empty">No separate drink items here yet. This does not affect the destination food passport.</div>'}`;
 }
 function wirePassport(id,i,type){
  document.querySelectorAll('[data-pass-type]').forEach(b=>b.onclick=()=>renderDestination(id,i,'food','All',b.dataset.passType));
