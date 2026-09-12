@@ -5,7 +5,7 @@ window.VN_PHOTO_MANIFEST={
     "original": "assets/images/originals/vietnam-resolved/a-lu-o-i-c78d8aa9.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
-    "local": ""
+    "local": "assets/images/generated/vietnam-resolved/a-lu-o-i-c78d8aa9-1200.webp"
   },
   "A Shau Valley": {
     "source": "https://upload.wikimedia.org/wikipedia/commons/6/6e/An_undated_photo_of_a_Huey_helicopter_landing_with_soldiers_of_the_101st_Airborne_Delta_Raiders_in_the_A_Shau_valley_near_Hue%2C_Vietnam_700701-A-ZZ999-001.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
@@ -313,7 +313,7 @@ window.VN_PHOTO_MANIFEST={
     "original": "assets/images/originals/vietnam-resolved/ho-chi-minh-highway-d3e69324.png",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
-    "local": ""
+    "local": "assets/images/generated/vietnam-resolved/ho-chi-minh-highway-d3e69324-800.webp"
   },
   "Ho Chi Minh Mausoleum": {
     "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/L%C4%83ng_B%C3%A1c_-_NKS.jpg/3840px-L%C4%83ng_B%C3%A1c_-_NKS.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
@@ -712,7 +712,7 @@ window.VN_PHOTO_MANIFEST={
     "original": "assets/images/originals/vietnam-resolved/tra-su-cajuput-forest-33eda71e.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
-    "local": ""
+    "local": "assets/images/generated/vietnam-resolved/tra-su-cajuput-forest-33eda71e-1600.webp"
   },
   "Trà Vinh": {
     "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/C%E1%BB%95ng_ch%C3%A0o_Tr%C3%A0_Vinh.jpg/3840px-C%E1%BB%95ng_ch%C3%A0o_Tr%C3%A0_Vinh.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
@@ -747,7 +747,7 @@ window.VN_PHOTO_MANIFEST={
     "original": "assets/images/originals/vietnam-resolved/vi-nh-long-province-21e57b06.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
-    "local": ""
+    "local": "assets/images/generated/vietnam-resolved/vi-nh-long-province-21e57b06-1600.webp"
   },
   "Vũng Rô Bay": {
     "source": "https://upload.wikimedia.org/wikipedia/commons/6/6f/V%E1%BB%8Bnh_V%C5%A9ng_R%C3%B4.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
