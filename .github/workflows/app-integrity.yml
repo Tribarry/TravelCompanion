@@ -24,11 +24,13 @@ jobs:
           grep -q '<!doctype html>' index.html
           grep -q 'Travel Companion' index.html
           ! grep -q 'PLACEHOLDER_WILL_BE_TOO_LARGE' index.html
-      - name: Verify route map asset
+      - name: Verify route map assets
         shell: bash
         run: |
           set -euo pipefail
-          test -s vietnam-map.png
+          for asset in vietnam-country.png vietnam-zone-south.png vietnam-zone-highlands.png vietnam-zone-central.png vietnam-zone-north.png; do
+            test -s "$asset"
+          done
       - name: Syntax-check critical runtimes
         run: |
           node --check data/travel-companion-v1-shell.js
@@ -42,6 +44,6 @@ jobs:
       - name: Verify loader wiring
         run: |
           grep -q 'adhd-focus-mode-v1.js?v=20260912-focus2' data/main-country-carousel-v1.js
-          grep -q 'country-route-map-v1.js?v=20260912-map1' data/main-country-carousel-v1.js
+          grep -q 'country-route-map-v1.js?v=20260912-map2' data/main-country-carousel-v1.js
           grep -q 'remaining-countries-photo-audit-v1.js?v=20260912-rp1' data/main-country-carousel-v1.js
           grep -q 'remaining-countries-photo-bridge-v1.js?v=20260912-rpb1' data/main-country-carousel-v1.js

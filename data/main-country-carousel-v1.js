@@ -48,7 +48,7 @@ if(!document.querySelector('script[data-adhd-focus]')){
 }
 /* ADHD-first country route map — Vietnam first */
 if(!document.querySelector('script[data-country-route-map]')){
- const p=document.createElement('script');p.src='data/country-route-map-v1.js?v=20260912-map1';p.dataset.countryRouteMap='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/country-route-map-v1.js?v=20260912-map2';p.dataset.countryRouteMap='1';document.head.appendChild(p);
 }
 const COPY={
  vietnam:'Food, local life, highlands, caves and the long journey north.',
