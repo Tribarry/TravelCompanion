@@ -1,9 +1,8 @@
 /* Remaining Vietnam photo audit — 2026-09-12.
  * Scope: destinations after Nam Du Islands (Bến Tre → Hà Nội Return).
- * Rule: exact subject only. No destination-generic fallback on experience cards.
- * Existing local manifest assets are preferred. Explicit remote sources below are
- * exact-subject gaps discovered during the card-by-card audit; licence and
- * attribution remain TO CHECK until the final asset-licensing pass.
+ * Exact subject only. Existing local manifest assets are preferred; exact remote
+ * gaps are destination-scoped. Unresolved cards remain PHOTO TO VERIFY.
+ * Remote source licence/attribution remains TO CHECK pending the licensing pass.
  */
 (()=>{
 'use strict';
@@ -13,7 +12,6 @@ const S=(url,sourcePage,subject)=>({url,sourcePage,subject,licenseStatus:'TO CHE
 const REMOTE={
  coconutCandy:S('https://www.asiatica-travel.com/ckfinder/userfiles/images/Ben-Tre-coconut-candy-factory.jpg','https://www.asiatica-travel.com/trip-vietnam/ben-tre.html','Bến Tre coconut-candy workshop'),
  aoBaOm:S('https://image.ngaynay.vn/1200x630/Uploaded/2026/xqeiodvsxr/2025_06_17/ad-4nxeb-pxiab6fu-1jlrccwiuoomboq7vzzloj3ocx6jbk8pchbfr8eeadesolqwamrqpfehhtt1u6x8pu73f-mjkmxz4zdnklx49ehnhzc9s2-tdqjpaz6nxq7s6btdgxbwbl9khceztb6td9qcpknq-742.png','https://ngaynay.vn/ao-ba-om-di-tich-van-hoa-va-giai-thoai-dac-biet-tren-dat-tra-vinh-post161214.html','Ao Bà Om, Trà Vinh'),
- mangThitKilns:S('https://media.gettyimages.com/id/2158206250/photo/mang-thit-ancient-brick-village-under-sunset-mekong-delta-vinh-long-province.jpg?s=2048x2048&w=gi&k=20&c=0','https://www.gettyimages.com/','Mang Thít ancient brick kilns'),
  phuQuocFishSauce:S('https://asiapioneertravel.com/wp-content/uploads/2023/07/phu-quoc-travel-guide-fish-sauce-barrel-house.jpg','https://asiapioneertravel.com/blog/the-ultimate-phu-quoc-travel-guide/','Phú Quốc fish-sauce barrel house'),
  conDaoTigerCages:S('https://lp-cms-production.imgix.net/2023-07/shutterstockeditorial573062677.jpg?auto=format%2Ccompress&crop=faces%2Cedges&fit=crop&q=72&w=1920','https://www.lonelyplanet.com/points-of-interest/tiger-cages/1391605','Côn Đảo Tiger Cages'),
  honBaVungTau:S('https://bna.1cdn.vn/2024/09/11/static-images.vnncdn.net-vps_images_publish-000001-000003-2024-9-10-_anh-xuan-4-4521.jpg','https://baonghean.vn/hon-dao-co-duong-di-luc-an-luc-hien-o-vung-tau-10280456.html','Hòn Bà low-tide path, Vũng Tàu'),
@@ -40,43 +38,40 @@ const REMOTE={
 };
 window.VN_REMAINING_REMOTE_PHOTO_SOURCES=REMOTE;
 
+/* Every remote rule is destination-scoped when its wording could recur elsewhere. */
 const REMOTE_RULES=[
- [/coconut candy|make candy|coconut processing/,REMOTE.coconutCandy],
- [/ao ba om/,REMOTE.aoBaOm],
- [/mang thit.*brick|brick kiln|kiln country|old kiln|pottery household/,REMOTE.mangThitKilns],
- [/fish sauce.*barrel|barrel house|different grade tasting|first press fish sauce/,REMOTE.phuQuocFishSauce],
- [/tiger cage/,REMOTE.conDaoTigerCages],
- [/hon ba.*low tide|low tide.*hon ba/,REMOTE.honBaVungTau],
- [/lava tube|volcanic cave|c7 cave|krong no cave/,REMOTE.dakNongLava],
- [/yok don.*elephant|elephant.*yok don|ethical elephant|mahout day/,REMOTE.yokDonElephant],
- [/chu dang ya/,REMOTE.chuDangYa],
- [/khe sanh.*coffee|arabica farm|coffee farm|coffee harvest|coffee cupping/,REMOTE.kheSanhCoffee],
- [/eo gio/,REMOTE.eoGio],
- [/mui dien|dai lanh lighthouse/,REMOTE.muiDien],
- [/japanese covered bridge|chua cau/,REMOTE.japaneseBridge],
- [/nuoc mot|herbal drink/,REMOTE.nuocMot],
- [/hospital cave/,REMOTE.hospitalCave],
- [/hua ma cave/,REMOTE.huaMa],
- [/khuoi ky/,REMOTE.khuoiKy],
- [/phong nam valley|phong nam/,REMOTE.phongNam],
- [/lung cu/,REMOTE.lungCu],
- [/hmong king|vuong family|vuong palace/,REMOTE.vuongPalace],
- [/lung tam|hemp weaving/,REMOTE.lungTam],
- [/sky path/,REMOTE.skyPath],
- [/shan tuyet/,REMOTE.shanTuyet],
- [/mam xoi|raspberry hill/,REMOTE.mamXoi],
- [/ban pho.*corn wine|corn wine.*ban pho/,REMOTE.banPhoWine],
- [/ta phin.*herbal|herbal bath/,REMOTE.taPhinBath]
+ {d:/ben tre/,q:/coconut candy|make candy|coconut processing/,s:REMOTE.coconutCandy},
+ {d:/tra vinh/,q:/ao ba om/,s:REMOTE.aoBaOm},
+ {d:/phu quoc/,q:/fish sauce.*barrel|barrel house|different grade tasting|first press fish sauce/,s:REMOTE.phuQuocFishSauce},
+ {d:/con dao/,q:/tiger cage/,s:REMOTE.conDaoTigerCages},
+ {d:/vung tau/,q:/hon ba.*low tide|low tide.*hon ba/,s:REMOTE.honBaVungTau},
+ {d:/gia nghia|dak nong/,q:/lava tube|volcanic cave|c7 cave|krong no cave|chu bluk/,s:REMOTE.dakNongLava},
+ {d:/yok don|buon don/,q:/elephant|mahout/,s:REMOTE.yokDonElephant},
+ {d:/pleiku|gia lai/,q:/chu dang ya/,s:REMOTE.chuDangYa},
+ {d:/khe sanh/,q:/coffee|arabica|cupping|producer/,s:REMOTE.kheSanhCoffee},
+ {d:/quy nhon/,q:/eo gio/,s:REMOTE.eoGio},
+ {d:/phu yen|tuy hoa/,q:/mui dien|dai lanh lighthouse/,s:REMOTE.muiDien},
+ {d:/hoi an/,q:/japanese covered bridge|chua cau/,s:REMOTE.japaneseBridge},
+ {d:/hoi an/,q:/nuoc mot|herbal drink/,s:REMOTE.nuocMot},
+ {d:/cat ba/,q:/hospital cave/,s:REMOTE.hospitalCave},
+ {d:/ba be/,q:/hua ma cave/,s:REMOTE.huaMa},
+ {d:/cao bang/,q:/khuoi ky/,s:REMOTE.khuoiKy},
+ {d:/cao bang/,q:/phong nam valley|phong nam/,s:REMOTE.phongNam},
+ {d:/ha giang/,q:/lung cu/,s:REMOTE.lungCu},
+ {d:/ha giang/,q:/hmong king|vuong family|vuong palace/,s:REMOTE.vuongPalace},
+ {d:/ha giang/,q:/lung tam|hemp weaving/,s:REMOTE.lungTam},
+ {d:/ha giang/,q:/sky path/,s:REMOTE.skyPath},
+ {d:/hoang su phi/,q:/shan tuyet/,s:REMOTE.shanTuyet},
+ {d:/mu cang chai/,q:/mam xoi|raspberry hill/,s:REMOTE.mamXoi},
+ {d:/bac ha/,q:/ban pho.*corn wine|corn wine.*ban pho/,s:REMOTE.banPhoWine},
+ {d:/sa pa/,q:/ta phin.*herbal|herbal bath/,s:REMOTE.taPhinBath}
 ];
 
-/* Safe aliases into the already-local manifest. These are intentionally narrow:
- * the regex must name the actual subject represented by the local image. */
+/* Safe aliases into the local manifest. The label must name the depicted subject. */
 const MANIFEST_RULES=[
  [/bai sao|phu quoc island|phu quoc coast/,'Phú Quốc'],[/phu quoc prison|cay dua prison/,'Phú Quốc Prison'],
- [/christ.*vung tau|christ the king/,'Christ of Vũng Tàu'],[/lieng nung/,'Liêng Nung Waterfall'],
- [/yok don national park/,'Yok Đôn National Park'],[/lak lake/,'Lak Lake'],[/kon tum wooden church|kon tum cathedral/,'Kon Tum'],
- [/banh it tower/,'Bánh Ít Towers'],[/ganh da dia/,'Ganh Da Dia'],[/vung ro/,'Vũng Rô Bay'],[/po nagar/,'Po Nagar'],
- [/my son sanctuary|my son/,'Mỹ Sơn'],[/marble mountains|ngu hanh son/,'Marble Mountains (Vietnam)'],[/son tra/,'Sơn Trà Mountain'],[/dragon bridge/,'Dragon Bridge (Da Nang)'],
+ [/christ.*vung tau|christ the king/,'Christ of Vũng Tàu'],[/yok don national park/,'Yok Đôn National Park'],[/lak lake/,'Lak Lake'],[/kon tum wooden church|kon tum cathedral/,'Kon Tum'],
+ [/ganh da dia/,'Ganh Da Dia'],[/vung ro/,'Vũng Rô Bay'],[/po nagar/,'Po Nagar'],[/my son sanctuary|my son/,'Mỹ Sơn'],[/marble mountains|ngu hanh son/,'Marble Mountains (Vietnam)'],[/son tra/,'Sơn Trà Mountain'],[/dragon bridge/,'Dragon Bridge (Da Nang)'],
  [/imperial city|forbidden purple city/,'Imperial City of Huế'],[/thien mu/,'Thiên Mụ Temple'],[/tu duc/,'Tomb of Tự Đức'],[/khai dinh/,'Tomb of Khải Định'],[/perfume river/,'Perfume River'],[/bach ma|do quyen/,'Bạch Mã National Park'],
  [/phong nha/,'Phong Nha-Kẻ Bàng National Park'],[/paradise cave/,'Paradise Cave'],[/hang en/,'Hang Én'],[/hang pygmy|pygmy cave/,'Hang Pygmy'],[/son doong/,'Sơn Đoòng Cave'],
  [/trang an/,'Tràng An Scenic Landscape Complex'],[/tam coc/,'Tam Cốc-Bích Động'],[/hoa lu/,'Hoa Lư Ancient Capital'],[/cuc phuong/,'Cúc Phương National Park'],
@@ -97,28 +92,30 @@ function manifest(){
  });
  return manifestPromise;
 }
-function remoteFor(label){const q=norm(label);return REMOTE_RULES.find(([rx])=>rx.test(q))?.[1]||null}
+function destinationName(){return document.querySelector('.tc1DestBody h1,.vnHubHero h1')?.textContent?.trim()||''}
+function remoteFor(label,destination=destinationName()){
+ const q=norm(label),d=norm(destination);return REMOTE_RULES.find(r=>r.d.test(d)&&r.q.test(q))?.s||null;
+}
 async function localFor(label){
  const q=norm(label);if(!q)return'';const m=await manifest();
  for(const [rx,key] of MANIFEST_RULES){if(rx.test(q)&&m?.[key]?.local)return m[key].local}
- /* Card title often adds an action to the exact subject (e.g. “Temple of Literature — MUST”).
-  * Longest-key containment is safe only for non-generic multiword manifest keys. */
- const candidates=Object.entries(m||{}).filter(([key,v])=>v?.local).map(([key,v])=>({key,n:norm(key),url:v.local})).filter(x=>x.n.split(' ').length>=2&&x.n.length>=8&&q.includes(x.n)).sort((a,b)=>b.n.length-a.n.length);
+ /* Titles often append an action/directive to an exact subject. Longest-key
+  * containment is allowed only for non-generic multiword manifest keys. */
+ const candidates=Object.entries(m||{}).filter(([key,v])=>v?.local).map(([key,v])=>({n:norm(key),url:v.local})).filter(x=>x.n.split(' ').length>=2&&x.n.length>=8&&q.includes(x.n)).sort((a,b)=>b.n.length-a.n.length);
  return candidates[0]?.url||'';
 }
-function currentIndex(){
- const h=norm(document.querySelector('.tc1DestBody h1,.vnHubHero h1')?.textContent||'');if(!h)return-1;
- return (window.DATA?.destinations?.vietnam||[]).findIndex(d=>norm(d.name)===h);
-}
-function inRemainingScope(){const i=currentIndex();return i>12||document.querySelector('.tc1Place,.vnCard')}
+function currentIndex(){const h=norm(destinationName());if(!h)return-1;return (window.DATA?.destinations?.vietnam||[]).findIndex(d=>norm(d.name)===h)}
+function inRemainingScope(){const i=currentIndex();return i>12||!!document.querySelector('.tc1Place,.vnCard')}
 function setBg(el,url){
  if(!el||!url)return;el.style.setProperty('background-image',`url("${url}")`,'important');el.style.setProperty('background-size','cover','important');el.style.setProperty('background-position','center','important');
  el.classList.add('loaded');el.classList.remove('vnFallback','vnPhotoVerify','tc1NoPhoto','tc1TextOnly');el.dataset.photoVerified='true';delete el.dataset.vnimg;
 }
 async function resolveElement(el){
  if(!el||el.dataset.photoVerified==='true')return;
- const label=el.dataset.vnimg||el.dataset.label||el.closest('.tc1Exp,.tc1Pass,.vnResult,.tc1Place,.tc1SpotlightCard,.tc1SpotlightHero')?.querySelector('h3,b')?.textContent||'';
- if(!label)return;const remote=remoteFor(label);if(remote){setBg(el,remote.url);return}
+ const card=el.closest('.tc1Exp,.tc1Pass,.vnResult,.tc1Place,.tc1SpotlightCard,.tc1SpotlightHero'),label=el.dataset.vnimg||el.dataset.label||card?.querySelector('h3,b')?.textContent||'';
+ if(!label)return;
+ let d=destinationName();if(card?.classList.contains('tc1Place'))d=card.querySelector('h3')?.textContent||d;
+ const remote=remoteFor(label,d);if(remote){setBg(el,remote.url);return}
  const local=await localFor(label);if(local){setBg(el,local);return}
  el.dataset.photoVerified='false';el.dataset.label='PHOTO TO VERIFY';
 }
@@ -128,16 +125,16 @@ async function hydrate(){
  for(const el of nodes)await resolveElement(el);
 }
 async function report(){
- await (window.VN_LIVE_READY||Promise.resolve());const m=await manifest();const list=window.DATA?.destinations?.vietnam||[],rows=[];
+ await (window.VN_LIVE_READY||Promise.resolve());const m=await manifest(),list=window.DATA?.destinations?.vietnam||[],rows=[];
  for(let i=13;i<list.length;i++){
   const d=list[i],items=(typeof window.vnBaseItems==='function'?window.vnBaseItems({c:{id:'vietnam'},d,i,id:'vietnam-'+i}):(d.experiences||[]).map((e,j)=>({title:e.name||e.title,id:e.id||j})));
   let verified=0;const unresolved=[];
-  for(const it of items){const title=it.title||it.name||'',r=remoteFor(title),l=r?'':await localFor(title);if(r||l)verified++;else unresolved.push(title)}
+  for(const it of items){const title=it.title||it.name||'',r=remoteFor(title,d.name),l=r?'':await localFor(title);if(r||l)verified++;else unresolved.push(title)}
   rows.push({index:i,destination:d.name,total:items.length,verified,unresolved:unresolved.length,unresolvedTitles:unresolved});
  }
  return {scope:'Vietnam destinations after Nam Du',manifestEntries:Object.keys(m||{}).length,total:rows.reduce((n,r)=>n+r.total,0),verified:rows.reduce((n,r)=>n+r.verified,0),unresolved:rows.reduce((n,r)=>n+r.unresolved,0),rows};
 }
-window.VN_REMAINING_PHOTO_AUDIT={report,remoteSources:REMOTE,version:'2026-09-12-v1'};
+window.VN_REMAINING_PHOTO_AUDIT={report,remoteSources:REMOTE,version:'2026-09-12-v2'};
 let queued=false;function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;hydrate().catch(()=>{})})}
 new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();
