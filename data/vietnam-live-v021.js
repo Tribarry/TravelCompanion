@@ -104,7 +104,12 @@
     return {title:clean(title),summary:clean(summary)};
   }
   function explode(raw,dest){
-    const text=clean(raw).replace(/\.\s+(Drinks?|Food\/WTF|Food|Drink):/g,'; $1:').replace(/\.\s+(Keep|Avoid|Commercial|Current)/g,'; $1');
+    const text=clean(raw)
+      .replace(/\.\s+Household-dependent WTF items\s*=\s*VERIFY OPERATING\.?/gi,'.')
+      .replace(/\.\s+Dry-season expectation must be explicit[^.]*\.?/gi,'.')
+      .replace(/\.\s+Food includes\s+/gi,'; Food: ')
+      .replace(/\.\s+(Drinks?|Food\/WTF|Food|Drink):/g,'; $1:')
+      .replace(/\.\s+(Keep|Avoid|Commercial|Current)/g,'; $1');
     const chunks=text.split(/\s*;\s*/).map(clean).filter(Boolean); const items=[];
     for(const chunk of chunks){
       const m=chunk.match(/^(Food\/WTF|Food|Drinks?|Drink):\s*(.+)$/i);
