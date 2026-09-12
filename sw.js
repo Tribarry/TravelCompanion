@@ -1,4 +1,4 @@
-const CACHE='sea2027-v14-vietnam-curation-laos-audit-a9';
+const CACHE='sea2027-v15-photo-completion-a10';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./data/itinerary.json','./manifest.webmanifest','./data/vietnam-photo-manifest-v1.js','./data/laos-photo-manifest-v1.js','./data/global-data-bridge-v1.js','./data/vietnam-quality-curation-v1.js','./data/vietnam-curated-photo-supplement-v1.js','./data/laos-audited-structure-v1.js'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener('activate',e=>{e.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))]))});
