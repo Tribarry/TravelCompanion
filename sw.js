@@ -1,4 +1,4 @@
-const CACHE='sea2027-v18-photo-bridge-a13';
+const CACHE='sea2027-v19-photo-bridge-fix-a14';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./data/itinerary.json','./manifest.webmanifest','./data/vietnam-photo-manifest-v1.js','./data/laos-photo-manifest-v1.js','./data/global-data-bridge-v1.js','./data/vietnam-quality-curation-v1.js','./data/vietnam-curated-photo-supplement-v1.js','./data/laos-audited-structure-v1.js','./data/remaining-countries-photo-audit-v1.js','./data/remaining-countries-photo-bridge-v1.js','./data/adhd-focus-mode-v1.js'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener('activate',e=>{e.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))]))});
