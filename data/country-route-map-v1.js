@@ -6,7 +6,9 @@ const data=()=>{try{return typeof DATA!=='undefined'?DATA:window.DATA}catch(e){r
 const state=()=>{try{return window.state||JSON.parse(localStorage.getItem('sea2027-v02')||'{}')}catch(e){return{}}};
 const ds=()=>data()?.destinations?.vietnam||[];
 const Z=[
- {id:'south',title:'South & Mekong',asset:'vietnam-zone-south.png',box:[39,67,53,29],stops:[['1','Ho Chi Minh City',['Ho Chi Minh City']],['2','Mekong Delta',['Cái Bè / Tân Phong','Sa Đéc','Cần Thơ','Châu Đốc / Núi Sam']],['3','Trà Sư Cajuput Forest',['Trà Sư']],['4','Côn Đảo',['Côn Đảo']]]},
+ /* Keep this compact tap target on the southern landmass.  The previous tall
+    target visually covered the HCMC label on the country map. */
+ {id:'south',title:'South & Mekong',asset:'vietnam-zone-south.png',box:[4,73,34,10],stops:[['1','Ho Chi Minh City',['Ho Chi Minh City']],['2','Mekong Delta',['Cái Bè / Tân Phong','Sa Đéc','Cần Thơ','Châu Đốc / Núi Sam']],['3','Trà Sư Cajuput Forest',['Trà Sư']],['4','Côn Đảo',['Côn Đảo']]]},
  {id:'highlands',title:'Highlands',asset:'vietnam-zone-highlands.png',box:[40,44,52,24],stops:[['5','Đà Lạt',['Đà Lạt']],['6','Măng Đen',['Măng Đen']],['7','Đắk Lắk (Buôn Ma Thuột)',['Buôn Ma Thuột / Đắk Lắk']],['8','Kon Tum',['Kon Tum']],['9','Pleiku',['Pleiku']]]},
  {id:'central',title:'Central Coast & Caves',asset:'vietnam-zone-central.png',box:[40,22,55,24],stops:[['10','Quy Nhơn',['Quy Nhơn']],['11','Phú Yên',['Phú Yên']],['12','Nha Trang',['Nha Trang']],['13','Hội An',['Hội An']],['14','Đà Nẵng',['Đà Nẵng']],['15','Hải Vân Pass (Lăng Cô)',['Hải Vân Pass']],['16','Huế',['Huế']],['17','Bạch Mã National Park',['Bạch Mã']],['•','Phong Nha / Quảng Bình',['Phong Nha / Quảng Bình']]]},
  {id:'north',title:'The North',asset:'vietnam-zone-north.png',box:[37,1,58,23],stops:[['22','Mù Cang Chải',['Mù Cang Chải']],['23','Ninh Bình',['Ninh Bình']],['24','Hà Nội',['Hà Nội']],['25','Hà Giang Loop',['Hà Giang Loop']],['26','Cao Bằng – Bản Giốc',['Cao Bằng']]]}
