@@ -46,6 +46,10 @@ if(!document.querySelector('script[data-vn-b2-sadec-render]')){
 if(!document.querySelector('script[data-adhd-focus]')){
  const p=document.createElement('script');p.src='data/adhd-focus-mode-v1.js?v=20260912-focus2';p.dataset.adhdFocus='1';document.head.appendChild(p);
 }
+/* ADHD-first country route map — Vietnam first */
+if(!document.querySelector('script[data-country-route-map]')){
+ const p=document.createElement('script');p.src='data/country-route-map-v1.js?v=20260912-map1';p.dataset.countryRouteMap='1';document.head.appendChild(p);
+}
 const COPY={
  vietnam:'Food, local life, highlands, caves and the long journey north.',
  laos:'River towns, mountain country, conservation, caves and the southern plateau.',
