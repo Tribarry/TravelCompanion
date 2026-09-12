@@ -63,11 +63,12 @@ jobs:
           assert 'existing 15-item Saigon passport in the shell' in foodbank, 'Sài Gòn Food Passport contract changed'
           assert len(re.findall(r'state\.here\s*=(?!=)',shell))==1, 'browsing must not change current location'
           assert 'data-set-here' in shell
-          assert "renderDestination(id,i+1,'overview')" in shell
+          assert "document.querySelectorAll('[data-open-dest]').forEach" in shell
+          assert "renderDestination(id,Number(b.dataset.openDest),'overview')" in shell
           assert 'Unresolved cards remain PHOTO TO VERIFY' in remaining
           assert "licenseStatus:'TO CHECK'" in remaining
           assert "attributionStatus:'TO CHECK'" in remaining
-          print('Vietnam canonical bank, passport contract, state and unresolved-photo policy preserved.')
+          print('Vietnam canonical bank, passport contract, browsing/current-location separation and unresolved-photo policy preserved.')
           PY
       - name: Verify loader wiring
         run: |
