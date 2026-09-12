@@ -38,7 +38,7 @@ if(!document.querySelector('script[data-vn-b2-sadec-render]')){
 }
 /* ADHD Focus Mode */
 if(!document.querySelector('script[data-adhd-focus]')){
- const p=document.createElement('script');p.src='data/adhd-focus-mode-v1.js?v=20260912-focus1';p.dataset.adhdFocus='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/adhd-focus-mode-v1.js?v=20260912-focus2';p.dataset.adhdFocus='1';document.head.appendChild(p);
 }
 const COPY={
  vietnam:'Food, local life, highlands, caves and the long journey north.',
