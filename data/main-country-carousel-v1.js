@@ -22,10 +22,10 @@ if(!document.querySelector('script[data-vn-remaining-photo-audit]')){
  const p=document.createElement('script');p.src='data/vietnam-remaining-photo-audit-v1.js?v=20260912-p3';p.dataset.vnRemainingPhotoAudit='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-curated-photo-supplement]')){
- const p=document.createElement('script');p.src='data/vietnam-curated-photo-supplement-v1.js?v=20260912-vp1';p.dataset.vnCuratedPhotoSupplement='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/vietnam-curated-photo-supplement-v1.js?v=20260912-vp2';p.dataset.vnCuratedPhotoSupplement='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-laos-photo-manifest]')){
- const p=document.createElement('script');p.src='data/laos-photo-manifest-v1.js?v=20260912-lp1';p.dataset.laosPhotoManifest='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/laos-photo-manifest-v1.js?v=20260912-lp2';p.dataset.laosPhotoManifest='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-laos-audited-structure]')){
  const p=document.createElement('script');p.src='data/laos-audited-structure-v1.js?v=20260912-la1';p.dataset.laosAuditedStructure='1';document.head.appendChild(p);
