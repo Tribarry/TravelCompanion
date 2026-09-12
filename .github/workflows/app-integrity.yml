@@ -1,0 +1,40 @@
+name: App integrity
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Protect the app shell
+        shell: bash
+        run: |
+          set -euo pipefail
+          bytes=$(wc -c < index.html)
+          echo "index.html bytes: $bytes"
+          test "$bytes" -gt 150000
+          grep -q '<!doctype html>' index.html
+          grep -q 'Travel Companion' index.html
+          ! grep -q 'PLACEHOLDER_WILL_BE_TOO_LARGE' index.html
+      - name: Syntax-check critical runtimes
+        run: |
+          node --check data/travel-companion-v1-shell.js
+          node --check data/main-country-carousel-v1.js
+          node --check data/adhd-focus-mode-v1.js
+          node --check data/remaining-countries-photo-audit-v1.js
+          node --check data/remaining-countries-photo-bridge-v1.js
+          node --check data/laos-audited-structure-v1.js
+          node --check data/vietnam-curated-photo-supplement-v1.js
+      - name: Verify loader wiring
+        run: |
+          grep -q 'adhd-focus-mode-v1.js?v=20260912-focus2' data/main-country-carousel-v1.js
+          grep -q 'remaining-countries-photo-audit-v1.js?v=20260912-rp1' data/main-country-carousel-v1.js
+          grep -q 'remaining-countries-photo-bridge-v1.js?v=20260912-rpb1' data/main-country-carousel-v1.js
