@@ -10,10 +10,10 @@ if(!document.querySelector('script[data-vn-next10-exact-audit]')){
  const p=document.createElement('script');p.src='data/vietnam-next10-exact-photo-audit-v1.js?v=20260912-a6';p.dataset.vnNext10ExactAudit='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-remaining-content-audit]')){
- const p=document.createElement('script');p.src='data/vietnam-remaining-content-audit-v1.js?v=20260912-c1';p.dataset.vnRemainingContentAudit='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/vietnam-remaining-content-audit-v1.js?v=20260912-c3';p.dataset.vnRemainingContentAudit='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-remaining-photo-audit]')){
- const p=document.createElement('script');p.src='data/vietnam-remaining-photo-audit-v1.js?v=20260912-p2';p.dataset.vnRemainingPhotoAudit='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/vietnam-remaining-photo-audit-v1.js?v=20260912-p3';p.dataset.vnRemainingPhotoAudit='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-b2-sadec]')){
  const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v2.js?v=20260912-s2';s.dataset.vnB2Sadec='1';document.head.appendChild(s);
@@ -47,27 +47,16 @@ function setSpotlightPhoto(card,photo){
  card.classList.remove('vnFallback','tc1TextOnly');
 }
 function hydrateSaigonSpotlights(){
- document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(card=>{
-   const title=card.querySelector('b')?.textContent?.trim();const photo=SAIGON_SPOTLIGHT_PHOTOS[title];if(!photo)return;
-   setSpotlightPhoto(card,photo);
- });
+ document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(card=>{const title=card.querySelector('b')?.textContent?.trim();const photo=SAIGON_SPOTLIGHT_PHOTOS[title];if(photo)setSpotlightPhoto(card,photo)});
 }
 function hydrateCaiBeSpotlights(){
- const heading=document.querySelector('.tc1DestBody h1')?.textContent?.trim().toUpperCase();
- if(heading!=='CÁI BÈ / TÂN PHONG'||typeof window.TC1RaterPhoto!=='function')return;
- const destination={name:'Cái Bè / Tân Phong'};
- document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(card=>{
-   const title=card.querySelector('b')?.textContent?.trim();if(!title)return;
-   const photo=window.TC1RaterPhoto('vietnam',destination,{title});if(!photo)return;
-   setSpotlightPhoto(card,photo);
- });
+ const heading=document.querySelector('.tc1DestBody h1')?.textContent?.trim().toUpperCase();if(heading!=='CÁI BÈ / TÂN PHONG'||typeof window.TC1RaterPhoto!=='function')return;
+ const destination={name:'Cái Bè / Tân Phong'};document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(card=>{const title=card.querySelector('b')?.textContent?.trim();if(!title)return;const photo=window.TC1RaterPhoto('vietnam',destination,{title});if(photo)setSpotlightPhoto(card,photo)});
 }
 function enhance(){
- const stack=document.querySelector('.tc1CountryStack');
- if(!stack||stack.dataset.carousel==='1')return;
- let cards=[...stack.querySelectorAll('.tc1CountryCard')];if(!cards.length)return;
+ const stack=document.querySelector('.tc1CountryStack');if(!stack||stack.dataset.carousel==='1')return;let cards=[...stack.querySelectorAll('.tc1CountryCard')];if(!cards.length)return;
  cards.sort((a,b)=>ORDER.indexOf(a.dataset.openCountry)-ORDER.indexOf(b.dataset.openCountry));cards.forEach(card=>stack.appendChild(card));
- const cambodia=cards.find(card=>card.dataset.openCountry==='cambodia');const teaching=cambodia?.cloneNode(true);
+ const cambodia=cards.find(card=>card.dataset.openCountry==='cambodia'),teaching=cambodia?.cloneNode(true);
  if(teaching){teaching.dataset.openCountry='';teaching.dataset.teachingPlaceholder='1';teaching.removeAttribute('onclick');teaching.style.backgroundImage=`url('${CAROUSEL_PHOTOS.teaching}')`;const b=teaching.querySelector('b'),em=teaching.querySelector('em'),sm=teaching.querySelector('small');if(b)b.textContent='Cambodia · Teaching';if(em)em.textContent='Teaching chapter · coming soon';if(sm)sm.textContent='Chapter 7 · FROM 14 AUG 2027';stack.appendChild(teaching);cards.push(teaching)}
  stack.dataset.carousel='1';stack.className='tc1CountryCarousel';const parent=stack.parentElement;parent.className='tc1MainCarouselWrap';const oldHead=parent.querySelector(':scope > h2');if(oldHead)oldHead.outerHTML='<div class="tc1MainCarouselHead"><div><small>Your journey</small><h2>Choose a chapter</h2></div><small>Swipe →</small></div>';
  cards.forEach((card,index)=>{const id=card.dataset.openCountry||'';if(CAROUSEL_PHOTOS[id])card.style.backgroundImage=`url('${CAROUSEL_PHOTOS[id]}')`;card.classList.remove('tc1CountryCard');card.classList.add('tc1CountrySlide');const span=card.querySelector('span');if(span){span.className='tc1CountrySlideCopy';const b=span.querySelector('b'),em=span.querySelector('em'),sm=span.querySelector('small');const title=b?.textContent||'',meta=em?.textContent||'',date=sm?.textContent?.replace(/^Chapter\s+\d+\s+·\s*/i,'')||'',desc=card.dataset.teachingPlaceholder==='1'?'Placeholder for your Cambodia teaching/living chapter. We’ll build this separately from the Cambodia travel chapter.':COPY[id]||'';span.innerHTML=`<small>Chapter ${index+1} · ${date}</small><b>${title}</b><p>${desc}</p><div class="tc1CountrySlideMeta"><span>${date}</span><span>${card.dataset.teachingPlaceholder==='1'?'COMING SOON':meta+'   →'}</span></div>`}});
