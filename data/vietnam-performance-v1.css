@@ -1,0 +1,13 @@
+/* Vietnam destination performance hints — no visual redesign. */
+.vnResultPhoto,.tc1ExpPhoto,.tc1SpotlightCard,.tc1SpotlightHero,.vnHubHero{
+  background-color:#e8e1d5;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:cover;
+}
+.vnResultPhoto,.tc1ExpPhoto{aspect-ratio:4/3;contain:layout paint;}
+.tc1SpotlightCard,.tc1SpotlightHero{contain:layout paint;}
+@supports (content-visibility:auto){
+  .vnResult,.tc1Exp{content-visibility:auto;contain-intrinsic-size:auto 360px;}
+  .tc1SpotlightCard{content-visibility:auto;contain-intrinsic-size:auto 420px;}
+}
