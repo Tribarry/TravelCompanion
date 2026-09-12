@@ -36,9 +36,10 @@ function setBg(el,url,spotlight=false){
  el.classList.remove('vnFallback','tc1NoPhoto','tc1TextOnly');
 }
 const MATCHES=[
- [/cai rang before dawn|cai rang floating market|cay beo trading poles|hu tieu from vendor boat/,SOURCES.caiRang],
- [/ba chua xu/,SOURCES.baChuaXu],[/hang pagoda|caves around hang pagoda/,SOURCES.hangPagoda],[/tay an/,SOURCES.tayAn],
- [/tra su|sampan|tac rang|both boats in one journey|duckweed ecology|flood ecology/,SOURCES.traSu],
+ /* A source is deliberately assigned once only.  Similar nearby activities
+    remain PHOTO TO VERIFY until there is a distinct, exact photograph. */
+ [/cay beo trading poles/,SOURCES.caiRang],
+ [/ba chua xu/,SOURCES.baChuaXu],[/^hang pagoda$/i,SOURCES.hangPagoda],[/^tay an/i,SOURCES.tayAn],
  [/ta pa/,SOURCES.taPa],[/thach dong/,SOURCES.thachDong],[/da dung/,SOURCES.daDung],[/ghositaram/,SOURCES.ghositaram]
 ];
 const DESTINATION_GAPS={
@@ -51,6 +52,8 @@ function sourceFor(title){const q=norm(title);return MATCHES.find(([rx])=>rx.tes
 function hydrateExactNextTen(){
  const here=norm(document.querySelector('.tc1DestBody h1')?.textContent);
  if(here==='chau doc nui sam')setBg(document.querySelector('.tc1DestHero'),SOURCES.chauDoc.url,true);
+ /* The old manifest entry was the Trà Sư tourism logo, not a photograph. */
+ if(here==='tra su')setBg(document.querySelector('.tc1DestHero'),SOURCES.traSu.url,true);
  const gap=DESTINATION_GAPS[here];if(gap)setBg(document.querySelector('.tc1DestHero'),gap.url,true);
  document.querySelectorAll('.tc1Exp').forEach(card=>{const src=sourceFor(card.querySelector('h3')?.textContent);if(src)setBg(card.querySelector('.tc1ExpPhoto'),src.url)});
  document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(card=>{const src=sourceFor(card.querySelector('b')?.textContent);if(src)setBg(card,src.url,true)});
