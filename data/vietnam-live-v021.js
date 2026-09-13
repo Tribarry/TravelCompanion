@@ -144,16 +144,13 @@
   function applySection(d,sections){
     const key=ALIAS[d.name]||d.name, raw=sections[key]; if(!raw)return;
     let items=explode(raw,d.name); items=splitHighlands(items,d.name); if(items.length<3)items=explode(raw,d.name);
-    d.context=CONTEXT[d.name]||CONTEXT[key]||d.summary; d.summary=d.context;
-    // A locked title is rendered only when V3 has a named rule for it.  The
-    // research bank remains intact; this prevents generic fallback prose from
-    // becoming a traveller-facing card.
-    d.experiences=items.map((it,i)=>{
-      const copy=window.TC1VietnamExperienceContent?.enrich?.(d,{title:it.title,name:it.title,raw:it});
-      const named=window.TC1VietnamExperienceContent?.ruleFor?.(d,it.title,it);
-      if(!named||!copy?.summary)return null;
-      return {...toExperience(it,i),name:copy.title,summary:copy.summary};
-    }).filter(Boolean);
+    d.experiences=items.map(toExperience); d.context=CONTEXT[d.name]||CONTEXT[key]||d.summary; d.summary=d.context;
+    // The locked bank owns titles; V3 owns the displayed copy.  Keep the full
+    // card set intact so its existing image bindings and saved state remain available.
+    d.experiences=d.experiences.map(e=>{
+      const copy=window.TC1VietnamExperienceContent?.enrich?.(d,{title:e.name,name:e.name,raw:{raw:e.name,tags:e.tags||[]}});
+      return copy?.summary?{...e,summary:copy.summary}:e;
+    });
     const food=d.experiences.filter(e=>e.tags.includes('Food')).map(e=>e.name);
     const drink=d.experiences.filter(e=>e.tags.includes('Drink')).map(e=>e.name);
     const unique=d.experiences.find(e=>e.tags.includes('Unique'));
