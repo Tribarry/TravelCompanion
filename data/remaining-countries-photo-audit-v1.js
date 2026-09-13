@@ -8,10 +8,10 @@ if(window.__REMAINING_COUNTRIES_PHOTO_AUDIT_V1__)return;window.__REMAINING_COUNT
 const slug=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
 const C=(file,subject)=>{const remote='https://commons.wikimedia.org/wiki/Special:Redirect/file/'+encodeURIComponent(file);return {url:window.TC_LOCAL_IMAGE_URLS?.[remote]||remote,sourcePage:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file).replace(/%20/g,'_'),subject,licenseStatus:'COMMONS — CHECK FILE PAGE',attributionStatus:'SOURCE PAGE SAVED'}};
 const COUNTRY={
- cambodia:{url:'assets/images/countries/cambodia.jpg',sourcePage:'local',subject:'Angkor Wat at golden hour, Siem Reap',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
- thailand:{url:'assets/images/countries/thailand.jpg',sourcePage:'local',subject:'Wat Rong Suea Ten Blue Temple Buddha, Chiang Rai',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
- kazakhstan:{url:'assets/images/countries/kazakhstan.jpg',sourcePage:'local',subject:'Charyn Canyon, Kazakhstan',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
- kyrgyzstan:{url:'assets/images/countries/kyrgyzstan.jpg',sourcePage:'local',subject:'Yurts and horses, Kyrgyzstan',licenseStatus:'LOCAL',attributionStatus:'SAVED'}
+ cambodia:{url:'assets/images/countries/cambodia.jpg',sourcePage:'local',subject:'Angkor Wat sunrise over the lotus pond, Siem Reap',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
+ thailand:{url:'assets/images/countries/thailand.jpg',sourcePage:'local',subject:'Wat Rong Suea Ten Blue Temple nagas, Chiang Rai',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
+ kazakhstan:{url:'assets/images/countries/kazakhstan.jpg',sourcePage:'local',subject:'Charyn Canyon Valley of Castles, Kazakhstan',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
+ kyrgyzstan:{url:'assets/images/countries/kyrgyzstan.jpg',sourcePage:'local',subject:'Yurts on Song-Köl with the alpine lake, Kyrgyzstan',licenseStatus:'LOCAL',attributionStatus:'SAVED'}
 };
 const DEST={
  cambodia:{

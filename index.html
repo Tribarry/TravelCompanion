@@ -295,16 +295,16 @@ const COVER_PHOTOS=[
  {country:"🇱🇦 Laos",place:"Kuang Si",url:"https://www.trendtours.de/.imaging/focalpoint/default/1280x/dam/jcr%3A334f3a6c-1eab-4499-9c19-1bc1330608ef/5204-05_BKK113-14_Thailand---Laos_content_1920x1080px_Kuang-Si-Wasserfall.jpg"},
  {country:"🇱🇦 Laos",place:"Nong Khiaw",url:"https://www.discoverlaos.today/img/destination/b6144be9c64313795237d16c2db1d5b1.jpg?p=original"},
  {country:"🇱🇦 Laos",place:"Gibbon Experience",url:"https://kampatour.com/pic/blog/192cff23-247c-4aa3-a93d-a6be30cae715.jpg"},
- {country:"🇰🇭 Cambodia",place:"Angkor",url:"https://www.exoticca.com/_next/image?q=75&url=https%3A%2F%2Fstatic-uk.exoticca.com%2Fimg%2Fp%2F21505%2F411415.jpg&w=1200"},
- {country:"🇰🇭 Cambodia",place:"Koh Rong",url:"https://tourismcambodia.org/storage/uploads/contents/entryform/ministry-of-tourism-cambodia-2019-02-28-10-05-44am1551348346-1587.png"},
+ {country:"🇰🇭 Cambodia",place:"Angkor",url:"assets/images/countries/cambodia.jpg"},
+ {country:"🇰🇭 Cambodia",place:"Koh Rong",url:"assets/images/places/koh-rong.jpg"},
  {country:"🇰🇭 Cambodia",place:"Countryside",url:"https://static.wixstatic.com/media/1620b3_4b708f3b63294deba69b78c9a26616fc~mv2.png/v1/fill/w_850%2Ch_1298%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/1620b3_4b708f3b63294deba69b78c9a26616fc~mv2.png"},
- {country:"🇹🇭 Thailand",place:"Mae Hong Son",url:"https://travelthailand.com/images/destinations/Mae-Hong-Son-Loop3_2ba19.jpg"},
+ {country:"🇹🇭 Thailand",place:"Blue Temple",url:"assets/images/countries/thailand.jpg"},
  {country:"🇹🇭 Thailand",place:"Bangkok",url:"https://images.squarespace-cdn.com/content/v1/68da9dee40aa1f285cabf5c4/b19c2e77-ecf8-4a2f-a271-200ac531d838/bangkok.webp"},
  {country:"🇹🇭 Thailand",place:"Southern Islands",url:"https://www.voyageway.com/wp-content/uploads/2019/07/excursion-koh-phi-phi-depuis-phuket.jpg"},
  {country:"🇰🇿 Kazakhstan",place:"Kolsai Lakes",url:"https://static.tildacdn.com/tild6361-6666-4437-b366-623730616631/_2.jpg"},
- {country:"🇰🇿 Kazakhstan",place:"Charyn Canyon",url:"https://putidorogi-nn.ru/images/stories/aziya/kazahstan/kazahstan_2.jpg"},
+ {country:"🇰🇿 Kazakhstan",place:"Charyn Canyon",url:"assets/images/countries/kazakhstan.jpg"},
  {country:"🇰🇿 Kazakhstan",place:"Kaindy Lake",url:"https://eurasia.travel/wp-content/uploads/2024/10/Kaindy-Lake.jpg"},
- {country:"🇰🇬 Kyrgyzstan",place:"Song-Köl",url:"https://nomads-life.com/wp-content/uploads/2024/02/Horse-in-Son-Kul2-1024x768.jpg"},
+ {country:"🇰🇬 Kyrgyzstan",place:"Song-Köl",url:"assets/images/countries/kyrgyzstan.jpg"},
  {country:"🇰🇬 Kyrgyzstan",place:"Horse Trek",url:"https://st3.depositphotos.com/3696145/12571/i/450/depositphotos_125717206-stock-photo-hunters-on-horseback-riding-in.jpg"},
  {country:"🇰🇬 Kyrgyzstan",place:"Issyk-Kul",url:"https://www.civitatis.com/f/kirguistan/biskek/excursion-issyk-kul-torre-burana-r32.jpg"}
 ];
@@ -369,7 +369,7 @@ function landing(){
  if(c)c.onclick=function(){stopCoverTimer();document.querySelector("nav").style.display="grid";home()};
  startCoverTimer();
 }
-const COUNTRY_TILE_IMAGES={"vietnam": "https://cdn.tripster.ru/thumbs2/a45748f6-65cd-11ef-a1c6-c6203ae0b43a.1220x600.jpeg", "laos": "https://www.discoverlaos.today/img/destination/b6144be9c64313795237d16c2db1d5b1.jpg?p=original", "cambodia": "https://www.exoticca.com/_next/image?q=75&url=https%3A%2F%2Fstatic-uk.exoticca.com%2Fimg%2Fp%2F21505%2F411415.jpg&w=1200", "thailand": "https://www.voyageway.com/wp-content/uploads/2019/07/excursion-koh-phi-phi-depuis-phuket.jpg", "kazakhstan": "https://static.tildacdn.com/tild6361-6666-4437-b366-623730616631/_2.jpg", "kyrgyzstan": "https://nomads-life.com/wp-content/uploads/2024/02/Horse-in-Son-Kul2-1024x768.jpg"};
+const COUNTRY_TILE_IMAGES={"vietnam": "https://cdn.tripster.ru/thumbs2/a45748f6-65cd-11ef-a1c6-c6203ae0b43a.1220x600.jpeg", "laos": "https://www.discoverlaos.today/img/destination/b6144be9c64313795237d16c2db1d5b1.jpg?p=original", "cambodia": "assets/images/countries/cambodia.jpg", "thailand": "assets/images/countries/thailand.jpg", "kazakhstan": "assets/images/countries/kazakhstan.jpg", "kyrgyzstan": "assets/images/countries/kyrgyzstan.jpg"};
 const VIETNAM_COORDS=[[10.7769, 106.7009], [10.333, 106.033], [10.29, 105.756], [10.0452, 105.7469], [10.3864, 105.4352], [10.7, 105.117], [10.583, 105.058], [10.613, 104.951], [9.294, 105.727], [10.383, 104.487], [10.25, 104.6], [10.012, 105.08], [10.253, 105.972], [10.2899, 103.984], [8.683, 106.617], [11.534, 106.883], [11.998, 107.691], [11.9404, 108.4583], [12.6667, 108.05], [12.833, 107.733], [12.416, 107.683], [13.983, 108.0], [14.35, 108.0], [14.6, 108.3], [15.43, 107.79], [15.92, 107.65], [16.27, 107.22], [16.63, 106.73], [16.9, 106.4], [13.782, 109.219], [13.09, 109.3], [12.2388, 109.1967], [15.8801, 108.338], [16.0544, 108.2022], [16.19, 107.99], [16.4637, 107.5909], [16.198, 107.85], [17.61, 106.31], [20.2506, 105.9745], [20.445, 105.155], [21.0285, 105.8542], [20.91, 107.18], [20.727, 107.048], [22.394, 105.624], [22.666, 106.263], [22.802, 104.978], [22.58, 104.683], [21.776, 104.218], [22.615, 103.617], [22.536, 104.293], [22.336, 103.843]];
 
 let activeMap=null;
@@ -855,7 +855,7 @@ const _do019=doHere;doHere=function(){let x=cur();if(x&&x.c.id==='vietnam'){if(/
 
 document.querySelectorAll("nav button").forEach(b=>b.onclick=function(){const p=b.dataset.page;if(p==="home")home();else if(p==="do")doHere();else if(p==="next")goNext();else if(p==="miss")dontMiss();else journey()});try{landing()}catch(err){app.innerHTML='<div class="card warn"><h2>App error</h2><p>'+String(err.message||err)+'</p></div>'}</script><script src="data/local-image-url-index.js"></script><script src="data/vietnam-live-v021.js?v=20260913-baclieu"></script>
 <script src="data/home-carousel-v023.js?v=20260910"></script>
-<script src="data/chapter-selector-v022.js?v=20260913-countryheroes"></script>
+<script src="data/chapter-selector-v022.js?v=20260913-heroes2"></script>
 <script src="data/vietnam-journey-v024.js?v=20260910-1745"></script>
 <script src="data/vietnam-city-hub-v024.js?v=20260910-1755"></script>
 <script src="data/vietnam-city-hub-v025.js?v=20260913-cai-be"></script><script src="data/vietnam-duration-mekong-v1.js?v=20260913-mekong2"></script>
@@ -870,5 +870,5 @@ document.querySelectorAll("nav button").forEach(b=>b.onclick=function(){const p=
 <script src="data/destination-food-passports-v1.js?v=20260911-food-passports"></script>
 <script src="data/travel-companion-v1-shell.js?v=20260913-lxphotos"></script>
 <script src="data/grok-missing-heroes-v1.js?v=20260913-cdlock"></script>
-<script src="data/main-country-carousel-v1.js?v=20260913-countryheroes"></script>
+<script src="data/main-country-carousel-v1.js?v=20260913-heroes2"></script>
 </body></html>
