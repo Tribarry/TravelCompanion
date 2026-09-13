@@ -31,7 +31,7 @@ if(!document.querySelector('script[data-laos-audited-structure]')){
  const p=document.createElement('script');p.src='data/laos-audited-structure-v1.js?v=20260912-la1';p.dataset.laosAuditedStructure='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-remaining-country-photo-audit]')){
- const p=document.createElement('script');p.src='data/remaining-countries-photo-audit-v1.js?v=20260912-rp1';p.dataset.remainingCountryPhotoAudit='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/remaining-countries-photo-audit-v1.js?v=20260913-countryheroes';p.dataset.remainingCountryPhotoAudit='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-remaining-photo-bridge]')){
  const p=document.createElement('script');p.src='data/remaining-countries-photo-bridge-v1.js?v=20260912-rpb1';p.dataset.remainingPhotoBridge='1';document.head.appendChild(p);
@@ -66,9 +66,11 @@ const COPY={
 };
 const ORDER=['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan'];
 const CAROUSEL_PHOTOS={
- kazakhstan:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Charyn%20Canyon%2C%20Kazakhstan%2004.jpg',
- kyrgyzstan:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Ala-Kul%20lake.jpg',
- teaching:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Phnom%20Penh%20sunset.jpg'
+ cambodia:'assets/images/countries/cambodia.jpg',
+ thailand:'assets/images/countries/thailand.jpg',
+ kazakhstan:'assets/images/countries/kazakhstan.jpg',
+ kyrgyzstan:'assets/images/countries/kyrgyzstan.jpg',
+ teaching:'assets/images/countries/cambodia.jpg'
 };
 const SAIGON_SPOTLIGHT_PHOTOS={
  'War Remnants Museum':'https://commons.wikimedia.org/wiki/Special:Redirect/file/War%20Remnants%20Museum.jpg',
