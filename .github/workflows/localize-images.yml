@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'scripts/localize-images.mjs'
       - 'scripts/rewrite-local-images.mjs'
       - '.github/workflows/localize-images.yml'
 
