@@ -12,6 +12,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Install extracted-script dependency
+        run: python -m pip install --quiet pillow
       - name: Apply Cái Bè text and runtime patch
         shell: bash
         run: |
