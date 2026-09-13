@@ -5,7 +5,7 @@
 (()=>{
 'use strict';
 if(window.LAOS_PHOTO_MANIFEST)return;
-const C=(file,sourcePage,subject,license='COMMONS — CHECK FILE PAGE')=>({url:'https://commons.wikimedia.org/wiki/Special:Redirect/file/'+encodeURIComponent(file),sourcePage,subject,licenseStatus:license,attributionStatus:'SOURCE PAGE SAVED'});
+const C=(file,sourcePage,subject,license='COMMONS — CHECK FILE PAGE')=>{const url='https://commons.wikimedia.org/wiki/Special:Redirect/file/'+encodeURIComponent(file);return {url:window.TC_LOCAL_IMAGE_URLS?.[url]||url,sourcePage,subject,licenseStatus:license,attributionStatus:'SOURCE PAGE SAVED'}};
 const R=(url,sourcePage,subject)=>({url,sourcePage,subject,licenseStatus:'TO CHECK',attributionStatus:'SOURCE PAGE SAVED'});
 window.LAOS_PHOTO_MANIFEST={
  'Huay Xai / Bokeo':C('Huay Xai, Lao and Thai border (12250555386).jpg','https://commons.wikimedia.org/wiki/File:Huay_Xai,_Lao_and_Thai_border_(12250555386).jpg','Mekong river boats at Huay Xai'),
