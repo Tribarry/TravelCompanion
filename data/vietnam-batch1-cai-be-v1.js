@@ -11,7 +11,7 @@ const pendingSvg=()=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<sv
 const PENDING=pendingSvg();
 const commons=file=>`https://commons.wikimedia.org/wiki/Special:Redirect/file/${encodeURIComponent(file)}?width=1400`;
 
-const HERO=commons('Sông Cái Bè.jpg');
+const HERO='assets/images/destinations/cai-be.jpg';
 const IMG={
  tanPhong:commons('Tân Phong, Cai Lậy, Tiền Giang, Vietnam - panoramio (21).jpg'),
  water:commons('Vietnam 08 - 118 - Cai Be on the water (3185052919).jpg'),

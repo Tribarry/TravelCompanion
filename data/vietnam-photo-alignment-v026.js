@@ -301,10 +301,11 @@ function destLocalPhoto(q,currentName){
  const dest=String(currentName||window.TC1BrowseDest||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
  const title=String(q||'');
  const t=title.trim();
- if(/^ho chi minh city$|^hồ chí minh city$/i.test(t)) return 'assets/images/destinations/ho-chi-minh-city.jpg';
- if(/cái bè \/ tân phong|^cái bè$|^cai be$/i.test(t)) return 'assets/images/destinations/cai-be.jpg';
- if(/^sa đéc$|^sa dec$/i.test(t)) return 'assets/images/destinations/sa-dec.jpg';
- if(/^cần thơ$|^can tho$/i.test(t)) return 'assets/images/can-tho/01-cai-rang.jpg';
+ const n=t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/[^a-z0-9]+/g,' ').trim();
+ if(n==='ho chi minh city') return 'assets/images/destinations/ho-chi-minh-city.jpg';
+ if(n==='cai be tan phong'||n==='cai be') return 'assets/images/destinations/cai-be.jpg';
+ if(n==='sa dec') return 'assets/images/destinations/sa-dec.jpg';
+ if(n==='can tho') return 'assets/images/can-tho/01-cai-rang.jpg';
  /* Dest only orders the maps. Never gate a unique title on "I am here" —
   * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
  const maps=[];
@@ -350,14 +351,37 @@ window.destLocalPhoto=destLocalPhoto;
 window.vnImg=async function(q){
  return relevantPhoto(q,browseDestName());
 };
+function paintPlaceHero(el,url){
+ if(!el||!url)return;
+ el.style.setProperty('background-image',`url("${url}")`,'important');
+ el.style.setProperty('background-size','cover','important');
+ el.style.setProperty('background-position','center','important');
+ el.classList.add('loaded');
+ el.classList.remove('vnFallback','tc1NoPhoto');
+}
+function hydratePlaceHeroes(){
+ document.querySelectorAll('.tc1PlacePhoto').forEach(el=>{
+  const name=el.dataset.vnimg||el.dataset.label||el.closest('.tc1Place')?.querySelector('h3')?.textContent||'';
+  const url=destLocalPhoto(name,name);
+  if(url) paintPlaceHero(el,url);
+ });
+}
+window.hydratePlaceHeroes=hydratePlaceHeroes;
 window.hydrateVN=function(){
  const current=browseDestName();
  document.querySelectorAll('[data-vnimg]').forEach(async el=>{
   const q=el.dataset.vnimg||'';const u=await relevantPhoto(q,current);
-  if(u){el.style.backgroundImage=`url("${u}")`;el.classList.add('loaded');el.dataset.photoVerified='true'}
+  if(u){
+   el.style.setProperty('background-image',`url("${u}")`,'important');
+   el.style.setProperty('background-size','cover','important');
+   el.style.setProperty('background-position','center','important');
+   el.classList.add('loaded');el.dataset.photoVerified='true';
+  }
   else{el.classList.remove('loaded');el.dataset.photoVerified='false';el.dataset.label='PHOTO TO VERIFY'}
  });
+ hydratePlaceHeroes();
 };
+new MutationObserver(()=>hydratePlaceHeroes()).observe(document.documentElement,{childList:true,subtree:true});
 
 applyIndex();
 if(window.VN_LIVE_READY&&typeof window.VN_LIVE_READY.then==='function')window.VN_LIVE_READY.then(applyIndex).catch(()=>applyIndex());

@@ -132,7 +132,7 @@ function hydratePage(){
  if(!onSaDecPage())return;
  document.querySelectorAll('[data-vnimg]').forEach(el=>{
   const label=(el.dataset.vnimg||el.dataset.label||'').trim();
-  if(norm(label)===norm(DEST)){setBg(el,SRC.flowerVillage.url,/tc1DestHero/.test(el.className));return;}
+  if(norm(label)===norm(DEST)){setBg(el,'assets/images/destinations/sa-dec.jpg',/tc1DestHero/.test(el.className));return;}
   const c=matchCopy(label);if(c?.photo)setBg(el,c.photo,/tc1SpotlightHero|tc1SpotlightCard/.test(el.className));
  });
  document.querySelectorAll('.tc1Exp').forEach(card=>{

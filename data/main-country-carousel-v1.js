@@ -4,7 +4,7 @@ if(!document.querySelector('script[data-global-data-bridge]')){
  const p=document.createElement('script');p.src='data/global-data-bridge-v1.js?v=20260912-g1';p.dataset.globalDataBridge='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-b1-caibe]')){
- const s=document.createElement('script');s.src='data/vietnam-batch1-cai-be-v1.js?v=20260911-b2';s.dataset.vnB1Caibe='1';document.head.appendChild(s);
+ const s=document.createElement('script');s.src='data/vietnam-batch1-cai-be-v1.js?v=20260913-hero2';s.dataset.vnB1Caibe='1';document.head.appendChild(s);
 }
 if(!document.querySelector('script[data-vn-photo-ui-fixes]')){
  const p=document.createElement('script');p.src='data/vietnam-photo-ui-fixes-v1.js?v=20260912-next10-photo-audit';p.dataset.vnPhotoUiFixes='1';document.head.appendChild(p);
@@ -37,7 +37,7 @@ if(!document.querySelector('script[data-remaining-photo-bridge]')){
  const p=document.createElement('script');p.src='data/remaining-countries-photo-bridge-v1.js?v=20260912-rpb1';p.dataset.remainingPhotoBridge='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-b2-sadec]')){
- const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v2.js?v=20260912-s2';s.dataset.vnB2Sadec='1';document.head.appendChild(s);
+ const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v2.js?v=20260913-hero2';s.dataset.vnB2Sadec='1';document.head.appendChild(s);
 }
 if(!document.querySelector('script[data-vn-b2-sadec-render]')){
  const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v3.js?v=20260912-s3';s.dataset.vnB2SadecRender='1';document.head.appendChild(s);
@@ -47,7 +47,7 @@ if(!document.querySelector('script[data-vn-duration-mekong]')){
  const p=document.createElement('script');p.src='data/vietnam-duration-mekong-v1.js?v=20260913-hcm-ranks';p.dataset.vnDurationMekong='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-adhd-focus]')){
- const p=document.createElement('script');p.src='data/adhd-focus-mode-v1.js?v=20260913-hero1';p.dataset.adhdFocus='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/adhd-focus-mode-v1.js?v=20260913-hero2';p.dataset.adhdFocus='1';document.head.appendChild(p);
 }
 /* ADHD-first country route map — Vietnam first */
 if(!document.querySelector('script[data-country-route-map]')){
@@ -97,6 +97,6 @@ function enhance(){
  cards.forEach((card,index)=>{const id=card.dataset.openCountry||'';if(CAROUSEL_PHOTOS[id])card.style.backgroundImage=`url('${CAROUSEL_PHOTOS[id]}')`;card.classList.remove('tc1CountryCard');card.classList.add('tc1CountrySlide');const span=card.querySelector('span');if(span){span.className='tc1CountrySlideCopy';const b=span.querySelector('b'),em=span.querySelector('em'),sm=span.querySelector('small');const title=b?.textContent||'',meta=em?.textContent||'',date=sm?.textContent?.replace(/^Chapter\s+\d+\s+·\s*/i,'')||'',desc=card.dataset.teachingPlaceholder==='1'?'Placeholder for your Cambodia teaching/living chapter. We’ll build this separately from the Cambodia travel chapter.':COPY[id]||'';span.innerHTML=`<small>Chapter ${index+1} · ${date}</small><b>${title}</b><p>${desc}</p><div class="tc1CountrySlideMeta"><span>${date}</span><span>${card.dataset.teachingPlaceholder==='1'?'COMING SOON':meta+'   →'}</span></div>`}});
  const dots=document.createElement('div');dots.className='tc1CarouselDots';dots.innerHTML=cards.map(()=>'<i></i>').join('');parent.appendChild(dots);const ds=[...dots.children];stack.addEventListener('scroll',()=>{const idx=Math.round(stack.scrollLeft/(cards[0].offsetWidth+12));ds.forEach((d,i)=>{d.style.width=i===idx?'18px':'5px';d.style.background=i===idx?'#d66a45':'#555'})},{passive:true});
 }
-const mo=new MutationObserver(()=>{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights()});mo.observe(document.documentElement,{childList:true,subtree:true});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights()});else{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights()}
+const mo=new MutationObserver(()=>{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights();if(typeof window.hydratePlaceHeroes==='function')window.hydratePlaceHeroes()});mo.observe(document.documentElement,{childList:true,subtree:true});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights();if(typeof window.hydratePlaceHeroes==='function')window.hydratePlaceHeroes()});else{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights();if(typeof window.hydratePlaceHeroes==='function')window.hydratePlaceHeroes()}
 })();
