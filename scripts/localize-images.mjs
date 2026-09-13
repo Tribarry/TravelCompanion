@@ -51,9 +51,9 @@ for(const file of files){
  }
 }
 const manifest=[];
-for(const [source,usedBy] of refs){
+async function download([source,usedBy]){
  try{
-  const r=await fetch(source,{redirect:'follow',headers:{'User-Agent':'TravelCompanionImageMigration/1.0 (GitHub Actions)'}});
+  const r=await fetch(source,{redirect:'follow',signal:AbortSignal.timeout(15000),headers:{'User-Agent':'TravelCompanionImageMigration/1.0 (GitHub Actions)'}});
   if(!r.ok)throw new Error(`HTTP ${r.status}`);
   const type=r.headers.get('content-type')||'';if(!type.startsWith('image/'))throw new Error(`Not an image: ${type}`);
   const name=slug(source)+ext(type,r.url);const target=path.join(OUT,name);
@@ -62,5 +62,9 @@ for(const [source,usedBy] of refs){
   console.log('Downloaded',source,'->',path.relative(ROOT,target));
  }catch(error){manifest.push({source,usedBy:[...usedBy],downloadError:String(error),licenseStatus:'TO CHECK',attributionStatus:'TO CHECK'});console.warn('Skipped',source,String(error))}
 }
+const queue=[...refs.entries()];
+await Promise.all(Array.from({length:10},async()=>{
+ while(queue.length){const entry=queue.shift();if(entry)await download(entry)}
+}));
 await fs.writeFile(MANIFEST,JSON.stringify({generatedAt:new Date().toISOString(),note:'Source URLs were already referenced by the app. Licence and attribution must be checked before relying on local copies.',images:manifest},null,2)+'\n');
 console.log(`Recorded ${manifest.length} remote image source(s).`);
