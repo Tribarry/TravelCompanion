@@ -1,0 +1,1 @@
+window.TC_LOCAL_IMAGE_URLS=window.TC_LOCAL_IMAGE_URLS||{};
