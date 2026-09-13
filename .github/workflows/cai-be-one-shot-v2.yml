@@ -1,0 +1,46 @@
+name: Cái Bè one-shot update v2
+on:
+  push:
+    paths:
+      - '.github/workflows/cai-be-one-shot-v2.yml'
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install image tools
+        run: python -m pip install --quiet pillow
+      - name: Apply corrected Cái Bè patch
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re, textwrap
+          workflow=Path('.github/workflows/cai-be-one-shot.yml').read_text(encoding='utf-8')
+          m=re.search(r"          python - <<'PY'\n(.*?)\n          PY",workflow,re.S)
+          if not m:
+              raise SystemExit('Could not extract Cái Bè patch script')
+          src=textwrap.dedent(m.group(1))
+          src=src.replace('qneedle="  if(!qn)return \'\';"','qneedle=" if(!qn)return \'\';"')
+          exec(compile(src,'cai-be-patch.py','exec'),{'__name__':'__main__'})
+          PY
+      - name: Verify itinerary dates untouched
+        run: |
+          if ! git diff --quiet -- data/itinerary.json; then
+            echo 'Refusing commit: itinerary.json changed.'
+            git diff -- data/itinerary.json
+            exit 1
+          fi
+      - name: Commit completed patch and retire one-shot workflows
+        run: |
+          git config user.name 'Travel Companion Builder'
+          git config user.email 'actions@users.noreply.github.com'
+          git rm .github/workflows/cai-be-one-shot.yml .github/workflows/cai-be-one-shot-v2.yml
+          git add docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md docs/CAI_BE_THESE_DAYS_2027.md data/vietnam-duration-mekong-v1.js data/vietnam-live-v021.js data/vietnam-city-hub-v025.js data/vietnam-photo-alignment-v026.js index.html assets/images/cai-be
+          git diff --cached --check
+          git commit -m 'Update Cái Bè ranked two-day live plan'
+          git push origin HEAD:main
