@@ -204,6 +204,10 @@
         'can tho':{
           keep:['cai rang before dawn','hu tieu on a boat','cay beo trading poles','phong dien floating market','binh thuy ancient house','ong pagoda quang dong','ninh kieu after dark','banh xeo ninh kieu','con son island','bang lang stork garden'],
           must:['cai rang before dawn','hu tieu on a boat','binh thuy ancient house']
+        },
+        'long xuyen':{
+          keep:['floating market','sunrise breakfast on river','local boat ferry to cu lao ong ho','cycle island','my hoa hung community stay','fish farming raft','con pho ba','orchard farm household','ton duc thang childhood memorial','central market','riverfront at night','agricultural backroads get lost'],
+          must:['floating market','cycle island','fish farming raft','ton duc thang childhood memorial']
         }
       };
       const destN=n(d.name);
@@ -242,7 +246,19 @@
           'ninh kieu after dark':'assets/images/can-tho/07-ninh-kieu.jpg',
           'banh xeo ninh kieu':'assets/images/can-tho/08-banh-xeo.jpg',
           'con son island':'assets/images/can-tho/09-con-son.jpg',
-          'bang lang stork garden':'assets/images/can-tho/10-bang-lang.jpg'
+          'bang lang stork garden':'assets/images/can-tho/10-bang-lang.jpg',
+          'floating market':'assets/images/long-xuyen/01-floating-market.jpg',
+          'sunrise breakfast on river':'assets/images/long-xuyen/02-sunrise.jpg',
+          'local boat ferry to cu lao ong ho':'assets/images/long-xuyen/03-ferry-o-moi.jpg',
+          'cycle island':'assets/images/long-xuyen/04-ong-ho-island.jpg',
+          'my hoa hung community stay':'assets/images/long-xuyen/05-homestay.jpg',
+          'fish farming raft':'assets/images/long-xuyen/06-fish-rafts.jpg',
+          'con pho ba':'assets/images/long-xuyen/07-con-pho-ba.jpg',
+          'orchard farm household':'assets/images/long-xuyen/08-orchard.jpg',
+          'ton duc thang childhood memorial':'assets/images/long-xuyen/09-childhood-house.jpg',
+          'central market':'assets/images/long-xuyen/10-central-market.jpg',
+          'riverfront at night':'assets/images/long-xuyen/11-riverfront.jpg',
+          'agricultural backroads get lost':'assets/images/long-xuyen/12-rice.jpg'
         };
         d.experiences.forEach(e=>{const p=PHOTOS[n(e.name)];if(p)e.photo=p});
       }

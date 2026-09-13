@@ -268,6 +268,20 @@ const CANTHO_LOCAL=[
  [/cồn sơn|con son/i,'assets/images/can-tho/09-con-son.jpg'],
  [/bằng lăng|bang lang|stork garden/i,'assets/images/can-tho/10-bang-lang.jpg']
 ];
+const LONGXUYEN_LOCAL=[
+ [/dawn floating|floating market/i,'assets/images/long-xuyen/01-floating-market.jpg'],
+ [/sunrise breakfast|breakfast on the river|breakfast on river/i,'assets/images/long-xuyen/02-sunrise.jpg'],
+ [/ô môi|o moi|ferry to cù lao|ferry to cu lao|local boat/i,'assets/images/long-xuyen/03-ferry-o-moi.jpg'],
+ [/cycle cù lao|cycle cu lao|cycle island|ông hổ|ong ho island/i,'assets/images/long-xuyen/04-ong-ho-island.jpg'],
+ [/mỹ hòa hưng|my hoa hung|community stay/i,'assets/images/long-xuyen/05-homestay.jpg'],
+ [/fish-farming|fish farming raft/i,'assets/images/long-xuyen/06-fish-rafts.jpg'],
+ [/cồn phó ba|con pho ba/i,'assets/images/long-xuyen/07-con-pho-ba.jpg'],
+ [/orchard farm|farm household/i,'assets/images/long-xuyen/08-orchard.jpg'],
+ [/tôn đức thắng|ton duc thang|childhood memorial/i,'assets/images/long-xuyen/09-childhood-house.jpg'],
+ [/long xuyên central|long xuyen central|central market/i,'assets/images/long-xuyen/10-central-market.jpg'],
+ [/riverfront after dark|riverfront at night/i,'assets/images/long-xuyen/11-riverfront.jpg'],
+ [/agricultural backroads|get lost/i,'assets/images/long-xuyen/12-rice.jpg']
+];
 const HCMC_LOCAL=[
  [/bến thành|ben thanh/i,'assets/images/generated/vietnam-resolved/be-n-tha-nh-market-e0b32d92-1600.webp'],
  [/nguyễn huệ walking|nguyen hue walking/i,'assets/images/hcmc/nguyen-hue-walking.jpg'],
@@ -306,6 +320,7 @@ function destLocalPhoto(q,currentName){
  if(n==='cai be tan phong'||n==='cai be') return 'assets/images/destinations/cai-be.jpg';
  if(n==='sa dec') return 'assets/images/destinations/sa-dec.jpg';
  if(n==='can tho') return 'assets/images/can-tho/01-cai-rang.jpg';
+ if(n==='long xuyen') return 'assets/images/long-xuyen/01-floating-market.jpg';
  /* Dest only orders the maps. Never gate a unique title on "I am here" —
   * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
  const maps=[];
@@ -313,8 +328,9 @@ function destLocalPhoto(q,currentName){
  if(/cai be|tan phong/.test(dest)) add(CAIBE_LOCAL);
  if(/sa dec/.test(dest)) add(SADEC_LOCAL);
  if(/can tho/.test(dest)) add(CANTHO_LOCAL);
+ if(/long xuyen/.test(dest)) add(LONGXUYEN_LOCAL);
  if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);
- add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);
+ add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);
  for(const rules of maps){for(const [rx,u] of rules){if(rx.test(title))return u}}
  return '';
 }
