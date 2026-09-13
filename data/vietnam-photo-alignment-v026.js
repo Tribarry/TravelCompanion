@@ -250,7 +250,7 @@ const SADEC_LOCAL=[
  [/elevated flower|flower nurseries/i,'assets/images/sa-dec/01-nurseries.jpg'],
  [/sampan between/i,'assets/images/sa-dec/02-sampan-beds.jpg'],
  [/flower road|sa nhiên|sa nhien|cái dao|cai dao/i,'assets/images/sa-dec/03-flower-road.jpg'],
- [/wade the beds|with a farmer/i,'assets/images/sa-dec/04-farmer.jpg'],
+ [/wade the beds|with a farmer|flower farmer/i,'assets/images/sa-dec/04-farmer.jpg'],
  [/huỳnh thủy lê|huynh thuy le|the lover/i,'assets/images/sa-dec/05-huynh-thuy-le.jpg'],
  [/kiến an cung|kien an cung|ông quách|ong quach/i,'assets/images/sa-dec/06-kien-an-cung.jpg'],
  [/hủ tiếu sa đéc|hu tieu sa dec/i,'assets/images/sa-dec/07-hu-tieu.jpg'],
@@ -269,21 +269,20 @@ const CANTHO_LOCAL=[
  [/bằng lăng|bang lang|stork garden/i,'assets/images/can-tho/10-bang-lang.jpg']
 ];
 function destLocalPhoto(q,currentName){
- const dest=String(currentName||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
+ const dest=String(currentName||window.TC1BrowseDest||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
  const title=String(q||'');
  const t=title.trim();
  if(/cái bè \/ tân phong|^cái bè$|^cai be$/i.test(t)) return 'assets/images/cai-be/01-floating-market.jpg';
  if(/^sa đéc$|^sa dec$/i.test(t)) return 'assets/images/sa-dec/01-nurseries.jpg';
  if(/^cần thơ$|^can tho$/i.test(t)) return 'assets/images/can-tho/01-cai-rang.jpg';
+ /* Dest only orders the maps. Never gate a unique title on "I am here" —
+  * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
  const maps=[];
- if(/cai be|tan phong/.test(dest)) maps.push(CAIBE_LOCAL);
- if(/sa dec/.test(dest)) maps.push(SADEC_LOCAL);
- if(/can tho/.test(dest)) maps.push(CANTHO_LOCAL);
- if(!maps.length){
-   if(/cái bè|cai be|tân phong|tan phong|đông hòa|dong hoa|ba đức|ba duc|ông xoát|ong xoat|tát mương|tat muong/i.test(title)) maps.push(CAIBE_LOCAL);
-   if(/sa đéc|sa dec|huỳnh thủy|huynh thuy|tân quy|tan quy/i.test(title)) maps.push(SADEC_LOCAL);
-   if(/cần thơ|can tho|cái răng|cai rang|ninh kiều|ninh kieu|cồn sơn|con son/i.test(title)) maps.push(CANTHO_LOCAL);
- }
+ const add=rules=>{if(rules&&!maps.includes(rules))maps.push(rules)};
+ if(/cai be|tan phong/.test(dest)) add(CAIBE_LOCAL);
+ if(/sa dec/.test(dest)) add(SADEC_LOCAL);
+ if(/can tho/.test(dest)) add(CANTHO_LOCAL);
+ add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);
  for(const rules of maps){for(const [rx,u] of rules){if(rx.test(title))return u}}
  return '';
 }
@@ -311,12 +310,17 @@ function applyIndex(){
 }
 
 window.wikiPhoto=async function(title){return summaryPhoto(title)};
+function browseDestName(){
+ if(window.TC1BrowseDest)return String(window.TC1BrowseDest);
+ try{const x=typeof vnStop==='function'?vnStop():null;if(x?.d?.name)return x.d.name}catch(e){}
+ return '';
+}
+window.destLocalPhoto=destLocalPhoto;
 window.vnImg=async function(q){
- let current='';try{const x=typeof vnStop==='function'?vnStop():null;current=x?.d?.name||''}catch(e){}
- return relevantPhoto(q,current);
+ return relevantPhoto(q,browseDestName());
 };
 window.hydrateVN=function(){
- let current='';try{const x=typeof vnStop==='function'?vnStop():null;current=x?.d?.name||''}catch(e){}
+ const current=browseDestName();
  document.querySelectorAll('[data-vnimg]').forEach(async el=>{
   const q=el.dataset.vnimg||'';const u=await relevantPhoto(q,current);
   if(u){el.style.backgroundImage=`url("${u}")`;el.classList.add('loaded');el.dataset.photoVerified='true'}

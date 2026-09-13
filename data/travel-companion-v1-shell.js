@@ -53,7 +53,7 @@ function enrichItem(id,d,it){try{return window.TC1ExperienceCopy?.enrich?window.
 function getItems(id,i){
  const d=destinations(id)[i];if(!d)return[];
  if(id==='vietnam'&&typeof window.vnBaseItems==='function'){
-   try{return window.vnBaseItems({c:country(id),d,i,id:id+'-'+i}).map((it,j)=>enrichItem(id,d,{id:it.id||'e'+j,title:it.title||it.name||d.experiences?.[j]?.name||'Experience',summary:it.summary||d.experiences?.[j]?.summary||'',tags:it.tags||rawTags(d.experiences?.[j]),flags:itemFlags(d.experiences?.[j],it),tier:it.tier||d.experiences?.[j]?.tier||'',raw:d.experiences?.[j]||{},index:j}))}catch(e){}
+   try{return window.vnBaseItems({c:country(id),d,i,id:id+'-'+i}).map((it,j)=>enrichItem(id,d,{id:it.id||'e'+j,title:it.title||it.name||d.experiences?.[j]?.name||'Experience',summary:it.summary||d.experiences?.[j]?.summary||'',tags:it.tags||rawTags(d.experiences?.[j]),flags:itemFlags(d.experiences?.[j],it),tier:it.tier||d.experiences?.[j]?.tier||'',raw:d.experiences?.[j]||{},index:j,photo:it.photo||d.experiences?.[j]?.photo||''}))}catch(e){}
  }
  return (d.experiences||[]).map((e,j)=>enrichItem(id,d,{id:e.id||'e'+j,title:e.name||e.title||'Experience',summary:e.summary||'',tags:e.tags||rawTags(e),flags:itemFlags(e,e),tier:e.tier||'',raw:e,index:j}));
 }
@@ -156,7 +156,7 @@ function destinationTabs(id,i){return [['overview','OVERVIEW'],['experiences','E
 function stayLabel(d){const s=String(d?.stay||d?.days||'Flexible');return s==='1'?'1 day/night':s==='Flexible'?'Flexible stay':s+' days/nights'}
 
 async function renderDestination(id,i,tab='overview',filter='All',passType='food'){
- await readyCountry(id);V.country=id;V.dest=i;V.destTab=tab;V.filter=filter;V.passType=passType;V.last='destination';const c=country(id),d=destinations(id)[i];if(!d)return renderCountry(id,'places');const its=getItems(id,i),p=progress(id,i),foods=foodPassportItems(id,i),drinks=id==='vietnam'&&i===0&&typeof SAIGON_DRINK_PASSPORT!=='undefined'?SAIGON_DRINK_PASSPORT:destinationDrinks(id,i),must=its.filter(x=>(x.tags||[]).includes('Must Do')||x.tier==='S+'||x.tier==='S'),miss=(must.length?must:its).filter((it,j)=>!hasState('done',id,i,it,it.index??j)&&!hasState('skip',id,i,it,it.index??j)).slice(0,3),next=nextJourneyDestination(id,i);
+ await readyCountry(id);V.country=id;V.dest=i;V.destTab=tab;V.filter=filter;V.passType=passType;V.last='destination';window.TC1BrowseDest=destinations(id)[i]?.name||'';const c=country(id),d=destinations(id)[i];if(!d)return renderCountry(id,'places');const its=getItems(id,i),p=progress(id,i),foods=foodPassportItems(id,i),drinks=id==='vietnam'&&i===0&&typeof SAIGON_DRINK_PASSPORT!=='undefined'?SAIGON_DRINK_PASSPORT:destinationDrinks(id,i),must=its.filter(x=>(x.tags||[]).includes('Must Do')||x.tier==='S+'||x.tier==='S'),miss=(must.length?must:its).filter((it,j)=>!hasState('done',id,i,it,it.index??j)&&!hasState('skip',id,i,it,it.index??j)).slice(0,3),next=nextJourneyDestination(id,i);
  let body='';
  if(tab==='overview'){
   const o=d.orientation||{},available=its.filter((it,j)=>!hasState('done',id,i,it,it.index??j)&&!hasState('skip',id,i,it,it.index??j)),canonicalScore=x=>((x.tags||[]).includes('Must Do')?3:x.tier==='S+'?3:x.tier==='S'?2:1),ranked=[...available].filter(x=>personalRating(id,i,x,x.index)!=='pass').sort((a,b)=>ratingScore(personalRating(id,i,b,b.index))-ratingScore(personalRating(id,i,a,a.index))||canonicalScore(b)-canonicalScore(a)),spotlight=ranked.slice(0,3);

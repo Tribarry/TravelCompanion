@@ -4,7 +4,7 @@
  */
 (() => {
   'use strict';
-  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-mekong2';
+  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-farmer1';
 
   const CONTEXT = {
     'Ho Chi Minh City': 'Saigon grew from a river port into the commercial centre of southern Vietnam, shaped by Vietnamese, Chinese and French communities and later by war and rapid post-1975 growth. The result is a city where colonial landmarks, Chợ Lớn trading streets, wartime sites, temples, markets and hyper-modern districts sit almost on top of one another.',
@@ -212,6 +212,39 @@
         const keep=new Set(hit[1].keep), must=new Set(hit[1].must);
         d.experiences=d.experiences.filter(e=>keep.has(n(e.name)));
         d.experiences.forEach(e=>{if(must.has(n(e.name))){e.tags=[...new Set(['Must Do',...(e.tags||[])])];e.tier='S+'}});
+        const PHOTOS={
+          'dawn floating market':'assets/images/cai-be/01-floating-market.jpg',
+          'sampan through nipa canals':'assets/images/cai-be/02-sampan.jpg',
+          'tan phong orchard cycle':'assets/images/cai-be/03-tan-phong-cycle.jpg',
+          'dong hoa hiep ancient village':'assets/images/cai-be/04-dong-hoa-hiep.jpg',
+          'ba duc ancient house sleep here':'assets/images/cai-be/05-ba-duc.jpg',
+          'ong xoat ruong house':'assets/images/cai-be/06-ong-xoat.jpg',
+          'coconut candy + popped rice':'assets/images/cai-be/07-coconut-candy.jpg',
+          'home cooking class':'assets/images/cai-be/08-cooking.jpg',
+          'banh trang in the sun':'assets/images/cai-be/09-banh-trang.jpg',
+          'cai be church on the tien':'assets/images/cai-be/10-church.jpg',
+          'local islet ferry':'assets/images/cai-be/13-ferry.jpg',
+          'tat muong bat ca':'assets/images/cai-be/14-tat-muong.jpg',
+          'elevated flower nurseries':'assets/images/sa-dec/01-nurseries.jpg',
+          'sampan between the beds':'assets/images/sa-dec/02-sampan-beds.jpg',
+          'sa nhien cai dao flower road':'assets/images/sa-dec/03-flower-road.jpg',
+          'wade the beds with a farmer':'assets/images/sa-dec/04-farmer.jpg',
+          'huynh thuy le house the lover':'assets/images/sa-dec/05-huynh-thuy-le.jpg',
+          'kien an cung ong quach':'assets/images/sa-dec/06-kien-an-cung.jpg',
+          'hu tieu sa dec':'assets/images/sa-dec/07-hu-tieu.jpg',
+          'sa dec wet market':'assets/images/sa-dec/08-wet-market.jpg',
+          'cai rang before dawn':'assets/images/can-tho/01-cai-rang.jpg',
+          'hu tieu on a boat':'assets/images/can-tho/02-boat-breakfast.jpg',
+          'cay beo trading poles':'assets/images/can-tho/03-cay-beo.jpg',
+          'phong dien floating market':'assets/images/can-tho/04-phong-dien.jpg',
+          'binh thuy ancient house':'assets/images/can-tho/05-binh-thuy.jpg',
+          'ong pagoda quang dong':'assets/images/can-tho/06-ong-pagoda.jpg',
+          'ninh kieu after dark':'assets/images/can-tho/07-ninh-kieu.jpg',
+          'banh xeo ninh kieu':'assets/images/can-tho/08-banh-xeo.jpg',
+          'con son island':'assets/images/can-tho/09-con-son.jpg',
+          'bang lang stork garden':'assets/images/can-tho/10-bang-lang.jpg'
+        };
+        d.experiences.forEach(e=>{const p=PHOTOS[n(e.name)];if(p)e.photo=p});
       }
     }
     // The locked bank owns titles; V3 owns the displayed copy. Food/drink lists
@@ -269,7 +302,7 @@
   `;document.head.appendChild(style);
 
   function liveKey(x,it){return 'vn-live-'+vnSlug(x.d.name)+'-'+it.id;}
-  vnBaseItems=function(x){return (x.d.experiences||[]).map((e,i)=>({id:e.id||'live-'+i,title:e.name,summary:e.summary||'',tags:e.tags||tagFor(e.name),flags:e.flags||[],tier:e.tier||'A'}));};
+  vnBaseItems=function(x){return (x.d.experiences||[]).map((e,i)=>({id:e.id||'live-'+i,title:e.name,summary:e.summary||'',tags:e.tags||tagFor(e.name),flags:e.flags||[],tier:e.tier||'A',photo:e.photo||''}));};
   vnSavedKey=function(x,it){return liveKey(x,it);};
   function liveBottom(active){return `<nav class="vnLiveNav"><button class="${active==='overview'?'active':''}" data-vln="overview">⌂<span>Overview</span></button><button class="${active==='experiences'?'active':''}" data-vln="experiences">✦<span>Experiences</span></button><button data-vln="map">♧<span>Map</span></button><button class="${active==='saved'?'active':''}" data-vln="saved">♡<span>My List</span></button></nav>`;}
   function wireLiveNav(){document.querySelectorAll('[data-vln]').forEach(b=>b.onclick=()=>({overview:vnHub,experiences:()=>vnExperiences('All'),map:vietnamMapPage,saved:()=>vnExperiences('Saved')}[b.dataset.vln]||vnHub)());}

@@ -39,6 +39,11 @@ if(typeof prior==='function'){
 }
 window.TC1RaterPhoto=function(countryId,destination,item){
  if(countryId==='vietnam'&&destination?.name==='Ho Chi Minh City')return match(item)?.photo||'';
+ if(countryId==='vietnam'&&typeof window.destLocalPhoto==='function'){
+  const title=item?.title||item?.name||'';
+  const dest=destination?.name||window.TC1BrowseDest||'';
+  return window.destLocalPhoto(title,dest)||'';
+ }
  return '';
 };
 window.TC1_HCM_RATER_POLISH={count:P.length,match};

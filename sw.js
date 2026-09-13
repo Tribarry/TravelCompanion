@@ -1,4 +1,4 @@
-const CACHE='sea2027-v29-mekong2';
+const CACHE='sea2027-v30-farmer1';
 const ASSETS=['./','./index.html','./styles.css','./app.js','./data/itinerary.json','./manifest.webmanifest','./vietnam-map.png','./vietnam-country.png','./vietnam-zone-south.png','./vietnam-zone-mekong.png','./vietnam-zone-highlands.png','./vietnam-zone-central.png','./vietnam-zone-north.png','./data/vietnam-photo-manifest-v1.js','./data/laos-photo-manifest-v1.js','./data/global-data-bridge-v1.js','./data/vietnam-quality-curation-v1.js','./data/vietnam-curated-photo-supplement-v1.js','./data/laos-audited-structure-v1.js','./data/remaining-countries-photo-audit-v1.js','./data/remaining-countries-photo-bridge-v1.js','./data/adhd-focus-mode-v1.js','./data/country-route-map-v1.js','./data/mekong-closeup-v1.js'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener('activate',e=>{e.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))]))});
