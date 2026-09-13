@@ -268,6 +268,35 @@ const CANTHO_LOCAL=[
  [/cồn sơn|con son/i,'assets/images/can-tho/09-con-son.jpg'],
  [/bằng lăng|bang lang|stork garden/i,'assets/images/can-tho/10-bang-lang.jpg']
 ];
+const HCMC_LOCAL=[
+ [/bến thành|ben thanh/i,'assets/images/generated/vietnam-resolved/be-n-tha-nh-market-e0b32d92-1600.webp'],
+ [/nguyễn huệ walking|nguyen hue walking/i,'assets/images/hcmc/nguyen-hue-walking.jpg'],
+ [/water puppet|golden dragon/i,'assets/images/hcmc/water-puppet.jpg'],
+ [/vinwonders|grand park/i,'assets/images/hcmc/vinwonders-grand-park.jpg'],
+ [/reunification palace|independence palace/i,'assets/images/generated/vietnam-resolved/independence-palace-246fea41-1600.webp'],
+ [/nguyễn văn bình|nguyen van binh|book street/i,'assets/images/generated/remote/nguyen-van-binh-street-52681309899-ffb45cb4-1600.webp'],
+ [/central post office|bưu điện/i,'assets/images/generated/remote/20190923-saigon-central-post-office-interior-2-2673f662-1600.webp'],
+ [/notre.?dame/i,'assets/images/generated/remote/saigon-notre-dame-basilica-b5318673-1600.webp'],
+ [/war remnants/i,'assets/images/generated/remote/war-remnants-museum-db76beb8-1600.webp'],
+ [/open.?top|sightseeing bus/i,'assets/images/generated/remote/css-thaco-sightseeing-120ss-le-lo-i-boulevard-ho-chi-minh-city-2023-01-b1a98778-1600.webp'],
+ [/bùi viện|bui vien/i,'assets/images/generated/remote/bui-vien-street-4092a442-1600.webp'],
+ [/motorbike food/i,'assets/images/generated/remote/administrator-power-joins-a-street-food-tour-in-ho-chi-minh-city-to-ap-8797084e-1600.webp'],
+ [/landmark 81/i,'assets/images/generated/remote/landmark-81-5ee2daf5-1600.webp'],
+ [/tân định|tan dinh|pink church/i,'assets/images/generated/remote/church-of-the-sacred-heart-of-jesus-ho-chi-minh-city-8a940a61-1600.webp'],
+ [/42 nguyễn huệ|42 nguyen hue|cafe apartment/i,'assets/images/generated/remote/42-nguyen-hue-boulevard-saigon-53547606514-fa84f4dc-1600.webp'],
+ [/củ chi|cu chi/i,'assets/images/generated/remote/20190925-cu-chi-tunnel-entrance-50f40797-1600.webp'],
+ [/jade emperor/i,'assets/images/generated/remote/jade-emperor-pagoda-9981966414-b47a4894-1600.webp'],
+ [/saigon river|night cruise/i,'assets/images/hcmc/saigon-river-cruise.jpg'],
+ [/secret commando|individual bunker/i,'assets/images/generated/remote/2023-12-10-memorial-stele-for-special-forces-soldiers-who-died-at-the--fbd527e8-1600.webp'],
+ [/chợ lớn|cho lon|chinatown/i,'assets/images/generated/vietnam-resolved/cholon-ho-chi-minh-city-48b6f8fd-1600.webp'],
+ [/bình tây|binh tay/i,'assets/images/generated/remote/binh-tay-market-05865896-1600.webp'],
+ [/hồ thị kỷ|ho thi ky/i,'assets/images/hcmc/ho-thi-ky.jpg'],
+ [/district 4/i,'assets/images/generated/remote/dishes-in-saigon-9f9e0a27-1600.webp'],
+ [/fish.?sauce/i,'assets/images/generated/remote/nuocmam1-572d28fd-1600.webp'],
+ [/fito/i,'assets/images/generated/remote/traditional-vietnamese-medicine-store-in-pho-truc-2017-7d4f98c9-1600.webp'],
+ [/herbal pharmacy|traditional medicine/i,'assets/images/generated/remote/hai-thuong-lang-ong-street-phu-o-ng-10-qua-n-5-tphcm-vie-t-nam-panoram-0806b9cd-1600.webp'],
+ [/cần giờ|can gio|mangrove|monkey island|rừng sác|rung sac/i,'assets/images/hcmc/can-gio.jpg']
+];
 function destLocalPhoto(q,currentName){
  const dest=String(currentName||window.TC1BrowseDest||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
  const title=String(q||'');
@@ -282,7 +311,8 @@ function destLocalPhoto(q,currentName){
  if(/cai be|tan phong/.test(dest)) add(CAIBE_LOCAL);
  if(/sa dec/.test(dest)) add(SADEC_LOCAL);
  if(/can tho/.test(dest)) add(CANTHO_LOCAL);
- add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);
+ if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);
+ add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);
  for(const rules of maps){for(const [rx,u] of rules){if(rx.test(title))return u}}
  return '';
 }

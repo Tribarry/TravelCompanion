@@ -53,7 +53,7 @@ function enrichItem(id,d,it){try{return window.TC1ExperienceCopy?.enrich?window.
 function getItems(id,i){
  const d=destinations(id)[i];if(!d)return[];
  if(id==='vietnam'&&typeof window.vnBaseItems==='function'){
-   try{return window.vnBaseItems({c:country(id),d,i,id:id+'-'+i}).map((it,j)=>enrichItem(id,d,{id:it.id||'e'+j,title:it.title||it.name||d.experiences?.[j]?.name||'Experience',summary:it.summary||d.experiences?.[j]?.summary||'',tags:it.tags||rawTags(d.experiences?.[j]),flags:itemFlags(d.experiences?.[j],it),tier:it.tier||d.experiences?.[j]?.tier||'',raw:d.experiences?.[j]||{},index:j,photo:it.photo||d.experiences?.[j]?.photo||''}))}catch(e){}
+   try{return window.vnBaseItems({c:country(id),d,i,id:id+'-'+i}).map((it,j)=>enrichItem(id,d,{id:it.id||'e'+j,title:it.title||it.name||d.experiences?.[j]?.name||'Experience',summary:it.summary||d.experiences?.[j]?.summary||'',tags:it.tags||rawTags(d.experiences?.[j]),flags:itemFlags(d.experiences?.[j],it),tier:it.tier||d.experiences?.[j]?.tier||'',raw:d.experiences?.[j]||{},index:j,photo:it.photo||d.experiences?.[j]?.photo||(typeof window.TC1RaterPhoto==='function'&&window.TC1RaterPhoto(id,d,{title:it.title||it.name,name:it.title||it.name}))||''}))}catch(e){}
  }
  return (d.experiences||[]).map((e,j)=>enrichItem(id,d,{id:e.id||'e'+j,title:e.name||e.title||'Experience',summary:e.summary||'',tags:e.tags||rawTags(e),flags:itemFlags(e,e),tier:e.tier||'',raw:e,index:j}));
 }
