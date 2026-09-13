@@ -6,7 +6,7 @@
 'use strict';
 if(window.__REMAINING_COUNTRIES_PHOTO_AUDIT_V1__)return;window.__REMAINING_COUNTRIES_PHOTO_AUDIT_V1__=true;
 const slug=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
-const C=(file,subject)=>({url:'https://commons.wikimedia.org/wiki/Special:Redirect/file/'+encodeURIComponent(file),sourcePage:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file).replace(/%20/g,'_'),subject,licenseStatus:'COMMONS — CHECK FILE PAGE',attributionStatus:'SOURCE PAGE SAVED'});
+const C=(file,subject)=>{const remote='https://commons.wikimedia.org/wiki/Special:Redirect/file/'+encodeURIComponent(file);return {url:window.TC_LOCAL_IMAGE_URLS?.[remote]||remote,sourcePage:'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(file).replace(/%20/g,'_'),subject,licenseStatus:'COMMONS — CHECK FILE PAGE',attributionStatus:'SOURCE PAGE SAVED'}};
 const COUNTRY={
  cambodia:C('Angkor wat sunrise.jpg','Angkor Wat at sunrise, Cambodia'),
  thailand:C('ThaiBangkokWatArun.jpg','Wat Arun, Bangkok, Thailand'),

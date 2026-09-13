@@ -31,4 +31,9 @@ for(const file of await walk(root)){
   }
   if(next!==text){await fs.writeFile(file,next);filesChanged++}
 }
+// Computed manifest URLs (for example Commons C('file.jpg')) cannot be
+// rewritten textually.  Their factories read this index before using a remote
+// fallback, so they render the generated local WebP too.
+await fs.writeFile(path.join(root,'data','local-image-url-index.js'),
+  `window.TC_LOCAL_IMAGE_URLS=${JSON.stringify(Object.fromEntries(replacements),null,2)};\n`);
 console.log(`Rewrote ${refsChanged} remote image references across ${filesChanged} files.`);

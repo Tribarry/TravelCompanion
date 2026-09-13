@@ -21,7 +21,9 @@ async function walk(dir){
 }
 function clean(raw){return raw.replace(/[;,}\]]+$/,'')}
 function candidate(u){
- try{const x=new URL(u);return /(^|\.)wikimedia\.org$|(^|\.)wikipedia\.org$|(^|\.)unsplash\.com$/.test(x.hostname)}catch{return false}
+ // The response content-type is the authority here.  Limiting the migration to
+ // a few hosts left production images on CDN, tourism and publisher domains.
+ try{const x=new URL(u);return x.protocol==='https:'||x.protocol==='http:'}catch{return false}
 }
 function ext(type,url){
  if(type?.includes('png'))return '.png';
@@ -39,6 +41,14 @@ const files=await walk(ROOT);const refs=new Map();
 for(const file of files){
  const text=await fs.readFile(file,'utf8');
  for(const m of text.matchAll(URL_RE)){const u=clean(m[0]);if(candidate(u)){if(!refs.has(u))refs.set(u,new Set());refs.get(u).add(path.relative(ROOT,file))}}
+ // Several photo manifests build Commons redirect URLs from C('file name', ...).
+ // Record those resolved image URLs too; otherwise they evade a literal-URL scan.
+ if(path.extname(file)==='.js'){
+  for(const m of text.matchAll(/\bC\(\s*(['"])([^'"\n]+)\1/g)){
+   const u='https://commons.wikimedia.org/wiki/Special:Redirect/file/'+encodeURIComponent(m[2]);
+   if(!refs.has(u))refs.set(u,new Set());refs.get(u).add(path.relative(ROOT,file));
+  }
+ }
 }
 const manifest=[];
 for(const [source,usedBy] of refs){
