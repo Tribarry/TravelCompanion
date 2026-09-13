@@ -22,7 +22,9 @@ const MAX_DAYS={'ho chi minh city':7};
 const PILLS={'ho chi minh city':[3,5,7]};
 const LABELS={
   'ho chi minh city':['Centre','Pink church & oddities','Height & night','River & street','VinWonders','Cần Giờ / Rừng Sác','Chợ Lớn extra'],
-  'cai be':['River & village','House & island']
+  'cai be':['River & village','House & island'],
+  'sa dec':['Flower village','Town & house'],
+  'can tho':['Dawn market','House & river']
 };
 
 /* Hand-ranked day patterns. First match wins; leftover goes to Later. */
@@ -41,12 +43,12 @@ const HAND={
     [/ba đức|ba duc/,/coconut candy|popped rice/,/islet ferry|local ferry/]
   ],
   'sa dec':[
-    [/flower village/,/huỳnh thủy lê|huynh thuy le/,/cycling/],
-    [/nurseries|farmer hands/,/the lover|kiến an cung|kien an cung/,/night market/]
+    [/elevated flower|flower nurser/,/sampan between/,/huỳnh thủy lê|huynh thuy le|the lover/],
+    [/hủ tiếu sa đéc|hu tieu sa dec/,/wet market/,/flower road|sa nhiên|cai dao/]
   ],
   'can tho':[
-    [/cái răng|cai rang|before dawn/,/cây bẹo|cay beo/,/ninh kiều|ninh kieu/],
-    [/cồn sơn|con son/,/bình thủy|binh thuy/,/cycling or motorbike|islet\/canal/]
+    [/cái răng|cai rang|before dawn/,/hủ tiếu on a boat|hu tieu on a boat/,/cây bẹo|cay beo/],
+    [/bình thủy|binh thuy/,/ninh kiều after dark|ninh kieu after dark/,/ông pagoda|ong pagoda|quảng đông|quang dong/]
   ],
   'long xuyen':[
     [/cù lao ông hổ|ong ho|cycle island/,/floating market|sunrise breakfast/,/mỹ hòa hưng|my hoa hung|riverfront at night/]
@@ -269,5 +271,5 @@ async function boot(){
   };
 }
 boot();
-window.VN_DURATION_MEKONG={version:'2026-09-13-cai-be',inCluster,pack};
+window.VN_DURATION_MEKONG={version:'2026-09-13-mekong2',inCluster,pack};
 })();

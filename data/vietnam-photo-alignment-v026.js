@@ -245,20 +245,55 @@ const CAIBE_LOCAL=[
  [/islet ferry|local islet ferry/i,'assets/images/cai-be/13-ferry.jpg'],
  [/tát mương|tat muong/i,'assets/images/cai-be/14-tat-muong.jpg']
 ];
-function caiBePhoto(q,currentName){
+
+const SADEC_LOCAL=[
+ [/elevated flower|flower nurseries/i,'assets/images/sa-dec/01-nurseries.jpg'],
+ [/sampan between/i,'assets/images/sa-dec/02-sampan-beds.jpg'],
+ [/flower road|sa nhiên|sa nhien|cái dao|cai dao/i,'assets/images/sa-dec/03-flower-road.jpg'],
+ [/wade the beds|with a farmer/i,'assets/images/sa-dec/04-farmer.jpg'],
+ [/huỳnh thủy lê|huynh thuy le|the lover/i,'assets/images/sa-dec/05-huynh-thuy-le.jpg'],
+ [/kiến an cung|kien an cung|ông quách|ong quach/i,'assets/images/sa-dec/06-kien-an-cung.jpg'],
+ [/hủ tiếu sa đéc|hu tieu sa dec/i,'assets/images/sa-dec/07-hu-tieu.jpg'],
+ [/sa đéc wet market|sa dec wet market|wet market/i,'assets/images/sa-dec/08-wet-market.jpg']
+];
+const CANTHO_LOCAL=[
+ [/cái răng|cai rang|before dawn/i,'assets/images/can-tho/01-cai-rang.jpg'],
+ [/hủ tiếu on a boat|hu tieu on a boat/i,'assets/images/can-tho/02-boat-breakfast.jpg'],
+ [/cây bẹo|cay beo/i,'assets/images/can-tho/03-cay-beo.jpg'],
+ [/phong điền|phong dien/i,'assets/images/can-tho/04-phong-dien.jpg'],
+ [/bình thủy|binh thuy/i,'assets/images/can-tho/05-binh-thuy.jpg'],
+ [/ông pagoda|ong pagoda|quảng đông|quang dong/i,'assets/images/can-tho/06-ong-pagoda.jpg'],
+ [/ninh kiều after dark|ninh kieu after dark/i,'assets/images/can-tho/07-ninh-kieu.jpg'],
+ [/bánh xèo|banh xeo/i,'assets/images/can-tho/08-banh-xeo.jpg'],
+ [/cồn sơn|con son/i,'assets/images/can-tho/09-con-son.jpg'],
+ [/bằng lăng|bang lang|stork garden/i,'assets/images/can-tho/10-bang-lang.jpg']
+];
+function destLocalPhoto(q,currentName){
  const dest=String(currentName||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
- const here=/cai be|tan phong/.test(dest);
  const title=String(q||'');
- if(/cái bè \/ tân phong|^cái bè$|^cai be$/i.test(title.trim())) return 'assets/images/cai-be/01-floating-market.jpg';
- if(!here && !/cái bè|cai be|tân phong|tan phong|đông hòa|dong hoa|ba đức|ba duc|ông xoát|ong xoat|tát mương|tat muong/.test(title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d'))) return '';
- for(const [rx,u] of CAIBE_LOCAL){if(rx.test(title))return u}
+ const t=title.trim();
+ if(/cái bè \/ tân phong|^cái bè$|^cai be$/i.test(t)) return 'assets/images/cai-be/01-floating-market.jpg';
+ if(/^sa đéc$|^sa dec$/i.test(t)) return 'assets/images/sa-dec/01-nurseries.jpg';
+ if(/^cần thơ$|^can tho$/i.test(t)) return 'assets/images/can-tho/01-cai-rang.jpg';
+ const maps=[];
+ if(/cai be|tan phong/.test(dest)) maps.push(CAIBE_LOCAL);
+ if(/sa dec/.test(dest)) maps.push(SADEC_LOCAL);
+ if(/can tho/.test(dest)) maps.push(CANTHO_LOCAL);
+ if(!maps.length){
+   if(/cái bè|cai be|tân phong|tan phong|đông hòa|dong hoa|ba đức|ba duc|ông xoát|ong xoat|tát mương|tat muong/i.test(title)) maps.push(CAIBE_LOCAL);
+   if(/sa đéc|sa dec|huỳnh thủy|huynh thuy|tân quy|tan quy/i.test(title)) maps.push(SADEC_LOCAL);
+   if(/cần thơ|can tho|cái răng|cai rang|ninh kiều|ninh kieu|cồn sơn|con son/i.test(title)) maps.push(CANTHO_LOCAL);
+ }
+ for(const rules of maps){for(const [rx,u] of rules){if(rx.test(title))return u}}
  return '';
 }
+function caiBePhoto(q,currentName){return destLocalPhoto(q,currentName);}
+
 
 async function relevantPhoto(q,currentName){
  const qn=String(q||'').trim();
  if(!qn)return '';
- const cai=caiBePhoto(qn,currentName); if(cai)return cai;
+ const cai=destLocalPhoto(qn,currentName); if(cai)return cai;
  /* Place identity outranks dish matching: Phong Nha must never resolve through\n    the similarly spelled Phở manifest entry. */
  if(/phong\\s+nha/i.test(qn))return summaryPhoto('Phong Nha-Kẻ Bàng National Park');
  if(Object.prototype.hasOwnProperty.call(DEST,qn))return destinationPhoto(qn);

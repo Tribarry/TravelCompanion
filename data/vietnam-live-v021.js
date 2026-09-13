@@ -4,7 +4,7 @@
  */
 (() => {
   'use strict';
-  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-cai-be';
+  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-mekong2';
 
   const CONTEXT = {
     'Ho Chi Minh City': 'Saigon grew from a river port into the commercial centre of southern Vietnam, shaped by Vietnamese, Chinese and French communities and later by war and rapid post-1975 growth. The result is a city where colonial landmarks, Chợ Lớn trading streets, wartime sites, temples, markets and hyper-modern districts sit almost on top of one another.',
@@ -190,12 +190,29 @@
     const foodNames=(items.food||[]).slice();
     items=splitHighlands(items,d.name); if(items.length<3)items=explode(raw,d.name);
     d.experiences=items.map(toExperience); d.context=CONTEXT[d.name]||CONTEXT[key]||d.summary; d.summary=d.context;
-    if(/cái bè/i.test(d.name)){
+    {
       const n=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/[^a-z0-9+]+/g,' ').trim();
-      const keep=new Set(['dawn floating market','sampan through nipa canals','dong hoa hiep ancient village','ba duc ancient house sleep here','coconut candy + popped rice','local islet ferry','tat muong bat ca','tan phong orchard cycle','ong xoat ruong house','home cooking class','banh trang in the sun','cai be church on the tien']);
-      const must=new Set(['dawn floating market','sampan through nipa canals','dong hoa hiep ancient village']);
-      d.experiences=d.experiences.filter(e=>keep.has(n(e.name)));
-      d.experiences.forEach(e=>{if(must.has(n(e.name))){e.tags=[...new Set(['Must Do',...(e.tags||[])])];e.tier='S+'}});
+      const LOCKED={
+        'cai be':{
+          keep:['dawn floating market','sampan through nipa canals','dong hoa hiep ancient village','ba duc ancient house sleep here','coconut candy + popped rice','local islet ferry','tat muong bat ca','tan phong orchard cycle','ong xoat ruong house','home cooking class','banh trang in the sun','cai be church on the tien'],
+          must:['dawn floating market','sampan through nipa canals','dong hoa hiep ancient village']
+        },
+        'sa dec':{
+          keep:['elevated flower nurseries','sampan between the beds','sa nhien cai dao flower road','wade the beds with a farmer','huynh thuy le house the lover','kien an cung ong quach','hu tieu sa dec','sa dec wet market'],
+          must:['elevated flower nurseries','sampan between the beds','huynh thuy le house the lover']
+        },
+        'can tho':{
+          keep:['cai rang before dawn','hu tieu on a boat','cay beo trading poles','phong dien floating market','binh thuy ancient house','ong pagoda quang dong','ninh kieu after dark','banh xeo ninh kieu','con son island','bang lang stork garden'],
+          must:['cai rang before dawn','hu tieu on a boat','binh thuy ancient house']
+        }
+      };
+      const destN=n(d.name);
+      const hit=Object.entries(LOCKED).find(([k])=>destN.includes(k));
+      if(hit){
+        const keep=new Set(hit[1].keep), must=new Set(hit[1].must);
+        d.experiences=d.experiences.filter(e=>keep.has(n(e.name)));
+        d.experiences.forEach(e=>{if(must.has(n(e.name))){e.tags=[...new Set(['Must Do',...(e.tags||[])])];e.tier='S+'}});
+      }
     }
     // The locked bank owns titles; V3 owns the displayed copy. Food/drink lists
     // stay on the destination passport, not as fake experience cards.
