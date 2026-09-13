@@ -13,10 +13,10 @@ if(!document.querySelector('script[data-vn-next10-exact-audit]')){
  const p=document.createElement('script');p.src='data/vietnam-next10-exact-photo-audit-v1.js?v=20260912-a7';p.dataset.vnNext10ExactAudit='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-remaining-content-audit]')){
- const p=document.createElement('script');p.src='data/vietnam-remaining-content-audit-v1.js?v=20260912-c3';p.dataset.vnRemainingContentAudit='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/vietnam-remaining-content-audit-v1.js?v=20260913-bank-clean';p.dataset.vnRemainingContentAudit='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-quality-curation]')){
- const p=document.createElement('script');p.src='data/vietnam-quality-curation-v1.js?v=20260912-q1';p.dataset.vnQualityCuration='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/vietnam-quality-curation-v1.js?v=20260913-bank-clean';p.dataset.vnQualityCuration='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-vn-remaining-photo-audit]')){
  const p=document.createElement('script');p.src='data/vietnam-remaining-photo-audit-v1.js?v=20260912-p3';p.dataset.vnRemainingPhotoAudit='1';document.head.appendChild(p);

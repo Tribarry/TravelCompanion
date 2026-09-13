@@ -103,24 +103,62 @@
     else if(text.length>95){const cut=text.lastIndexOf(' ',78);title=text.slice(0,cut>30?cut:78)+'…';summary=text;}
     return {title:clean(title),summary:clean(summary)};
   }
+  function isPlanningNote(s){
+    const t=clean(s).toLowerCase();
+    if(!t||t.length<3) return true;
+    if(/^(avoid)\b/.test(t)) return true;
+    if(/\bnot required\b/.test(t) && t.length<90) return true;
+    if(/remains off the plan/.test(t)) return true;
+    if(/food passport focuses on/.test(t)) return true;
+    if(/joke you drank fish sauce/.test(t)) return true;
+    if(/historic[- ]trail exploration only/.test(t)) return true;
+    if(/^border access check/.test(t)) return true;
+    if(/^border area/.test(t) && /recheck/.test(t)) return true;
+    if(/^weather\s*\/\s*trail/.test(t)) return true;
+    if(/^remote road/.test(t) && /uxo/.test(t)) return true;
+    if(/^guide\s*\/\s*homestay/.test(t) && /book ahead/.test(t)) return true;
+    return false;
+  }
+  function peelPassport(chunk){
+    const m=chunk.match(/^(Foods?\/WTF|Foods?|Drinks?):\s*(.+)$/i);
+    if(!m) return {passport:null, leftover:chunk};
+    const kind=/drink/i.test(m[1])?'Drink':'Food';
+    let rest=m[2].trim();
+    const cut=rest.search(/\.\s+(?:\*\*)?(?=[A-ZÀ-Ỹ].{0,120}(?:MUST DO|BOOK AHEAD|DATE WATCH|Easy Rider|Festival|LIFE-LIST|not required|off the plan))/i);
+    let leftover='';
+    if(cut>=0){ leftover=rest.slice(cut+1).trim(); rest=rest.slice(0,cut+1); }
+    const dishes=rest.split(/,\s+(?![^()]*\))/).map(clean).filter(v=>v&&!isPlanningNote(v));
+    return {passport:{kind,dishes}, leftover};
+  }
   function explode(raw,dest){
+    // Food/Drink comma-lists belong in passports, not as experience cards.
+    // Leftover sentences glued onto those lists (festivals, Easy Rider) stay as cards.
     const text=clean(raw)
       .replace(/\.\s+Household-dependent WTF items\s*=\s*VERIFY OPERATING\.?/gi,'.')
       .replace(/\.\s+Dry-season expectation must be explicit[^.]*\.?/gi,'.')
       .replace(/\.\s+Food includes\s+/gi,'; Food: ')
-      .replace(/\.\s+(Drinks?|Food\/WTF|Food|Drink):/g,'; $1:')
+      .replace(/\.\s+(Drinks?|Food\/WTF|Foods?|Drink):/gi,'; $1:')
       .replace(/\.\s+(Keep|Avoid|Commercial|Current)/g,'; $1');
-    const chunks=text.split(/\s*;\s*/).map(clean).filter(Boolean); const items=[];
+    const chunks=text.split(/\s*;\s*/).map(clean).filter(Boolean);
+    const items=[]; items.food=[]; items.drink=[];
     for(const chunk of chunks){
-      const m=chunk.match(/^(Food\/WTF|Food|Drinks?|Drink):\s*(.+)$/i);
-      if(m){
-        const kind=/drink/i.test(m[1])?'Drink':'Food';
-        m[2].split(/,\s+(?![^()]*\))/).map(clean).filter(Boolean).forEach(v=>items.push({raw:v,title:sentenceTitle(v),summary:'Part of the locked '+kind.toLowerCase()+' passport for '+dest+'.',tags:[kind,'Local Life']}));
-      } else {
-        const ts=titleSummary(chunk,dest); items.push({raw:chunk,title:sentenceTitle(ts.title),summary:ts.summary,tags:tagFor(chunk)});
+      const peeled=peelPassport(chunk);
+      if(peeled.passport){
+        const bucket=peeled.passport.kind==='Drink'?items.drink:items.food;
+        peeled.passport.dishes.forEach(v=>bucket.push(sentenceTitle(v)));
+      }
+      const source=peeled.passport?(peeled.leftover||''):chunk;
+      if(!source) continue;
+      for(const piece of source.split(/(?<=[.!?])\s+/).map(clean).filter(Boolean)){
+        if(isPlanningNote(piece)) continue;
+        const ts=titleSummary(piece,dest);
+        if(!ts.title) continue;
+        items.push({raw:piece,title:sentenceTitle(ts.title),summary:ts.summary,tags:tagFor(piece)});
       }
     }
-    return items.filter((x,i,a)=>x.title && a.findIndex(y=>y.title.toLowerCase()===x.title.toLowerCase())===i);
+    const uniq=items.filter((x,i,a)=>x.title && a.findIndex(y=>y.title.toLowerCase()===x.title.toLowerCase())===i);
+    uniq.food=[...new Set(items.food)]; uniq.drink=[...new Set(items.drink)];
+    return uniq;
   }
   function toExperience(it,i){
     const flags=[]; const r=it.raw.toLowerCase();
@@ -143,18 +181,18 @@
   }
   function applySection(d,sections){
     const key=ALIAS[d.name]||d.name, raw=sections[key]; if(!raw)return;
-    let items=explode(raw,d.name); items=splitHighlands(items,d.name); if(items.length<3)items=explode(raw,d.name);
+    let items=explode(raw,d.name);
+    const foodNames=(items.food||[]).slice();
+    items=splitHighlands(items,d.name); if(items.length<3)items=explode(raw,d.name);
     d.experiences=items.map(toExperience); d.context=CONTEXT[d.name]||CONTEXT[key]||d.summary; d.summary=d.context;
-    // The locked bank owns titles; V3 owns the displayed copy.  Keep the full
-    // card set intact so its existing image bindings and saved state remain available.
+    // The locked bank owns titles; V3 owns the displayed copy. Food/drink lists
+    // stay on the destination passport, not as fake experience cards.
     d.experiences=d.experiences.map(e=>{
       const copy=window.TC1VietnamExperienceContent?.enrich?.(d,{title:e.name,name:e.name,raw:{raw:e.name,tags:e.tags||[]}});
       return copy?.summary?{...e,summary:copy.summary}:e;
     });
-    const food=d.experiences.filter(e=>e.tags.includes('Food')).map(e=>e.name);
-    const drink=d.experiences.filter(e=>e.tags.includes('Drink')).map(e=>e.name);
     const unique=d.experiences.find(e=>e.tags.includes('Unique'));
-    d.orientation={comeFor:d.experiences.slice(0,2).map(e=>e.name).join(' + '),doDifferently:(d.experiences.find(e=>e.tags.includes('Local Life')||e.tags.includes('Culture'))||d.experiences[2]||d.experiences[0]).name,eat:food.slice(0,2).join(' · ')||'Local food passport',wtf:unique?unique.name:'Find the distinctly local experience',pace:d.stay||'Flexible'};
+    d.orientation={comeFor:d.experiences.slice(0,2).map(e=>e.name).join(' + '),doDifferently:(d.experiences.find(e=>e.tags.includes('Local Life')||e.tags.includes('Culture'))||d.experiences[2]||d.experiences[0]).name,eat:foodNames.slice(0,3).join(' · ')||'Use the Food Passport',wtf:unique?unique.name:'Find the distinctly local experience',pace:d.stay||'Flexible'};
   }
   function insertDestination(list,name,afterName,sectionKey,sections,stay='2–3',manualItems=null){
     if(list.some(d=>d.name===name))return;
