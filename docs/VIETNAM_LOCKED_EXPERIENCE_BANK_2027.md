@@ -100,6 +100,9 @@ Christ the King statue; **climb inside to shoulder platforms**; Hòn Bà low-tid
 
 # SOUTHEAST / CENTRAL HIGHLANDS
 
+## Cát Tiên National Park — LOCKED
+Optional overnight between Saigon and the highlands. Dawn yellow-cheeked gibbon trek; night safari from park HQ; Crocodile Lake (Bàu Sấu) trek; Đảo Tiên primate rescue; jungle trails from Nam Cát Tiên HQ; Bến Cự rapids; Ta Lai longhouse / S'tiêng stay; hornbill morning; night walk for frogs and insects; sleep inside the park. `BOOK AHEAD`: park beds + gibbon / night-safari slots.
+
 ## Đồng Xoài / Bình Phước corridor — LOCKED all 23
 Đồng Xoài Victory Site; museum; Phú Riềng Đỏ/Michelin plantation history; rubber-estate ride; rubber tapping; cashew orchard + processing + cashew apple; Sóc Bom Bo; rice pounding; stone lithophone; giant stone-instrument set; S'tiêng longhouse; gong night; elder/storyteller; overnight Bom Bo; Thác Đứng; Bù Lạch grasslands; Thác Voi/Liêng Rót; red-earth backroads; optional Bù Gia Mập National Park; S'tiêng longhouse sleep; VK96 wartime fuel-pipeline terminus. Food: cashew-apple salad, wood-roasted cashews, canh thụt, rattan shoots, lá nhíp, cơm lam, fried cicadas, village pork. Drink: S'tiêng rượu cần; cashew wine investigate.
 
