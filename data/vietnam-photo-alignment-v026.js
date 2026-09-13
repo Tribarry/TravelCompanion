@@ -328,6 +328,20 @@ const TINHBIEN_LOCAL=[
  [/du du dam|đu đủ đâm/i,'assets/images/tinh-bien/12-du-du-dam.jpg'],
  [/ba chuc|ba chúc memorial/i,'assets/images/tinh-bien/13-ba-chuc.jpg']
 ];
+const BACLIEU_LOCAL=[
+ [/ghositaram/i,'assets/images/bac-lieu/01-ghositaram.jpg'],
+ [/xiem can|xiêm cán/i,'assets/images/bac-lieu/04-xiem-can.jpg'],
+ [/salt field/i,'assets/images/bac-lieu/06-salt.jpg'],
+ [/me nam hai|mẹ nam hải|quan am phat dai|quán âm/i,'assets/images/bac-lieu/09-me-nam-hai.jpg'],
+ [/vinh hung|vĩnh hưng|oc eo|óc eo/i,'assets/images/bac-lieu/10-vinh-hung.jpg'],
+ [/wind farm|dien gio|điện gió/i,'assets/images/bac-lieu/02-wind-farm.jpg'],
+ [/cong tu|công tử/i,'assets/images/bac-lieu/03-cong-tu.jpg'],
+ [/vuon chim|vườn chim/i,'assets/images/bac-lieu/05-vuon-chim.jpg'],
+ [/cao van lau|cao văn lầu|da co hoai lang|dạ cổ/i,'assets/images/bac-lieu/07-cao-van-lau.jpg'],
+ [/non la|nón lá/i,'assets/images/bac-lieu/08-non-la.jpg'],
+ [/ba khia|ba khía/i,'assets/images/bac-lieu/12-ba-khia.jpg'],
+ [/banh tam bi|bánh tằm bì/i,'assets/images/bac-lieu/13-banh-tam-bi.jpg']
+];
 
 const HCMC_LOCAL=[
  [/bến thành|ben thanh/i,'assets/images/generated/vietnam-resolved/be-n-tha-nh-market-e0b32d92-1600.webp'],
@@ -371,6 +385,7 @@ function destLocalPhoto(q,currentName){
  if(n==='chau doc'||n==='chau doc nui sam') return 'assets/images/destinations/chau-doc.jpg';
  if(n==='tra su'||n==='tra su cajuput forest') return 'assets/images/tra-su/01-boat.jpg';
  if(n==='tinh bien tri ton'||n==='tinh bien'||n==='bay nui'||n==='tinh bien tri ton seven mountains') return 'assets/images/destinations/tinh-bien-tri-ton.jpg';
+ if(n==='bac lieu') return 'assets/images/destinations/bac-lieu-ghositaram.jpg';
  /* Dest only orders the maps. Never gate a unique title on "I am here" —
   * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
  const maps=[];
@@ -382,8 +397,9 @@ function destLocalPhoto(q,currentName){
  if(/chau doc/.test(dest)) add(CHAUDOC_LOCAL);
  if(/tra su/.test(dest)) add(TRASU_LOCAL);
  if(/tinh bien|tri ton|bay nui/.test(dest)) add(TINHBIEN_LOCAL);
+ if(/bac lieu/.test(dest)) add(BACLIEU_LOCAL);
  if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);
- add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(TINHBIEN_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);
+ add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(TINHBIEN_LOCAL);add(BACLIEU_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);
  for(const rules of maps){for(const [rx,u] of rules){if(rx.test(title))return u}}
  return '';
 }

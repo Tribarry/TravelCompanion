@@ -4,7 +4,7 @@
  */
 (() => {
   'use strict';
-  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-tinhbien';
+  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-baclieu';
 
   const CONTEXT = {
     'Ho Chi Minh City': 'Saigon grew from a river port into the commercial centre of southern Vietnam, shaped by Vietnamese, Chinese and French communities and later by war and rapid post-1975 growth. The result is a city where colonial landmarks, Chợ Lớn trading streets, wartime sites, temples, markets and hyper-modern districts sit almost on top of one another.',
@@ -15,6 +15,7 @@
     'Châu Đốc / Núi Sam': 'Châu Đốc grew as a Mekong trading and border town near Cambodia, shaped by Vietnamese, Khmer, Cham and Chinese communities. The Seven Mountains form an important spiritual landscape, while the Hậu River supports fish farms, markets and Cham Muslim villages. That mix explains the city’s distinctive pilgrimage culture and food.',
     'Trà Sư': 'Trà Sư protects a flooded cajuput-forest ecosystem in An Giang near the Cambodian frontier. Its character changes strongly with the seasons: the wet months create the famous green flooded channels, while the dry season is better understood through birdlife, forest ecology and the wider Seven Mountains landscape.',
     'Tịnh Biên / Tri Tôn': 'The Seven Mountains rise abruptly from an otherwise flat Mekong landscape. This is Khmer-influenced border country where pilgrimage peaks, pagodas, rice fields, sugar palms and small villages create one of the Delta’s most distinctive cultural and geographic transitions.',
+    'Bạc Liêu': 'Bạc Liêu sits on the southern Mekong salt coast where Kinh, Khmer and Chinese lives overlap. Ghositaram and Xiêm Cán are two different Khmer temples, the Long Điền salt fields run December to April, and vọng cổ — the song that made cải lương — was born here. Wind, mangrove birds and the East Sea sit on the same short coastal run.',
     'Hà Tiên': 'Hà Tiên grew as a frontier trading port facing the Gulf of Thailand and Cambodia. The Mạc family shaped the town from the early 18th century, leaving temples, tombs and the literary tradition of the Ten Landscapes, while limestone hills and islands give the region a geography unlike most of the Delta.',
     'Kiên Lương': 'Kiên Lương sits within a rare limestone and coastal landscape between Hà Tiên and Rạch Giá. Karst hills, caves, fishing villages and small Gulf islands make this less a conventional town stop than a rural corridor where geology and working coastal life are the attraction.',
     'Rạch Giá': 'Rạch Giá developed as a Gulf port and commercial centre for Kiên Giang. Its harbour still connects the mainland to Phú Quốc, Nam Du and other islands, while the city itself is best understood through its seafood markets, waterfront, temples and the story of Nguyễn Trung Trực.',
@@ -63,7 +64,7 @@
   };
 
   const ALIAS = {
-    'Ho Chi Minh City':'Ho Chi Minh City','Cái Bè / Tân Phong':'Cái Bè / Tân Phong','Sa Đéc':'Sa Đéc','Cần Thơ':'Cần Thơ','Long Xuyên':'Long Xuyên','Châu Đốc / Núi Sam':'Châu Đốc','Trà Sư':'Trà Sư','Tịnh Biên / Tri Tôn':'Tịnh Biên / Tri Tôn / Seven Mountains','Hà Tiên':'Hà Tiên','Kiên Lương':'Kiên Lương','Rạch Giá':'Rạch Giá + Nam Du','Vĩnh Long / Mang Thít':'Vĩnh Long / Mang Thít','Phú Quốc':'Phú Quốc','Côn Đảo':'Côn Đảo','Vũng Tàu':'Vũng Tàu','Cát Tiên National Park':'Cát Tiên National Park','Đồng Xoài / Bình Phước':'Đồng Xoài / Bình Phước corridor','Gia Nghĩa / Đắk Nông':'Gia Nghĩa / Đắk Nông','Đà Lạt':'Đà Lạt','Buôn Ma Thuột / Đắk Lắk':'Đắk Lắk / Buôn Ma Thuột / Lắk / Yok Đôn','Yok Đôn / Buôn Đôn':'Đắk Lắk / Buôn Ma Thuột / Lắk / Yok Đôn','Lắk Lake':'Đắk Lắk / Buôn Ma Thuột / Lắk / Yok Đôn','Pleiku / Gia Lai':'Pleiku / Gia Lai','Kon Tum':'Kon Tum','Măng Đen':'Măng Đen','Khâm Đức / Phước Sơn':'Khâm Đức / Phước Sơn','Prao / Đông Giang':'Prao / Cơ Tu country','A Lưới / A Shau Valley':'A Lưới / A Shau Valley','Khe Sanh':'Khe Sanh / Hướng Hóa','Western Ho Chi Minh Road':'Western Hồ Chí Minh Road','Quy Nhơn':'Quy Nhơn / Bình Định','Phú Yên / Tuy Hòa':'Phú Yên','Nha Trang':'Nha Trang / Khánh Hòa','Hội An':'Hội An','Đà Nẵng':'Đà Nẵng','Hải Vân / Lăng Cô':'Hải Vân Pass / Lăng Cô','Huế':'Huế','Bạch Mã':'Bạch Mã','Phong Nha / Quảng Bình':'Phong Nha / Quảng Bình','Ninh Bình':'Ninh Bình','Pù Luông':'Pù Luông','Hà Nội':'Hà Nội','Hạ Long / Lan Hạ Bay':'Hạ Long / Lan Hạ','Cát Bà':'Cát Bà','Ba Bể':'Ba Bể','Cao Bằng':'Cao Bằng','Hà Giang Loop':'Hà Giang Loop','Hoàng Su Phì':'Hoàng Su Phì','Mù Cang Chải':'Mù Cang Chải','Y Tý':'Y Tý','Bắc Hà':'Bắc Hà','Sa Pa':'Sa Pa','Hà Nội Return':'Hà Nội Return'
+    'Ho Chi Minh City':'Ho Chi Minh City','Cái Bè / Tân Phong':'Cái Bè / Tân Phong','Sa Đéc':'Sa Đéc','Cần Thơ':'Cần Thơ','Long Xuyên':'Long Xuyên','Châu Đốc / Núi Sam':'Châu Đốc','Trà Sư':'Trà Sư','Tịnh Biên / Tri Tôn':'Tịnh Biên / Tri Tôn / Seven Mountains','Bạc Liêu':'Bạc Liêu','Hà Tiên':'Hà Tiên','Kiên Lương':'Kiên Lương','Rạch Giá':'Rạch Giá + Nam Du','Vĩnh Long / Mang Thít':'Vĩnh Long / Mang Thít','Phú Quốc':'Phú Quốc','Côn Đảo':'Côn Đảo','Vũng Tàu':'Vũng Tàu','Cát Tiên National Park':'Cát Tiên National Park','Đồng Xoài / Bình Phước':'Đồng Xoài / Bình Phước corridor','Gia Nghĩa / Đắk Nông':'Gia Nghĩa / Đắk Nông','Đà Lạt':'Đà Lạt','Buôn Ma Thuột / Đắk Lắk':'Đắk Lắk / Buôn Ma Thuột / Lắk / Yok Đôn','Yok Đôn / Buôn Đôn':'Đắk Lắk / Buôn Ma Thuột / Lắk / Yok Đôn','Lắk Lake':'Đắk Lắk / Buôn Ma Thuột / Lắk / Yok Đôn','Pleiku / Gia Lai':'Pleiku / Gia Lai','Kon Tum':'Kon Tum','Măng Đen':'Măng Đen','Khâm Đức / Phước Sơn':'Khâm Đức / Phước Sơn','Prao / Đông Giang':'Prao / Cơ Tu country','A Lưới / A Shau Valley':'A Lưới / A Shau Valley','Khe Sanh':'Khe Sanh / Hướng Hóa','Western Ho Chi Minh Road':'Western Hồ Chí Minh Road','Quy Nhơn':'Quy Nhơn / Bình Định','Phú Yên / Tuy Hòa':'Phú Yên','Nha Trang':'Nha Trang / Khánh Hòa','Hội An':'Hội An','Đà Nẵng':'Đà Nẵng','Hải Vân / Lăng Cô':'Hải Vân Pass / Lăng Cô','Huế':'Huế','Bạch Mã':'Bạch Mã','Phong Nha / Quảng Bình':'Phong Nha / Quảng Bình','Ninh Bình':'Ninh Bình','Pù Luông':'Pù Luông','Hà Nội':'Hà Nội','Hạ Long / Lan Hạ Bay':'Hạ Long / Lan Hạ','Cát Bà':'Cát Bà','Ba Bể':'Ba Bể','Cao Bằng':'Cao Bằng','Hà Giang Loop':'Hà Giang Loop','Hoàng Su Phì':'Hoàng Su Phì','Mù Cang Chải':'Mù Cang Chải','Y Tý':'Y Tý','Bắc Hà':'Bắc Hà','Sa Pa':'Sa Pa','Hà Nội Return':'Hà Nội Return'
   };
 
   function clean(s){return (s||'').replace(/\*\*/g,'').replace(/`/g,'').replace(/\s+/g,' ').trim().replace(/[.]+$/,'');}
@@ -220,6 +221,10 @@
         'tinh bien':{
           keep:['ta pa rice fields','van linh pagoda','ho thuy liem','hoi dua bo bay nui','khmer village pagoda','ba chuc memorial','nui cam above the clouds','giant maitreya','chua ta pa','ta pa quarry lake','banh xeo rau rung','sugar palm country','du du dam'],
           must:['ta pa rice fields','van linh pagoda','ho thuy liem']
+        },
+        'bac lieu':{
+          keep:['ghositaram temple','chua xiem can','salt fields','me nam hai','thap co vinh hung','wind farm at dusk','nha cong tu','vuon chim','cao van lau','nha hat non la','ba khia','banh tam bi'],
+          must:['ghositaram temple','chua xiem can','salt fields']
         }
       };
       const destN=n(d.name);
@@ -311,6 +316,18 @@
           'sugar palm country':'assets/images/tinh-bien/11-sugar-palm.jpg',
           'du du dam':'assets/images/tinh-bien/12-du-du-dam.jpg',
           'ba chuc memorial':'assets/images/tinh-bien/13-ba-chuc.jpg',
+          'ghositaram temple':'assets/images/bac-lieu/01-ghositaram.jpg',
+          'chua xiem can':'assets/images/bac-lieu/04-xiem-can.jpg',
+          'salt fields':'assets/images/bac-lieu/06-salt.jpg',
+          'me nam hai':'assets/images/bac-lieu/09-me-nam-hai.jpg',
+          'thap co vinh hung':'assets/images/bac-lieu/10-vinh-hung.jpg',
+          'wind farm at dusk':'assets/images/bac-lieu/02-wind-farm.jpg',
+          'nha cong tu':'assets/images/bac-lieu/03-cong-tu.jpg',
+          'vuon chim':'assets/images/bac-lieu/05-vuon-chim.jpg',
+          'cao van lau':'assets/images/bac-lieu/07-cao-van-lau.jpg',
+          'nha hat non la':'assets/images/bac-lieu/08-non-la.jpg',
+          'ba khia':'assets/images/bac-lieu/12-ba-khia.jpg',
+          'banh tam bi':'assets/images/bac-lieu/13-banh-tam-bi.jpg',
         };
         d.experiences.forEach(e=>{const p=PHOTOS[n(e.name)];if(p)e.photo=p});
       }
@@ -389,8 +406,6 @@
     insertDestination(list,'Sơn Đoòng','Pygmy / Hung Thoong','Cave expeditions',sections,'4+',['Sơn Đoòng multi-day expedition — LIFE-LIST / LONG-LEAD BOOKING','Enormous cave passages and underground river','Dolines and underground jungle','Expedition cave camping']);
     insertDestination(list,'Hà Nội Return','Sa Pa','Hà Nội Return',sections,'1–2');
     list.forEach(d=>applySection(d,sections));
-    // Preserve Bạc Liêu/Ghositaram even though it is not a separate heading in the locked bank.
-    const bac=list.find(d=>d.name==='Bạc Liêu'); if(bac){bac.context='Bạc Liêu sits in the southern Mekong Delta where Kinh, Khmer and Chinese influences overlap. Ghositaram Temple is the key reason it remains in this route: an unusually ornate Khmer Buddhist complex that connects the Delta’s Khmer heritage with the cultural thread continuing into Trà Vinh and Cambodia.';bac.summary=bac.context;}
     const nha=list.find(d=>d.name==='Nha Trang'); if(nha)nha.stay='5';
     DATA.version='0.21-live'; const vnCountry=DATA.countries.find(c=>c.id==='vietnam'); if(vnCountry)vnCountry.subtitle='Locked experience bank · Mekong days in';
     fixCoordsAndWiki(); return true;

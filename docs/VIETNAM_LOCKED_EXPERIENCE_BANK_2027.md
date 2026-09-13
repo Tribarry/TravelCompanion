@@ -71,6 +71,9 @@ Trà Sư boat journey; Observation tower; Bamboo walkway; Birds of the cajuput; 
 ## Tịnh Biên / Tri Tôn / Seven Mountains — LOCKED 13
 Tà Pạ rice fields; Vạn Linh Pagoda; Hồ Thủy Liêm; Hội đua bò Bảy Núi — DATE WATCH, Sene Dolta Aug–Sep lunar; Khmer village pagoda; Ba Chúc memorial; Núi Cấm above the clouds; Giant Maitreya; Chùa Tà Pạ; Tà Pạ quarry lake; Bánh xèo rau rừng; Sugar-palm country; Đu đủ đâm.
 
+## Bạc Liêu — LOCKED 12
+Ghositaram Temple; Chùa Xiêm Cán; Salt fields; Mẹ Nam Hải; Tháp cổ Vĩnh Hưng; Wind farm at dusk; Nhà Công tử; Vườn chim; Cao Văn Lầu; Nhà hát nón lá; Ba khía; Bánh tằm bì.
+
 ## Hà Tiên — LOCKED 30
 Thạch Động + cave; Đá Dựng cave labyrinth; Hang Khổ Qua; Tô Châu; Núi Pháo Đài; Mạc Cửu Tomb+Bình San; Phù Dung; Tam Bảo; Ten Landscapes challenge; Đông Hồ lagoon + small boat verify; Mũi Nai; Núi Đèn; fishing village; **Hải Tặc/Pirate Islands** + island sleep + fishing with locals verify + dried seafood making. Food: cà xỉu, bún kèn, bún nhâm, hủ tiếu hấp, bánh canh chả ghẹ, cơm ghẹ, cà ri cua, gỏi sầu đâu, canh nấm tràm, Khmer gà đốt, boklhong.
 
