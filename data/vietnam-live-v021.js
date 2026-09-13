@@ -117,6 +117,9 @@
     if(/^weather\s*\/\s*trail/.test(t)) return true;
     if(/^remote road/.test(t) && /uxo/.test(t)) return true;
     if(/^guide\s*\/\s*homestay/.test(t) && /book ahead/.test(t)) return true;
+    if(/not retained as experiences/.test(t)) return true;
+    if(/^preferred overnight/.test(t)) return true;
+    if(/^preserve generic/.test(t)) return true;
     return false;
   }
   function peelPassport(chunk){
@@ -138,6 +141,7 @@
       .replace(/\.\s+Dry-season expectation must be explicit[^.]*\.?/gi,'.')
       .replace(/\.\s+Food includes\s+/gi,'; Food: ')
       .replace(/\.\s+(Drinks?|Food\/WTF|Foods?|Drink):/gi,'; $1:')
+      .replace(/\s+plus:\s+/gi,'; ')
       .replace(/\.\s+(Keep|Avoid|Commercial|Current)/g,'; $1');
     const chunks=text.split(/\s*;\s*/).map(clean).filter(Boolean);
     const items=[]; items.food=[]; items.drink=[];
@@ -229,7 +233,7 @@
     // Preserve Bạc Liêu/Ghositaram even though it is not a separate heading in the locked bank.
     const bac=list.find(d=>d.name==='Bạc Liêu'); if(bac){bac.context='Bạc Liêu sits in the southern Mekong Delta where Kinh, Khmer and Chinese influences overlap. Ghositaram Temple is the key reason it remains in this route: an unusually ornate Khmer Buddhist complex that connects the Delta’s Khmer heritage with the cultural thread continuing into Trà Vinh and Cambodia.';bac.summary=bac.context;}
     const nha=list.find(d=>d.name==='Nha Trang'); if(nha)nha.stay='5';
-    DATA.version='0.21-live'; const vnCountry=DATA.countries.find(c=>c.id==='vietnam'); if(vnCountry)vnCountry.subtitle='Locked experience bank · duration optimisation pending';
+    DATA.version='0.21-live'; const vnCountry=DATA.countries.find(c=>c.id==='vietnam'); if(vnCountry)vnCountry.subtitle='Locked experience bank · Mekong days in';
     fixCoordsAndWiki(); return true;
   })().catch(err=>{console.error('V0.21 live bank:',err);return false});
   window.VN_LIVE_READY=READY;

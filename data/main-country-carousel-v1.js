@@ -43,6 +43,9 @@ if(!document.querySelector('script[data-vn-b2-sadec-render]')){
  const s=document.createElement('script');s.src='data/vietnam-batch2-sa-dec-v3.js?v=20260912-s3';s.dataset.vnB2SadecRender='1';document.head.appendChild(s);
 }
 /* ADHD Focus Mode */
+if(!document.querySelector('script[data-vn-duration-mekong]')){
+ const p=document.createElement('script');p.src='data/vietnam-duration-mekong-v1.js?v=20260913-days1';p.dataset.vnDurationMekong='1';document.head.appendChild(p);
+}
 if(!document.querySelector('script[data-adhd-focus]')){
  const p=document.createElement('script');p.src='data/adhd-focus-mode-v1.js?v=20260912-focus2';p.dataset.adhdFocus='1';document.head.appendChild(p);
 }
