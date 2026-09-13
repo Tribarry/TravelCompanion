@@ -313,6 +313,22 @@ const TRASU_LOCAL=[
  [/thốt nốt|thot not/i,'assets/images/tra-su/09-thot-not.jpg'],
  [/duckweed/i,'assets/images/tra-su/10-duckweed.jpg']
 ];
+const TINHBIEN_LOCAL=[
+ [/ta pa rice|tà pạ rice/i,'assets/images/tinh-bien/01-ta-pa-rice.jpg'],
+ [/nui cam above|above the clouds/i,'assets/images/tinh-bien/02-nui-cam-clouds.jpg'],
+ [/giant maitreya|maitreya/i,'assets/images/tinh-bien/03-maitreya.jpg'],
+ [/van linh|vạn linh/i,'assets/images/tinh-bien/04-van-linh.jpg'],
+ [/thuy liem|thủy liêm/i,'assets/images/tinh-bien/05-thuy-liem.jpg'],
+ [/chua ta pa|chùa tà pạ/i,'assets/images/tinh-bien/06-chua-ta-pa.jpg'],
+ [/quarry lake|tuyệt tình/i,'assets/images/tinh-bien/07-quarry-lake.jpg'],
+ [/dua bo|đua bò|bull racing/i,'assets/images/tinh-bien/08-bull-racing.jpg'],
+ [/khmer village pagoda/i,'assets/images/tinh-bien/09-khmer-pagoda.jpg'],
+ [/banh xeo rau rung|bánh xèo rau rừng/i,'assets/images/tinh-bien/10-banh-xeo.jpg'],
+ [/sugar.?palm country|sugar-palm/i,'assets/images/tinh-bien/11-sugar-palm.jpg'],
+ [/du du dam|đu đủ đâm/i,'assets/images/tinh-bien/12-du-du-dam.jpg'],
+ [/ba chuc|ba chúc memorial/i,'assets/images/tinh-bien/13-ba-chuc.jpg']
+];
+
 const HCMC_LOCAL=[
  [/bến thành|ben thanh/i,'assets/images/generated/vietnam-resolved/be-n-tha-nh-market-e0b32d92-1600.webp'],
  [/nguyễn huệ walking|nguyen hue walking/i,'assets/images/hcmc/nguyen-hue-walking.jpg'],
@@ -354,6 +370,7 @@ function destLocalPhoto(q,currentName){
  if(n==='long xuyen') return 'assets/images/long-xuyen/01-floating-market.jpg';
  if(n==='chau doc'||n==='chau doc nui sam') return 'assets/images/destinations/chau-doc.jpg';
  if(n==='tra su'||n==='tra su cajuput forest') return 'assets/images/tra-su/01-boat.jpg';
+ if(n==='tinh bien tri ton'||n==='tinh bien'||n==='bay nui'||n==='tinh bien tri ton seven mountains') return 'assets/images/destinations/tinh-bien-tri-ton.jpg';
  /* Dest only orders the maps. Never gate a unique title on "I am here" —
   * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
  const maps=[];
@@ -364,8 +381,9 @@ function destLocalPhoto(q,currentName){
  if(/long xuyen/.test(dest)) add(LONGXUYEN_LOCAL);
  if(/chau doc/.test(dest)) add(CHAUDOC_LOCAL);
  if(/tra su/.test(dest)) add(TRASU_LOCAL);
+ if(/tinh bien|tri ton|bay nui/.test(dest)) add(TINHBIEN_LOCAL);
  if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);
- add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);
+ add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(TINHBIEN_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);
  for(const rules of maps){for(const [rx,u] of rules){if(rx.test(title))return u}}
  return '';
 }

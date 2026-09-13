@@ -4,7 +4,7 @@
  */
 (() => {
   'use strict';
-  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-trasu';
+  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-tinhbien';
 
   const CONTEXT = {
     'Ho Chi Minh City': 'Saigon grew from a river port into the commercial centre of southern Vietnam, shaped by Vietnamese, Chinese and French communities and later by war and rapid post-1975 growth. The result is a city where colonial landmarks, Chợ Lớn trading streets, wartime sites, temples, markets and hyper-modern districts sit almost on top of one another.',
@@ -216,6 +216,10 @@
         'tra su':{
           keep:['tra su boat journey','observation tower','bamboo walkway','birds of the cajuput','dry season forest','forest boardwalk','lotus wetlands','ca loc nuong trui','thot not','duckweed carpet'],
           must:['tra su boat journey','observation tower','bamboo walkway']
+        },
+        'tinh bien':{
+          keep:['ta pa rice fields','van linh pagoda','ho thuy liem','hoi dua bo bay nui','khmer village pagoda','ba chuc memorial','nui cam above the clouds','giant maitreya','chua ta pa','ta pa quarry lake','banh xeo rau rung','sugar palm country','du du dam'],
+          must:['ta pa rice fields','van linh pagoda','ho thuy liem']
         }
       };
       const destN=n(d.name);
@@ -293,7 +297,20 @@
           'lotus wetlands':'assets/images/tra-su/07-wetlands.jpg',
           'ca loc nuong trui':'assets/images/tra-su/08-ca-loc.jpg',
           'thot not':'assets/images/tra-su/09-thot-not.jpg',
-          'duckweed carpet':'assets/images/tra-su/10-duckweed.jpg'
+          'duckweed carpet':'assets/images/tra-su/10-duckweed.jpg',
+          'ta pa rice fields':'assets/images/tinh-bien/01-ta-pa-rice.jpg',
+          'nui cam above the clouds':'assets/images/tinh-bien/02-nui-cam-clouds.jpg',
+          'giant maitreya':'assets/images/tinh-bien/03-maitreya.jpg',
+          'van linh pagoda':'assets/images/tinh-bien/04-van-linh.jpg',
+          'ho thuy liem':'assets/images/tinh-bien/05-thuy-liem.jpg',
+          'chua ta pa':'assets/images/tinh-bien/06-chua-ta-pa.jpg',
+          'ta pa quarry lake':'assets/images/tinh-bien/07-quarry-lake.jpg',
+          'hoi dua bo bay nui':'assets/images/tinh-bien/08-bull-racing.jpg',
+          'khmer village pagoda':'assets/images/tinh-bien/09-khmer-pagoda.jpg',
+          'banh xeo rau rung':'assets/images/tinh-bien/10-banh-xeo.jpg',
+          'sugar palm country':'assets/images/tinh-bien/11-sugar-palm.jpg',
+          'du du dam':'assets/images/tinh-bien/12-du-du-dam.jpg',
+          'ba chuc memorial':'assets/images/tinh-bien/13-ba-chuc.jpg',
         };
         d.experiences.forEach(e=>{const p=PHOTOS[n(e.name)];if(p)e.photo=p});
       }

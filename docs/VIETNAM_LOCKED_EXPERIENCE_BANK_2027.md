@@ -68,8 +68,8 @@ Bà Chúa Xứ; Núi Sam pilgrimage circuit; Hang Pagoda; caves around Hang Pago
 ## Trà Sư — LOCKED 10
 Trà Sư boat journey; Observation tower; Bamboo walkway; Birds of the cajuput; Dry-season forest; Forest boardwalk; Lotus wetlands; Cá lóc nướng trui; Thốt nốt; Duckweed carpet. Dry-season expectation must be explicit for likely visit timing.
 
-## Tịnh Biên / Tri Tôn / Seven Mountains — LOCKED 26
-Núi Cấm trek; Bồ Hồng summit; sunrise/cloud hunt; sleep/camp; Thanh Long Stream; Vạn Linh; giant Maitreya; hermitages/shrines/caves; mountain fruit gardens; **catch mountain crabs**; Tà Pạ rice fields; Tà Pạ Lake; Tà Pạ Pagoda; Khmer village; Khmer community homestay; Khmer household food; Rô-băm; sugar-palm countryside; fresh thốt nốt sap; palm-sugar making; Tà Pạ–Soài Chek paragliding event; off-road motorbike event; hot-air balloon event only; Ô Tà Sóc; Seven Mountains backroad day; Tịnh Biên border market.
+## Tịnh Biên / Tri Tôn / Seven Mountains — LOCKED 13
+Tà Pạ rice fields; Vạn Linh Pagoda; Hồ Thủy Liêm; Hội đua bò Bảy Núi — DATE WATCH, Sene Dolta Aug–Sep lunar; Khmer village pagoda; Ba Chúc memorial; Núi Cấm above the clouds; Giant Maitreya; Chùa Tà Pạ; Tà Pạ quarry lake; Bánh xèo rau rừng; Sugar-palm country; Đu đủ đâm.
 
 ## Hà Tiên — LOCKED 30
 Thạch Động + cave; Đá Dựng cave labyrinth; Hang Khổ Qua; Tô Châu; Núi Pháo Đài; Mạc Cửu Tomb+Bình San; Phù Dung; Tam Bảo; Ten Landscapes challenge; Đông Hồ lagoon + small boat verify; Mũi Nai; Núi Đèn; fishing village; **Hải Tặc/Pirate Islands** + island sleep + fishing with locals verify + dried seafood making. Food: cà xỉu, bún kèn, bún nhâm, hủ tiếu hấp, bánh canh chả ghẹ, cơm ghẹ, cà ri cua, gỏi sầu đâu, canh nấm tràm, Khmer gà đốt, boklhong.
