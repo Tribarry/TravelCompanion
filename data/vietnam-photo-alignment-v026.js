@@ -404,6 +404,14 @@ function hydratePlaceHeroes(){
  });
 }
 window.hydratePlaceHeroes=hydratePlaceHeroes;
+function hydrateSpotlights(){
+ document.querySelectorAll('.tc1SpotlightHero,.tc1SpotlightCard').forEach(el=>{
+  const title=el.querySelector('b')?.textContent||el.dataset.vnimg||el.dataset.label||'';
+  const current=browseDestName();
+  const url=destLocalPhoto(title,current);
+  if(url) paintPlaceHero(el,url);
+ });
+}
 window.hydrateVN=function(){
  const current=browseDestName();
  document.querySelectorAll('[data-vnimg]').forEach(async el=>{
@@ -417,9 +425,10 @@ window.hydrateVN=function(){
   else{el.classList.remove('loaded');el.dataset.photoVerified='false';el.dataset.label='PHOTO TO VERIFY'}
  });
  hydratePlaceHeroes();
- [80,250,700].forEach(ms=>setTimeout(hydratePlaceHeroes,ms));
+ hydrateSpotlights();
+ [80,250,700].forEach(ms=>setTimeout(()=>{hydratePlaceHeroes();hydrateSpotlights()},ms));
 };
-new MutationObserver(()=>hydratePlaceHeroes()).observe(document.documentElement,{childList:true,subtree:true});
+new MutationObserver(()=>{hydratePlaceHeroes();hydrateSpotlights()}).observe(document.documentElement,{childList:true,subtree:true});
 
 applyIndex();
 if(window.VN_LIVE_READY&&typeof window.VN_LIVE_READY.then==='function')window.VN_LIVE_READY.then(applyIndex).catch(()=>applyIndex());
