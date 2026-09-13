@@ -21,19 +21,19 @@ const DEFAULT_DAYS={
 const MAX_DAYS={'ho chi minh city':7};
 const PILLS={'ho chi minh city':[3,5,7]};
 const LABELS={
-  'ho chi minh city':['Arrive & orient','War & temples','Chợ Lớn','Eat after dark','Out of town','More Saigon','Reset / extra']
+  'ho chi minh city':['Centre','Pink church & oddities','Height & night','River & street','VinWonders','Cần Giờ / Rừng Sác','Chợ Lớn extra']
 };
 
 /* Hand-ranked day patterns. First match wins; leftover goes to Later. */
 const HAND={
   'ho chi minh city':[
-    [/book street/,/post office/,/notre-dame|notre dame/],
-    [/war remnants/,/jade emperor/,/commando/],
-    [/chợ lớn|cho lon|binh tay|bình tây/,/fito/,/tân định|tan dinh/],
-    [/motorbike food/,/district 4/,/hồ thị kỷ|ho thi ky/],
-    [/củ chi|cu chi/,/night sightseeing|open-top/,/42 nguyễn huệ|nguyen hue café|cafe apartment/],
-    [/cần giờ|can gio/,/fish-sauce/,/landmark 81/],
-    [/bùi viện|bui vien/,/river night/,/traditional medicine/]
+    [/notre-dame|notre dame/,/post office/,/war remnants/],
+    [/tân định|tan dinh/,/fito/,/commando/],
+    [/landmark 81/,/night sightseeing|open-top/,/bùi viện|bui vien/],
+    [/river night|saigon river/,/bến thành|ben thanh/,/nguyễn huệ walking|nguyen hue walking/],
+    [/vinwonders|grand park/],
+    [/rừng sác|rung sac/,/cần giờ|can gio|monkey island/],
+    [/chợ lớn|cho lon/,/bình tây|binh tay/,/củ chi|cu chi/]
   ],
   'cai be':[
     [/tân phong cycling|tan phong cycling/,/sampan/,/garden-house overnight|heritage\/garden|family dinner/],
