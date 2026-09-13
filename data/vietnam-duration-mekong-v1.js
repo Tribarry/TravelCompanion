@@ -21,7 +21,8 @@ const DEFAULT_DAYS={
 const MAX_DAYS={'ho chi minh city':7};
 const PILLS={'ho chi minh city':[3,5,7]};
 const LABELS={
-  'ho chi minh city':['Centre','Pink church & oddities','Height & night','River & street','VinWonders','Cần Giờ / Rừng Sác','Chợ Lớn extra']
+  'ho chi minh city':['Centre','Pink church & oddities','Height & night','River & street','VinWonders','Cần Giờ / Rừng Sác','Chợ Lớn extra'],
+  'cai be':['Island & overnight','Village & river']
 };
 
 /* Hand-ranked day patterns. First match wins; leftover goes to Later. */
@@ -37,7 +38,7 @@ const HAND={
   ],
   'cai be':[
     [/tân phong cycling|tan phong cycling/,/sampan/,/garden-house overnight|heritage\/garden|family dinner/],
-    [/sunrise river/,/morning market/,/đông hòa|dong hoa|tát mương|tat muong/]
+    [/sunrise river|morning market/,/đông hòa|dong hoa|ba đức|ba duc/,/bánh tráng|banh trang|make cốm|make com/]
   ],
   'sa dec':[
     [/flower village/,/huỳnh thủy lê|huynh thuy le/,/cycling/],
@@ -247,7 +248,9 @@ function inject(){
   const x=typeof vnStop==='function'?vnStop():null;
   if(!x||!inCluster(x.d.name))return;
   const tiles=document.querySelector('.cityTiles25');
-  if(!tiles||document.getElementById('c25Days'))return;
+  if(!tiles)return;
+  const existing=document.getElementById('c25Days');
+  if(existing){existing.onclick=()=>vnDuration();return;}
   const days=destState(x.d.name).days;
   const b=document.createElement('button');
   b.className='cityTile25';
