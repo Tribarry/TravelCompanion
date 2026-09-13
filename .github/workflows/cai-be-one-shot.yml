@@ -1,0 +1,268 @@
+name: Cái Bè one-shot update
+on:
+  push:
+    paths:
+      - '.github/workflows/cai-be-one-shot.yml'
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install image tools
+        run: python -m pip install --quiet pillow
+      - name: Apply Cái Bè patch
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import io, json, re, urllib.parse, urllib.request
+          from PIL import Image
+
+          ROOT=Path('.')
+          
+          # 1) Locked bank: exactly 12 Cái Bè cards, with the six-card stay cut adjacent.
+          bank=ROOT/'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md'
+          s=bank.read_text(encoding='utf-8')
+          block='''## Cái Bè / Tân Phong — LOCKED 12
+          Dawn floating market — Quieter than Cái Răng. Boats still trade fruit at first light. Coffee or hủ tiếu on the water before 8am, then it thins out; Sampan through nipa canals — Small rowboat under water-coconut palms. Slow, shaded, 30–45 min. This is the bit the tours actually deliver; Đông Hòa Hiệp ancient village — National heritage village. 7 listed houses, 150–200 years old. Walk the lane. Not a theme park; Ba Đức ancient house (sleep here) — 1850 house. French–Nam Bộ mix, nacre furniture, family still lives there. Best overnight in Cái Bè. Book ahead; Coconut candy + popped rice — Family kettle, not a factory show. Taste while hot. Skip the gift-shop pile; Local islet ferry — Bikes and aunties, not a tourist cruise. Cross to Tân Phong the way locals do; Tát mương bắt cá — Drain a garden pond and catch fish by hand. Homestays run this if you ask; Tân Phong orchard cycle — Biggest fruit island on the Tiền. Bike village lanes. Pick what’s in season; Ông Xoát rường house — Huế-style rường frame. Started 1818. Pair with Ba Đức on the same village walk; Home cooking class — Garden herbs, Mekong lunch at a house not a restaurant. Half day with the boat; Bánh tráng in the sun — Rice-paper village around Đông Hòa Hiệp since the 1940s. Sheets on racks. Try pulling one; Cái Bè Church on the Tiền — Riverfront landmark. 20 minutes, free, late-afternoon light. Not a full morning.
+
+          ## Cái Bè stay cut — ranked 13 Sep 2026
+          Day 1 — River + village: Dawn floating market; Sampan through nipa canals; Đông Hòa Hiệp ancient village.
+          Day 2 — House + craft + crossing: Ba Đức ancient house (sleep here); Coconut candy + popped rice; Local islet ferry.
+          Later / extra: Tát mương bắt cá; Tân Phong orchard cycle; Ông Xoát rường house; Home cooking class; Bánh tráng in the sun; Cái Bè Church on the Tiền.
+          '''
+          pat=r'## Cái Bè / Tân Phong — LOCKED 17\n.*?(?=\n\n## Sa Đéc — LOCKED)'
+          s2,n=re.subn(pat,block.rstrip(),s,flags=re.S)
+          if n!=1:
+              raise SystemExit(f'Expected one Cái Bè bank block, replaced {n}')
+          bank.write_text(s2,encoding='utf-8')
+
+          # 2) Ranked These days pack and deterministic Later order.
+          p=ROOT/'data/vietnam-duration-mekong-v1.js'
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("  'cai be':['Island & overnight','Village & river']", "  'cai be':['River + village','House + craft + crossing']")
+          old="""  'cai be':[
+              [/tân phong cycling|tan phong cycling/,/sampan/,/garden-house overnight|heritage\\/garden|family dinner/],
+              [/sunrise river|morning market/,/đông hòa|dong hoa|ba đức|ba duc/,/bánh tráng|banh trang|make cốm|make com/]
+            ],"""
+          new="""  'cai be':[
+              [/dawn floating market|floating market/,/sampan through nipa canals|sampan/,/đông hòa hiệp ancient village|dong hoa hiep ancient village|đông hòa|dong hoa/],
+              [/ba đức ancient house|ba duc ancient house|ba đức|ba duc/,/coconut candy.*popped rice|popped rice.*coconut candy|coconut candy/,/local islet ferry|islet ferry|local ferry/]
+            ],"""
+          if old not in s: raise SystemExit('Old Cái Bè HAND pack not found')
+          s=s.replace(old,new)
+          old2="""  const overflow=overflowIds.filter(it=>{if(seen.has(it.id))return false;seen.add(it.id);return !used.has(it.id)});
+            return {days:daySlots,overflow,total:all.length};"""
+          new2="""  let overflow=overflowIds.filter(it=>{if(seen.has(it.id))return false;seen.add(it.id);return !used.has(it.id)});
+            if(clusterKey(name)==='cai be'){
+              const order=['tát mương bắt cá','tân phong orchard cycle','ông xoát rường house','home cooking class','bánh tráng in the sun','cái bè church on the tiền'];
+              const rank=it=>{const t=norm(it.title||it.name||'');const i=order.findIndex(x=>t.includes(norm(x)));return i<0?999:i};
+              overflow=overflow.slice().sort((a,b)=>rank(a)-rank(b));
+            }
+            return {days:daySlots,overflow,total:all.length};"""
+          if old2 not in s: raise SystemExit('Overflow return block not found')
+          s=s.replace(old2,new2)
+          p.write_text(s,encoding='utf-8')
+
+          # 3) Exact Cái Bè categories + bank cache key in live bridge.
+          p=ROOT/'data/vietnam-live-v021.js'
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-hcm2';", "const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-cai-be';")
+          marker="  function clean(s){return (s||'').replace(/\\*\\*/g,'').replace(/`/g,'').replace(/\\s+/g,' ').trim().replace(/[.]+$/,'');}"
+          cats="""  const CAIBE_TYPES={
+            'Dawn floating market':'Local Life',
+            'Sampan through nipa canals':'Outdoors',
+            'Đông Hòa Hiệp ancient village':'Culture',
+            'Ba Đức ancient house (sleep here)':'Culture',
+            'Coconut candy + popped rice':'Food',
+            'Local islet ferry':'Local Life',
+            'Tát mương bắt cá':'Unique',
+            'Tân Phong orchard cycle':'Outdoors',
+            'Ông Xoát rường house':'Culture',
+            'Home cooking class':'Food',
+            'Bánh tráng in the sun':'Food',
+            'Cái Bè Church on the Tiền':'Culture'
+          };
+          """
+          if 'const CAIBE_TYPES=' not in s:
+              if marker not in s: raise SystemExit('Live bridge insertion marker not found')
+              s=s.replace(marker,cats+marker)
+          marker2="    const unique=d.experiences.find(e=>e.tags.includes('Unique'));"
+          inject="""    if(d.name==='Cái Bè / Tân Phong'){
+              d.experiences=d.experiences.map(e=>{
+                const cat=CAIBE_TYPES[e.name]; if(!cat)return e;
+                const keep=(e.tags||[]).filter(t=>['Book Ahead','Date Watch','Check'].includes(t));
+                return {...e,type:cat,tags:[cat,...keep]};
+              });
+            }
+          """
+          if inject.strip() not in s:
+              if marker2 not in s: raise SystemExit('Live bridge category marker not found')
+              s=s.replace(marker2,inject+marker2)
+          p.write_text(s,encoding='utf-8')
+
+          # 4) Calendar tile already exists: make it open These days.
+          p=ROOT/'data/vietnam-city-hub-v025.js'
+          s=p.read_text(encoding='utf-8')
+          needle="document.getElementById('c25Exp').onclick=()=>vnExperiences('All');document.getElementById('c25Food')"
+          repl="document.getElementById('c25Exp').onclick=()=>vnExperiences('All');const c25Days=document.getElementById('c25Days');if(c25Days)c25Days.onclick=()=>typeof vnDuration==='function'?vnDuration():null;document.getElementById('c25Food')"
+          if needle not in s: raise SystemExit('c25Days wiring marker not found')
+          s=s.replace(needle,repl,1)
+          p.write_text(s,encoding='utf-8')
+
+          # 5) Cái Bè-only local image mapping. No destination/generic fallback for these cards.
+          p=ROOT/'data/vietnam-photo-alignment-v026.js'
+          s=p.read_text(encoding='utf-8')
+          anchor="""/* Only explicit, semantically verified matches belong here. A missing mapping is
+           * safer than a beautiful but wrong photo. */"""
+          local="""const CAIBE_LOCAL={
+           'Cái Bè / Tân Phong':'assets/images/cai-be/00-overview.jpg',
+           'Dawn floating market':'assets/images/cai-be/01-floating-market.jpg',
+           'Sampan through nipa canals':'assets/images/cai-be/02-sampan.jpg',
+           'Tân Phong orchard cycle':'assets/images/cai-be/03-tan-phong-cycle.jpg',
+           'Đông Hòa Hiệp ancient village':'assets/images/cai-be/04-dong-hoa-hiep.jpg',
+           'Ba Đức ancient house (sleep here)':'assets/images/cai-be/05-ba-duc.jpg',
+           'Ông Xoát rường house':'assets/images/cai-be/06-ong-xoat.jpg',
+           'Coconut candy + popped rice':'assets/images/cai-be/07-coconut-candy.jpg',
+           'Home cooking class':'assets/images/cai-be/08-cooking.jpg',
+           'Bánh tráng in the sun':'assets/images/cai-be/09-banh-trang.jpg',
+           'Cái Bè Church on the Tiền':'assets/images/cai-be/10-church.jpg',
+           'Local islet ferry':'assets/images/cai-be/13-ferry.jpg',
+           'Tát mương bắt cá':'assets/images/cai-be/14-tat-muong.jpg'
+          };
+
+          """
+          if 'const CAIBE_LOCAL=' not in s:
+              if anchor not in s: raise SystemExit('Photo alignment anchor not found')
+              s=s.replace(anchor,local+anchor,1)
+          qneedle="  if(!qn)return '';"
+          qrepl="  if(!qn)return '';\n  if(CAIBE_LOCAL[qn])return CAIBE_LOCAL[qn];"
+          if qrepl not in s:
+              if qneedle not in s: raise SystemExit('Photo resolver marker not found')
+              s=s.replace(qneedle,qrepl,1)
+          p.write_text(s,encoding='utf-8')
+
+          # 6) Cache-bust every changed runtime dependency.
+          p=ROOT/'index.html'
+          s=p.read_text(encoding='utf-8')
+          replacements={
+            'data/vietnam-live-v021.js?v=20260913-hcm2':'data/vietnam-live-v021.js?v=20260913-cai-be',
+            'data/vietnam-city-hub-v025.js?v=20260910-1821':'data/vietnam-city-hub-v025.js?v=20260913-cai-be',
+            'data/vietnam-duration-mekong-v1.js?v=20260913-hcm-ranks':'data/vietnam-duration-mekong-v1.js?v=20260913-cai-be-ranks',
+            'data/vietnam-photo-alignment-v026.js?v=20260910-graphics-v028':'data/vietnam-photo-alignment-v026.js?v=20260913-cai-be'
+          }
+          for a,b in replacements.items():
+              if a not in s: raise SystemExit(f'Index cache key not found: {a}')
+              s=s.replace(a,b,1)
+          p.write_text(s,encoding='utf-8')
+
+          # 7) Ranked doc, parallel to HCMC structure.
+          doc=ROOT/'docs/CAI_BE_THESE_DAYS_2027.md'
+          doc.write_text('''# Cái Bè — ranked 13 Sep 2026
+
+          Locked bank stays whole. Itinerary.json dates untouched.
+          This is the These days cut from the ranking pass.
+
+          ## Must (6)
+
+          These fit the 2-day stay:
+
+          - Dawn floating market
+          - Sampan through nipa canals
+          - Đông Hòa Hiệp ancient village
+          - Ba Đức ancient house (sleep here)
+          - Coconut candy + popped rice
+          - Local islet ferry
+
+          ## Keen (6)
+
+          Keep saved as Later / extra:
+
+          - Tát mương bắt cá
+          - Tân Phong orchard cycle
+          - Ông Xoát rường house
+          - Home cooking class
+          - Bánh tráng in the sun
+          - Cái Bè Church on the Tiền
+
+          ## These days (ranked, not dump order)
+
+          1. Day 1 — River + village — Dawn floating market, Sampan through nipa canals, Đông Hòa Hiệp ancient village
+          2. Day 2 — House + craft + crossing — Ba Đức ancient house (sleep here), Coconut candy + popped rice, Local islet ferry
+
+          Do these first: Dawn floating market, Sampan through nipa canals, Đông Hòa Hiệp ancient village.
+
+          Pass: none this round.
+          ''',encoding='utf-8')
+
+          # 8) Download unique Cái Bè / activity-specific photos and keep source metadata.
+          out=ROOT/'assets/images/cai-be'; out.mkdir(parents=True,exist_ok=True)
+          commons={
+            '00-overview.jpg':'Sông Cái Bè.jpg',
+            '01-floating-market.jpg':'Marché flottant (Cai Be, Vietnam) (6654161659).jpg',
+            '04-dong-hoa-hiep.jpg':'Đông Hòa Hiệp, Cái Bè, Tiền Giang, Vietnam - panoramio (15).jpg',
+            '05-ba-duc.jpg':'Ba Duc (Dong Hoa Hiep, Vietnam) (6654198459).jpg',
+            '06-ong-xoat.jpg':'Đông Hòa Hiệp, Cái Bè, Tiền Giang, Vietnam - panoramio (44).jpg',
+            '07-coconut-candy.jpg':'Fabrication artisanale de caramels (Cai Be, Vietnam) (6654257407).jpg',
+            '08-cooking.jpg':'Vietnamese-style rice paper spring rolls.jpg',
+            '09-banh-trang.jpg':'Fabrication des galettes de riz (Cai Be, Vietnam) (6653086945).jpg',
+            '10-church.jpg':'Nhà thờ Cái Bè.jpg',
+            '13-ferry.jpg':'Cái Thia ferry station, Mỹ Đức Đông commune, Cái Bè district, Tiền Giang, Vietnam, February-2022.jpg'
+          }
+          direct={
+            '02-sampan.jpg':('https://triphunter.vn/media/W1siZiIsIjIwMTkvMDIvMTgvYzNpcnlqMHpzX2N1X2xhb190YW5fcGhvbmdfdGllbl9naWFuZ19UcmlwSHVudGVyXzMuanBnIl1d/cu-lao-tan-phong-tien-giang-TripHunter-3.jpg?sha=d12c7184a5bc279c','TripHunter — Tân Phong islet sampan scene'),
+            '03-tan-phong-cycle.jpg':('https://asialinkstravel.com/uploads/tours/slides/cai-be-eco-bike-tour-1-day-JeWB.jpg','Asia Links Travel — Cái Bè / Tân Phong cycling scene'),
+            '14-tat-muong.jpg':('https://mykhanh.com/files/images/tat-muong-bat-ca-my-khanh.jpg','Mỹ Khánh — tát mương bắt cá activity reference')
+          }
+          headers={'User-Agent':'TravelCompanion/1.0 (photo-source fetch for personal travel app)'}
+          def get(url):
+              req=urllib.request.Request(url,headers=headers)
+              with urllib.request.urlopen(req,timeout=45) as r:return r.read()
+          def save_jpeg(name,data):
+              im=Image.open(io.BytesIO(data)).convert('RGB')
+              im.thumbnail((1600,1600),Image.Resampling.LANCZOS)
+              im.save(out/name,'JPEG',quality=84,optimize=True,progressive=True)
+          sources=['# Cái Bè image sources','', 'Photos are intentionally mapped one-to-one; no HCMC or generic destination fallback is used for Cái Bè experience cards.','']
+          api='https://commons.wikimedia.org/w/api.php'
+          for name,title in commons.items():
+              qs=urllib.parse.urlencode({'action':'query','format':'json','prop':'imageinfo','iiprop':'url|extmetadata','titles':'File:'+title})
+              payload=json.loads(get(api+'?'+qs))
+              page=next(iter(payload['query']['pages'].values()))
+              if 'imageinfo' not in page: raise SystemExit(f'Commons file not found: {title}')
+              info=page['imageinfo'][0]; data=get(info['url']); save_jpeg(name,data)
+              meta=info.get('extmetadata',{})
+              author=re.sub('<[^>]+>','',meta.get('Artist',{}).get('value','Wikimedia Commons contributor')).replace('\n',' ').strip()
+              lic=meta.get('LicenseShortName',{}).get('value','See Commons source')
+              sources.append(f'- `{name}` — {title} — {author} — {lic} — https://commons.wikimedia.org/wiki/File:{urllib.parse.quote(title.replace(" ","_"),safe="()_,") }')
+          for name,(url,label) in direct.items():
+              save_jpeg(name,get(url)); sources.append(f'- `{name}` — {label} — {url}')
+          (out/'SOURCES.md').write_text('\n'.join(sources)+'\n',encoding='utf-8')
+
+          # Safety/acceptance checks.
+          if 'Dawn floating market' not in bank.read_text(encoding='utf-8'): raise SystemExit('Bank acceptance failed')
+          dur=(ROOT/'data/vietnam-duration-mekong-v1.js').read_text(encoding='utf-8')
+          for title in ['dawn floating market','sampan through nipa canals','đông hòa hiệp ancient village','ba đức ancient house','coconut candy','local islet ferry']:
+              if title not in dur.lower(): raise SystemExit('Duration acceptance failed: '+title)
+          if not all((out/f).exists() for f in ['01-floating-market.jpg','02-sampan.jpg','03-tan-phong-cycle.jpg','04-dong-hoa-hiep.jpg','05-ba-duc.jpg','06-ong-xoat.jpg','07-coconut-candy.jpg','08-cooking.jpg','09-banh-trang.jpg','10-church.jpg','13-ferry.jpg','14-tat-muong.jpg']):
+              raise SystemExit('Image acceptance failed')
+          PY
+      - name: Verify itinerary dates untouched
+        run: |
+          if ! git diff --quiet -- data/itinerary.json; then
+            echo 'Refusing commit: itinerary.json changed.'
+            git diff -- data/itinerary.json
+            exit 1
+          fi
+      - name: Commit completed patch and retire one-shot workflow
+        run: |
+          git config user.name 'Travel Companion Builder'
+          git config user.email 'actions@users.noreply.github.com'
+          git rm .github/workflows/cai-be-one-shot.yml
+          git add docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md docs/CAI_BE_THESE_DAYS_2027.md data/vietnam-duration-mekong-v1.js data/vietnam-live-v021.js data/vietnam-city-hub-v025.js data/vietnam-photo-alignment-v026.js index.html assets/images/cai-be
+          git diff --cached --check
+          git commit -m 'Update Cái Bè ranked two-day live plan'
+          git push origin HEAD:main
