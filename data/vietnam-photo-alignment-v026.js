@@ -380,6 +380,7 @@ window.hydrateVN=function(){
   else{el.classList.remove('loaded');el.dataset.photoVerified='false';el.dataset.label='PHOTO TO VERIFY'}
  });
  hydratePlaceHeroes();
+ [80,250,700].forEach(ms=>setTimeout(hydratePlaceHeroes,ms));
 };
 new MutationObserver(()=>hydratePlaceHeroes()).observe(document.documentElement,{childList:true,subtree:true});
 

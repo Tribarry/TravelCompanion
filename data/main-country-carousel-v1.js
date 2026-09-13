@@ -99,4 +99,11 @@ function enhance(){
 }
 const mo=new MutationObserver(()=>{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights();if(typeof window.hydratePlaceHeroes==='function')window.hydratePlaceHeroes()});mo.observe(document.documentElement,{childList:true,subtree:true});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights();if(typeof window.hydratePlaceHeroes==='function')window.hydratePlaceHeroes()});else{enhance();hydrateSaigonSpotlights();hydrateCaiBeSpotlights();if(typeof window.hydratePlaceHeroes==='function')window.hydratePlaceHeroes()}
+const prevHydrate=window.hydrateVN;
+window.hydrateVN=function(){
+ if(typeof prevHydrate==='function')prevHydrate();
+ const paint=()=>{if(typeof window.hydratePlaceHeroes==='function')window.hydratePlaceHeroes()};
+ paint();
+ [50,200,400,800,1400].forEach(ms=>setTimeout(paint,ms));
+};
 })();
