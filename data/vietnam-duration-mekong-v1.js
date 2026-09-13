@@ -22,7 +22,7 @@ const MAX_DAYS={'ho chi minh city':7};
 const PILLS={'ho chi minh city':[3,5,7]};
 const LABELS={
   'ho chi minh city':['Centre','Pink church & oddities','Height & night','River & street','VinWonders','Cần Giờ / Rừng Sác','Chợ Lớn extra'],
-  'cai be':['Island & overnight','Village & river']
+  'cai be':['River & village','House & island']
 };
 
 /* Hand-ranked day patterns. First match wins; leftover goes to Later. */
@@ -37,8 +37,8 @@ const HAND={
     [/chợ lớn|cho lon/,/bình tây|binh tay/,/củ chi|cu chi/]
   ],
   'cai be':[
-    [/tân phong cycling|tan phong cycling/,/sampan/,/garden-house overnight|heritage\/garden|family dinner/],
-    [/sunrise river|morning market/,/đông hòa|dong hoa|ba đức|ba duc/,/bánh tráng|banh trang|make cốm|make com/]
+    [/dawn floating|floating market/,/sampan/,/đông hòa|dong hoa/],
+    [/ba đức|ba duc/,/coconut candy|popped rice/,/islet ferry|local ferry/]
   ],
   'sa dec':[
     [/flower village/,/huỳnh thủy lê|huynh thuy le/,/cycling/],
@@ -269,5 +269,5 @@ async function boot(){
   };
 }
 boot();
-window.VN_DURATION_MEKONG={version:'2026-09-13-v1',inCluster,pack};
+window.VN_DURATION_MEKONG={version:'2026-09-13-cai-be',inCluster,pack};
 })();

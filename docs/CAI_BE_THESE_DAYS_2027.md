@@ -1,38 +1,32 @@
 # Cái Bè / Tân Phong — ranked 13 Sep 2026
 
-Locked bank stays whole. `itinerary.json` dates remain untouched.
+Locked bank is 12 cards. `itinerary.json` dates remain untouched.
 This is the These days cut from the Cái Bè ranking pass.
 
-## Must (4)
+## Must (3) — do these first
 
-- Tân Phong Island by Bicycle
-- Sampan Through the Orchard Canals
-- Sleep in a Mekong Garden House
-- Đông Hòa Hiệp Ancient Village
+- Dawn floating market
+- Sampan through nipa canals
+- Đông Hòa Hiệp ancient village
 
-## Keen (13)
+## Keen (3)
 
-- Cross the River on a Local Ferry
-- Ba Đức Ancient House
-- Ông Xoát Heritage House — access check
-- Make Cốm at a Family Workshop — household availability varies
-- Make Bánh Tráng
-- See Bánh Phồng Sữa Being Made — verify operating
-- Tát Mương Bắt Cá — arrange ahead; household and conditions dependent
-- Work an Orchard with a Local Family
-- Đờn Ca Tài Tử Evening — only if a real local performance is available
-- Sunrise on the Tiền River
-- Cái Bè Morning Market
-- Hammock Coffee in the Gardens
-- Family Dinner at the Homestay
+- Ba Đức ancient house (sleep here)
+- Coconut candy + popped rice
+- Local islet ferry
 
-## Pass (0)
+## Later (6)
 
-None. The ranking keeps the bank intact; the linked ferry, dinner and house stops stay as Keen because they are components of the two-day stay, not extra destination days.
+- Tát mương bắt cá
+- Tân Phong orchard cycle
+- Ông Xoát rường house
+- Home cooking class
+- Bánh tráng in the sun
+- Cái Bè Church on the Tiền
 
-## These days (geographic, 2 days)
+## These days (2 days, Must then Keen, 3/day)
 
-1. **Island & overnight** — local ferry, Tân Phong cycling and orchard-canal sampan; sleep in a garden house and have dinner with the host.
-2. **Village & river** — sunrise or the morning market; Đông Hòa Hiệp with Ba Đức if open; one working food workshop, preferably bánh tráng or cốm.
+1. **River & village** — dawn floating market, sampan through nipa canals, Đông Hòa Hiệp ancient village.
+2. **House & island** — sleep at Ba Đức, coconut candy + popped rice, local islet ferry.
 
-Everything else is Later. Do not stretch the stay just to tick every workshop or household novelty.
+Everything else stays Later. Do not stretch the stay just to tick workshops.

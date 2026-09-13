@@ -230,9 +230,35 @@ async function mappedPhoto(q,maps){
  for(const [rx,title] of maps){if(rx.test(q)){const u=await summaryPhoto(title);if(u)return u}}
  return '';
 }
+
+const CAIBE_LOCAL=[
+ [/dawn floating/i,'assets/images/cai-be/01-floating-market.jpg'],
+ [/sampan through|nipa canals/i,'assets/images/cai-be/02-sampan.jpg'],
+ [/tân phong orchard|tan phong orchard|tân phong cycling|tan phong cycling/i,'assets/images/cai-be/03-tan-phong-cycle.jpg'],
+ [/đông hòa hiệp|dong hoa hiep/i,'assets/images/cai-be/04-dong-hoa-hiep.jpg'],
+ [/ba đức|ba duc/i,'assets/images/cai-be/05-ba-duc.jpg'],
+ [/ông xoát|ong xoat|ông xoat|ong xoát/i,'assets/images/cai-be/06-ong-xoat.jpg'],
+ [/coconut candy|popped rice/i,'assets/images/cai-be/07-coconut-candy.jpg'],
+ [/home cooking class/i,'assets/images/cai-be/08-cooking.jpg'],
+ [/bánh tráng|banh trang/i,'assets/images/cai-be/09-banh-trang.jpg'],
+ [/cái bè church|cai be church|church on the tiền|church on the tien/i,'assets/images/cai-be/10-church.jpg'],
+ [/islet ferry|local islet ferry/i,'assets/images/cai-be/13-ferry.jpg'],
+ [/tát mương|tat muong/i,'assets/images/cai-be/14-tat-muong.jpg']
+];
+function caiBePhoto(q,currentName){
+ const dest=String(currentName||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
+ const here=/cai be|tan phong/.test(dest);
+ const title=String(q||'');
+ if(/cái bè \/ tân phong|^cái bè$|^cai be$/i.test(title.trim())) return 'assets/images/cai-be/01-floating-market.jpg';
+ if(!here && !/cái bè|cai be|tân phong|tan phong|đông hòa|dong hoa|ba đức|ba duc|ông xoát|ong xoat|tát mương|tat muong/.test(title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d'))) return '';
+ for(const [rx,u] of CAIBE_LOCAL){if(rx.test(title))return u}
+ return '';
+}
+
 async function relevantPhoto(q,currentName){
  const qn=String(q||'').trim();
  if(!qn)return '';
+ const cai=caiBePhoto(qn,currentName); if(cai)return cai;
  /* Place identity outranks dish matching: Phong Nha must never resolve through\n    the similarly spelled Phở manifest entry. */
  if(/phong\\s+nha/i.test(qn))return summaryPhoto('Phong Nha-Kẻ Bàng National Park');
  if(Object.prototype.hasOwnProperty.call(DEST,qn))return destinationPhoto(qn);
