@@ -215,7 +215,7 @@
         },
         'tra su':{
           keep:['tra su boat journey','observation tower','bamboo walkway','birds of the cajuput','dry season forest','forest boardwalk','lotus wetlands','ca loc nuong trui','thot not','duckweed carpet'],
-          must:[]
+          must:['tra su boat journey','observation tower','bamboo walkway']
         }
       };
       const destN=n(d.name);
