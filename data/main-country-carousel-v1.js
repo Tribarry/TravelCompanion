@@ -31,7 +31,7 @@ if(!document.querySelector('script[data-laos-audited-structure]')){
  const p=document.createElement('script');p.src='data/laos-audited-structure-v1.js?v=20260912-la1';p.dataset.laosAuditedStructure='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-remaining-country-photo-audit]')){
- const p=document.createElement('script');p.src='data/remaining-countries-photo-audit-v1.js?v=20260913-heroes2';p.dataset.remainingCountryPhotoAudit='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/remaining-countries-photo-audit-v1.js?v=20260913-heroes3';p.dataset.remainingCountryPhotoAudit='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-remaining-photo-bridge]')){
  const p=document.createElement('script');p.src='data/remaining-countries-photo-bridge-v1.js?v=20260912-rpb1';p.dataset.remainingPhotoBridge='1';document.head.appendChild(p);
@@ -66,10 +66,10 @@ const COPY={
 };
 const ORDER=['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan'];
 const CAROUSEL_PHOTOS={
- cambodia:'assets/images/countries/cambodia.jpg',
+ cambodia:'assets/images/countries/cambodia.jpg?v=20260913-heroes3',
  thailand:'assets/images/countries/thailand.jpg',
- kazakhstan:'assets/images/countries/kazakhstan.jpg',
- kyrgyzstan:'assets/images/countries/kyrgyzstan.jpg',
+ kazakhstan:'assets/images/countries/kazakhstan.jpg?v=20260913-heroes3',
+ kyrgyzstan:'assets/images/countries/kyrgyzstan.jpg?v=20260913-heroes3',
  teaching:'assets/images/countries/cambodia-teaching.jpg'
 };
 const SAIGON_SPOTLIGHT_PHOTOS={
