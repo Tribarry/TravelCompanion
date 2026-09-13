@@ -25,13 +25,13 @@ const SRC={
  ironBridge:S(commons('Chỗ cầu sắt Sa Đéc.jpg'),'Iron bridge site, Sa Đéc'),
  nightMarket:S(commons('Sa Dec Night Market in the night 02.jpg'),'Sa Đéc night market'),
  brickKilns:S(commons('Briqueteries (région de Sa Dec, Vietnam) (6662960297).jpg'),'Brick kilns in the Sa Đéc region'),
- farmer:S('https://cdn.insidevina.com/news/photo/202001/12343_13025_5616.jpg','Flower grower tending plants in Sa Đéc before Tết'),
- preTet:S('https://kampatour.com/pic/blog/images/Sa%20Dec%208%282%29.jpg','Sa Đéc growers wrapping flowers for transport before Tết'),
- flowerRoad:S('https://cdn2.tuoitre.vn/thumb_w/730/tto/i/s626//2015/01/13/CHKalqMD.jpg','Grower beside Sa Nhiên–Cái Dao Flower Road, Sa Đéc'),
- vegetarian:S('https://thanhnien.mediacdn.vn/uploaded/thanhthuy/2018_10_28/hutieuchay8_KTQC.jpg?width=500','Vegetarian Sa Đéc-style hủ tiếu'),
- coffee:S('https://gcs.tripi.vn/public-tripi/tripi-feed/img/474257tkO/p-coffee-1139203.jpg','Coffee shop in Sa Đéc'),
- huTieu:S('https://mekongsen.vn/datafiles/1989319905715032064/2025-11/1763202012-28617054-hu-tieu-sa-dec-3.png','Hủ tiếu Sa Đéc'),
- banhTamBi:S('https://timtour.vn/files/images/AnGiNgon/banh-tam-bi-2.jpg','Bánh tằm bì')
+ farmer:S('assets/images/generated/remote/12343-13025-5616-f215155d-480.webp','Flower grower tending plants in Sa Đéc before Tết'),
+ preTet:S('assets/images/generated/remote/sa-dec-8-2-58ef39ed-800.webp','Sa Đéc growers wrapping flowers for transport before Tết'),
+ flowerRoad:S('assets/images/generated/remote/chkalqmd-b727dbcf-480.webp','Grower beside Sa Nhiên–Cái Dao Flower Road, Sa Đéc'),
+ vegetarian:S('assets/images/generated/remote/hutieuchay8-ktqc-5930b7b6-1600.webp','Vegetarian Sa Đéc-style hủ tiếu'),
+ coffee:S('assets/images/generated/remote/p-coffee-1139203-73e3718e-800.webp','Coffee shop in Sa Đéc'),
+ huTieu:S('assets/images/generated/remote/1763202012-28617054-hu-tieu-sa-dec-3-b2459890-800.webp','Hủ tiếu Sa Đéc'),
+ banhTamBi:S('assets/images/generated/remote/banh-tam-bi-2-51023253-800.webp','Bánh tằm bì')
 };
 window.VN_SA_DEC_PHOTO_SOURCES=SRC;
 

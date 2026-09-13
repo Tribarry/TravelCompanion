@@ -4,7 +4,7 @@ const chapters={
  laos:{n:'02',flag:'🇱🇦',name:'LAOS',meta:'SLOW TRAVEL · NEXT CHAPTER',facts:['LUANG PRABANG TO ATTAPEU','GIBBON EXPERIENCE','RIVERS, JUNGLE & LOOPS','LOCAL LIFE & WILDLIFE'],image:'assets/images/generated/remote/photo-1500530855697-b586d89ba3ee-ba73f954-1600.webp'},
  cambodia:{n:'03',flag:'🇰🇭',name:'CAMBODIA',meta:'TRAVEL · LIVE · TEACH',facts:['ANGKOR & KHMER CULTURE','KOH RONG ISLAND TIME','KAMPOT & KEP','TEACHING CHAPTER'],image:'assets/images/generated/remote/photo-1562602833-0f4ab2fc46e3-b5305e41-1600.webp'},
  thailand:{n:'04',flag:'🇹🇭',name:'THAILAND',meta:'JUNE · TESOL CHAPTER',facts:['BANGKOK','NORTHERN THAILAND','TESOL TRAINING','ISLANDS & FOOD'],image:'assets/images/generated/remote/photo-1598970605070-a38a6ccd3a2d-dca2b1ab-1600.webp'},
- kazakhstan:{n:'05',flag:'🇰🇿',name:'KAZAKHSTAN',meta:'JULY · CENTRAL ASIA',facts:['ALMATY','KOLSAI LAKES','KAINDY LAKE','CHARYN CANYON'],image:'https://putidorogi-nn.ru/images/stories/aziya/kazahstan/kazahstan_2.jpg'},
+ kazakhstan:{n:'05',flag:'🇰🇿',name:'KAZAKHSTAN',meta:'JULY · CENTRAL ASIA',facts:['ALMATY','KOLSAI LAKES','KAINDY LAKE','CHARYN CANYON'],image:'assets/images/generated/remote/kazahstan-2-c613451a-800.webp'},
  kyrgyzstan:{n:'06',flag:'🇰🇬',name:'KYRGYZSTAN',meta:'30 JUL – 12 AUG · HORSE TREK',facts:['SONG-KÖL','TIAN SHAN','HORSE TREKKING','YURTS & MOUNTAIN LIFE'],image:'assets/images/generated/remote/photo-1500534314209-a25ddb2bd429-94319b7a-1600.webp'}
 };
 const ids=['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan'];

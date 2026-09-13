@@ -15,14 +15,14 @@ window.VN_PHOTO_MANIFEST={
     "local": "assets/images/generated/vietnam-resolved/a-shau-valley-6583f2e5-1600.webp"
   },
   "Ban Gioc–Detian Falls": {
-    "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Bangioc9tam.jpg/3840px-Bangioc9tam.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "source": "assets/images/generated/remote/3840px-bangioc9tam-95015e0e-1600.webp",
     "original": "assets/images/originals/vietnam-resolved/ban-gioc-detian-falls-8d352e91.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
     "local": "assets/images/generated/vietnam-resolved/ban-gioc-detian-falls-8d352e91-1600.webp"
   },
   "Bánh mì": {
-    "source": "https://upload.wikimedia.org/wikipedia/commons/0/0c/B%C3%A1nh_m%C3%AC_th%E1%BB%8Bt_n%C6%B0%E1%BB%9Bng.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "source": "assets/images/generated/remote/ba-nh-mi-thi-t-nu-o-ng-f386547e-800.webp",
     "original": "assets/images/originals/vietnam-resolved/ba-nh-mi-ccce5556.png",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
@@ -71,7 +71,7 @@ window.VN_PHOTO_MANIFEST={
     "local": "assets/images/generated/vietnam-resolved/ba-nh-ca-n-50bc107a-1600.webp"
   },
   "Bò kho": {
-    "source": "https://upload.wikimedia.org/wikipedia/commons/9/99/Kho.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "source": "assets/images/generated/remote/kho-4a9b9bf8-480.webp",
     "original": "assets/images/originals/vietnam-resolved/bo-kho-03f88108.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
@@ -99,7 +99,7 @@ window.VN_PHOTO_MANIFEST={
     "local": "assets/images/generated/vietnam-resolved/bu-n-rie-u-ded2d682-1600.webp"
   },
   "Bạc Liêu": {
-    "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/B%E1%BA%A1c_Li%C3%AAu_skyline.jpg/3840px-B%E1%BA%A1c_Li%C3%AAu_skyline.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "source": "assets/images/generated/remote/3840px-ba-c-lie-u-skyline-5e1e8d89-1600.webp",
     "original": "assets/images/originals/vietnam-resolved/ba-c-lie-u-72223e4e.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
@@ -148,7 +148,7 @@ window.VN_PHOTO_MANIFEST={
     "local": "assets/images/generated/vietnam-resolved/cholon-ho-chi-minh-city-48b6f8fd-1600.webp"
   },
   "Christ of Vũng Tàu": {
-    "source": "https://upload.wikimedia.org/wikipedia/commons/7/75/Statue_of_Jesus_in_Vung_Tau.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "source": "assets/images/generated/remote/statue-of-jesus-in-vung-tau-96e2e9d6-1600.webp",
     "original": "assets/images/originals/vietnam-resolved/christ-of-vu-ng-ta-u-3b7493a2.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
@@ -239,7 +239,7 @@ window.VN_PHOTO_MANIFEST={
     "local": "assets/images/generated/vietnam-resolved/cu-chi-tunnels-a1413e72-1600.webp"
   },
   "Da Lat": {
-    "source": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Xuan_Huong_Lake_11.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+    "source": "assets/images/generated/remote/xuan-huong-lake-11-3b989f7a-1600.webp",
     "original": "assets/images/originals/vietnam-resolved/da-lat-59192f86.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",
@@ -470,7 +470,7 @@ window.VN_PHOTO_MANIFEST={
     "local": "assets/images/generated/vietnam-resolved/long-bie-n-bridge-062ad6ce-1600.webp"
   },
   "Long Xuyên": {
-    "source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Trung_t%C3%A2m_Long_Xuy%C3%AAn.jpg/3840px-Trung_t%C3%A2m_Long_Xuy%C3%AAn.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "source": "assets/images/generated/remote/3840px-trung-ta-m-long-xuye-n-76249662-1600.webp",
     "original": "assets/images/originals/vietnam-resolved/long-xuye-n-0eccab0e.jpg",
     "licenseStatus": "TO CHECK",
     "attributionStatus": "TO CHECK",

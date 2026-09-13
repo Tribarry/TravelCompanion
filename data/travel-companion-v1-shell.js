@@ -22,7 +22,7 @@ const COUNTRY_IMAGES={
  laos:'assets/images/generated/remote/photo-1500530855697-b586d89ba3ee-ba73f954-1600.webp',
  cambodia:'assets/images/generated/remote/photo-1562602833-0f4ab2fc46e3-b5305e41-1600.webp',
  thailand:'assets/images/generated/remote/photo-1598970605070-a38a6ccd3a2d-dca2b1ab-1600.webp',
- kazakhstan:'https://putidorogi-nn.ru/images/stories/aziya/kazahstan/kazahstan_2.jpg',
+ kazakhstan:'assets/images/generated/remote/kazahstan-2-c613451a-800.webp',
  kyrgyzstan:'assets/images/generated/remote/photo-1500534314209-a25ddb2bd429-94319b7a-1600.webp'
 };
 const MAIN_COVER_IMAGE='assets/images/generated/remote/photo-1559592413-7cec4d0cae2b-38f74c54-1600.webp';

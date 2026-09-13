@@ -13,10 +13,10 @@ const commons=file=>`https://commons.wikimedia.org/wiki/Special:Redirect/file/${
 const SRC={
  hero:commons('Làng hoa Tân Quy Đông.jpg'),
  cycle:commons('Vườn hoa ở Tân Quy Đông.jpg'),
- coffee:'https://gcs.tripi.vn/public-tripi/tripi-feed/img/474257tkO/p-coffee-1139203.jpg',
- huTieu:'https://mekongsen.vn/datafiles/1989319905715032064/2025-11/1763202012-28617054-hu-tieu-sa-dec-3.png',
- banhTamBi:'https://timtour.vn/files/images/AnGiNgon/banh-tam-bi-2.jpg',
- vegetarian:'https://thanhnien.mediacdn.vn/uploaded/thanhthuy/2018_10_28/hutieuchay8_KTQC.jpg?width=500'
+ coffee:'assets/images/generated/remote/p-coffee-1139203-73e3718e-800.webp',
+ huTieu:'assets/images/generated/remote/1763202012-28617054-hu-tieu-sa-dec-3-b2459890-800.webp',
+ banhTamBi:'assets/images/generated/remote/banh-tam-bi-2-51023253-800.webp',
+ vegetarian:'assets/images/generated/remote/hutieuchay8-ktqc-5930b7b6-1600.webp'
 };
 window.VN_SA_DEC_V3_PHOTO_SOURCES={
  hero:{url:SRC.hero,note:'Tân Quy Đông flower village, Sa Đéc',licenseStatus:'TO CHECK',attributionStatus:'TO CHECK'},

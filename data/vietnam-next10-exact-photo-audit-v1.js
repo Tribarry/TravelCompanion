@@ -23,13 +23,13 @@ const SOURCES={
  taPa:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/N%C3%BAi%20T%C3%A0%20p%E1%BA%A1%2C%20tri%20ton%20-An%20giang%2C%20Vietnam%20-%20panoramio.jpg?width=1600','https://commons.wikimedia.org/wiki/File:N%C3%BAi_T%C3%A0_p%E1%BA%A1,_tri_ton_-An_giang,_Vietnam_-_panoramio.jpg','Tà Pạ, Tri Tôn'),
  thachDong:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/Thachdong.jpg?width=1600','https://commons.wikimedia.org/wiki/File:Thachdong.jpg','Thạch Động, Hà Tiên'),
  daDung:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/Trong%20hang%20n%C3%BAi%20%C4%90%C3%A1%20D%E1%BB%B1ng.jpg?width=1600','https://commons.wikimedia.org/wiki/File:Trong_hang_n%C3%BAi_%C4%90%C3%A1_D%E1%BB%B1ng.jpg','Đá Dựng cave, Hà Tiên'),
- ghositaram:S('https://thamhiemmekong.com/wp-content/uploads/2020/04/chuaGhositaram01.jpg','https://thamhiemmekong.com/thong-tin-du-lich-mien-tay/van-canh-chua-ghositaram-bac-lieu.html','Ghositaram Pagoda, Bạc Liêu'),
+ ghositaram:S('assets/images/generated/remote/chuaghositaram01-d5f8c9f3-1600.webp','https://thamhiemmekong.com/thong-tin-du-lich-mien-tay/van-canh-chua-ghositaram-bac-lieu.html','Ghositaram Pagoda, Bạc Liêu'),
  vinhLong:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/V%C4%A9nh%20Long%20b%C3%AAn%20s%C3%B4ng%20C%E1%BB%95%20Chi%C3%AAn.jpg?width=1600','https://commons.wikimedia.org/wiki/File:V%C4%A9nh_Long_b%C3%AAn_s%C3%B4ng_C%E1%BB%95_Chi%C3%AAn.jpg','Vĩnh Long beside the Cổ Chiên River'),
- khamDuc:S('https://bqn.1cdn.vn/2024/02/11/tnb-62411.jpg','https://baodanang.vn/quy-hoach-do-thi-mien-nui-3129831.html','Khâm Đức mountain town, Phước Sơn'),
- prao:S('https://bqn.1cdn.vn/2024/05/06/z5288162023590_a3991b3406e32cee5b81b61d81f057fe.jpg','https://baodanang.vn/quang-nam-phe-duyet-dieu-chinh-cuc-bo-quy-hoach-chung-do-thi-prao-dong-giang-3134138.html','Prao town, Đông Giang'),
+ khamDuc:S('assets/images/generated/remote/tnb-62411-de904771-1600.webp','https://baodanang.vn/quy-hoach-do-thi-mien-nui-3129831.html','Khâm Đức mountain town, Phước Sơn'),
+ prao:S('assets/images/generated/remote/z5288162023590-a3991b3406e32cee5b81b61d81f057fe-fc780c39-1600.webp','https://baodanang.vn/quang-nam-phe-duyet-dieu-chinh-cuc-bo-quy-hoach-chung-do-thi-prao-dong-giang-3134138.html','Prao town, Đông Giang'),
  haiVan:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/The%20H%E1%BA%A3i%20V%C3%A2n%20Pass%2C%20Vietnam%20%287090608927%29.jpg?width=1600','https://commons.wikimedia.org/wiki/File:The_H%E1%BA%A3i_V%C3%A2n_Pass,_Vietnam_(7090608927).jpg','Hải Vân Pass roadway'),
  muCangChai:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/Mu%20Cang%20Chai.jpg?width=1600','https://commons.wikimedia.org/wiki/File:Mu_Cang_Chai.jpg','Mù Cang Chải rice terraces'),
- yTy:S('https://cdn.baophapluat.vn/w1280/uploaded/nguyenvanhai/2024_12_24/z6131918901057-005a512adb26baefcd5e349456253b36-6010.jpg','https://baophapluat.vn/bien-may-huyen-ao-tren-vung-cao-y-ty-bat-xat-lao-cai-post535950.html','Y Tý highland village, Lào Cai')
+ yTy:S('assets/images/generated/remote/z6131918901057-005a512adb26baefcd5e349456253b36-6010-9f696daa-800.webp','https://baophapluat.vn/bien-may-huyen-ao-tren-vung-cao-y-ty-bat-xat-lao-cai-post535950.html','Y Tý highland village, Lào Cai')
 };
 window.VN_NEXT10_AUDITED_PHOTO_SOURCES=SOURCES;
 function setBg(el,url,spotlight=false){

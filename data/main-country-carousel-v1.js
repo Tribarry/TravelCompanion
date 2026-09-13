@@ -65,7 +65,7 @@ const ORDER=['vietnam','laos','cambodia','thailand','kazakhstan','kyrgyzstan'];
 const CAROUSEL_PHOTOS={
  kazakhstan:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Charyn%20Canyon%2C%20Kazakhstan%2004.jpg',
  kyrgyzstan:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Ala-Kul%20lake.jpg',
- teaching:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Phnom%20Penh%20sunset.jpg'
+ teaching:'assets/images/generated/remote/phnom-penh-sunset-05752df5-1600.webp'
 };
 const SAIGON_SPOTLIGHT_PHOTOS={
  'War Remnants Museum':'https://commons.wikimedia.org/wiki/Special:Redirect/file/War%20Remnants%20Museum.jpg',

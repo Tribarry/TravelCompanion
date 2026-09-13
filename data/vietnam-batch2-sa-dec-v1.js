@@ -31,8 +31,8 @@ const SRC={
  brickKilns:S(commons('Briqueteries (région de Sa Dec, Vietnam) (6662960297).jpg'),'Brick kilns in the Sa Đéc region'),
  temple:S(commons('Dai le vesak sa dec.JPG'),'Buddhist observance in Sa Đéc'),
  caLoc:S(commons('Cá lóc nướng trui.JPG'),'Cá lóc nướng trui'),
- banhTamBi:S('https://timtour.vn/files/images/AnGiNgon/banh-tam-bi-2.jpg','Bánh tằm bì'),
- lauMam:S('https://kenh14cdn.com/203336854389633024/2023/1/4/photo-3-16727997043171480871231.jpg','Lẩu mắm')
+ banhTamBi:S('assets/images/generated/remote/banh-tam-bi-2-51023253-800.webp','Bánh tằm bì'),
+ lauMam:S('assets/images/generated/remote/photo-3-16727997043171480871231-ce51a054-800.webp','Lẩu mắm')
 };
 window.VN_SA_DEC_PHOTO_SOURCES=SRC;
 

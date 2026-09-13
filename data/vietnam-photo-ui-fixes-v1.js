@@ -11,15 +11,15 @@ const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u03
 const S=(url,note)=>({url,note,licenseStatus:'TO CHECK',attributionStatus:'TO CHECK'});
 
 const SOURCES={
- ongXoat:S('https://cdn.tienphong.vn/images/b475a32f866f7ecc2f73fa6d54bae9a3126ff708335ad5fdc9523418cf1810577141fbaf90c21c5fa544c5a265f088c9d8da29cae154bfe3a0ddeeba01cb488d0f63c5d097a9c02b2a634bbc1daeabfcf55f4d4cf291e10c38303c5c973ba32b/z7308696837209-fb1338b257e7d428c6ea1105895f2394.jpg','Nhà cổ Ông Xoát, Cái Bè'),
- comWorkshop:S('https://hd1.hotdeal.vn/images/uploads/2015/11/25/206095/206095-tour-cai-be-cho-noi-body-%20%289%29.jpg','Cái Bè rice-snack / pop-rice workshop'),
- banhPhongSua:S('https://mia.vn/media/uploads/blog-du-lich/banh-phong-sua-ben-tre-vi-ngot-ngao-tu-san-vat-thien-nhien-3-1664889359.jpg','Bánh phồng sữa drying process'),
- tatMuong:S('https://thanhnienmoi.com/upload/images/vuon-trai-cay-ba-hiep-can-tho-07.jpg','Mekong tát mương bắt cá activity'),
- hammock:S('https://cms.vietnamcoracle.com/wp-content/uploads/2023/05/Hammock-Ode-71-scaled.jpg','Mekong hammock café'),
- familyDinner:S('https://izitour.com/media/ckeditor/dormir-chez-habitant-delta-du-mekong_2026-04-22_413.webp','Mekong homestay family dinner'),
+ ongXoat:S('assets/images/generated/remote/z7308696837209-fb1338b257e7d428c6ea1105895f2394-f2af9d02-1600.webp','Nhà cổ Ông Xoát, Cái Bè'),
+ comWorkshop:S('assets/images/generated/remote/206095-tour-cai-be-cho-noi-body-9-3537d051-480.webp','Cái Bè rice-snack / pop-rice workshop'),
+ banhPhongSua:S('assets/images/generated/remote/banh-phong-sua-ben-tre-vi-ngot-ngao-tu-san-vat-thien-nhien-3-166488935-678bc925-800.webp','Bánh phồng sữa drying process'),
+ tatMuong:S('assets/images/generated/remote/vuon-trai-cay-ba-hiep-can-tho-07-eecbf6e4-480.webp','Mekong tát mương bắt cá activity'),
+ hammock:S('assets/images/generated/remote/hammock-ode-71-scaled-77058ec5-1600.webp','Mekong hammock café'),
+ familyDinner:S('assets/images/generated/remote/dormir-chez-habitant-delta-du-mekong-2026-04-22-413-cbcbcbbf-800.webp','Mekong homestay family dinner'),
  caLoc:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/C%C3%A1%20l%C3%B3c%20n%C6%B0%E1%BB%9Bng%20trui.JPG?width=1400','Cá lóc nướng trui'),
- banhTamBi:S('https://timtour.vn/files/images/AnGiNgon/banh-tam-bi-2.jpg','Bánh tằm bì'),
- lauMam:S('https://statics.vinpearl.com/Lau-mam-02_1709226532.jpg','Lẩu mắm'),
+ banhTamBi:S('assets/images/generated/remote/banh-tam-bi-2-51023253-800.webp','Bánh tằm bì'),
+ lauMam:S('assets/images/generated/remote/lau-mam-02-1709226532-72bf1ae9-800.webp','Lẩu mắm'),
  tanPhong:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/T%C3%A2n%20Phong%2C%20Cai%20L%E1%BA%ADy%2C%20Ti%E1%BB%81n%20Giang%2C%20Vietnam%20-%20panoramio%20%2821%29.jpg?width=1400','Tân Phong Island'),
  water:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/Vietnam%2008%20-%20118%20-%20Cai%20Be%20on%20the%20water%20%283185052919%29.jpg?width=1400','Cái Bè waterways'),
  ferry:S('https://commons.wikimedia.org/wiki/Special:Redirect/file/Bateaux%20de%20transport%20%28Cai%20Be%2C%20Vietnam%29%20%286654160317%29.jpg?width=1400','Cái Bè local river transport'),
@@ -59,9 +59,9 @@ const FOOD={
  'ca loc nuong trui':SOURCES.caLoc.url,
  'banh tam bi':SOURCES.banhTamBi.url,
  'lau mam':SOURCES.lauMam.url,
- 'bun ca': 'https://vietcruisetours.com/uploads/news/2014/5.2.jpg',
- 'bun mam': 'https://image-fworker.momocdn.net/common/u/2e02fb5fe4f64fb55bc713540643c6f8eae702d101cea8c59afc49cfc505fc37/92315567-47fc-44dc-bb1c-826fe55126e1624ybmae.jpeg?referer=attachment.momocdn.net&size=XL',
- 'bun nuoc leo': 'https://bizweb.dktcdn.net/100/489/006/files/bun-nuoc-leo-8-e02e941e-3713-4b4b-b594-43a7e4d7f8e2.jpg?v=1697719214502'
+ 'bun ca': 'assets/images/generated/remote/5-2-6f6a4151-800.webp',
+ 'bun mam': 'assets/images/generated/remote/92315567-47fc-44dc-bb1c-826fe55126e1624ybmae-a7cc5047-800.webp',
+ 'bun nuoc leo': 'assets/images/generated/remote/bun-nuoc-leo-8-e02e941e-3713-4b4b-b594-43a7e4d7f8e2-7268595c-800.webp'
 };
 
 function currentDestination(){return norm(document.querySelector('.tc1DestBody h1')?.textContent||'')}
