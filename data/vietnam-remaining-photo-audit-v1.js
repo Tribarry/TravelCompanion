@@ -78,7 +78,28 @@ async function resolveElement(el){
  if(!el||el.dataset.photoVerified==='true')return;const card=el.closest('.tc1Exp,.tc1Pass,.vnResult,.tc1Place,.tc1SpotlightCard,.tc1SpotlightHero'),label=el.dataset.vnimg||el.dataset.label||card?.querySelector('h3,b')?.textContent||'';if(!label)return;
  let d=destinationName();if(card?.classList.contains('tc1Place'))d=card.querySelector('h3')?.textContent||d;const remote=remoteFor(label,d);if(remote){setBg(el,remote.url);return}const local=await localFor(label);if(local){setBg(el,local);return}el.dataset.photoVerified='false';el.dataset.label='PHOTO TO VERIFY';
 }
-async function hydrate(){if(!inRemainingScope())return;const nodes=[...document.querySelectorAll('[data-vnimg],.vnPhotoVerify,.tc1ExpPhoto.vnFallback,.tc1PassPhoto.vnFallback,.tc1PlacePhoto.vnFallback,.tc1SpotlightHero.vnFallback,.tc1SpotlightCard.vnFallback')];for(const el of nodes)await resolveElement(el)}
+function photoLockNodes(){return [...document.querySelectorAll('.tc1DestHero,.tc1ExpPhoto,.tc1PassPhoto,.tc1PlacePhoto,.tc1SpotlightHero,.tc1SpotlightCard')]}
+function verifyLocked(el){
+ if(!el)return;
+ el.dataset.photoLocked='1';el.dataset.photoVerified='false';el.dataset.label='PHOTO TO VERIFY';
+ el.style.setProperty('background-image','none','important');el.classList.remove('loaded');
+}
+function applyPhotoLock(){
+ const d=norm(destinationName());
+ const locked=['phu quoc','con dao','dong xoai binh phuoc','gia nghia dak nong','da lat','buon ma thuot dak lak','yok don buon don','lak lake','pleiku gia lai','kon tum','mang den','kham duc phuoc son'];
+ if(!locked.includes(d))return;
+ const nodes=photoLockNodes();
+ /* Khâm Đức has no accepted exact imagery yet. */
+ if(d==='kham duc phuoc son'){nodes.forEach(verifyLocked);return}
+ const seen=new Set();
+ nodes.forEach(el=>{
+  const bg=getComputedStyle(el).backgroundImage||'';
+  const hit=bg.match(/url\(["']?(.+?)["']?\)/)?.[1]||'';
+  if(!hit)return;
+  if(seen.has(hit))verifyLocked(el);else seen.add(hit);
+ });
+}
+async function hydrate(){if(!inRemainingScope())return;const nodes=[...document.querySelectorAll('[data-vnimg],.vnPhotoVerify,.tc1ExpPhoto.vnFallback,.tc1PassPhoto.vnFallback,.tc1PlacePhoto.vnFallback,.tc1SpotlightHero.vnFallback,.tc1SpotlightCard.vnFallback')];for(const el of nodes)if(el.dataset.photoLocked!=='1')await resolveElement(el);applyPhotoLock()}
 async function report(){
  await (window.VN_LIVE_READY||Promise.resolve());const m=await manifest(),list=window.DATA?.destinations?.vietnam||[],rows=[];for(let i=13;i<list.length;i++){const d=list[i],items=(typeof window.vnBaseItems==='function'?window.vnBaseItems({c:{id:'vietnam'},d,i,id:'vietnam-'+i}):(d.experiences||[]).map((e,j)=>({title:e.name||e.title,id:e.id||j})));let verified=0;const unresolved=[];for(const it of items){const title=it.title||it.name||'',r=remoteFor(title,d.name),l=r?'':await localFor(title);if(r||l)verified++;else unresolved.push(title)}rows.push({index:i,destination:d.name,total:items.length,verified,unresolved:unresolved.length,unresolvedTitles:unresolved})}
  return {scope:'Vietnam destinations after Nam Du',manifestEntries:Object.keys(m||{}).length,total:rows.reduce((n,r)=>n+r.total,0),verified:rows.reduce((n,r)=>n+r.verified,0),unresolved:rows.reduce((n,r)=>n+r.unresolved,0),rows};
