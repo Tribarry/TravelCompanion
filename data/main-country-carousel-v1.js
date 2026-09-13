@@ -51,7 +51,7 @@ if(!document.querySelector('script[data-adhd-focus]')){
 }
 /* ADHD-first country route map — Vietnam first */
 if(!document.querySelector('script[data-country-route-map]')){
- const p=document.createElement('script');p.src='data/country-route-map-v1.js?v=20260912-map3';p.dataset.countryRouteMap='1';document.head.appendChild(p);
+ const p=document.createElement('script');p.src='data/country-route-map-v1.js?v=20260913-mapbg';p.dataset.countryRouteMap='1';document.head.appendChild(p);
 }
 if(!document.querySelector('script[data-mekong-closeup]')){
  const p=document.createElement('script');p.src='data/mekong-closeup-v1.js?v=20260912-mekong1';p.dataset.mekongCloseup='1';document.head.appendChild(p);
