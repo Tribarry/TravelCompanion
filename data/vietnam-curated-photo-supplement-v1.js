@@ -6,7 +6,7 @@
 'use strict';
 if(window.__VN_CURATED_PHOTO_SUPPLEMENT_V1__)return;window.__VN_CURATED_PHOTO_SUPPLEMENT_V1__=true;
 const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/[^a-z0-9]+/g,' ').trim();
-const C=(file,sourcePage,subject)=>({url:'https://commons.wikimedia.org/wiki/Special:Redirect/file/'+encodeURIComponent(file),sourcePage,subject,licenseStatus:'COMMONS — CHECK FILE PAGE',attributionStatus:'SOURCE PAGE SAVED'});
+const C=(file,sourcePage,subject)=>{const url='https://commons.wikimedia.org/wiki/Special:Redirect/file/'+encodeURIComponent(file);return {url:window.TC_LOCAL_IMAGE_URLS?.[url]||url,sourcePage,subject,licenseStatus:'COMMONS — CHECK FILE PAGE',attributionStatus:'SOURCE PAGE SAVED'}};
 const R=(url,sourcePage,subject)=>({url,sourcePage,subject,licenseStatus:'TO CHECK',attributionStatus:'SOURCE PAGE SAVED'});
 const RULES=[
  {d:/vinh long|mang thit/,q:/brick kiln|kiln kingdom|kiln country|brick pottery|old kiln/,p:C('Lò gạch Mang Thít Vĩnh Long.jpg','https://commons.wikimedia.org/wiki/File:Lò_gạch_Mang_Thít_Vĩnh_Long.jpg','Brick kiln in Mang Thít, Vĩnh Long')},
