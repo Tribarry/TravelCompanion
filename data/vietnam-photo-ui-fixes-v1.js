@@ -151,7 +151,7 @@ function hydrateNextTenFood(){
  document.querySelectorAll('.tc1FoodPass').forEach(card=>{const dish=card.querySelector('h3')?.textContent||'';if(norm(dish)!=='banh xeo')return;const url=sourceForFood(dish);if(url)ensureFoodPhoto(card,url,dish)});
 }
 function hydrateNextTenPlaces(){
- const chauDoc='https://commons.wikimedia.org/wiki/Special:Redirect/file/Chau%20Doc%20Floating%20Village.jpg?width=1600';
+ const chauDoc='assets/images/destinations/chau-doc.jpg';
  document.querySelectorAll('.tc1Place').forEach(card=>{if(norm(card.querySelector('h3')?.textContent||'')!=='chau doc nui sam')return;const image=card.querySelector('.tc1PlacePhoto');if(image)setBg(image,chauDoc)});
  if(currentDestination()==='chau doc nui sam'){const hero=document.querySelector('.tc1DestHero');if(hero)setSpotlightBg(hero,chauDoc)}
 }

@@ -12,7 +12,7 @@
 
   const HEROES = {
     'Sa Đéc': { url: fp('Một vườn hoa lan ở Sa Đéc.jpg'), subject: 'Sa Dec flower nursery' },
-    'Châu Đốc': { url: fp('Mountain Nui Sam, Chau Doc.jpg'), subject: 'Nui Sam, Chau Doc' },
+    'Châu Đốc': { url: 'assets/images/destinations/chau-doc.jpg', subject: 'Hang Pagoda, Chau Doc' },
     'Phú Yên': { url: fp('Gành Đá Đĩa - Phú Yên.jpg'), subject: 'Ganh Da Dia, Phu Yen' },
     'Hải Vân Pass': { url: fp('Hải Vân Gate, Hải Vân Pass, Vietnam (6944533488).jpg'), subject: 'Hai Van Gate' },
     'Cao Bằng': { url: fp('Ban Gioc Waterfalls I.jpg'), subject: 'Ban Gioc falls' },

@@ -340,7 +340,7 @@ function destLocalPhoto(q,currentName){
  if(n==='sa dec') return 'assets/images/destinations/sa-dec.jpg';
  if(n==='can tho') return 'assets/images/can-tho/01-cai-rang.jpg';
  if(n==='long xuyen') return 'assets/images/long-xuyen/01-floating-market.jpg';
- if(n==='chau doc') return 'assets/images/destinations/chau-doc.jpg';
+ if(n==='chau doc'||n==='chau doc nui sam') return 'assets/images/destinations/chau-doc.jpg';
  /* Dest only orders the maps. Never gate a unique title on "I am here" —
   * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
  const maps=[];

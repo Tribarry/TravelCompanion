@@ -211,7 +211,7 @@
         },
         'chau doc':{
           keep:['ba chua xu','nui sam pilgrimage circuit','hang pagoda','caves around hang pagoda','tay an','thoai ngoc hau tomb','sunrise sunset rice plains','sleep on nui sam','wet market','mam tasting','floating fish farm village','working fish raft','boat to cham village','chau phong','mubarak mosque','cham brocade weaving','rapana drums qur an recitation if appropriately community led'],
-          must:[]
+          must:['hang pagoda','sunrise sunset rice plains','sleep on nui sam','floating fish farm village','boat to cham village','chau phong']
         }
       };
       const destN=n(d.name);
