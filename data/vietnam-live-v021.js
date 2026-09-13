@@ -4,7 +4,7 @@
  */
 (() => {
   'use strict';
-  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-cattien';
+  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-hcm2';
 
   const CONTEXT = {
     'Ho Chi Minh City': 'Saigon grew from a river port into the commercial centre of southern Vietnam, shaped by Vietnamese, Chinese and French communities and later by war and rapid post-1975 growth. The result is a city where colonial landmarks, Chợ Lớn trading streets, wartime sites, temples, markets and hyper-modern districts sit almost on top of one another.',
