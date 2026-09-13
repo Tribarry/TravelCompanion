@@ -301,8 +301,9 @@ function destLocalPhoto(q,currentName){
  const dest=String(currentName||window.TC1BrowseDest||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d');
  const title=String(q||'');
  const t=title.trim();
- if(/cái bè \/ tân phong|^cái bè$|^cai be$/i.test(t)) return 'assets/images/cai-be/01-floating-market.jpg';
- if(/^sa đéc$|^sa dec$/i.test(t)) return 'assets/images/sa-dec/01-nurseries.jpg';
+ if(/^ho chi minh city$|^hồ chí minh city$/i.test(t)) return 'assets/images/destinations/ho-chi-minh-city.jpg';
+ if(/cái bè \/ tân phong|^cái bè$|^cai be$/i.test(t)) return 'assets/images/destinations/cai-be.jpg';
+ if(/^sa đéc$|^sa dec$/i.test(t)) return 'assets/images/destinations/sa-dec.jpg';
  if(/^cần thơ$|^can tho$/i.test(t)) return 'assets/images/can-tho/01-cai-rang.jpg';
  /* Dest only orders the maps. Never gate a unique title on "I am here" —
   * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
