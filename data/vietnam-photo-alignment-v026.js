@@ -282,6 +282,25 @@ const LONGXUYEN_LOCAL=[
  [/riverfront after dark|riverfront at night/i,'assets/images/long-xuyen/11-riverfront.jpg'],
  [/agricultural backroads|get lost/i,'assets/images/long-xuyen/12-rice.jpg']
 ];
+const CHAUDOC_LOCAL=[
+ [/bà chúa xứ|ba chua xu/i,'assets/images/chau-doc/01-ba-chua-xu.jpg'],
+ [/núi sam pilgrimage|nui sam pilgrimage/i,'assets/images/chau-doc/02-nui-sam.jpg'],
+ [/caves around hang|hang pagoda.*caves/i,'assets/images/chau-doc/04-hang-cave.jpg'],
+ [/hang pagoda/i,'assets/images/chau-doc/03-hang-pagoda.jpg'],
+ [/^tây an$|tay an pagoda|chùa tây an/i,'assets/images/chau-doc/05-tay-an.jpg'],
+ [/thoại ngọc hầu|thoai ngoc hau/i,'assets/images/chau-doc/06-thoai-ngoc-hau.jpg'],
+ [/rice plains|sunrise\/sunset rice/i,'assets/images/chau-doc/07-rice-plains.jpg'],
+ [/sleep on núi sam|sleep on nui sam/i,'assets/images/chau-doc/08-sleep-nui-sam.jpg'],
+ [/wet market/i,'assets/images/chau-doc/09-wet-market.jpg'],
+ [/mắm tasting|mam tasting/i,'assets/images/chau-doc/10-mam.jpg'],
+ [/floating fish-farm|fish-farm village/i,'assets/images/chau-doc/11-floating-village.jpg'],
+ [/working fish raft|fish raft/i,'assets/images/chau-doc/12-fish-raft.jpg'],
+ [/boat to cham/i,'assets/images/chau-doc/13-boat-cham.jpg'],
+ [/^châu phong$|^chau phong$/i,'assets/images/chau-doc/14-chau-phong.jpg'],
+ [/mubarak mosque/i,'assets/images/chau-doc/15-mubarak.jpg'],
+ [/cham brocade|brocade weaving/i,'assets/images/chau-doc/16-cham-brocade.jpg'],
+ [/rapana|qur.?an recitation/i,'assets/images/chau-doc/17-quran.jpg']
+];
 const HCMC_LOCAL=[
  [/bến thành|ben thanh/i,'assets/images/generated/vietnam-resolved/be-n-tha-nh-market-e0b32d92-1600.webp'],
  [/nguyễn huệ walking|nguyen hue walking/i,'assets/images/hcmc/nguyen-hue-walking.jpg'],
@@ -321,6 +340,7 @@ function destLocalPhoto(q,currentName){
  if(n==='sa dec') return 'assets/images/destinations/sa-dec.jpg';
  if(n==='can tho') return 'assets/images/can-tho/01-cai-rang.jpg';
  if(n==='long xuyen') return 'assets/images/long-xuyen/01-floating-market.jpg';
+ if(n==='chau doc') return 'assets/images/destinations/chau-doc.jpg';
  /* Dest only orders the maps. Never gate a unique title on "I am here" —
   * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
  const maps=[];
@@ -329,8 +349,9 @@ function destLocalPhoto(q,currentName){
  if(/sa dec/.test(dest)) add(SADEC_LOCAL);
  if(/can tho/.test(dest)) add(CANTHO_LOCAL);
  if(/long xuyen/.test(dest)) add(LONGXUYEN_LOCAL);
+ if(/chau doc/.test(dest)) add(CHAUDOC_LOCAL);
  if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);
- add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);
+ add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);
  for(const rules of maps){for(const [rx,u] of rules){if(rx.test(title))return u}}
  return '';
 }

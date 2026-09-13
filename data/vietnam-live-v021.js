@@ -208,6 +208,10 @@
         'long xuyen':{
           keep:['floating market','sunrise breakfast on river','local boat ferry to cu lao ong ho','cycle island','my hoa hung community stay','fish farming raft','con pho ba','orchard farm household','ton duc thang childhood memorial','central market','riverfront at night','agricultural backroads get lost'],
           must:['floating market','cycle island','fish farming raft','ton duc thang childhood memorial']
+        },
+        'chau doc':{
+          keep:['ba chua xu','nui sam pilgrimage circuit','hang pagoda','caves around hang pagoda','tay an','thoai ngoc hau tomb','sunrise sunset rice plains','sleep on nui sam','wet market','mam tasting','floating fish farm village','working fish raft','boat to cham village','chau phong','mubarak mosque','cham brocade weaving','rapana drums qur an recitation if appropriately community led'],
+          must:[]
         }
       };
       const destN=n(d.name);
@@ -258,7 +262,24 @@
           'ton duc thang childhood memorial':'assets/images/long-xuyen/09-childhood-house.jpg',
           'central market':'assets/images/long-xuyen/10-central-market.jpg',
           'riverfront at night':'assets/images/long-xuyen/11-riverfront.jpg',
-          'agricultural backroads get lost':'assets/images/long-xuyen/12-rice.jpg'
+          'agricultural backroads get lost':'assets/images/long-xuyen/12-rice.jpg',
+          'ba chua xu':'assets/images/chau-doc/01-ba-chua-xu.jpg',
+          'nui sam pilgrimage circuit':'assets/images/chau-doc/02-nui-sam.jpg',
+          'hang pagoda':'assets/images/chau-doc/03-hang-pagoda.jpg',
+          'caves around hang pagoda':'assets/images/chau-doc/04-hang-cave.jpg',
+          'tay an':'assets/images/chau-doc/05-tay-an.jpg',
+          'thoai ngoc hau tomb':'assets/images/chau-doc/06-thoai-ngoc-hau.jpg',
+          'sunrise sunset rice plains':'assets/images/chau-doc/07-rice-plains.jpg',
+          'sleep on nui sam':'assets/images/chau-doc/08-sleep-nui-sam.jpg',
+          'wet market':'assets/images/chau-doc/09-wet-market.jpg',
+          'mam tasting':'assets/images/chau-doc/10-mam.jpg',
+          'floating fish farm village':'assets/images/chau-doc/11-floating-village.jpg',
+          'working fish raft':'assets/images/chau-doc/12-fish-raft.jpg',
+          'boat to cham village':'assets/images/chau-doc/13-boat-cham.jpg',
+          'chau phong':'assets/images/chau-doc/14-chau-phong.jpg',
+          'mubarak mosque':'assets/images/chau-doc/15-mubarak.jpg',
+          'cham brocade weaving':'assets/images/chau-doc/16-cham-brocade.jpg',
+          'rapana drums qur an recitation if appropriately community led':'assets/images/chau-doc/17-quran.jpg'
         };
         d.experiences.forEach(e=>{const p=PHOTOS[n(e.name)];if(p)e.photo=p});
       }
