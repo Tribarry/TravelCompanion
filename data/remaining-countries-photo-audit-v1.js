@@ -10,7 +10,7 @@ const C=(file,subject)=>{const remote='https://commons.wikimedia.org/wiki/Specia
 const COUNTRY={
  cambodia:{url:'assets/images/countries/cambodia.jpg?v=20260913-heroes3',sourcePage:'local',subject:'Angkor Wat at golden sunrise over the reflecting pond, Siem Reap',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
  thailand:{url:'assets/images/countries/thailand.jpg',sourcePage:'local',subject:'Wat Rong Suea Ten Blue Temple nagas, Chiang Rai',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
- kazakhstan:{url:'assets/images/countries/kazakhstan.jpg?v=20260913-heroes3',sourcePage:'local',subject:'Tian Shan alpine lake and snow peak, Kazakhstan',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
+ kazakhstan:{url:'assets/images/countries/kazakhstan.jpg?v=20260913-heroes4',sourcePage:'local',subject:'Baiterek Tower and flower gardens, Astana',licenseStatus:'LOCAL',attributionStatus:'SAVED'},
  kyrgyzstan:{url:'assets/images/countries/kyrgyzstan.jpg?v=20260913-heroes3',sourcePage:'local',subject:'Yurt under Tian Shan glaciers, Kyrgyzstan',licenseStatus:'LOCAL',attributionStatus:'SAVED'}
 };
 const DEST={
