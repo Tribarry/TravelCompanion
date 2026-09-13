@@ -65,8 +65,8 @@ Floating market; sunrise breakfast on river; local boat/ferry to Cù Lao Ông H�
 ## Châu Đốc — LOCKED 18
 Bà Chúa Xứ; Núi Sam pilgrimage circuit; Hang Pagoda; caves around Hang Pagoda; Tây An; Thoại Ngọc Hầu Tomb; sunrise/sunset rice plains; sleep on Núi Sam; wet market; mắm tasting; floating fish-farm village; working fish raft; boat to Cham village; Châu Phong; Mubarak Mosque; Cham brocade weaving; Rapana drums/Qur’an recitation if appropriately community-led. Food: mắm, lẩu mắm, bún cá bông điên điển, bánh bò thốt nốt, tung lò mò, Cham cakes, palm-fruit chè and palm juice.
 
-## Trà Sư — LOCKED 19
-Trà Sư boat journey — motorboat and sampan; birds and observation tower; bamboo bridge; biodiversity walk; medicinal-plant hunt; beekeeping/honey verify; duckweed ecology; flood ecology; cá linh+bông điên điển; cá lóc nướng trui; bông điên điển xào tép; sour fish hotpot+bông súng; honey grilled chicken; clay-cooked chicken; thốt nốt juice/snacks. Dry-season expectation must be explicit for likely visit timing.
+## Trà Sư — LOCKED 10
+Trà Sư boat journey; Observation tower; Bamboo walkway; Birds of the cajuput; Dry-season forest; Forest boardwalk; Lotus wetlands; Cá lóc nướng trui; Thốt nốt; Duckweed carpet. Dry-season expectation must be explicit for likely visit timing.
 
 ## Tịnh Biên / Tri Tôn / Seven Mountains — LOCKED 26
 Núi Cấm trek; Bồ Hồng summit; sunrise/cloud hunt; sleep/camp; Thanh Long Stream; Vạn Linh; giant Maitreya; hermitages/shrines/caves; mountain fruit gardens; **catch mountain crabs**; Tà Pạ rice fields; Tà Pạ Lake; Tà Pạ Pagoda; Khmer village; Khmer community homestay; Khmer household food; Rô-băm; sugar-palm countryside; fresh thốt nốt sap; palm-sugar making; Tà Pạ–Soài Chek paragliding event; off-road motorbike event; hot-air balloon event only; Ô Tà Sóc; Seven Mountains backroad day; Tịnh Biên border market.

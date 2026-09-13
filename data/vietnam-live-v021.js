@@ -4,7 +4,7 @@
  */
 (() => {
   'use strict';
-  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-farmer1';
+  const BANK_URL = 'docs/VIETNAM_LOCKED_EXPERIENCE_BANK_2027.md?v=20260913-trasu';
 
   const CONTEXT = {
     'Ho Chi Minh City': 'Saigon grew from a river port into the commercial centre of southern Vietnam, shaped by Vietnamese, Chinese and French communities and later by war and rapid post-1975 growth. The result is a city where colonial landmarks, Chợ Lớn trading streets, wartime sites, temples, markets and hyper-modern districts sit almost on top of one another.',
@@ -212,6 +212,10 @@
         'chau doc':{
           keep:['ba chua xu','nui sam pilgrimage circuit','hang pagoda','caves around hang pagoda','tay an','thoai ngoc hau tomb','sunrise sunset rice plains','sleep on nui sam','wet market','mam tasting','floating fish farm village','working fish raft','boat to cham village','chau phong','mubarak mosque','cham brocade weaving','rapana drums qur an recitation if appropriately community led'],
           must:['hang pagoda','sunrise sunset rice plains','sleep on nui sam','floating fish farm village','boat to cham village','chau phong']
+        },
+        'tra su':{
+          keep:['tra su boat journey','observation tower','bamboo walkway','birds of the cajuput','dry season forest','forest boardwalk','lotus wetlands','ca loc nuong trui','thot not','duckweed carpet'],
+          must:[]
         }
       };
       const destN=n(d.name);
@@ -279,7 +283,17 @@
           'chau phong':'assets/images/chau-doc/14-chau-phong.jpg',
           'mubarak mosque':'assets/images/chau-doc/15-mubarak.jpg',
           'cham brocade weaving':'assets/images/chau-doc/16-cham-brocade.jpg',
-          'rapana drums qur an recitation if appropriately community led':'assets/images/chau-doc/17-quran.jpg'
+          'rapana drums qur an recitation if appropriately community led':'assets/images/chau-doc/17-quran.jpg',
+          'tra su boat journey':'assets/images/tra-su/01-boat.jpg',
+          'observation tower':'assets/images/tra-su/02-tower.jpg',
+          'bamboo walkway':'assets/images/tra-su/03-bamboo.jpg',
+          'birds of the cajuput':'assets/images/tra-su/04-birds.jpg',
+          'dry season forest':'assets/images/tra-su/05-dry-season.jpg',
+          'forest boardwalk':'assets/images/tra-su/06-boardwalk.jpg',
+          'lotus wetlands':'assets/images/tra-su/07-wetlands.jpg',
+          'ca loc nuong trui':'assets/images/tra-su/08-ca-loc.jpg',
+          'thot not':'assets/images/tra-su/09-thot-not.jpg',
+          'duckweed carpet':'assets/images/tra-su/10-duckweed.jpg'
         };
         d.experiences.forEach(e=>{const p=PHOTOS[n(e.name)];if(p)e.photo=p});
       }

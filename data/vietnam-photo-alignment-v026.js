@@ -301,6 +301,18 @@ const CHAUDOC_LOCAL=[
  [/cham brocade|brocade weaving/i,'assets/images/chau-doc/16-cham-brocade.jpg'],
  [/rapana|qur.?an recitation/i,'assets/images/chau-doc/17-quran.jpg']
 ];
+const TRASU_LOCAL=[
+ [/boat journey|sampan|flooded-forest boat|flooded forest boat/i,'assets/images/tra-su/01-boat.jpg'],
+ [/observation tower/i,'assets/images/tra-su/02-tower.jpg'],
+ [/bamboo walkway|bamboo bridge/i,'assets/images/tra-su/03-bamboo.jpg'],
+ [/birds of the cajuput|birds and observation/i,'assets/images/tra-su/04-birds.jpg'],
+ [/dry-season forest|dry season forest/i,'assets/images/tra-su/05-dry-season.jpg'],
+ [/forest boardwalk/i,'assets/images/tra-su/06-boardwalk.jpg'],
+ [/lotus wetlands/i,'assets/images/tra-su/07-wetlands.jpg'],
+ [/cá lóc nướng trui|ca loc nuong trui/i,'assets/images/tra-su/08-ca-loc.jpg'],
+ [/thốt nốt|thot not/i,'assets/images/tra-su/09-thot-not.jpg'],
+ [/duckweed/i,'assets/images/tra-su/10-duckweed.jpg']
+];
 const HCMC_LOCAL=[
  [/bến thành|ben thanh/i,'assets/images/generated/vietnam-resolved/be-n-tha-nh-market-e0b32d92-1600.webp'],
  [/nguyễn huệ walking|nguyen hue walking/i,'assets/images/hcmc/nguyen-hue-walking.jpg'],
@@ -341,6 +353,7 @@ function destLocalPhoto(q,currentName){
  if(n==='can tho') return 'assets/images/can-tho/01-cai-rang.jpg';
  if(n==='long xuyen') return 'assets/images/long-xuyen/01-floating-market.jpg';
  if(n==='chau doc'||n==='chau doc nui sam') return 'assets/images/destinations/chau-doc.jpg';
+ if(n==='tra su'||n==='tra su cajuput forest') return 'assets/images/tra-su/01-boat.jpg';
  /* Dest only orders the maps. Never gate a unique title on "I am here" —
   * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
  const maps=[];
@@ -350,8 +363,9 @@ function destLocalPhoto(q,currentName){
  if(/can tho/.test(dest)) add(CANTHO_LOCAL);
  if(/long xuyen/.test(dest)) add(LONGXUYEN_LOCAL);
  if(/chau doc/.test(dest)) add(CHAUDOC_LOCAL);
+ if(/tra su/.test(dest)) add(TRASU_LOCAL);
  if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);
- add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);
+ add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);
  for(const rules of maps){for(const [rx,u] of rules){if(rx.test(title))return u}}
  return '';
 }
