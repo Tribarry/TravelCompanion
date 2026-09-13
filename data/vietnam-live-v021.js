@@ -145,6 +145,12 @@
     const key=ALIAS[d.name]||d.name, raw=sections[key]; if(!raw)return;
     let items=explode(raw,d.name); items=splitHighlands(items,d.name); if(items.length<3)items=explode(raw,d.name);
     d.experiences=items.map(toExperience); d.context=CONTEXT[d.name]||CONTEXT[key]||d.summary; d.summary=d.context;
+    // The locked bank owns titles; V3 owns the displayed, title-matched copy.
+    // This is deliberately content-only: no images, itinerary data or card state change here.
+    d.experiences=d.experiences.map(e=>{
+      const copy=window.TC1VietnamExperienceContent?.enrich?.(d,{title:e.name,name:e.name,raw:{raw:e.name,tags:e.tags||[]}});
+      return copy?.summary?{...e,summary:copy.summary}:e;
+    });
     const food=d.experiences.filter(e=>e.tags.includes('Food')).map(e=>e.name);
     const drink=d.experiences.filter(e=>e.tags.includes('Drink')).map(e=>e.name);
     const unique=d.experiences.find(e=>e.tags.includes('Unique'));
