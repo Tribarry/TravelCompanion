@@ -21,10 +21,12 @@
   };
 
   function mergeManifest() {
-    const m = (window.VN_PHOTO_MANIFEST = window.VN_PHOTO_MANIFEST || {});
+    /* Never create the manifest here.  The standard resolver owns that load;
+       creating a partial object first suppresses all of its existing photos. */
+    const m = window.VN_PHOTO_MANIFEST;
+    if (!m) return false;
     Object.entries(HEROES).forEach(([name, spec]) => {
-      if (!spec.url) return;
-      if (m[name] && m[name].local) return;
+      if (!spec.url || (m[name] && m[name].local)) return;
       m[name] = {
         source: spec.url,
         local: spec.url,
@@ -34,7 +36,13 @@
         grokPatch: true
       };
     });
+    return true;
   }
 
-  mergeManifest();
+  function waitForManifest(tries = 0) {
+    if (mergeManifest() || tries >= 80) return;
+    setTimeout(() => waitForManifest(tries + 1), 50);
+  }
+
+  waitForManifest();
 })();
