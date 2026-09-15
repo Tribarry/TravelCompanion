@@ -1,0 +1,35 @@
+name: Restore index and wire Cao Bang
+on:
+  push:
+    paths:
+      - '.github/workflows/restore-index-cao-bang.yml'
+      - 'data/vietnam-cao-bang-highlights-v1.js'
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore index.html from last good commit and append script
+        run: |
+          git show accccb786bb7bfc712dc88d6389f7828225da1fc:index.html > index.html
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          t = p.read_text()
+          needle = '<script src="data/main-country-carousel-v1.js?v=20260913-heroes4"></script>'
+          add = needle + '\n<script src="data/vietnam-cao-bang-highlights-v1.js?v=20260915-caobang"></script>'
+          if 'vietnam-cao-bang-highlights-v1.js' not in t:
+              if needle not in t:
+                  raise SystemExit('anchor missing')
+              p.write_text(t.replace(needle, add, 1))
+          print('index bytes', p.stat().st_size)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Restore index.html and include Cao Bang highlights"
+          git push
