@@ -16,34 +16,17 @@ jobs:
           fetch-depth: 0
       - name: Install
         run: sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick
-      - name: Compress Nam Du and wire if needed
+      - name: Compress Nam Du
         run: |
-          if [ -f assets/images/nam-du/01-road.jpg ]; then
-            convert assets/images/nam-du/01-road.jpg -auto-orient -resize '1280x>' -quality 80 -strip assets/images/nam-du/01-road.jpg
-            cp assets/images/nam-du/01-road.jpg assets/images/destinations/nam-du.jpg
-            ls -la assets/images/nam-du/01-road.jpg
-          fi
-          python3 -c "
-from pathlib import Path
-p=Path('data/vietnam-photo-alignment-v026.js');s=p.read_text()
-if 'NAMDU_LOCAL' not in s:
- s=s.replace('const RACHGIA_LOCAL=[', chr(10)+'const NAMDU_LOCAL=['+chr(10)+\" [/nam du|island/i,'assets/images/nam-du/01-road.jpg']\"+chr(10)+'];'+chr(10)+chr(10)+'const RACHGIA_LOCAL=[',1)
- if \"if(n==='nam du')\" not in s:
-  s=s.replace(\" if(n==='rach gia') return 'assets/images/destinations/rach-gia.jpg';\",\" if(n==='nam du'||n==='nam du islands') return 'assets/images/destinations/nam-du.jpg';\\n if(n==='rach gia') return 'assets/images/destinations/rach-gia.jpg';\",1)
- if 'add(NAMDU_LOCAL)' not in s:
-  s=s.replace(' if(/rach gia/.test(dest)) add(RACHGIA_LOCAL);',' if(/nam du/.test(dest)) add(NAMDU_LOCAL);\\n if(/rach gia/.test(dest)) add(RACHGIA_LOCAL);',1)
-  s=s.replace('add(RACHGIA_LOCAL);add(KIENLUONG_LOCAL);','add(NAMDU_LOCAL);add(RACHGIA_LOCAL);add(KIENLUONG_LOCAL);',1)
- p.write_text(s);print('wired',len(s))
-else:
- print('already has NAMDU')
-assert 'window.hydrateVN=function' in p.read_text()
-"
+          convert assets/images/nam-du/01-road.jpg -auto-orient -resize '1200x>' -quality 78 -strip assets/images/nam-du/01-road.jpg
+          cp assets/images/nam-du/01-road.jpg assets/images/destinations/nam-du.jpg
+          ls -la assets/images/nam-du/01-road.jpg assets/images/destinations/nam-du.jpg
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
-          git add assets/images/nam-du assets/images/destinations/nam-du.jpg data/vietnam-photo-alignment-v026.js || true
+          git add assets/images/nam-du assets/images/destinations/nam-du.jpg
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(south-mekong): compress Nam Du under 350KB; ensure alignment wire'
+          git commit -m 'fix(south-mekong): compress Nam Du under 350KB'
           git push origin HEAD:main
