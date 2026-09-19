@@ -17,23 +17,9 @@ jobs:
 
       - name: Wire Bến Tre into alignment
         run: |
-          python3 -c "
-from pathlib import Path
-p = Path('data/vietnam-photo-alignment-v026.js')
-s = p.read_text()
-if 'BENTRE_LOCAL' not in s:
-    block = chr(10)+'const BENTRE_LOCAL=['+chr(10)+\" [/market|chợ|cho ben tre/i,'assets/images/ben-tre/01-market.jpg'],\"+chr(10)+\" [/river|sông|song/i,'assets/images/ben-tre/02-river.jpg'],\"+chr(10)+\" [/bến tre|ben tre/i,'assets/images/ben-tre/01-market.jpg']\"+chr(10)+'];'+chr(10)+chr(10)
-    s = s.replace('const HATIEN_LOCAL=[', block+'const HATIEN_LOCAL=[', 1)
-    s = s.replace(\" if(n==='ha tien') return 'assets/images/destinations/ha-tien.jpg';\", \" if(n==='ben tre') return 'assets/images/destinations/ben-tre.jpg';\\n if(n==='ha tien') return 'assets/images/destinations/ha-tien.jpg';\", 1)
-    s = s.replace(' if(/ha tien/.test(dest)) add(HATIEN_LOCAL);', ' if(/ben tre/.test(dest)) add(BENTRE_LOCAL);\\n if(/ha tien/.test(dest)) add(HATIEN_LOCAL);', 1)
-    s = s.replace('add(HATIEN_LOCAL);add(PHUQUOC_LOCAL);add(CONDAO_LOCAL);', 'add(BENTRE_LOCAL);add(HATIEN_LOCAL);add(PHUQUOC_LOCAL);add(CONDAO_LOCAL);', 1)
-    p.write_text(s)
-    print('wired', len(s))
-else:
-    print('already')
-assert 'window.hydrateVN=function' in p.read_text()
-"
-          grep -n 'BENTRE_LOCAL\|hydrateVN' data/vietnam-photo-alignment-v026.js | head
+          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnA9UGF0aCgnZGF0YS92aWV0bmFtLXBob3RvLWFsaWdubWVudC12MDI2LmpzJyk7cz1wLnJlYWRfdGV4dCgpCmlmICdCRU5UUkVfTE9DQUwnIG5vdCBpbiBzOgogYj0iXG5jb25zdCBCRU5UUkVfTE9DQUw9W1xuIFsvbWFya2V0fGNo4bujfGNobyBiZW4gdHJlL2ksJ2Fzc2V0cy9pbWFnZXMvYmVuLXRyZS8wMS1tYXJrZXQuanBnJ10sXG4gWy9yaXZlcnxzw7RuZ3xzb25nL2ksJ2Fzc2V0cy9pbWFnZXMvYmVuLXRyZS8wMi1yaXZlci5qcGcnXSxcbiBbL2Lhur9uIHRyZXxiZW4gdHJlL2ksJ2Fzc2V0cy9pbWFnZXMvYmVuLXRyZS8wMS1tYXJrZXQuanBnJ11cbl07XG5cbiIKIHM9cy5yZXBsYWNlKCdjb25zdCBIQVRJRU5fTE9DQUw9WycsYisnY29uc3QgSEFUSUVOX0xPQ0FMPVsnLDEpCiBzPXMucmVwbGFjZSgiIGlmKG49PT0naGEgdGllbicpIHJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMvaGEtdGllbi5qcGcnOyIsIiBpZihuPT09J2JlbiB0cmUnKSByZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvZGVzdGluYXRpb25zL2Jlbi10cmUuanBnJztcbiBpZihuPT09J2hhIHRpZW4nKSByZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvZGVzdGluYXRpb25zL2hhLXRpZW4uanBnJzsiLDEpCiBzPXMucmVwbGFjZSgnIGlmKC9oYSB0aWVuLy50ZXN0KGRlc3QpKSBhZGQoSEFUSUVOX0xPQ0FMKTsnLCcgaWYoL2JlbiB0cmUvLnRlc3QoZGVzdCkpIGFkZChCRU5UUkVfTE9DQUwpO1xuIGlmKC9oYSB0aWVuLy50ZXN0KGRlc3QpKSBhZGQoSEFUSUVOX0xPQ0FMKTsnLDEpCiBzPXMucmVwbGFjZSgnYWRkKEhBVElFTl9MT0NBTCk7YWRkKFBIVVFVT0NfTE9DQUwpO2FkZChDT05EQU9fTE9DQUwpOycsJ2FkZChCRU5UUkVfTE9DQUwpO2FkZChIQVRJRU5fTE9DQUwpO2FkZChQSFVRVU9DX0xPQ0FMKTthZGQoQ09OREFPX0xPQ0FMKTsnLDEpCiBwLndyaXRlX3RleHQocyk7cHJpbnQoJ3dpcmVkJyxsZW4ocykpCmVsc2U6cHJpbnQoJ2FscmVhZHknKQphc3NlcnQgJ3dpbmRvdy5oeWRyYXRlVk49ZnVuY3Rpb24nIGluIHAucmVhZF90ZXh0KCkK | base64 -d > /tmp/w.py
+          python3 /tmp/w.py
+          grep -n BENTRE_LOCAL data/vietnam-photo-alignment-v026.js | head
 
       - name: Commit
         run: |
