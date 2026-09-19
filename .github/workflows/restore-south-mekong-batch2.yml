@@ -14,13 +14,9 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-
-      - name: Install tools
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq imagemagick
-
-      - name: Download banks (Nam Du, Tra Vinh, PQ, cooking, Ta Pa)
+      - name: Install
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick
+      - name: Photos
         run: |
           mkdir -p assets/images/nam-du assets/images/tra-vinh assets/images/phu-quoc assets/images/cai-be assets/images/tinh-bien assets/images/destinations
           curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/namdu.jpg 'https://commons.wikimedia.org/wiki/Special:FilePath/Duong_ven_nui_dao_Nam_du,_xa_An_Sơn,huyen_Kiên_Hải,_tỉnh_Kiên_Giang,_Việt_Nam,02-07-16-Dyt_-_panoramio.jpg?width=1600'
@@ -34,33 +30,13 @@ jobs:
           curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/cook.jpg 'https://commons.wikimedia.org/wiki/Special:FilePath/Skewers_street_food_Can_Tho.jpg?width=1600'
           convert /tmp/cook.jpg -resize '1280x>' -quality 82 -strip assets/images/cai-be/08-cooking.jpg
           if [ -f assets/images/tinh-bien/07-quarry-lake.jpg ]; then convert assets/images/tinh-bien/07-quarry-lake.jpg -resize '1280x>' -quality 82 -strip assets/images/tinh-bien/06-chua-ta-pa.jpg; fi
+          f=assets/images/tra-su/05-dry-season.jpg; if [ -f "$f" ]; then convert "$f" -resize '1100x>' -quality 75 -strip "$f.tmp.jpg"; mv "$f.tmp.jpg" "$f"; fi
           ls -la assets/images/nam-du assets/images/tra-vinh/01-pagoda.jpg assets/images/phu-quoc/02-sunset.jpg assets/images/cai-be/08-cooking.jpg
-
-      - name: Compress Tra Su
+      - name: Wire and credits
         run: |
-          f=assets/images/tra-su/05-dry-season.jpg
-          if [ -f "$f" ]; then before=$(stat -c%s "$f"); convert "$f" -resize '1100x>' -quality 75 -strip "$f.tmp.jpg"; mv "$f.tmp.jpg" "$f"; echo "$f: $before -> $(stat -c%s "$f")"; fi
-
-      - name: Wire Nam Du alignment
-        run: |
-          python3 -c "
-from pathlib import Path
-p=Path('data/vietnam-photo-alignment-v026.js');s=p.read_text()
-if 'NAMDU_LOCAL' not in s:
- s=s.replace('const RACHGIA_LOCAL=[','''\nconst NAMDU_LOCAL=[\n [/nam du|island|đảo|dao/i,\'assets/images/nam-du/01-road.jpg\']\n];\n\n'''+'const RACHGIA_LOCAL=[',1)
-if \"if(n==='nam du')\" not in s:
- s=s.replace(\" if(n==='rach gia') return 'assets/images/destinations/rach-gia.jpg';\",\" if(n==='nam du'||n==='nam du islands') return 'assets/images/destinations/nam-du.jpg';\\n if(n==='rach gia') return 'assets/images/destinations/rach-gia.jpg';\",1)
-if 'add(NAMDU_LOCAL)' not in s:
- s=s.replace(' if(/rach gia/.test(dest)) add(RACHGIA_LOCAL);',' if(/nam du/.test(dest)) add(NAMDU_LOCAL);\\n if(/rach gia/.test(dest)) add(RACHGIA_LOCAL);',1)
- s=s.replace('add(RACHGIA_LOCAL);add(KIENLUONG_LOCAL);','add(NAMDU_LOCAL);add(RACHGIA_LOCAL);add(KIENLUONG_LOCAL);',1)
-s=s.replace('assets/images/tra-vinh/01-river-market.jpg','assets/images/tra-vinh/01-pagoda.jpg')
-p.write_text(s);print(len(s));assert 'window.hydrateVN=function' in s
-"
-
-      - name: Write credits JSON
-        run: |
-          python3 -c "import json; open('data/image-sources-south-mekong.json','w').write(json.dumps({'updated':'2026-09-20','policy':'verification-first local-only','sources_note':'Nam Du, Tra Vinh gate, PQ sunset, Can Tho skewers cooking, Ta Pa lake, prior batch Commons attributions — see Commons file pages'},indent=2))"
-
+          echo CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aApwPVBhdGgoImRhdGEvdmlldG5hbS1waG90by1hbGlnbm1lbnQtdjAyNi5qcyIpO3M9cC5yZWFkX3RleHQoKQppZiAiTkFNRFVfTE9DQUwiIG5vdCBpbiBzOgogcz1zLnJlcGxhY2UoImNvbnN0IFJBQ0hHSUFfTE9DQUw9WyIsIlxuY29uc3QgTkFNRFVfTE9DQUw9W1xuIFsvbmFtIGR1fGlzbGFuZHxt4bqhaXxkYW8vaSwnYXNzZXRzL2ltYWdlcy9uYW0tZHUvMDEtcm9hZC5qcGcnXVxuXTtcblxuY29uc3QgUkFDSEdJQV9MT0FMPVsiLDEpCmlmICJpZihuPT09J25hbSBkdScpIiBub3QgaW4gczoKIHM9cy5yZXBsYWNlKCIgaWYobj09PSdyYWNoIGdpYScpIHJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMvcmFjaC1naWEuanBnJzsiLCIgaWYobj09PSduYW0gZHUnfHxuPT09J25hbSBkdSBpc2xhbmRzJykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy9uYW0tZHUuanBnJztcbiBpZihuPT09J3JhY2ggZ2lhJykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy9yYWNoLWdpYS5qcGcnOyIsMSkKaWYgImFkZChOQU1EVV9MT0NBTCIgbm90IGluIHM6CiBzPXMucmVwbGFjZSgiIGlmKC9yYWNoIGdpYS8udGVzdChkZXN0KSkgYWRkKFJBQ0hHSUFfTE9DQUwpOyIsIiBpZigvbmFtIGR1Ly50ZXN0KGRlc3QpKSBhZGQoTkFNRFVfTE9DQUwpO1xuIGlmKC9yYWNoIGdpYS8udGVzdChkZXN0KSkgYWRkKFJBQ0hHSUFfTE9DQUwpOyIsMSkKIHM9cy5yZXBsYWNlKCJhZGQoUkFDSEdJQV9MT0NBTCk7YWRkKEtJRU5MVU9OR19MT0NBTCk7IiwiYWRkKE5BTURVX0xPQ0FMKTthZGQoUkFDSEdJQV9MT0NBTCk7YWRkKEtJRU5MVU9OR19MT0NBTCk7IiwxKQpzPXMucmVwbGFjZSgiYXNzZXRzL2ltYWdlcy90cmEtdmluaC8wMS1yaXZlci1tYXJrZXQuanBnIiwiYXNzZXRzL2ltYWdlcy90cmEtdmluaC8wMS1wYWdvZGEuanBnIikKcC53cml0ZV90ZXh0KHMpO3ByaW50KGxlbihzKSk7YXNzZXJ0ICJ3aW5kb3cuaHlkcmF0ZVZOPWZ1bmN0aW9uIiBpbiBzCg== | base64 -d > /tmp/p.py
+          python3 /tmp/p.py
+          echo eyJ1cGRhdGVkIjogIjIwMjYtMDktMjAiLCAicG9saWN5IjogInZlcmlmaWNhdGlvbi1maXJzdCIsICJub3RlIjogImJhdGNoNiBOYW0gRHUgVHJhIFZpbmggUFEgY29va2luZyBUYSBQYSDigJQgQ29tbW9ucyBhdHRyaWJ1dGlvbnMgb24gZmlsZSBwYWdlcyJ9 | base64 -d > data/image-sources-south-mekong.json
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
@@ -68,5 +44,5 @@ p.write_text(s);print(len(s));assert 'window.hydrateVN=function' in s
           git pull --rebase origin main || git pull origin main
           git add assets/images/nam-du assets/images/tra-vinh assets/images/phu-quoc assets/images/cai-be/08-cooking.jpg assets/images/tinh-bien assets/images/destinations assets/images/tra-su data/vietnam-photo-alignment-v026.js data/image-sources-south-mekong.json || true
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(south-mekong): batch 6 — Nam Du, Tra Vinh dedicated, PQ sunset, Mekong cooking, Ta Pa, credits'
+          git commit -m 'fix(south-mekong): batch 6 — Nam Du, Tra Vinh, PQ sunset, Mekong cooking, Ta Pa, credits'
           git push origin HEAD:main
