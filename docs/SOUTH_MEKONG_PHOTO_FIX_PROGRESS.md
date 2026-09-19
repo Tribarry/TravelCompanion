@@ -1,36 +1,28 @@
 # South & Mekong photo fix progress
 
-Updated: 2026-09-20 (batch 5)
+Updated: 2026-09-20 (batch 6 — next 6)
 
-## Fixed on main
+## Batch 6 results
 
-### Core destinations (earlier batches)
-- Cái Bè floating market + interim cooking, Sa Đéc / Cái Bè / Châu Đốc heroes
-- Cần Thơ Cái Răng, Bạc Liêu Xiêm Cán, Trà Sư, Cần Giờ mangrove
-- Alignment v0.29 full hydrateVN restored
+| # | Item | Result |
+|---|------|--------|
+| 1 | **Tà Pạ** | `06-chua-ta-pa.jpg` replaced with higher-quality Hồ Tà Pạ lake (~271 KB) |
+| 2 | **Mekong cooking** | `cai-be/08-cooking.jpg` → Cần Thơ street-food skewers (Mekong region, not Hanoi) |
+| 3 | **Nam Du** | Local bank + destination hero (compress pass running) |
+| 4 | **Extra bank shot** | Phú Quốc `02-sunset.jpg` |
+| 5 | **Dedicated Trà Vinh** | `01-pagoda.jpg` / city gate — replaces shared Trà Ôn interim |
+| 6 | **License credits** | `data/image-sources-south-mekong.json` updated |
 
-### New local banks (batch 5)
-| Path | Subject |
-|------|--------|
-| `rach-gia/01-city.jpg` + hero | Rạch Giá city |
-| `kien-luong/01-hon-chong.jpg` + hero | Hòn Chồng / Kiên Lương |
-| `vinh-long/01-canal.jpg` + hero | Vĩnh Long canal |
-| `vinh-long/02-tra-on-floating.jpg` | Trà Ôn floating market |
-| `tra-vinh/01-river-market.jpg` + hero | Regional river market (Trà Ôn interim) |
-| `ben-tre/` | Market + alignment wired |
-| `ha-tien/`, `phu-quoc/`, `con-dao/` | Starter banks + wired |
+Also: Trà Sư compressed to ~298 KB.
 
-All of the above are **local** (no remote lag / no PHOTO TO VERIFY for these heroes).
+## Local destination coverage (South/Mekong)
+Cái Bè · Sa Đéc · Cần Thơ · Long Xuyên · Châu Đốc · Trà Sư · Tịnh Biên · Bạc Liêu · HCMC/Cần Giờ · Hà Tiên · Phú Quốc · Côn Đảo · Bến Tre · Rạch Giá · Kiên Lương · Vĩnh Long · Trà Vinh · **Nam Du**
 
-## Still open
-
-1. Higher-res **Tà Pạ** pagoda/mountain (Commons panoramio is ~800px)
-2. Exact **Mekong cooking class** (replace interim)
-3. **Nam Du** islands bank (sparse on Commons)
-4. More experience shots per bank (6–12 each)
-5. Dedicated **Trà Vinh** subject (not shared Trà Ôn)
-6. Expand license credits file
-7. Compress Trà Sư if still >350 KB
+## Still open (smaller residual)
+- Exact tourist cooking-class interior (current is Mekong street food — better region match)
+- `const NAMDU_LOCAL` array body if experience cards need title matching (hero path already works)
+- More 6–12 experience shots per bank
+- Nam Du file size target &lt;350 KB if compress still pending CDN
 
 ## Policy
 Nothing may remain PHOTO TO VERIFY. All cards need local images.
