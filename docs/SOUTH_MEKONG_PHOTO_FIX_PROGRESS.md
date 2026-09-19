@@ -1,28 +1,27 @@
 # South & Mekong photo fix progress
 
-Updated: 2026-09-19 (alignment v029 + Can Gio)
+Updated: 2026-09-19 (batch 4)
 
 ## Fixed on main
 
 | Path | Fix |
 |------|-----|
-| `data/vietnam-photo-alignment-v026.js` | **Restored full hydrateVN body (v0.29)** + wired Hà Tiên / Phú Quốc / Côn Đảo local banks |
-| `cai-be/01-floating-market.jpg` | Real fruit-boat market |
-| `cai-be/08-cooking.jpg` | Clean kitchen (interim) |
-| `destinations/{sa-dec,cai-be,chau-doc}.jpg` | Exact local heroes |
-| `can-tho/01-cai-rang.jpg` | Real Cái Răng market |
-| `bac-lieu/04-xiem-can.jpg` | Xiêm Cán, no watermark |
-| `tra-su/05-dry-season.jpg` | Commons Trà Sư |
-| `hcmc/can-gio.jpg` | Verified Cần Giờ mangrove (Commons) |
-| `ha-tien/`, `phu-quoc/`, `con-dao/` + destination heroes | Local banks started |
+| Alignment `v0.29` | Full hydrateVN restored; Hà Tiên / Phú Quốc / Côn Đảo wired |
+| Cái Bè market, cooking (interim), heroes | Local exact / clean |
+| Cái Răng, Xiêm Cán, Trà Sư, Cần Giờ | Commons verified |
+| Hà Tiên / Phú Quốc / Côn Đảo | Local banks + destination heroes |
+| `tinh-bien/07-quarry-lake.jpg` | Hồ Tà Pạ (Commons, higher quality) |
+| `ben-tre/01-market.jpg` + `destinations/ben-tre.jpg` | Bến Tre market (local bank started) |
+| `data/image-sources-south-mekong.json` | Attribution stub for restored set |
 
 ## Still open
 
-1. Exact Mekong cooking class (replace interim Hanoi kitchen)
-2. Higher-res Tà Pạ (`tinh-bien/06-chua-ta-pa.jpg`)
-3. Expand experience banks (6–12 shots) for Hà Tiên, Kiên Lương, Rạch Giá, Nam Du, Phú Quốc, Côn Đảo, Bến Tre, Trà Vinh, Vĩnh Long
-4. License credits → `image-sources.json` (or recreate if missing)
-5. Compress any remaining >350 KB locals
+1. **Tà Pạ pagoda/mountain** — Commons panoramio source is only 800px; need a higher-res licensed shot for `06-chua-ta-pa.jpg`
+2. **Exact Mekong cooking class** — current is interim Hanoi kitchen
+3. **Wire Bến Tre** into `vietnam-photo-alignment-v026.js` LOCAL maps (hero path exists)
+4. **Expand banks**: Kiên Lương, Rạch Giá, Nam Du, Trà Vinh, Vĩnh Long + more Phú Quốc/Côn Đảo/Hà Tiên experiences
+5. **Richer license file** — expand `image-sources-south-mekong.json` with full per-file credits
+6. Compress any remaining >350 KB (Trà Sư still large)
 
 ## Policy
 Nothing may remain PHOTO TO VERIFY. All cards need local images.
