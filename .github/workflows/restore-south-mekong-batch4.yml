@@ -1,0 +1,108 @@
+name: Restore South Mekong batch 4
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
+
+      - name: Tà Pạ mountain + lake (Commons)
+        run: |
+          mkdir -p assets/images/tinh-bien
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/ta-pa-mt.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Núi_tà_pạ,_tri_tôn_,_angiang,_vietnam_-_panoramio.jpg?width=1600'
+          convert /tmp/ta-pa-mt.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/tinh-bien/06-chua-ta-pa.jpg
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/ta-pa-lake.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Hotapa.jpg?width=1600'
+          convert /tmp/ta-pa-lake.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/tinh-bien/07-quarry-lake.jpg
+          ls -la assets/images/tinh-bien/06-chua-ta-pa.jpg assets/images/tinh-bien/07-quarry-lake.jpg
+
+      - name: Bến Tre local bank starter
+        run: |
+          mkdir -p assets/images/ben-tre assets/images/destinations
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/ben-tre-mkt.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Ben_Tre_Market,_southern_side.jpg?width=1600'
+          convert /tmp/ben-tre-mkt.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/ben-tre/01-market.jpg
+          cp assets/images/ben-tre/01-market.jpg assets/images/destinations/ben-tre.jpg
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/ben-tre-river.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Ben_Tre_River.jpg?width=1600' || true
+          if [ -f /tmp/ben-tre-river.jpg ]; then
+            convert /tmp/ben-tre-river.jpg -resize '1280x>' -quality 82 -strip \
+              assets/images/ben-tre/02-river.jpg
+          fi
+          ls -la assets/images/ben-tre/
+
+      - name: Compress remaining large locals
+        run: |
+          for f in \
+            assets/images/hcmc/can-gio.jpg \
+            assets/images/tra-su/05-dry-season.jpg \
+            assets/images/cai-be/08-cooking.jpg
+          do
+            if [ -f "$f" ]; then
+              before=$(stat -c%s "$f")
+              convert "$f" -resize '1280x>' -quality 80 -strip "$f.tmp.jpg"
+              mv "$f.tmp.jpg" "$f"
+              after=$(stat -c%s "$f")
+              echo "$f: $before -> $after"
+            fi
+          done
+
+      - name: Write image-sources credits for South/Mekong fixes
+        run: |
+          mkdir -p data
+          cat > data/image-sources-south-mekong.json << 'EOF'
+{
+  "updated": "2026-09-19",
+  "policy": "verification-first; local-only; no PHOTO TO VERIFY",
+  "sources": [
+    {"path": "assets/images/cai-be/01-floating-market.jpg", "source": "Wikimedia Commons", "file": "Vietnam_08_-_122_-_Cai_Be_floating_market_(3185904536).jpg", "license": "CC BY 2.0", "author": "McKay Savage"},
+    {"path": "assets/images/can-tho/01-cai-rang.jpg", "source": "Wikimedia Commons", "file": "Một_cảnh_ở_chợ_nổi_Cái_Răng.jpg", "license": "CC BY-SA", "author": "Bùi Thụy Đào Nguyên"},
+    {"path": "assets/images/bac-lieu/04-xiem-can.jpg", "source": "Wikimedia Commons", "file": "Chùa_Xiêm_Cán_Bạc_Liêu.jpg", "license": "CC BY-SA 4.0", "author": "Huỳnh Hoàng Nhật Duy"},
+    {"path": "assets/images/destinations/chau-doc.jpg", "source": "Wikimedia Commons", "file": "Miếu_Bà_Chúa_Xứ_(12816644963).jpg", "license": "see Commons", "author": "see Commons"},
+    {"path": "assets/images/tra-su/05-dry-season.jpg", "source": "Wikimedia Commons", "file": "Rừng_tràm_Trà_Sư.jpg", "license": "CC BY-SA", "author": "Bùi Thụy Đào Nguyên"},
+    {"path": "assets/images/ha-tien/01-phu-dung.jpg", "source": "Wikimedia Commons / Flickr", "file": "Phù_Dung_Cổ_Tự_-_Hà_Tiên_(52352816921).jpg", "license": "Public Domain Mark", "author": "Kien Mike"},
+    {"path": "assets/images/phu-quoc/01-beach.jpg", "source": "Wikimedia Commons", "file": "Amazing_beach_on_Phu_Quoc_island_Vietnam_(38647607275).jpg", "license": "CC BY 2.0", "author": "dronepicr"},
+    {"path": "assets/images/con-dao/01-beach.jpg", "source": "Wikimedia Commons", "file": "Pulo_Condore_island_beach.jpg", "license": "see Commons", "author": "Tycho"},
+    {"path": "assets/images/hcmc/can-gio.jpg", "source": "Wikimedia Commons", "file": "Can_Gio_mangrove_forest.jpg", "license": "GFDL / CC", "author": "Tho nau"},
+    {"path": "assets/images/tinh-bien/06-chua-ta-pa.jpg", "source": "Wikimedia Commons / Panoramio", "file": "Núi_tà_pạ,_tri_tôn_,_angiang,_vietnam_-_panoramio.jpg", "license": "CC BY 3.0", "author": "trungydang"},
+    {"path": "assets/images/tinh-bien/07-quarry-lake.jpg", "source": "Wikimedia Commons", "file": "Hotapa.jpg", "license": "CC BY-SA", "author": "Hoangvantoanajc"},
+    {"path": "assets/images/ben-tre/01-market.jpg", "source": "Wikimedia Commons", "file": "Ben_Tre_Market,_southern_side.jpg", "license": "CC BY-SA", "author": "Magicknight94"},
+    {"path": "assets/images/cai-be/08-cooking.jpg", "source": "Wikimedia Commons", "file": "Street_food_preparation_in_Hanoi_(49357906106).jpg", "license": "CC BY 2.0", "author": "Martin Lewison", "note": "INTERIM — not exact Cái Bè cooking class; replace when licensed Mekong class shot available"}
+  ]
+}
+EOF
+
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main || git pull origin main
+          git add assets/images/tinh-bien assets/images/ben-tre assets/images/destinations/ben-tre.jpg \
+            assets/images/hcmc/can-gio.jpg assets/images/tra-su/05-dry-season.jpg assets/images/cai-be/08-cooking.jpg \
+            data/image-sources-south-mekong.json || true
+          if git diff --cached --quiet; then echo no changes; exit 0; fi
+          git status --short
+          git commit -m 'fix(south-mekong): batch 4 — Tà Pạ, Bến Tre bank, compress, image-sources credits'
+          git push origin HEAD:main
