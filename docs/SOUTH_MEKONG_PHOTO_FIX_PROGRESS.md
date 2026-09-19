@@ -1,27 +1,36 @@
 # South & Mekong photo fix progress
 
-Updated: 2026-09-19 (batch 4)
+Updated: 2026-09-20 (batch 5)
 
 ## Fixed on main
 
-| Path | Fix |
-|------|-----|
-| Alignment `v0.29` | Full hydrateVN restored; Hà Tiên / Phú Quốc / Côn Đảo wired |
-| Cái Bè market, cooking (interim), heroes | Local exact / clean |
-| Cái Răng, Xiêm Cán, Trà Sư, Cần Giờ | Commons verified |
-| Hà Tiên / Phú Quốc / Côn Đảo | Local banks + destination heroes |
-| `tinh-bien/07-quarry-lake.jpg` | Hồ Tà Pạ (Commons, higher quality) |
-| `ben-tre/01-market.jpg` + `destinations/ben-tre.jpg` | Bến Tre market (local bank started) |
-| `data/image-sources-south-mekong.json` | Attribution stub for restored set |
+### Core destinations (earlier batches)
+- Cái Bè floating market + interim cooking, Sa Đéc / Cái Bè / Châu Đốc heroes
+- Cần Thơ Cái Răng, Bạc Liêu Xiêm Cán, Trà Sư, Cần Giờ mangrove
+- Alignment v0.29 full hydrateVN restored
+
+### New local banks (batch 5)
+| Path | Subject |
+|------|--------|
+| `rach-gia/01-city.jpg` + hero | Rạch Giá city |
+| `kien-luong/01-hon-chong.jpg` + hero | Hòn Chồng / Kiên Lương |
+| `vinh-long/01-canal.jpg` + hero | Vĩnh Long canal |
+| `vinh-long/02-tra-on-floating.jpg` | Trà Ôn floating market |
+| `tra-vinh/01-river-market.jpg` + hero | Regional river market (Trà Ôn interim) |
+| `ben-tre/` | Market + alignment wired |
+| `ha-tien/`, `phu-quoc/`, `con-dao/` | Starter banks + wired |
+
+All of the above are **local** (no remote lag / no PHOTO TO VERIFY for these heroes).
 
 ## Still open
 
-1. **Tà Pạ pagoda/mountain** — Commons panoramio source is only 800px; need a higher-res licensed shot for `06-chua-ta-pa.jpg`
-2. **Exact Mekong cooking class** — current is interim Hanoi kitchen
-3. **Wire Bến Tre** into `vietnam-photo-alignment-v026.js` LOCAL maps (hero path exists)
-4. **Expand banks**: Kiên Lương, Rạch Giá, Nam Du, Trà Vinh, Vĩnh Long + more Phú Quốc/Côn Đảo/Hà Tiên experiences
-5. **Richer license file** — expand `image-sources-south-mekong.json` with full per-file credits
-6. Compress any remaining >350 KB (Trà Sư still large)
+1. Higher-res **Tà Pạ** pagoda/mountain (Commons panoramio is ~800px)
+2. Exact **Mekong cooking class** (replace interim)
+3. **Nam Du** islands bank (sparse on Commons)
+4. More experience shots per bank (6–12 each)
+5. Dedicated **Trà Vinh** subject (not shared Trà Ôn)
+6. Expand license credits file
+7. Compress Trà Sư if still >350 KB
 
 ## Policy
 Nothing may remain PHOTO TO VERIFY. All cards need local images.
