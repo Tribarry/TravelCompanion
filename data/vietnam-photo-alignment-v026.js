@@ -344,6 +344,13 @@ const BACLIEU_LOCAL=[
 ];
 
 
+
+const BENTRE_LOCAL=[
+ [/market|chợ|cho ben tre/i,'assets/images/ben-tre/01-market.jpg'],
+ [/river|sông|song/i,'assets/images/ben-tre/02-river.jpg'],
+ [/bến tre|ben tre/i,'assets/images/ben-tre/01-market.jpg']
+];
+
 const HATIEN_LOCAL=[
  [/phù dung|phu dung|cổ tự|co tu/i,'assets/images/ha-tien/01-phu-dung.jpg'],
  [/hà tiên|ha tien/i,'assets/images/ha-tien/01-phu-dung.jpg']
@@ -400,6 +407,7 @@ function destLocalPhoto(q,currentName){
  if(n==='tra su'||n==='tra su cajuput forest') return 'assets/images/tra-su/01-boat.jpg';
  if(n==='tinh bien tri ton'||n==='tinh bien'||n==='bay nui'||n==='tinh bien tri ton seven mountains') return 'assets/images/destinations/tinh-bien-tri-ton.jpg';
  if(n==='bac lieu') return 'assets/images/destinations/bac-lieu-ghositaram.jpg';
+ if(n==='ben tre') return 'assets/images/destinations/ben-tre.jpg';
  if(n==='ha tien') return 'assets/images/destinations/ha-tien.jpg';
  if(n==='phu quoc') return 'assets/images/destinations/phu-quoc.jpg';
  if(n==='con dao'||n==='con son') return 'assets/images/destinations/con-dao.jpg';
@@ -415,11 +423,12 @@ function destLocalPhoto(q,currentName){
  if(/tra su/.test(dest)) add(TRASU_LOCAL);
  if(/tinh bien|tri ton|bay nui/.test(dest)) add(TINHBIEN_LOCAL);
  if(/bac lieu/.test(dest)) add(BACLIEU_LOCAL);
+ if(/ben tre/.test(dest)) add(BENTRE_LOCAL);
  if(/ha tien/.test(dest)) add(HATIEN_LOCAL);
  if(/phu quoc/.test(dest)) add(PHUQUOC_LOCAL);
  if(/con dao|con son/.test(dest)) add(CONDAO_LOCAL);
  if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);
- add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(TINHBIEN_LOCAL);add(BACLIEU_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);add(HATIEN_LOCAL);add(PHUQUOC_LOCAL);add(CONDAO_LOCAL);
+ add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(TINHBIEN_LOCAL);add(BACLIEU_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);add(BENTRE_LOCAL);add(HATIEN_LOCAL);add(PHUQUOC_LOCAL);add(CONDAO_LOCAL);
  for(const rules of maps){for(const [rx,u] of rules){if(rx.test(title))return u}}
  return '';
 }
