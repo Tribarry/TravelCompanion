@@ -15,31 +15,50 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Restore full alignment v029 from known-good SHA
+      - name: Wire Bến Tre into alignment
         run: |
-          git show c979aa71ccac9e01cca3b1dca47e904eda29eb53:data/vietnam-photo-alignment-v026.js > /tmp/base.js
-          wc -c /tmp/base.js
-          echo "CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aApzID0gUGF0aCgiL3RtcC9iYXNlLmpzIikucmVhZF90ZXh0KCkKbmV3X2xvY2FscyA9ICIiIgpjb25zdCBIQVRJRU5fTE9DQUw9WwogWy9waMO5IGR1bmd8cGh1IGR1bmd8Y+G7lSB04buxfGNvIHR1L2ksJ2Fzc2V0cy9pbWFnZXMvaGEtdGllbi8wMS1waHUtZHVuZy5qcGcnXSwKIFsvaMOgIHRpw6pufGhhIHRpZW4vaSwnYXNzZXRzL2ltYWdlcy9oYS10aWVuLzAxLXBodS1kdW5nLmpwZyddCl07CmNvbnN0IFBIVVFVT0NfTE9DQUw9WwogWy9iZWFjaHxiw6NpfGJhaSBzYW98bG9uZyBiZWFjaHx0csaw4budbmcvaSwnYXNzZXRzL2ltYWdlcy9waHUtcXVvYy8wMS1iZWFjaC5qcGcnXSwKIFsvcGjDuiBxdeG7kWN8cGh1IHF1b2MvaSwnYXNzZXRzL2ltYWdlcy9waHUtcXVvYy8wMS1iZWFjaC5qcGcnXQpdOwpjb25zdCBDT05EQU9fTE9DQUw9WwogWy9iZWFjaHxiw6NpfGPDtG4gc8ahbnxjb24gc29uL2ksJ2Fzc2V0cy9pbWFnZXMvY29uLWRhby8wMS1iZWFjaC5qcGcnXSwKIFsvY8O0biDEkeG6o298Y29uIGRhb3xwdWxvIGNvbmRvcmUvaSwnYXNzZXRzL2ltYWdlcy9jb24tZGFvLzAxLWJlYWNoLmpwZyddCl07CgoiIiIKaWYgIkhBVElFTl9MT0NBTCIgbm90IGluIHM6CiAgICBzID0gcy5yZXBsYWNlKCJjb25zdCBIQ01DX0xPQ0FMPVsiLCBuZXdfbG9jYWxzICsgImNvbnN0IEhDTUNfTE9DQUw9WyIsIDEpCm9sZF9oZXJvID0gIiBpZihuPT09J2JhYyBsaWV1JykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy9iYWMtbGlldS1naG9zaXRhcmFtLmpwZyc7IgpoZXJvX3NuaXAgPSBvbGRfaGVybyArICJcbiBpZihuPT09J2hhIHRpZW4nKSByZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvZGVzdGluYXRpb25zL2hhLXRpZW4uanBnJztcbiBpZihuPT09J3BodSBxdW9jJykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy9waHUtcXVvYy5qcGcnO1xuIGlmKG49PT0nY29uIGRhbyd8fG49PT0nY29uIHNvbicpIHJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMvY29uLWRhby5qcGcnOyIKaWYgImlmKG49PT0naGEgdGllbicpIiBub3QgaW4gczoKICAgIHMgPSBzLnJlcGxhY2Uob2xkX2hlcm8sIGhlcm9fc25pcCwgMSkKb2xkX2FkZCA9ICIgaWYoL2JhYyBsaWV1Ly50ZXN0KGRlc3QpKSBhZGQoQkFDTElFVV9MT0NBTCk7XG4gaWYoL2hvIGNoaSBtaW5ofHNhaWdvbi8udGVzdChkZXN0KSkgYWRkKEhDTUNfTE9DQUwpOyIKbmV3X2FkZCA9ICIgaWYoL2JhYyBsaWV1Ly50ZXN0KGRlc3QpKSBhZGQoQkFDTElFVV9MT0NBTCk7XG4gaWYoL2hhIHRpZW4vLnRlc3QoZGVzdCkpIGFkZChIQVRJRU5fTE9DQUwpO1xuIGlmKC9waHUgcXVvYy8udGVzdChkZXN0KSkgYWRkKFBIVVFVT0NfTE9DQUwpO1xuIGlmKC9jb24gZGFvfGNvbiBzb24vLnRlc3QoZGVzdCkpIGFkZChDT05EQU9fTE9DQUwpO1xuIGlmKC9obyBjaGkgbWluaHxzYWlnb24vLnRlc3QoZGVzdCkpIGFkZChIQ01DX0xPQ0FMKTsiCmlmICJhZGQoSEFUSUVOX0xPQ0FMKSIgbm90IGluIHM6CiAgICBzID0gcy5yZXBsYWNlKG9sZF9hZGQsIG5ld19hZGQsIDEpCm9sZF9nbG9iYWwgPSAiIGFkZChIQ01DX0xPQ0FMKTthZGQoQ0FJQkVfTE9DQUwpO2FkZChTQURFQ19MT0NBTCk7YWRkKFRJTkhCSUVOX0xPQ0FMKTthZGQoQkFDTElFVV9MT0NBTCk7YWRkKENBTlRIT19MT0NBTCk7YWRkKExPTkdYVVlFTl9MT0NBTCk7YWRkKENIQVVET0NfTE9DQUwpO2FkZChUUkFTVV9MT0NBTCk7IgpuZXdfZ2xvYmFsID0gb2xkX2dsb2JhbCArICJhZGQoSEFUSUVOX0xPQ0FMKTthZGQoUEhVUVVPQ19MT0NBTCk7YWRkKENPTkRBT19MT0NBTCk7IgppZiAiYWRkKEhBVElFTl9MT0NBTCk7YWRkKFBIVVFVT0MiIG5vdCBpbiBzOgogICAgcyA9IHMucmVwbGFjZShvbGRfZ2xvYmFsLCBuZXdfZ2xvYmFsLCAxKQpzID0gcy5yZXBsYWNlKCIvKiBWMC4yOCDigJQgdmVyaWZpY2F0aW9uLWZpcnN0IFZpZXRuYW0gZ3JhcGhpY3MiLCAiLyogVjAuMjkg4oCUIHZlcmlmaWNhdGlvbi1maXJzdCBWaWV0bmFtIGdyYXBoaWNzICsgU291dGgvTWVrb25nIGxvY2FsIGJhbmtzIiwgMSkKYXNzZXJ0ICJ3aW5kb3cuaHlkcmF0ZVZOPWZ1bmN0aW9uIiBpbiBzCmFzc2VydCAiSEFUSUVOX0xPQ0FMIiBpbiBzCmFzc2VydCAicmVtYWluZGVyIG9mIGZpbGUgcHJlc2VydmVkIiBub3QgaW4gcwpQYXRoKCJkYXRhL3ZpZXRuYW0tcGhvdG8tYWxpZ25tZW50LXYwMjYuanMiKS53cml0ZV90ZXh0KHMpCnByaW50KCJ3cm90ZSIsIGxlbihzKSkK" | base64 -d > /tmp/patch_align.py
-          python3 /tmp/patch_align.py
-          grep -n 'HATIEN_LOCAL\|hydrateVN' data/vietnam-photo-alignment-v026.js | head
+          python3 << 'PY'
+from pathlib import Path
+p = Path('data/vietnam-photo-alignment-v026.js')
+s = p.read_text()
+if 'BENTRE_LOCAL' in s:
+    print('already wired')
+else:
+    block = '''
+const BENTRE_LOCAL=[
+ [/market|chợ|cho ben tre/i,'assets/images/ben-tre/01-market.jpg'],
+ [/river|sông|song/i,'assets/images/ben-tre/02-river.jpg'],
+ [/bến tre|ben tre/i,'assets/images/ben-tre/01-market.jpg']
+];
 
-      - name: Cần Giờ mangrove from Commons
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq imagemagick
-          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
-            -o /tmp/can-gio.jpg \
-            'https://commons.wikimedia.org/wiki/Special:FilePath/Can_Gio_mangrove_forest.jpg?width=1600'
-          convert /tmp/can-gio.jpg -resize '1280x>' -quality 82 -strip \
-            assets/images/hcmc/can-gio.jpg
-          ls -la assets/images/hcmc/can-gio.jpg
+'''
+    s = s.replace('const HATIEN_LOCAL=[', block + 'const HATIEN_LOCAL=[', 1)
+    if "if(n==='ben tre')" not in s:
+        s = s.replace(
+            " if(n==='ha tien') return 'assets/images/destinations/ha-tien.jpg';",
+            " if(n==='ben tre') return 'assets/images/destinations/ben-tre.jpg';\n if(n==='ha tien') return 'assets/images/destinations/ha-tien.jpg';",
+            1)
+    if 'add(BENTRE_LOCAL)' not in s:
+        s = s.replace(
+            ' if(/ha tien/.test(dest)) add(HATIEN_LOCAL);',
+            ' if(/ben tre/.test(dest)) add(BENTRE_LOCAL);\n if(/ha tien/.test(dest)) add(HATIEN_LOCAL);',
+            1)
+        s = s.replace(
+            'add(HATIEN_LOCAL);add(PHUQUOC_LOCAL);add(CONDAO_LOCAL);',
+            'add(BENTRE_LOCAL);add(HATIEN_LOCAL);add(PHUQUOC_LOCAL);add(CONDAO_LOCAL);',
+            1)
+    p.write_text(s)
+    print('wired Bến Tre', len(s))
+assert 'window.hydrateVN=function' in p.read_text()
+print('hydrate OK')
+PY
 
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
-          git add data/vietnam-photo-alignment-v026.js assets/images/hcmc/can-gio.jpg
+          git add data/vietnam-photo-alignment-v026.js
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(south-mekong): restore full photo alignment v029 + wire new banks; Cần Giờ mangrove'
+          git commit -m 'fix(south-mekong): wire Bến Tre local bank into photo alignment'
           git push origin HEAD:main
