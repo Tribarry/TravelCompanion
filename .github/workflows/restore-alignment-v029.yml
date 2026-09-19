@@ -1,0 +1,92 @@
+name: Restore alignment v029
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Restore full alignment from pre-truncation commit and patch
+        run: |
+          # Known-good full file (~26KB with hydrateVN)
+          git show c979aa71ccac9e01cca3b1dca47e904eda29eb53:data/vietnam-photo-alignment-v026.js > /tmp/base.js
+          wc -c /tmp/base.js
+          python3 <<'PY'
+from pathlib import Path
+s = Path('/tmp/base.js').read_text()
+new_locals = '''
+const HATIEN_LOCAL=[
+ [/phù dung|phu dung|cổ tự|co tu/i,'assets/images/ha-tien/01-phu-dung.jpg'],
+ [/hà tiên|ha tien/i,'assets/images/ha-tien/01-phu-dung.jpg']
+];
+const PHUQUOC_LOCAL=[
+ [/beach|bãi|bai sao|long beach|trường/i,'assets/images/phu-quoc/01-beach.jpg'],
+ [/phú quốc|phu quoc/i,'assets/images/phu-quoc/01-beach.jpg']
+];
+const CONDAO_LOCAL=[
+ [/beach|bãi|côn sơn|con son/i,'assets/images/con-dao/01-beach.jpg'],
+ [/côn đảo|con dao|pulo condore/i,'assets/images/con-dao/01-beach.jpg']
+];
+
+'''
+if 'HATIEN_LOCAL' not in s:
+    s = s.replace('const HCMC_LOCAL=[', new_locals + 'const HCMC_LOCAL=[', 1)
+hero_snip = """ if(n==='bac lieu') return 'assets/images/destinations/bac-lieu-ghositaram.jpg';
+ if(n==='ha tien') return 'assets/images/destinations/ha-tien.jpg';
+ if(n==='phu quoc') return 'assets/images/destinations/phu-quoc.jpg';
+ if(n==='con dao'||n==='con son') return 'assets/images/destinations/con-dao.jpg';
+"""
+old_hero = " if(n==='bac lieu') return 'assets/images/destinations/bac-lieu-ghositaram.jpg';"
+if "if(n==='ha tien')" not in s:
+    s = s.replace(old_hero, hero_snip, 1)
+old_add = " if(/bac lieu/.test(dest)) add(BACLIEU_LOCAL);\n if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);"
+new_add = """ if(/bac lieu/.test(dest)) add(BACLIEU_LOCAL);
+ if(/ha tien/.test(dest)) add(HATIEN_LOCAL);
+ if(/phu quoc/.test(dest)) add(PHUQUOC_LOCAL);
+ if(/con dao|con son/.test(dest)) add(CONDAO_LOCAL);
+ if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);"""
+if 'add(HATIEN_LOCAL)' not in s:
+    s = s.replace(old_add, new_add, 1)
+old_global = " add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(TINHBIEN_LOCAL);add(BACLIEU_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);"
+new_global = " add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(TINHBIEN_LOCAL);add(BACLIEU_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);add(HATIEN_LOCAL);add(PHUQUOC_LOCAL);add(CONDAO_LOCAL);"
+if 'add(HATIEN_LOCAL);add(PHUQUOC' not in s:
+    s = s.replace(old_global, new_global, 1)
+s = s.replace('/* V0.28 — verification-first Vietnam graphics', '/* V0.29 — verification-first Vietnam graphics + South/Mekong local banks', 1)
+assert 'window.hydrateVN=function' in s
+assert 'HATIEN_LOCAL' in s
+assert 'remainder of file preserved' not in s
+Path('data/vietnam-photo-alignment-v026.js').write_text(s)
+print('wrote', len(s))
+PY
+          wc -c data/vietnam-photo-alignment-v026.js
+          grep -n 'HATIEN_LOCAL\|hydrateVN' data/vietnam-photo-alignment-v026.js | head
+
+      - name: Also restore Cần Giờ mangrove from Commons
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/can-gio.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Can_Gio_mangrove_forest.jpg?width=1600'
+          convert /tmp/can-gio.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/hcmc/can-gio.jpg
+          ls -la assets/images/hcmc/can-gio.jpg
+
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main || git pull origin main
+          git add data/vietnam-photo-alignment-v026.js assets/images/hcmc/can-gio.jpg
+          if git diff --cached --quiet; then echo no changes; exit 0; fi
+          git commit -m 'fix(south-mekong): restore full photo alignment v029 + wire Hà Tiên/Phú Quốc/Côn Đảo; Cần Giờ mangrove'
+          git push origin HEAD:main
