@@ -16,21 +16,19 @@ jobs:
           fetch-depth: 0
       - name: Install
         run: sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick
-      - name: Compress Nam Du hard
+      - name: Redownload Nam Du compressed
         run: |
-          convert assets/images/nam-du/01-road.jpg -auto-orient -resize '900x>' -quality 72 -strip assets/images/nam-du/01-road.jpg
+          mkdir -p assets/images/nam-du assets/images/destinations
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/namdu.jpg 'https://commons.wikimedia.org/wiki/Special:FilePath/Duong_ven_nui_dao_Nam_du,_xa_An_Sơn,huyen_Kiên_Hải,_tỉnh_Kiên_Giang,_Việt_Nam,02-07-16-Dyt_-_panoramio.jpg?width=1200'
+          convert /tmp/namdu.jpg -auto-orient -resize '900x1600>' -quality 70 -strip assets/images/nam-du/01-road.jpg
           cp assets/images/nam-du/01-road.jpg assets/images/destinations/nam-du.jpg
           ls -la assets/images/nam-du/01-road.jpg
-      - name: Ensure NAMDU_LOCAL const exists
-        run: |
-          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnA9UGF0aCgnZGF0YS92aWV0bmFtLXBob3RvLWFsaWdubWVudC12MDI2LmpzJyk7cz1wLnJlYWRfdGV4dCgpCmlmICdjb25zdCBOQU1EVV9MT0NBTD0nIG5vdCBpbiBzOgogcz1zLnJlcGxhY2UoJ2NvbnN0IFJBQ0hHSUFfTE9DQUw9WycsICdcbmNvbnN0IE5BTURVX0xPQ0FMPVtcbiBbL25hbSBkdXxpc2xhbmR8xJFhb3xkYW8vaSwnYXNzZXRzL2ltYWdlcy9uYW0tZHUvMDEtcm9hZC5qcGcnXVxuXTtcblxuY29uc3QgUkFDSEdJQV9MT0FMPVsnLCAxKQogcC53cml0ZV90ZXh0KHMpOyBwcmludCgnYWRkZWQgY29uc3QnKQplbHNlOiBwcmludCgnY29uc3QgZXhpc3RzJykKYXNzZXJ0ICd3aW5kb3cuaHlkcmF0ZVZOPWZ1bmN0aW9uJyBpbiBwLnJlYWRfdGV4dCgpCg== | base64 -d > /tmp/n.py
-          python3 /tmp/n.py
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
-          git add assets/images/nam-du assets/images/destinations/nam-du.jpg data/vietnam-photo-alignment-v026.js
+          git add assets/images/nam-du assets/images/destinations/nam-du.jpg
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(south-mekong): Nam Du ~250KB + NAMDU_LOCAL const'
+          git commit -m 'fix(south-mekong): Nam Du compressed for lag-free local load'
           git push origin HEAD:main
