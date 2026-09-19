@@ -15,62 +15,18 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Install tools
+      - name: Wire Bến Tre into alignment
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq imagemagick
-
-      - name: Tà Pạ mountain + lake
-        run: |
-          mkdir -p assets/images/tinh-bien
-          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/ta-pa-mt.jpg \
-            'https://commons.wikimedia.org/wiki/Special:FilePath/Núi_tà_pạ,_tri_tôn_,_angiang,_vietnam_-_panoramio.jpg?width=1600'
-          convert /tmp/ta-pa-mt.jpg -resize '1280x>' -quality 82 -strip assets/images/tinh-bien/06-chua-ta-pa.jpg
-          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/ta-pa-lake.jpg \
-            'https://commons.wikimedia.org/wiki/Special:FilePath/Hotapa.jpg?width=1600'
-          convert /tmp/ta-pa-lake.jpg -resize '1280x>' -quality 82 -strip assets/images/tinh-bien/07-quarry-lake.jpg
-          ls -la assets/images/tinh-bien/06-chua-ta-pa.jpg assets/images/tinh-bien/07-quarry-lake.jpg
-
-      - name: Bến Tre bank
-        run: |
-          mkdir -p assets/images/ben-tre assets/images/destinations
-          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/ben-tre-mkt.jpg \
-            'https://commons.wikimedia.org/wiki/Special:FilePath/Ben_Tre_Market,_southern_side.jpg?width=1600'
-          convert /tmp/ben-tre-mkt.jpg -resize '1280x>' -quality 82 -strip assets/images/ben-tre/01-market.jpg
-          cp assets/images/ben-tre/01-market.jpg assets/images/destinations/ben-tre.jpg
-          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/ben-tre-river.jpg \
-            'https://commons.wikimedia.org/wiki/Special:FilePath/Ben_Tre_River.jpg?width=1600' || true
-          if [ -f /tmp/ben-tre-river.jpg ]; then
-            convert /tmp/ben-tre-river.jpg -resize '1280x>' -quality 82 -strip assets/images/ben-tre/02-river.jpg
-          fi
-          ls -la assets/images/ben-tre/
-
-      - name: Compress large locals
-        run: |
-          for f in assets/images/hcmc/can-gio.jpg assets/images/tra-su/05-dry-season.jpg assets/images/cai-be/08-cooking.jpg; do
-            if [ -f "$f" ]; then
-              before=$(stat -c%s "$f")
-              convert "$f" -resize '1280x>' -quality 80 -strip "$f.tmp.jpg"
-              mv "$f.tmp.jpg" "$f"
-              after=$(stat -c%s "$f")
-              echo "$f: $before -> $after"
-            fi
-          done
-
-      - name: Write image-sources credits
-        run: |
-          mkdir -p data
-          python3 -c "import json; open('data/image-sources-south-mekong.json','w').write(json.dumps({'updated':'2026-09-19','policy':'verification-first local-only','note':'See commit message and Commons file pages for full attribution of restored South/Mekong photos'}, indent=2))"
+          echo "CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aApwID0gUGF0aCgiZGF0YS92aWV0bmFtLXBob3RvLWFsaWdubWVudC12MDI2LmpzIikKcyA9IHAucmVhZF90ZXh0KCkKaWYgIkJFTlRSRV9MT0NBTCIgaW4gczoKICAgIHByaW50KCJhbHJlYWR5IHdpcmVkIikKZWxzZToKICAgIGJsb2NrID0gIiIiCmNvbnN0IEJFTlRSRV9MT0NBTD1bCiBbL21hcmtldHxjaOG7oyx8Y2hvIGJlbiB0cmUvaSwnYXNzZXRzL2ltYWdlcy9iZW4tdHJlLzAxLW1hcmtldC5qcGcnXSwKIFsvcml2ZXJ8c8O0bmcsc29uZy9pLCdhc3NldHMvaW1hZ2VzL2Jlbi10cmUvMDItcml2ZXIuanBnJ10sCiBbL2Lhur9uIHRyZXxiZW4gdHJlL2ksJ2Fzc2V0cy9pbWFnZXMvYmVuLXRyZS8wMS1tYXJrZXQuanBnJ10KXTsKCiIiIgogICAgcyA9IHMucmVwbGFjZSgiY29uc3QgSEFUSUVOX0xPQ0FMPVsiLCBibG9jayArICJjb25zdCBIQVRJRU5fTE9DQUw9WyIsIDEpCiAgICBpZiAiaWYobj09PSdiZW4gdHJlJykiIG5vdCBpbiBzOgogICAgICAgIHMgPSBzLnJlcGxhY2UoCiAgICAgICAgICAgICIgaWYobj09PSdoYSB0aWVuJykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy9oYS10aWVuLmpwZyc7IiwKICAgICAgICAgICAgIiBpZihuPT09J2JlbiB0cmUnKSByZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvZGVzdGluYXRpb25zL2Jlbi10cmUuanBnJztcbiBpZihuPT09J2hhIHRpZW4nKSByZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvZGVzdGluYXRpb25zL2hhLXRpZW4uanBnJzsiLAogICAgICAgICAgICAxKQogICAgaWYgImFkZChCRU5UUkVfTE9DQUwpIiBub3QgaW4gczoKICAgICAgICBzID0gcy5yZXBsYWNlKAogICAgICAgICAgICAiIGlmKC9oYSB0aWVuLy50ZXN0KGRlc3QpKSBhZGQoSEFUSUVOX0xPQ0FMKTsiLAogICAgICAgICAgICAiIGlmKC9iZW4gdHJlLy50ZXN0KGRlc3QpKSBhZGQoQkVOVFJFX0xPQ0FMKTtcbiBpZigvaGEgdGllbi8udGVzdChkZXN0KSkgYWRkKEhBVElFTl9MT0NBTC87IiwKICAgICAgICAgICAgMSkKICAgICAgICBzID0gcy5yZXBsYWNlKAogICAgICAgICAgICAiYWRkKEhBVElFTl9MT0NBTCk7YWRkKFBIVVFVT0NfTE9DQUwpO2FkZChDT05EQU9fTE9DQUwpOyIsCiAgICAgICAgICAgICJhZGQoQkVOVFJFX0xPQ0FMKTthZGQoSEFUSUVOX0xPQ0FMKTthZGQoUEhVUVVPQ19MT0NBTCk7YWRkKENPTkRBT19MT0NBTCk7IiwKICAgICAgICAgICAgMSkKICAgIHAud3JpdGVfdGV4dChzKQogICAgcHJpbnQoIndpcmVkIiwgbGVuKHMpKQphc3NlcnQgIndpbmRvdy5oeWRyYXRlVk49ZnVuY3Rpb24iIGluIHAucmVhZF90ZXh0KCkKcHJpbnQoIm9rIikK" | base64 -d > /tmp/wire_bentre.py
+          python3 /tmp/wire_bentre.py
+          grep -n 'BENTRE_LOCAL\|hydrateVN' data/vietnam-photo-alignment-v026.js | head
 
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
-          git add assets/images/tinh-bien assets/images/ben-tre assets/images/destinations/ben-tre.jpg \
-            assets/images/hcmc/can-gio.jpg assets/images/tra-su/05-dry-season.jpg assets/images/cai-be/08-cooking.jpg \
-            data/image-sources-south-mekong.json || true
+          git add data/vietnam-photo-alignment-v026.js
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git status --short
-          git commit -m 'fix(south-mekong): batch 4 — Tà Pạ, Bến Tre bank, compress, image-sources'
+          git commit -m 'fix(south-mekong): wire Bến Tre local bank into photo alignment'
           git push origin HEAD:main
