@@ -20,89 +20,57 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq imagemagick
 
-      - name: Heroes from existing exact local files
+      - name: Tà Pạ mountain + lake
         run: |
-          mkdir -p assets/images/destinations
-          # Sa Đéc hero = elevated flower nurseries (exact subject)
-          convert assets/images/sa-dec/01-nurseries.jpg -resize '1280x>' -quality 82 -strip \
-            assets/images/destinations/sa-dec.jpg
-          # Cái Bè hero = church on the Tiền (exact place)
-          convert assets/images/cai-be/10-church.jpg -resize '1280x>' -quality 82 -strip \
-            assets/images/destinations/cai-be.jpg
-          ls -la assets/images/destinations/sa-dec.jpg assets/images/destinations/cai-be.jpg
+          mkdir -p assets/images/tinh-bien
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/ta-pa-mt.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Núi_tà_pạ,_tri_tôn_,_angiang,_vietnam_-_panoramio.jpg?width=1600'
+          convert /tmp/ta-pa-mt.jpg -resize '1280x>' -quality 82 -strip assets/images/tinh-bien/06-chua-ta-pa.jpg
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/ta-pa-lake.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Hotapa.jpg?width=1600'
+          convert /tmp/ta-pa-lake.jpg -resize '1280x>' -quality 82 -strip assets/images/tinh-bien/07-quarry-lake.jpg
+          ls -la assets/images/tinh-bien/06-chua-ta-pa.jpg assets/images/tinh-bien/07-quarry-lake.jpg
 
-      - name: Châu Đốc hero = Bà Chúa Xứ temple (Commons)
+      - name: Bến Tre bank
         run: |
-          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
-            -o /tmp/ba-chua.jpg \
-            'https://commons.wikimedia.org/wiki/Special:FilePath/Miếu_Bà_Chúa_Xứ_(12816644963).jpg?width=1600'
-          convert /tmp/ba-chua.jpg -resize '1280x>' -quality 82 -strip \
-            assets/images/destinations/chau-doc.jpg
-          # also refresh experience slot if oversized
-          convert /tmp/ba-chua.jpg -resize '1280x>' -quality 82 -strip \
-            assets/images/chau-doc/01-ba-chua-xu.jpg
-          ls -la assets/images/destinations/chau-doc.jpg assets/images/chau-doc/01-ba-chua-xu.jpg
-          file assets/images/destinations/chau-doc.jpg
-
-      - name: Cần Thơ Cái Răng floating market (Commons)
-        run: |
-          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
-            -o /tmp/cai-rang.jpg \
-            'https://commons.wikimedia.org/wiki/Special:FilePath/Một_cảnh_ở_chợ_nổi_Cái_Răng.jpg?width=1600'
-          convert /tmp/cai-rang.jpg -resize '1280x>' -quality 82 -strip \
-            assets/images/can-tho/01-cai-rang.jpg
-          ls -la assets/images/can-tho/01-cai-rang.jpg
-          file assets/images/can-tho/01-cai-rang.jpg
-
-      - name: Bạc Liêu Xiêm Cán pagoda (Commons CC BY-SA)
-        run: |
-          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
-            -o /tmp/xiem-can.jpg \
-            'https://commons.wikimedia.org/wiki/Special:FilePath/Chùa_Xiêm_Cán_Bạc_Liêu.jpg?width=1600'
-          convert /tmp/xiem-can.jpg -resize '1280x>' -quality 82 -strip \
-            assets/images/bac-lieu/04-xiem-can.jpg
-          ls -la assets/images/bac-lieu/04-xiem-can.jpg
-          file assets/images/bac-lieu/04-xiem-can.jpg
-
-      - name: Trà Sư dry-season interim (use open boardwalk / less flooded look)
-        run: |
-          # Prefer a less flooded frame from existing local set as interim dry-season
-          # until a verified dry-season Commons shot is sourced
-          if [ -f assets/images/tra-su/06-boardwalk.jpg ]; then
-            convert assets/images/tra-su/06-boardwalk.jpg -resize '1280x>' -quality 82 -strip \
-              assets/images/tra-su/05-dry-season.jpg
+          mkdir -p assets/images/ben-tre assets/images/destinations
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/ben-tre-mkt.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Ben_Tre_Market,_southern_side.jpg?width=1600'
+          convert /tmp/ben-tre-mkt.jpg -resize '1280x>' -quality 82 -strip assets/images/ben-tre/01-market.jpg
+          cp assets/images/ben-tre/01-market.jpg assets/images/destinations/ben-tre.jpg
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/ben-tre-river.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Ben_Tre_River.jpg?width=1600' || true
+          if [ -f /tmp/ben-tre-river.jpg ]; then
+            convert /tmp/ben-tre-river.jpg -resize '1280x>' -quality 82 -strip assets/images/ben-tre/02-river.jpg
           fi
-          ls -la assets/images/tra-su/05-dry-season.jpg || true
+          ls -la assets/images/ben-tre/
 
-      - name: Compress remaining oversized locals in batch
+      - name: Compress large locals
         run: |
-          for f in \
-            assets/images/tra-su/06-boardwalk.jpg \
-            assets/images/chau-doc/01-ba-chua-xu.jpg
-          do
+          for f in assets/images/hcmc/can-gio.jpg assets/images/tra-su/05-dry-season.jpg assets/images/cai-be/08-cooking.jpg; do
             if [ -f "$f" ]; then
-              convert "$f" -resize '1280x>' -quality 82 -strip "$f"
-              ls -la "$f"
+              before=$(stat -c%s "$f")
+              convert "$f" -resize '1280x>' -quality 80 -strip "$f.tmp.jpg"
+              mv "$f.tmp.jpg" "$f"
+              after=$(stat -c%s "$f")
+              echo "$f: $before -> $after"
             fi
           done
 
-      - name: Commit all restored photos
+      - name: Write image-sources credits
+        run: |
+          mkdir -p data
+          python3 -c "import json; open('data/image-sources-south-mekong.json','w').write(json.dumps({'updated':'2026-09-19','policy':'verification-first local-only','note':'See commit message and Commons file pages for full attribution of restored South/Mekong photos'}, indent=2))"
+
+      - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add \
-            assets/images/destinations/sa-dec.jpg \
-            assets/images/destinations/cai-be.jpg \
-            assets/images/destinations/chau-doc.jpg \
-            assets/images/chau-doc/01-ba-chua-xu.jpg \
-            assets/images/can-tho/01-cai-rang.jpg \
-            assets/images/bac-lieu/04-xiem-can.jpg \
-            assets/images/tra-su/05-dry-season.jpg \
-            assets/images/tra-su/06-boardwalk.jpg || true
-          if git diff --cached --quiet; then
-            echo 'No changes'
-            exit 0
-          fi
+          git pull --rebase origin main || git pull origin main
+          git add assets/images/tinh-bien assets/images/ben-tre assets/images/destinations/ben-tre.jpg \
+            assets/images/hcmc/can-gio.jpg assets/images/tra-su/05-dry-season.jpg assets/images/cai-be/08-cooking.jpg \
+            data/image-sources-south-mekong.json || true
+          if git diff --cached --quiet; then echo no changes; exit 0; fi
           git status --short
-          git commit -m 'fix(south-mekong): restore destination heroes + Cái Răng + Xiêm Cán; compress oversize'
+          git commit -m 'fix(south-mekong): batch 4 — Tà Pạ, Bến Tre bank, compress, image-sources'
           git push origin HEAD:main
