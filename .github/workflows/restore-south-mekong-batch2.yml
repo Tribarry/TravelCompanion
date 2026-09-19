@@ -15,18 +15,51 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Wire Bến Tre into alignment
+      - name: Install tools
         run: |
-          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnA9UGF0aCgnZGF0YS92aWV0bmFtLXBob3RvLWFsaWdubWVudC12MDI2LmpzJyk7cz1wLnJlYWRfdGV4dCgpCmlmICdCRU5UUkVfTE9DQUwnIG5vdCBpbiBzOgogYj0iXG5jb25zdCBCRU5UUkVfTE9DQUw9W1xuIFsvbWFya2V0fGNo4bujfGNobyBiZW4gdHJlL2ksJ2Fzc2V0cy9pbWFnZXMvYmVuLXRyZS8wMS1tYXJrZXQuanBnJ10sXG4gWy9yaXZlcnxzw7RuZ3xzb25nL2ksJ2Fzc2V0cy9pbWFnZXMvYmVuLXRyZS8wMi1yaXZlci5qcGcnXSxcbiBbL2Lhur9uIHRyZXxiZW4gdHJlL2ksJ2Fzc2V0cy9pbWFnZXMvYmVuLXRyZS8wMS1tYXJrZXQuanBnJ11cbl07XG5cbiIKIHM9cy5yZXBsYWNlKCdjb25zdCBIQVRJRU5fTE9DQUw9WycsYisnY29uc3QgSEFUSUVOX0xPQ0FMPVsnLDEpCiBzPXMucmVwbGFjZSgiIGlmKG49PT0naGEgdGllbicpIHJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMvaGEtdGllbi5qcGcnOyIsIiBpZihuPT09J2JlbiB0cmUnKSByZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvZGVzdGluYXRpb25zL2Jlbi10cmUuanBnJztcbiBpZihuPT09J2hhIHRpZW4nKSByZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvZGVzdGluYXRpb25zL2hhLXRpZW4uanBnJzsiLDEpCiBzPXMucmVwbGFjZSgnIGlmKC9oYSB0aWVuLy50ZXN0KGRlc3QpKSBhZGQoSEFUSUVOX0xPQ0FMKTsnLCcgaWYoL2JlbiB0cmUvLnRlc3QoZGVzdCkpIGFkZChCRU5UUkVfTE9DQUwpO1xuIGlmKC9oYSB0aWVuLy50ZXN0KGRlc3QpKSBhZGQoSEFUSUVOX0xPQ0FMKTsnLDEpCiBzPXMucmVwbGFjZSgnYWRkKEhBVElFTl9MT0NBTCk7YWRkKFBIVVFVT0NfTE9DQUwpO2FkZChDT05EQU9fTE9DQUwpOycsJ2FkZChCRU5UUkVfTE9DQUwpO2FkZChIQVRJRU5fTE9DQUwpO2FkZChQSFVRVU9DX0xPQ0FMKTthZGQoQ09OREFPX0xPQ0FMKTsnLDEpCiBwLndyaXRlX3RleHQocyk7cHJpbnQoJ3dpcmVkJyxsZW4ocykpCmVsc2U6cHJpbnQoJ2FscmVhZHknKQphc3NlcnQgJ3dpbmRvdy5oeWRyYXRlVk49ZnVuY3Rpb24nIGluIHAucmVhZF90ZXh0KCkK | base64 -d > /tmp/w.py
-          python3 /tmp/w.py
-          grep -n BENTRE_LOCAL data/vietnam-photo-alignment-v026.js | head
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
+
+      - name: Download local banks
+        run: |
+          mkdir -p assets/images/rach-gia assets/images/kien-luong assets/images/vinh-long assets/images/tra-vinh assets/images/destinations
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/rg.jpg 'https://commons.wikimedia.org/wiki/Special:FilePath/Rach_Gia_2018_Kenno.jpg?width=1600'
+          convert /tmp/rg.jpg -resize '1280x>' -quality 82 -strip assets/images/rach-gia/01-city.jpg
+          cp assets/images/rach-gia/01-city.jpg assets/images/destinations/rach-gia.jpg
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/kl.jpg 'https://commons.wikimedia.org/wiki/Special:FilePath/Hòn_Chông_(50572156981).jpg?width=1600' || curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/kl.jpg 'https://commons.wikimedia.org/wiki/Special:FilePath/Mount_Ba_Hòn,_Kiên_Lương_town,_Kiên_Lương_district,_Kiên_Giang,_Vietnam,_at_June-2022.jpg?width=1600'
+          convert /tmp/kl.jpg -resize '1280x>' -quality 82 -strip assets/images/kien-luong/01-hon-chong.jpg
+          cp assets/images/kien-luong/01-hon-chong.jpg assets/images/destinations/kien-luong.jpg
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/vl.jpg 'https://commons.wikimedia.org/wiki/Special:FilePath/Rạch_Cái_Cá.jpg?width=1600'
+          convert /tmp/vl.jpg -resize '1280x>' -quality 82 -strip assets/images/vinh-long/01-canal.jpg
+          cp assets/images/vinh-long/01-canal.jpg assets/images/destinations/vinh-long.jpg
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/traon.jpg 'https://commons.wikimedia.org/wiki/Special:FilePath/Chợ_nổi_Trà_Ôn_(mới).jpg?width=1600'
+          convert /tmp/traon.jpg -resize '1280x>' -quality 82 -strip assets/images/vinh-long/02-tra-on-floating.jpg
+          cp assets/images/vinh-long/02-tra-on-floating.jpg assets/images/tra-vinh/01-river-market.jpg
+          cp assets/images/tra-vinh/01-river-market.jpg assets/images/destinations/tra-vinh.jpg
+          ls -la assets/images/rach-gia assets/images/kien-luong assets/images/vinh-long assets/images/tra-vinh
+
+      - name: Compress large
+        run: |
+          for f in assets/images/tra-su/05-dry-season.jpg assets/images/hcmc/can-gio.jpg; do
+            [ -f "$f" ] || continue
+            before=$(stat -c%s "$f")
+            convert "$f" -resize '1200x>' -quality 78 -strip "$f.tmp.jpg"
+            mv "$f.tmp.jpg" "$f"
+            echo "$f: $before -> $(stat -c%s "$f")"
+          done
+
+      - name: Wire alignment
+        run: |
+          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnAgPSBQYXRoKCJkYXRhL3ZpZXRuYW0tcGhvdG8tYWxpZ25tZW50LXYwMjYuanMiKQpzID0gcC5yZWFkX3RleHQoKQppZiAiUkFDSEdJQV9MT0NBTCIgbm90IGluIHM6CiAgICBibG9ja3MgPSAiIiIKY29uc3QgUkFDSEdJQV9MT0NBTD1bCiBbL2NpdHl8cuG6oWNoIGdpw6F8cmFjaCBnaWEvaSwnYXNzZXRzL2ltYWdlcy9yYWNoLWdpYS8wMS1jaXR5LmpwZyddCl07CmNvbnN0IEtJRU5MVU9OR19MT0NBTD1bCiBbL2jDsm4gY2jhu5VuZ3xob24gY2hvbmd8YmEgaMOybnxiYSBob258a2nDqm4gbMawxqFuZ3xraWVuIGx1b25nL2ksJ2Fzc2V0cy9pbWFnZXMva2llbi1sdW9uZy8wMS1ob24tY2hvbmcuanBnJ10KXTsKY29uc3QgVklOSExPTkdfTE9DQUw9WwogWy9jYW5hbHxy4bqhc2h8ZmxvYXRpbmd8dHLDoCDDtG58dHJhIG9uL2ksJ2Fzc2V0cy9pbWFnZXMvdmluaC1sb25nLzAxLWNhbmFsLmpwZyddLAogWy92xKluaCBsb25nfHZpbmggbG9uZy9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMS1jYW5hbC5qcGcnXQpdOwpjb25zdCBUUkFWSU5IX0xPQ0FMPVsKIFsvcml2ZXJ8bWFya2V0fHRyw6AgdmluaHx0cmEgdmluaC9pLCdhc3NldHMvaW1hZ2VzL3RyYS12aW5oLzAxLXJpdmVyLW1hcmtldC5qcGcnXQpdOwoKIiIiCiAgICBzID0gcy5yZXBsYWNlKCJjb25zdCBCZW5UUkVfTE9DQUw9WyIsIGJsb2NrcyArICJjb25zdCBCZW5UUkVfTE9DQUw9WyIsIDEpCmlmICJpZihuPT09J3JhY2ggZ2lhJykiIG5vdCBpbiBzOgogICAgcyA9IHMucmVwbGFjZSgKICAgICAgICAiIGlmKG49PT0nYmVuIHRyZScpIHJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMvYmVuLXRyZS5qcGcnOyIsCiAgICAgICAgIiBpZihuPT09J3JhY2ggZ2lhJykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy9yYWNoLWdpYS5qcGcnO1xuIGlmKG49PT0na2llbiBsdW9uZycpIHJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMva2llbi1sdW9uZy5qcGcnO1xuIGlmKG49PT0ndmluaCBsb25nJykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy92aW5oLWxvbmcuanBnJztcbiBpZihuPT09J3RyYSB2aW5oJykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy90cmEtdmluaC5qcGcnO1xuIGlmKG49PT0nYmVuIHRyZScpIHJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMvYmVuLXRyZS5qcGcnOyIsCiAgICAgICAgMSkKaWYgImFkZChSQUNIR0lBX0xPQ0FMKSIgbm90IGluIHM6CiAgICBzID0gcy5yZXBsYWNlKAogICAgICAgICIgaWYoL2JlbiB0cmUvLnRlc3QoZGVzdCkpIGFkZChCRU5UUkVfTE9DQUwpOyIsCiAgICAgICAgIiBpZigvcmFjaCBnaWEvLnRlc3QoZGVzdCkpIGFkZChSQUNIR0lBX0xPQ0FMKTtcbiBpZigva2llbiBsdW9uZy8udGVzdChkZXN0KSkgYWRkKEtJRU5MVU9OR19MT0NBTC07XG4gaWYoL3ZpbmggbG9uZy8udGVzdChkZXN0KSkgYWRkKFZJTkhMT05HX0xPQ0FMKTtcbiBpZigvdHJhIHZpbmgvLnRlc3QoZGVzdCkpIGFkZChUUkFWSU5IX0xPQ0FMKTtcbiBpZigvYmVuIHRyZS8udGVzdChkZXN0KSkgYWRkKEJFTlRSRV9MT0NBTC07IiwKICAgICAgICAxKQogICAgcyA9IHMucmVwbGFjZSgKICAgICAgICAiYWRkKEJFTlRSRV9MT0NBTCk7YWRkKEhBVElFTl9MT0NBTCk7IiwKICAgICAgICAiYWRkKFJBQ0hHSUFfTE9DQUwpO2FkZChLSUVOTEVPTkdfTE9DQUwpO2FkZChWSU5ITE9OR19MT0NBTCk7YWRkKFRSQVZJTkhfTE9DQUwpO2FkZChCRU5UUkVfTE9DQUwpO2FkZChIQVRJRU5fTE9DQUwpOyIsCiAgICAgICAgMSkKcC53cml0ZV90ZXh0KHMpCnByaW50KCJsZW4iLCBsZW4ocykpCmFzc2VydCAid2luZG93Lmh5ZHJhdGVWTj1mdW5jdGlvbiIgaW4gcwpwcmludCgib2siKQo= | base64 -d > /tmp/patch.py
+          python3 /tmp/patch.py
+          grep -n RACHGIA_LOCAL data/vietnam-photo-alignment-v026.js | head
 
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
-          git add data/vietnam-photo-alignment-v026.js
+          git add assets/images/rach-gia assets/images/kien-luong assets/images/vinh-long assets/images/tra-vinh assets/images/destinations data/vietnam-photo-alignment-v026.js assets/images/tra-su assets/images/hcmc || true
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(south-mekong): wire Bến Tre local bank into photo alignment'
+          git commit -m 'fix(south-mekong): batch 5 — Rạch Giá, Kiên Lương, Vĩnh Long, Trà Vinh banks + wire + compress'
           git push origin HEAD:main
