@@ -1,0 +1,46 @@
+name: Restore Cái Bè floating market photo
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Download verified Cái Bè floating market (Commons CC BY 2.0)
+        run: |
+          mkdir -p assets/images/cai-be
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/cai-be-src.jpg \
+            'https://upload.wikimedia.org/wikipedia/commons/8/80/Vietnam_08_-_122_-_Cai_Be_floating_market_%283185904536%29.jpg'
+          file /tmp/cai-be-src.jpg
+          ls -la /tmp/cai-be-src.jpg
+
+      - name: Resize and compress for app use
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
+          convert /tmp/cai-be-src.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/cai-be/01-floating-market.jpg
+          ls -la assets/images/cai-be/01-floating-market.jpg
+          file assets/images/cai-be/01-floating-market.jpg
+
+      - name: Commit restored photo
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/images/cai-be/01-floating-market.jpg
+          if git diff --cached --quiet; then
+            echo 'File unchanged'
+            exit 0
+          fi
+          git commit -m 'fix(south-mekong): restore Cái Bè floating market (Commons CC BY 2.0 McKay Savage, real fruit boats)'
+          git push origin HEAD:main
