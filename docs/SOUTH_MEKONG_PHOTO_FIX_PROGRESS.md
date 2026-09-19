@@ -1,22 +1,35 @@
 # South & Mekong photo fix progress
 
-Updated: 2026-09-19
+Updated: 2026-09-19 (batch 2 complete)
 
-## Critical
-- `assets/images/cai-be/01-floating-market.jpg` is currently corrupted (literal text PLACEHOLDER from a failed binary push). Must be restored from local optimized file:
-  - `/home/workdir/artifacts/photo-fix/cai-be/01-floating-market.jpg` (1280x960, ~187KB)
-  - Source: Wikimedia Commons CC BY 2.0, McKay Savage — File:Vietnam_08_-_122_-_Cai_Be_floating_market_(3185904536).jpg
+## Fixed on main
 
-## Ready locally (not yet pushed as binary)
-- Real fruit-boat floating market for Cái Bè
-- Bà Chúa Xứ for Châu Đốc hero
-- Sa Đéc elevated nurseries as destination hero
-- Cái Bè church destination hero
+| Path | Fix |
+|------|-----|
+| `cai-be/01-floating-market.jpg` | Restored real fruit-boat market (Commons CC BY 2.0 McKay Savage) |
+| `destinations/sa-dec.jpg` | Elevated flower nurseries (from local `sa-dec/01`) |
+| `destinations/cai-be.jpg` | Church on the Tiền (from local `cai-be/10`) |
+| `destinations/chau-doc.jpg` | Bà Chúa Xứ temple (Commons) |
+| `can-tho/01-cai-rang.jpg` | Real Cái Răng floating market (Commons) |
+| `bac-lieu/04-xiem-can.jpg` | Xiêm Cán pagoda (Commons CC BY-SA, no Vietnamnet watermark) |
+| `tra-su/05-dry-season.jpg` | Interim: boardwalk frame (less flooded look) until verified dry-season shot |
+
+## Still open (priority)
+
+1. **Watermarked / weak subject**
+   - `cai-be/08-cooking.jpg` — LinsFood watermark → need clean Mekong home-cooking shot
+   - `tinh-bien/06-chua-ta-pa.jpg` — low-res crop → higher-res Tà Pạ pagoda
+   - `hcmc/can-gio.jpg` — generic mangrove → verified Cần Giờ
+2. **True dry-season Trà Sư** (current is interim boardwalk)
+3. **Missing destination banks** (local folders required, no remote lag / no PHOTO TO VERIFY)
+   - Hà Tiên, Kiên Lương, Rạch Giá, Nam Du, Phú Quốc, Côn Đảo, Bến Tre, Trà Vinh, Vĩnh Long
+4. **License pass** on all newly added Commons files (credit in image-sources.json)
+5. **Compress remaining oversize** (workflow `compress-south-mekong-oversize.yml`)
 
 ## Policy
-Nothing may remain PHOTO TO VERIFY. All experience cards need local images to avoid lag.
+Nothing may remain PHOTO TO VERIFY. All experience cards need local images.
 
-## Next
-1. Restore cai-be/01 binary via GitHub Contents API / gh push
-2. Replace watermarked / wrong-season / collage files
-3. Build local folders for Hà Tiên → Phú Quốc / Côn Đảo
+## Workflows used
+- `.github/workflows/restore-cai-be-floating.yml`
+- `.github/workflows/restore-south-mekong-batch2.yml`
+- `.github/workflows/compress-south-mekong-oversize.yml`
