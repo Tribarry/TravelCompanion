@@ -407,6 +407,7 @@ function destLocalPhoto(q,currentName){
  if(n==='tra su'||n==='tra su cajuput forest') return 'assets/images/tra-su/01-boat.jpg';
  if(n==='tinh bien tri ton'||n==='tinh bien'||n==='bay nui'||n==='tinh bien tri ton seven mountains') return 'assets/images/destinations/tinh-bien-tri-ton.jpg';
  if(n==='bac lieu') return 'assets/images/destinations/bac-lieu-ghositaram.jpg';
+ if(n==='nam du'||n==='nam du islands') return 'assets/images/destinations/nam-du.jpg';
  if(n==='rach gia') return 'assets/images/destinations/rach-gia.jpg';
  if(n==='kien luong') return 'assets/images/destinations/kien-luong.jpg';
  if(n==='vinh long') return 'assets/images/destinations/vinh-long.jpg';
@@ -427,6 +428,7 @@ function destLocalPhoto(q,currentName){
  if(/tra su/.test(dest)) add(TRASU_LOCAL);
  if(/tinh bien|tri ton|bay nui/.test(dest)) add(TINHBIEN_LOCAL);
  if(/bac lieu/.test(dest)) add(BACLIEU_LOCAL);
+ if(/nam du/.test(dest)) add(NAMDU_LOCAL);
  if(/rach gia/.test(dest)) add(RACHGIA_LOCAL);
  if(/kien luong/.test(dest)) add(KIENLUONG_LOCAL-;
  if(/vinh long/.test(dest)) add(VINHLONG_LOCAL);
