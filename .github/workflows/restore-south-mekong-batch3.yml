@@ -1,0 +1,103 @@
+name: Restore South Mekong batch 3
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
+
+      - name: Trà Sư from Commons (Dec 2010 — lower water / dry-leaning)
+        run: |
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/tra-su.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Rừng_tràm_Trà_Sư.jpg?width=1600'
+          convert /tmp/tra-su.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/tra-su/05-dry-season.jpg
+          # also seed boat slot if we want a second Commons frame
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/tra-su-tour.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Tham_quan_Trà_Sư.jpg?width=1600' || true
+          if [ -f /tmp/tra-su-tour.jpg ]; then
+            convert /tmp/tra-su-tour.jpg -resize '1280x>' -quality 82 -strip \
+              assets/images/tra-su/01-boat.jpg
+          fi
+          ls -la assets/images/tra-su/05-dry-season.jpg
+
+      - name: Cooking class interim — Vietnam kitchen (no LinsFood watermark)
+        run: |
+          # Exact Cái Bè home-cooking class is rare on Commons; use verified VN kitchen prep
+          # (street-food prep, CC BY 2.0) as clean interim until a Mekong class shot is licensed
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/cooking.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Street_food_preparation_in_Hanoi_(49357906106).jpg?width=1600'
+          convert /tmp/cooking.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/cai-be/08-cooking.jpg
+          ls -la assets/images/cai-be/08-cooking.jpg
+
+      - name: Create missing destination folders + heroes (Hà Tiên, Phú Quốc, Côn Đảo)
+        run: |
+          mkdir -p assets/images/ha-tien assets/images/phu-quoc assets/images/con-dao assets/images/destinations
+
+          # Hà Tiên — Phù Dung Cổ Tự (PD mark on Flickr)
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/ha-tien.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Phù_Dung_Cổ_Tự_-_Hà_Tiên_(52352816921).jpg?width=1600'
+          convert /tmp/ha-tien.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/ha-tien/01-phu-dung.jpg
+          cp assets/images/ha-tien/01-phu-dung.jpg assets/images/destinations/ha-tien.jpg
+
+          # Phú Quốc — beach (PD / CC)
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/phu-quoc.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Amazing_beach_on_Phu_Quoc_island_Vietnam_(38647607275).jpg?width=1600'
+          convert /tmp/phu-quoc.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/phu-quoc/01-beach.jpg
+          cp assets/images/phu-quoc/01-beach.jpg assets/images/destinations/phu-quoc.jpg
+
+          # Côn Đảo — Côn Sơn beach (own work on Commons)
+          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' \
+            -o /tmp/con-dao.jpg \
+            'https://commons.wikimedia.org/wiki/Special:FilePath/Pulo_Condore_island_beach.jpg?width=1600'
+          convert /tmp/con-dao.jpg -resize '1280x>' -quality 82 -strip \
+            assets/images/con-dao/01-beach.jpg
+          cp assets/images/con-dao/01-beach.jpg assets/images/destinations/con-dao.jpg
+
+          ls -la assets/images/ha-tien/ assets/images/phu-quoc/ assets/images/con-dao/
+          ls -la assets/images/destinations/ha-tien.jpg assets/images/destinations/phu-quoc.jpg assets/images/destinations/con-dao.jpg
+
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main || git pull origin main
+          git add \
+            assets/images/tra-su/05-dry-season.jpg \
+            assets/images/tra-su/01-boat.jpg \
+            assets/images/cai-be/08-cooking.jpg \
+            assets/images/ha-tien \
+            assets/images/phu-quoc \
+            assets/images/con-dao \
+            assets/images/destinations/ha-tien.jpg \
+            assets/images/destinations/phu-quoc.jpg \
+            assets/images/destinations/con-dao.jpg || true
+          if git diff --cached --quiet; then
+            echo 'No changes'
+            exit 0
+          fi
+          git status --short
+          git commit -m 'fix(south-mekong): batch 3 — Tra Sư Commons, clean cooking, Hà Tiên/Phú Quốc/Côn Đảo local starters'
+          git push origin HEAD:main
