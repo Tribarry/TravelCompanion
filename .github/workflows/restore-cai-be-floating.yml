@@ -19,31 +19,8 @@ jobs:
         run: |
           git show c979aa71ccac9e01cca3b1dca47e904eda29eb53:data/vietnam-photo-alignment-v026.js > /tmp/base.js
           wc -c /tmp/base.js
-          python3 -c "
-from pathlib import Path
-s = Path('/tmp/base.js').read_text()
-new_locals = '''\nconst HATIEN_LOCAL=[\n [/phù dung|phu dung|cổ tự|co tu/i,\'assets/images/ha-tien/01-phu-dung.jpg\'],\n [/hà tiên|ha tien/i,\'assets/images/ha-tien/01-phu-dung.jpg\']\n];\nconst PHUQUOC_LOCAL=[\n [/beach|bãi|bai sao|long beach|trường/i,\'assets/images/phu-quoc/01-beach.jpg\'],\n [/phú quốc|phu quoc/i,\'assets/images/phu-quoc/01-beach.jpg\']\n];\nconst CONDAO_LOCAL=[\n [/beach|bãi|côn sơn|con son/i,\'assets/images/con-dao/01-beach.jpg\'],\n [/côn đảo|con dao|pulo condore/i,\'assets/images/con-dao/01-beach.jpg\']\n];\n\n'''
-if 'HATIEN_LOCAL' not in s:
-    s = s.replace('const HCMC_LOCAL=[', new_locals + 'const HCMC_LOCAL=[', 1)
-old_hero = \" if(n==='bac lieu') return 'assets/images/destinations/bac-lieu-ghositaram.jpg';\"
-hero_snip = old_hero + \"\\n if(n==='ha tien') return 'assets/images/destinations/ha-tien.jpg';\\n if(n==='phu quoc') return 'assets/images/destinations/phu-quoc.jpg';\\n if(n==='con dao'||n==='con son') return 'assets/images/destinations/con-dao.jpg';\"
-if \"if(n==='ha tien')\" not in s:
-    s = s.replace(old_hero, hero_snip, 1)
-old_add = \" if(/bac lieu/.test(dest)) add(BACLIEU_LOCAL);\\n if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);\"
-new_add = \" if(/bac lieu/.test(dest)) add(BACLIEU_LOCAL);\\n if(/ha tien/.test(dest)) add(HATIEN_LOCAL);\\n if(/phu quoc/.test(dest)) add(PHUQUOC_LOCAL);\\n if(/con dao|con son/.test(dest)) add(CONDAO_LOCAL);\\n if(/ho chi minh|saigon/.test(dest)) add(HCMC_LOCAL);\"
-if 'add(HATIEN_LOCAL)' not in s:
-    s = s.replace(old_add, new_add, 1)
-old_global = ' add(HCMC_LOCAL);add(CAIBE_LOCAL);add(SADEC_LOCAL);add(TINHBIEN_LOCAL);add(BACLIEU_LOCAL);add(CANTHO_LOCAL);add(LONGXUYEN_LOCAL);add(CHAUDOC_LOCAL);add(TRASU_LOCAL);'
-new_global = old_global + 'add(HATIEN_LOCAL);add(PHUQUOC_LOCAL);add(CONDAO_LOCAL);'
-if 'add(HATIEN_LOCAL);add(PHUQUOC' not in s:
-    s = s.replace(old_global, new_global, 1)
-s = s.replace('/* V0.28 — verification-first Vietnam graphics', '/* V0.29 — verification-first Vietnam graphics + South/Mekong local banks', 1)
-assert 'window.hydrateVN=function' in s
-assert 'HATIEN_LOCAL' in s
-assert 'remainder of file preserved' not in s
-Path('data/vietnam-photo-alignment-v026.js').write_text(s)
-print('wrote', len(s))
-"
+          echo "CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aApzID0gUGF0aCgiL3RtcC9iYXNlLmpzIikucmVhZF90ZXh0KCkKbmV3X2xvY2FscyA9ICIiIgpjb25zdCBIQVRJRU5fTE9DQUw9WwogWy9waMO5IGR1bmd8cGh1IGR1bmd8Y+G7lSB04buxfGNvIHR1L2ksJ2Fzc2V0cy9pbWFnZXMvaGEtdGllbi8wMS1waHUtZHVuZy5qcGcnXSwKIFsvaMOgIHRpw6pufGhhIHRpZW4vaSwnYXNzZXRzL2ltYWdlcy9oYS10aWVuLzAxLXBodS1kdW5nLmpwZyddCl07CmNvbnN0IFBIVVFVT0NfTE9DQUw9WwogWy9iZWFjaHxiw6NpfGJhaSBzYW98bG9uZyBiZWFjaHx0csaw4budbmcvaSwnYXNzZXRzL2ltYWdlcy9waHUtcXVvYy8wMS1iZWFjaC5qcGcnXSwKIFsvcGjDuiBxdeG7kWN8cGh1IHF1b2MvaSwnYXNzZXRzL2ltYWdlcy9waHUtcXVvYy8wMS1iZWFjaC5qcGcnXQpdOwpjb25zdCBDT05EQU9fTE9DQUw9WwogWy9iZWFjaHxiw6NpfGPDtG4gc8ahbnxjb24gc29uL2ksJ2Fzc2V0cy9pbWFnZXMvY29uLWRhby8wMS1iZWFjaC5qcGcnXSwKIFsvY8O0biDEkeG6o298Y29uIGRhb3xwdWxvIGNvbmRvcmUvaSwnYXNzZXRzL2ltYWdlcy9jb24tZGFvLzAxLWJlYWNoLmpwZyddCl07CgoiIiIKaWYgIkhBVElFTl9MT0NBTCIgbm90IGluIHM6CiAgICBzID0gcy5yZXBsYWNlKCJjb25zdCBIQ01DX0xPQ0FMPVsiLCBuZXdfbG9jYWxzICsgImNvbnN0IEhDTUNfTE9DQUw9WyIsIDEpCm9sZF9oZXJvID0gIiBpZihuPT09J2JhYyBsaWV1JykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy9iYWMtbGlldS1naG9zaXRhcmFtLmpwZyc7IgpoZXJvX3NuaXAgPSBvbGRfaGVybyArICJcbiBpZihuPT09J2hhIHRpZW4nKSByZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvZGVzdGluYXRpb25zL2hhLXRpZW4uanBnJztcbiBpZihuPT09J3BodSBxdW9jJykgcmV0dXJuICdhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy9waHUtcXVvYy5qcGcnO1xuIGlmKG49PT0nY29uIGRhbyd8fG49PT0nY29uIHNvbicpIHJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMvY29uLWRhby5qcGcnOyIKaWYgImlmKG49PT0naGEgdGllbicpIiBub3QgaW4gczoKICAgIHMgPSBzLnJlcGxhY2Uob2xkX2hlcm8sIGhlcm9fc25pcCwgMSkKb2xkX2FkZCA9ICIgaWYoL2JhYyBsaWV1Ly50ZXN0KGRlc3QpKSBhZGQoQkFDTElFVV9MT0NBTCk7XG4gaWYoL2hvIGNoaSBtaW5ofHNhaWdvbi8udGVzdChkZXN0KSkgYWRkKEhDTUNfTE9DQUwpOyIKbmV3X2FkZCA9ICIgaWYoL2JhYyBsaWV1Ly50ZXN0KGRlc3QpKSBhZGQoQkFDTElFVV9MT0NBTCk7XG4gaWYoL2hhIHRpZW4vLnRlc3QoZGVzdCkpIGFkZChIQVRJRU5fTE9DQUwpO1xuIGlmKC9waHUgcXVvYy8udGVzdChkZXN0KSkgYWRkKFBIVVFVT0NfTE9DQUwpO1xuIGlmKC9jb24gZGFvfGNvbiBzb24vLnRlc3QoZGVzdCkpIGFkZChDT05EQU9fTE9DQUwpO1xuIGlmKC9obyBjaGkgbWluaHxzYWlnb24vLnRlc3QoZGVzdCkpIGFkZChIQ01DX0xPQ0FMKTsiCmlmICJhZGQoSEFUSUVOX0xPQ0FMKSIgbm90IGluIHM6CiAgICBzID0gcy5yZXBsYWNlKG9sZF9hZGQsIG5ld19hZGQsIDEpCm9sZF9nbG9iYWwgPSAiIGFkZChIQ01DX0xPQ0FMKTthZGQoQ0FJQkVfTE9DQUwpO2FkZChTQURFQ19MT0NBTCk7YWRkKFRJTkhCSUVOX0xPQ0FMKTthZGQoQkFDTElFVV9MT0NBTCk7YWRkKENBTlRIT19MT0NBTCk7YWRkKExPTkdYVVlFTl9MT0NBTCk7YWRkKENIQVVET0NfTE9DQUwpO2FkZChUUkFTVV9MT0NBTCk7IgpuZXdfZ2xvYmFsID0gb2xkX2dsb2JhbCArICJhZGQoSEFUSUVOX0xPQ0FMKTthZGQoUEhVUVVPQ19MT0NBTCk7YWRkKENPTkRBT19MT0NBTCk7IgppZiAiYWRkKEhBVElFTl9MT0NBTCk7YWRkKFBIVVFVT0MiIG5vdCBpbiBzOgogICAgcyA9IHMucmVwbGFjZShvbGRfZ2xvYmFsLCBuZXdfZ2xvYmFsLCAxKQpzID0gcy5yZXBsYWNlKCIvKiBWMC4yOCDigJQgdmVyaWZpY2F0aW9uLWZpcnN0IFZpZXRuYW0gZ3JhcGhpY3MiLCAiLyogVjAuMjkg4oCUIHZlcmlmaWNhdGlvbi1maXJzdCBWaWV0bmFtIGdyYXBoaWNzICsgU291dGgvTWVrb25nIGxvY2FsIGJhbmtzIiwgMSkKYXNzZXJ0ICJ3aW5kb3cuaHlkcmF0ZVZOPWZ1bmN0aW9uIiBpbiBzCmFzc2VydCAiSEFUSUVOX0xPQ0FMIiBpbiBzCmFzc2VydCAicmVtYWluZGVyIG9mIGZpbGUgcHJlc2VydmVkIiBub3QgaW4gcwpQYXRoKCJkYXRhL3ZpZXRuYW0tcGhvdG8tYWxpZ25tZW50LXYwMjYuanMiKS53cml0ZV90ZXh0KHMpCnByaW50KCJ3cm90ZSIsIGxlbihzKSkK" | base64 -d > /tmp/patch_align.py
+          python3 /tmp/patch_align.py
           grep -n 'HATIEN_LOCAL\|hydrateVN' data/vietnam-photo-alignment-v026.js | head
 
       - name: Cần Giờ mangrove from Commons
