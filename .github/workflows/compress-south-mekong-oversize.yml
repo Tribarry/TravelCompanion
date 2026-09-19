@@ -1,0 +1,55 @@
+name: Compress South Mekong oversize
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
+
+      - name: Compress oversized local JPEGs
+        run: |
+          compress() {
+            local f="$1"
+            if [ ! -f "$f" ]; then echo "skip missing $f"; return; fi
+            local before=$(stat -c%s "$f")
+            convert "$f" -resize '1280x>' -quality 80 -strip "$f.tmp.jpg"
+            mv "$f.tmp.jpg" "$f"
+            local after=$(stat -c%s "$f")
+            echo "$f: $before -> $after"
+          }
+          compress assets/images/chau-doc/01-ba-chua-xu.jpg
+          compress assets/images/tra-su/05-dry-season.jpg
+          compress assets/images/tra-su/06-boardwalk.jpg
+          compress assets/images/long-xuyen/01-floating-market.jpg
+          compress assets/images/long-xuyen/06-fish-rafts.jpg
+          compress assets/images/tinh-bien/01-ta-pa-rice.jpg
+          compress assets/images/tinh-bien/02-nui-cam-clouds.jpg
+          compress assets/images/bac-lieu/01-ghositaram.jpg
+          compress assets/images/bac-lieu/06-salt.jpg
+
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/images/chau-doc assets/images/tra-su assets/images/long-xuyen assets/images/tinh-bien assets/images/bac-lieu || true
+          if git diff --cached --quiet; then
+            echo 'No size changes'
+            exit 0
+          fi
+          git status --short
+          git commit -m 'perf(south-mekong): compress oversized local JPEGs to ~1280px / q80'
+          git push origin HEAD:main
