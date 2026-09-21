@@ -14,21 +14,23 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Install
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick
-      - name: Redownload Nam Du compressed
+      - name: Fix broken syntax lines
         run: |
-          mkdir -p assets/images/nam-du assets/images/destinations
-          curl -fsSL -A 'TravelCompanionPhotoFix/1.0' -o /tmp/namdu.jpg 'https://commons.wikimedia.org/wiki/Special:FilePath/Duong_ven_nui_dao_Nam_du,_xa_An_Sơn,huyen_Kiên_Hải,_tỉnh_Kiên_Giang,_Việt_Nam,02-07-16-Dyt_-_panoramio.jpg?width=1200'
-          convert /tmp/namdu.jpg -auto-orient -resize '900x1600>' -quality 70 -strip assets/images/nam-du/01-road.jpg
-          cp assets/images/nam-du/01-road.jpg assets/images/destinations/nam-du.jpg
-          ls -la assets/images/nam-du/01-road.jpg
+          sed -i 's/add(KIENLUONG_LOCAL-;/add(KIENLUONG_LOCAL);/g' data/vietnam-photo-alignment-v026.js
+          sed -i 's/add(BENTRE_LOCAL-;/add(BENTRE_LOCAL);/g' data/vietnam-photo-alignment-v026.js
+          sed -i 's/KIENLEONG_LOCAL/KIENLUONG_LOCAL/g' data/vietnam-photo-alignment-v026.js
+          sed -i "s|return 'assets/images/tra-su/01-boat.jpg'|return 'assets/images/destinations/tra-su.jpg'|g" data/vietnam-photo-alignment-v026.js
+          node --check data/vietnam-photo-alignment-v026.js
+          echo "syntax OK"
+          sed -i 's/vietnam-photo-alignment-v026.js?v=[^"]*/vietnam-photo-alignment-v026.js?v=20260921-placeheroes/g' index.html
+          grep vietnam-photo-alignment index.html | head -1
+          cp assets/images/destinations/tinh-bien-tri-ton.jpg assets/images/destinations/tinh-bien.jpg || true
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
-          git add assets/images/nam-du assets/images/destinations/nam-du.jpg
+          git add data/vietnam-photo-alignment-v026.js index.html assets/images/destinations/tinh-bien.jpg
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(south-mekong): Nam Du compressed for lag-free local load'
+          git commit -m 'fix(photos): repair alignment syntax so place heroes load (not wiki logos)'
           git push origin HEAD:main
