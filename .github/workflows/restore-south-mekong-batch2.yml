@@ -14,30 +14,13 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Python fix syntax
+      - name: Fix syntax
         run: |
-          python3 -c "
-from pathlib import Path
-p=Path('data/vietnam-photo-alignment-v026.js')
-s=p.read_text()
-s=s.replace('add(KIENLUONG_LOCAL-;','add(KIENLUONG_LOCAL);')
-s=s.replace('add(BENTRE_LOCAL-;','add(BENTRE_LOCAL);')
-s=s.replace('KIENLEONG_LOCAL','KIENLUONG_LOCAL')
-s=s.replace(\"return 'assets/images/tra-su/01-boat.jpg'\",\"return 'assets/images/destinations/tra-su.jpg'\")
-p.write_text(s)
-print('fixed', s.count('KIENLUONG_LOCAL-;'), s.count('BENTRE_LOCAL-;'), 'KIENLEONG' in s)
-"
+          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnA9UGF0aCgiZGF0YS92aWV0bmFtLXBob3RvLWFsaWdubWVudC12MDI2LmpzIikKcz1wLnJlYWRfdGV4dCgpCnM9cy5yZXBsYWNlKCJhZGQoS0lFTkxVT05HX0xPQ0FMLTsiLCJhZGQoS0lFTkxVT05HX0xPQ0FMKTsiKQpzPXMucmVwbGFjZSgiYWRkKEJFTlRSRV9MT0NBTC07IiwiYWRkKEJFTlRSRV9MT0NBTCk7IikKcz1zLnJlcGxhY2UoIktJRU5MRU9OR19MT0NBTCIsIktJRU5MVU9OR19MT0NBTCIpCnM9cy5yZXBsYWNlKCJyZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvdHJhLXN1LzAxLWJvYXQuanBnJyIsInJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMvdHJhLXN1LmpwZyciKQpwLndyaXRlX3RleHQocykKcHJpbnQoImZpeGVkIiwgImJyb2tlbiIgaWYgIktJRU5MVU9OR19MT0NBTC07IiBpbiBzIGVsc2UgIm9rIikK | base64 -d > /tmp/f.py
+          python3 /tmp/f.py
           node --check data/vietnam-photo-alignment-v026.js
-          echo SYNTAX_OK
-          python3 -c "
-from pathlib import Path
-p=Path('index.html')
-s=p.read_text()
-import re
-s2=re.sub(r'vietnam-photo-alignment-v026\\.js\\?v=[^\"]*','vietnam-photo-alignment-v026.js?v=20260921-placeheroes',s)
-p.write_text(s2)
-print('cache busted')
-"
+          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCmltcG9ydCByZQpwPVBhdGgoImluZGV4Lmh0bWwiKQpzPXAucmVhZF90ZXh0KCkKczI9cmUuc3ViKHIidmlldG5hbS1waG90by1hbGlnbm1lbnQtdjAyNlwuanNcP3Y9W15cIl0qIiwidmlldG5hbS1waG90by1hbGlnbm1lbnQtdjAyNi5qcz92PTIwMjYwOTIxLXBsYWNlaGVyb2VzIixzKQpwLndyaXRlX3RleHQoczIpCnByaW50KCJjYWNoZSIpCg== | base64 -d > /tmp/i.py
+          python3 /tmp/i.py
           cp assets/images/destinations/tinh-bien-tri-ton.jpg assets/images/destinations/tinh-bien.jpg || true
       - name: Commit
         run: |
