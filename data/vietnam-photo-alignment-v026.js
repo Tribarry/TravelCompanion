@@ -364,6 +364,23 @@ const CONDAO_LOCAL=[
  [/côn đảo|con dao|pulo condore/i,'assets/images/con-dao/01-beach.jpg']
 ];
 
+
+const NAMDU_LOCAL=[
+ [/nam du|island/i,'assets/images/nam-du/01-road.jpg']
+];
+const RACHGIA_LOCAL=[
+ [/city|rach gia/i,'assets/images/rach-gia/01-city.jpg']
+];
+const KIENLUONG_LOCAL=[
+ [/hon chong|kien luong/i,'assets/images/kien-luong/01-hon-chong.jpg']
+];
+const VINHLONG_LOCAL=[
+ [/canal|vinh long/i,'assets/images/vinh-long/01-canal.jpg']
+];
+const TRAVINH_LOCAL=[
+ [/pagoda|tra vinh/i,'assets/images/tra-vinh/01-pagoda.jpg']
+];
+
 const HCMC_LOCAL=[
  [/bến thành|ben thanh/i,'assets/images/generated/vietnam-resolved/be-n-tha-nh-market-e0b32d92-1600.webp'],
  [/nguyễn huệ walking|nguyen hue walking/i,'assets/images/hcmc/nguyen-hue-walking.jpg'],
@@ -419,7 +436,7 @@ function destLocalPhoto(q,currentName){
  /* Dest only orders the maps. Never gate a unique title on "I am here" —
   * browsing Sa Đéc while still marked at Cái Bè was dropping the farmer card. */
  const maps=[];
- const add=rules=>{if(rules&&!maps.includes(rules))maps.push(rules)};
+ const add=rules=>{if(rules&&rules.length!==undefined&&!maps.includes(rules))maps.push(rules)};
  if(/cai be|tan phong/.test(dest)) add(CAIBE_LOCAL);
  if(/sa dec/.test(dest)) add(SADEC_LOCAL);
  if(/can tho/.test(dest)) add(CANTHO_LOCAL);
