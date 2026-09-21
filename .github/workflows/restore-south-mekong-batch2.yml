@@ -14,20 +14,51 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Fix syntax
+      - name: Inject missing LOCAL consts
         run: |
-          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnA9UGF0aCgiZGF0YS92aWV0bmFtLXBob3RvLWFsaWdubWVudC12MDI2LmpzIikKcz1wLnJlYWRfdGV4dCgpCnM9cy5yZXBsYWNlKCJhZGQoS0lFTkxVT05HX0xPQ0FMLTsiLCJhZGQoS0lFTkxVT05HX0xPQ0FMKTsiKQpzPXMucmVwbGFjZSgiYWRkKEJFTlRSRV9MT0NBTC07IiwiYWRkKEJFTlRSRV9MT0NBTCk7IikKcz1zLnJlcGxhY2UoIktJRU5MRU9OR19MT0NBTCIsIktJRU5MVU9OR19MT0NBTCIpCnM9cy5yZXBsYWNlKCJyZXR1cm4gJ2Fzc2V0cy9pbWFnZXMvdHJhLXN1LzAxLWJvYXQuanBnJyIsInJldHVybiAnYXNzZXRzL2ltYWdlcy9kZXN0aW5hdGlvbnMvdHJhLXN1LmpwZyciKQpwLndyaXRlX3RleHQocykKcHJpbnQoImZpeGVkIiwgImJyb2tlbiIgaWYgIktJRU5MVU9OR19MT0NBTC07IiBpbiBzIGVsc2UgIm9rIikK | base64 -d > /tmp/f.py
-          python3 /tmp/f.py
+          python3 << 'END'
+          from pathlib import Path
+          p = Path('data/vietnam-photo-alignment-v026.js')
+          s = p.read_text()
+          block = '''
+const NAMDU_LOCAL=[
+ [/nam du|island|đảo|dao/i,'assets/images/nam-du/01-road.jpg']
+];
+const RACHGIA_LOCAL=[
+ [/city|rạch giá|rach gia/i,'assets/images/rach-gia/01-city.jpg']
+];
+const KIENLUONG_LOCAL=[
+ [/hòn chồng|hon chong|ba hòn|ba hon|kiên lương|kien luong/i,'assets/images/kien-luong/01-hon-chong.jpg']
+];
+const VINHLONG_LOCAL=[
+ [/canal|rạch|floating|trà ôn|tra on/i,'assets/images/vinh-long/01-canal.jpg'],
+ [/vĩnh long|vinh long/i,'assets/images/vinh-long/01-canal.jpg']
+];
+const TRAVINH_LOCAL=[
+ [/pagoda|gate|trà vinh|tra vinh/i,'assets/images/tra-vinh/01-pagoda.jpg']
+];
+
+'''
+          if 'const RACHGIA_LOCAL=' not in s:
+              s = s.replace('const HCMC_LOCAL=[', block + 'const HCMC_LOCAL=[', 1)
+          s = s.replace(
+              'const add=rules=>{if(rules&&!maps.includes(rules))maps.push(rules)};',
+              "const add=rules=>{if(rules&&Array.isArray(rules)&&!maps.includes(rules))maps.push(rules)};",
+          )
+          p.write_text(s)
+          print('RACHGIA', 'const RACHGIA_LOCAL=' in s)
+          print('KIEN', 'const KIENLUONG_LOCAL=' in s)
+          print('NAMDU', 'const NAMDU_LOCAL=' in s)
+          END
           node --check data/vietnam-photo-alignment-v026.js
-          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCmltcG9ydCByZQpwPVBhdGgoImluZGV4Lmh0bWwiKQpzPXAucmVhZF90ZXh0KCkKczI9cmUuc3ViKHIidmlldG5hbS1waG90by1hbGlnbm1lbnQtdjAyNlwuanNcP3Y9W15cIl0qIiwidmlldG5hbS1waG90by1hbGlnbm1lbnQtdjAyNi5qcz92PTIwMjYwOTIxLXBsYWNlaGVyb2VzIixzKQpwLndyaXRlX3RleHQoczIpCnByaW50KCJjYWNoZSIpCg== | base64 -d > /tmp/i.py
-          python3 /tmp/i.py
-          cp assets/images/destinations/tinh-bien-tri-ton.jpg assets/images/destinations/tinh-bien.jpg || true
+          echo SYNTAX_OK
+          python3 -c "import re;from pathlib import Path;p=Path('index.html');s=re.sub(r'vietnam-photo-alignment-v026\\.js\\?v=[^\"]*','vietnam-photo-alignment-v026.js?v=20260921-locals2',p.read_text());p.write_text(s);print('cache')"
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
-          git add data/vietnam-photo-alignment-v026.js index.html assets/images/destinations/tinh-bien.jpg
+          git add data/vietnam-photo-alignment-v026.js index.html
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(photos): repair alignment JS syntax — place heroes were falling back to wiki logos'
+          git commit -m 'fix(photos): define missing LOCAL arrays so place heroes stop crashing'
           git push origin HEAD:main
