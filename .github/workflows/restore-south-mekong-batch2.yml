@@ -14,16 +14,30 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Fix broken syntax lines
+      - name: Python fix syntax
         run: |
-          sed -i 's/add(KIENLUONG_LOCAL-;/add(KIENLUONG_LOCAL);/g' data/vietnam-photo-alignment-v026.js
-          sed -i 's/add(BENTRE_LOCAL-;/add(BENTRE_LOCAL);/g' data/vietnam-photo-alignment-v026.js
-          sed -i 's/KIENLEONG_LOCAL/KIENLUONG_LOCAL/g' data/vietnam-photo-alignment-v026.js
-          sed -i "s|return 'assets/images/tra-su/01-boat.jpg'|return 'assets/images/destinations/tra-su.jpg'|g" data/vietnam-photo-alignment-v026.js
+          python3 -c "
+from pathlib import Path
+p=Path('data/vietnam-photo-alignment-v026.js')
+s=p.read_text()
+s=s.replace('add(KIENLUONG_LOCAL-;','add(KIENLUONG_LOCAL);')
+s=s.replace('add(BENTRE_LOCAL-;','add(BENTRE_LOCAL);')
+s=s.replace('KIENLEONG_LOCAL','KIENLUONG_LOCAL')
+s=s.replace(\"return 'assets/images/tra-su/01-boat.jpg'\",\"return 'assets/images/destinations/tra-su.jpg'\")
+p.write_text(s)
+print('fixed', s.count('KIENLUONG_LOCAL-;'), s.count('BENTRE_LOCAL-;'), 'KIENLEONG' in s)
+"
           node --check data/vietnam-photo-alignment-v026.js
-          echo "syntax OK"
-          sed -i 's/vietnam-photo-alignment-v026.js?v=[^"]*/vietnam-photo-alignment-v026.js?v=20260921-placeheroes/g' index.html
-          grep vietnam-photo-alignment index.html | head -1
+          echo SYNTAX_OK
+          python3 -c "
+from pathlib import Path
+p=Path('index.html')
+s=p.read_text()
+import re
+s2=re.sub(r'vietnam-photo-alignment-v026\\.js\\?v=[^\"]*','vietnam-photo-alignment-v026.js?v=20260921-placeheroes',s)
+p.write_text(s2)
+print('cache busted')
+"
           cp assets/images/destinations/tinh-bien-tri-ton.jpg assets/images/destinations/tinh-bien.jpg || true
       - name: Commit
         run: |
@@ -32,5 +46,5 @@ jobs:
           git pull --rebase origin main || git pull origin main
           git add data/vietnam-photo-alignment-v026.js index.html assets/images/destinations/tinh-bien.jpg
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(photos): repair alignment syntax so place heroes load (not wiki logos)'
+          git commit -m 'fix(photos): repair alignment JS syntax — place heroes were falling back to wiki logos'
           git push origin HEAD:main
