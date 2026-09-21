@@ -14,45 +14,17 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Inject missing LOCAL consts
+      - name: Inject missing LOCAL consts via python one-liner file
         run: |
-          python3 << 'END'
-          from pathlib import Path
-          p = Path('data/vietnam-photo-alignment-v026.js')
-          s = p.read_text()
-          block = '''
-const NAMDU_LOCAL=[
- [/nam du|island|đảo|dao/i,'assets/images/nam-du/01-road.jpg']
-];
-const RACHGIA_LOCAL=[
- [/city|rạch giá|rach gia/i,'assets/images/rach-gia/01-city.jpg']
-];
-const KIENLUONG_LOCAL=[
- [/hòn chồng|hon chong|ba hòn|ba hon|kiên lương|kien luong/i,'assets/images/kien-luong/01-hon-chong.jpg']
-];
-const VINHLONG_LOCAL=[
- [/canal|rạch|floating|trà ôn|tra on/i,'assets/images/vinh-long/01-canal.jpg'],
- [/vĩnh long|vinh long/i,'assets/images/vinh-long/01-canal.jpg']
-];
-const TRAVINH_LOCAL=[
- [/pagoda|gate|trà vinh|tra vinh/i,'assets/images/tra-vinh/01-pagoda.jpg']
-];
+          python3 -c 'from pathlib import Path;p=Path("data/vietnam-photo-alignment-v026.js");s=p.read_text();
+block="""\nconst NAMDU_LOCAL=[\n [/nam du|island/i,"assets/images/nam-du/01-road.jpg"]\n];\nconst RACHGIA_LOCAL=[\n [/city|rach gia/i,"assets/images/rach-gia/01-city.jpg"]\n];\nconst KIENLUONG_LOCAL=[\n [/hon chong|kien luong/i,"assets/images/kien-luong/01-hon-chong.jpg"]\n];\nconst VINHLONG_LOCAL=[\n [/canal|vinh long/i,"assets/images/vinh-long/01-canal.jpg"]\n];\nconst TRAVINH_LOCAL=[\n [/pagoda|tra vinh/i,"assets/images/tra-vinh/01-pagoda.jpg"]\n];\n\n""";
 
-'''
-          if 'const RACHGIA_LOCAL=' not in s:
-              s = s.replace('const HCMC_LOCAL=[', block + 'const HCMC_LOCAL=[', 1)
-          s = s.replace(
-              'const add=rules=>{if(rules&&!maps.includes(rules))maps.push(rules)};',
-              "const add=rules=>{if(rules&&Array.isArray(rules)&&!maps.includes(rules))maps.push(rules)};",
-          )
-          p.write_text(s)
-          print('RACHGIA', 'const RACHGIA_LOCAL=' in s)
-          print('KIEN', 'const KIENLUONG_LOCAL=' in s)
-          print('NAMDU', 'const NAMDU_LOCAL=' in s)
-          END
+if "const RACHGIA_LOCAL=" not in s: s=s.replace("const HCMC_LOCAL=[",block+"const HCMC_LOCAL=[",1);
+s=s.replace("const add=rules=>{if(rules&&!maps.includes(rules))maps.push(rules)};","const add=rules=>{if(rules&&typeof rules!==\"undefined\"&&rules&&!maps.includes(rules))maps.push(rules)};");
+p.write_text(s);print("ok", "const RACHGIA_LOCAL=" in s)'
           node --check data/vietnam-photo-alignment-v026.js
           echo SYNTAX_OK
-          python3 -c "import re;from pathlib import Path;p=Path('index.html');s=re.sub(r'vietnam-photo-alignment-v026\\.js\\?v=[^\"]*','vietnam-photo-alignment-v026.js?v=20260921-locals2',p.read_text());p.write_text(s);print('cache')"
+          sed -i 's/vietnam-photo-alignment-v026.js?v=[^"]*/vietnam-photo-alignment-v026.js?v=20260921-locals2/g' index.html
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
