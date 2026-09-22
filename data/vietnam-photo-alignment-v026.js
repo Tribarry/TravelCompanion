@@ -375,11 +375,11 @@ const KIENLUONG_LOCAL=[
  [/hon chong|kien luong/i,'assets/images/kien-luong/01-hon-chong.jpg']
 ];
 const VINHLONG_LOCAL=[
- [/mang thít|mang thit|brick.?kiln|kiln country|boat kiln|enter old kiln|golden.?hour kiln/i,'assets/images/vinh-long/03-kiln.jpg'],
- [/cù lao mây|cu lao may|rice.?paper|bánh tráng|banh trang/i,'assets/images/vinh-long/04-rice-paper.jpg'],
- [/canal boat|ferry hop|homestay|river.?island|an bình|an binh|get lost|cycling/i,'assets/images/vinh-long/01-canal.jpg'],
- [/trà ôn|tra on|floating/i,'assets/images/vinh-long/02-tra-on-floating.jpg'],
- [/canal|vinh long|pottery|tofu|weaving|hyacinth|farmer|cook dinner|đờn ca|don ca|oil.?lamp/i,'assets/images/vinh-long/01-canal.jpg']
+ [/mang thit|brick.?kiln|kiln country|boat kiln|enter old kiln|golden.?hour kiln/i,'assets/images/vinh-long/03-kiln.jpg'],
+ [/cu lao may|rice.?paper|banh trang/i,'assets/images/vinh-long/04-rice-paper.jpg'],
+ [/canal boat|ferry hop|homestay|river.?island|an binh|get lost|cycling/i,'assets/images/vinh-long/01-canal.jpg'],
+ [/tra on|floating/i,'assets/images/vinh-long/02-tra-on-floating.jpg'],
+ [/canal|vinh long|pottery|tofu|weaving|hyacinth|farmer|cook dinner|don ca|oil.?lamp/i,'assets/images/vinh-long/01-canal.jpg']
 ];
 const TRAVINH_LOCAL=[
  [/pagoda|tra vinh/i,'assets/images/tra-vinh/01-pagoda.jpg']
