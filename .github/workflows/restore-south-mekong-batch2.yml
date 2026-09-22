@@ -14,19 +14,18 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Expand VINHLONG_LOCAL
+      - name: Exact replace VINHLONG
         run: |
-          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCmltcG9ydCByZQpwPVBhdGgoImRhdGEvdmlldG5hbS1waG90by1hbGlnbm1lbnQtdjAyNi5qcyIpCnM9cC5yZWFkX3RleHQoKQpuZXc9IiIiY29uc3QgVklOSExPTkdfTE9DQUw9WwogWy9tYW5nIHRoaXR8YnJpY2suP2tpbG58a2lsbiBjb3VudHJ5fGJvYXQga2lsbnxlbnRlciBvbGQga2lsbnxnb2xkZW4uP2hvdXIga2lsbi9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMy1raWxuLmpwZyddLAogWy9jdSBsYW8gbWF5fHJpY2UuP3BhcGVyfGJhbmggdHJhbmcvaSwnYXNzZXRzL2ltYWdlcy92aW5oLWxvbmcvMDQtcmljZS1wYXBlci5qcGcnXSwKIFsvY2FuYWwgYm9hdHxmZXJyeSBob3B8aG9tZXN0YXl8cml2ZXIuP2lzbGFuZHxhbiBiaW5ofGdldCBsb3N0fGN5Y2xpbmcvaSwnYXNzZXRzL2ltYWdlcy92aW5oLWxvbmcvMDEtY2FuYWwuanBnJ10sCiBbL3RyYSBvbnxmbG9hdGluZy9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMi10cmEtb24tZmxvYXRpbmcuanBnJ10sCiBbL2NhbmFsfHZpbmggbG9uZ3xwb3R0ZXJ5fHRvZnV8d2VhdmluZ3xoeWFjaW50aHxmYXJtZXJ8Y29vayBkaW5uZXJ8ZG9uIGNhfG9pbC4/bGFtcC9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMS1jYW5hbC5qcGcnXQpdOyIiIgpzMj1yZS5zdWIociJjb25zdCBWSU5ITE9OR19MT0NBTD1cW1tcc1xTXSo/XF07IiwgbmV3LCBzLCBjb3VudD0xKQphc3NlcnQgczIhPXMsICJyZXBsYWNlIGZhaWxlZCIKcC53cml0ZV90ZXh0KHMyKQpwcmludCgib2siKQo= | base64 -d > /tmp/e.py
+          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCnA9UGF0aCgiZGF0YS92aWV0bmFtLXBob3RvLWFsaWdubWVudC12MDI2LmpzIikKcz1wLnJlYWRfdGV4dCgpCm9sZD0iY29uc3QgVklOSExPTkdfTE9DQUw9W1xuIFsvY2FuYWx8dmluaCBsb25nL2ksJ2Fzc2V0cy9pbWFnZXMvdmluaC1sb25nLzAxLWNhbmFsLmpwZyddXG5dOyIKbmV3PSJjb25zdCBWSU5ITE9OR19MT0NBTD1bXG4gWy9tYW5nIHRoaXR8YnJpY2suP2tpbG58a2lsbiBjb3VudHJ5fGJvYXQga2lsbnxlbnRlciBvbGQga2lsbnxnb2xkZW4uP2hvdXIga2lsbi9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMy1raWxuLmpwZyddLFxuIFsvY3UgbGFvIG1heXxyaWNlLj9wYXBlcnxiYW5oIHRyYW5nL2ksJ2Fzc2V0cy9pbWFnZXMvdmluaC1sb25nLzA0LXJpY2UtcGFwZXIuanBnJ10sXG4gWy9jYW5hbCBib2F0fGZlcnJ5IGhvcHxob21lc3RheXxyaXZlci4/aXNsYW5kfGFuIGJpbmh8Z2V0IGxvc3R8Y3ljbGluZy9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMS1jYW5hbC5qcGcnXSxcbiBbL3RyYSBvbnxmbG9hdGluZy9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMi10cmEtb24tZmxvYXRpbmcuanBnJ10sXG4gWy9jYW5hbHx2aW5oIGxvbmd8cG90dGVyeXx0b2Z1fHdlYXZpbmd8aHlhY2ludGh8ZmFybWVyfGNvb2sgZGlubmVyfGRvbiBjYXxvaWwuP2xhbXAvaSwnYXNzZXRzL2ltYWdlcy92aW5oLWxvbmcvMDEtY2FuYWwuanBnJ11cbl07IgppZiBvbGQgbm90IGluIHM6CiAgcmFpc2UgU3lzdGVtRXhpdCgib2xkIGJsb2NrIG1pc3Npbmc6ICIrcmVwcihzW3MuZmluZCgiVklOSExPTkciKTpzLmZpbmQoIlZJTkhMT05HIikrMTIwXSkpCnM9cy5yZXBsYWNlKG9sZCxuZXcsMSkKcC53cml0ZV90ZXh0KHMpCnByaW50KCJyZXBsYWNlZCBvayIpCg== | base64 -d > /tmp/e.py
           python3 /tmp/e.py
           node --check data/vietnam-photo-alignment-v026.js
-          grep -A10 'const VINHLONG_LOCAL' data/vietnam-photo-alignment-v026.js
-          sed -i 's/vietnam-photo-alignment-v026.js?v=[^"]*/vietnam-photo-alignment-v026.js?v=20260922-vl2/g' index.html
+          grep -A8 VINHLONG_LOCAL data/vietnam-photo-alignment-v026.js
+          sed -i 's/vietnam-photo-alignment-v026.js?v=[^"]*/vietnam-photo-alignment-v026.js?v=20260922-vl3/g' index.html
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
           git add data/vietnam-photo-alignment-v026.js index.html
-          if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(vinh-long): map kiln/rice-paper/canal experiences to local photos'
+          git commit -m 'fix(vinh-long): expand experience photo mappings to kiln and rice-paper'
           git push origin HEAD:main
