@@ -14,21 +14,32 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-      - name: Install
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick
-      - name: Vinh Long bank + mappings
+      - name: Expand VINHLONG_LOCAL
         run: |
-          echo CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aAppbXBvcnQgc3VicHJvY2Vzcywgb3MKb3MuY2hkaXIob3MuZW52aXJvbi5nZXQoJ0dJVEhVQl9XT1JLU1BBQ0UnLCcuJykpClBhdGgoJ2Fzc2V0cy9pbWFnZXMvdmluaC1sb25nJykubWtkaXIocGFyZW50cz1UcnVlLCBleGlzdF9vaz1UcnVlKQpjbWRzID0gWwogICJjdXJsIC1mc1NMIC1BICdUcmF2ZWxDb21wYW5pb25QaG90b0ZpeC8xLjAnIC1vIC90bXAva2lsbi5qcGcgJ2h0dHBzOi8vY29tbW9ucy53aWtpbWVkaWEub3JnL3dpa2kvU3BlY2lhbDpGaWxlUGF0aC9Mw7JfZ+G6oWNoX01hbmdfVGjDrXRfVsSpbmhfTG9uZy5qcGc/d2lkdGg9MTYwMCciLAogICJjb252ZXJ0IC90bXAva2lsbi5qcGcgLXJlc2l6ZSAnMTI4MHg+JyAtcXVhbGl0eSA4MiAtc3RyaXAgYXNzZXRzL2ltYWdlcy92aW5oLWxvbmcvMDMta2lsbi5qcGciLAogICJjcCBhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMy1raWxuLmpwZyBhc3NldHMvaW1hZ2VzL2Rlc3RpbmF0aW9ucy92aW5oLWxvbmcuanBnIiwKICAiY3VybCAtZnNTTCAtQSAnVHJhdmVsQ29tcGFuaW9uUGhvdG9GaXgvMS4wJyAtbyAvdG1wL2J0LmpwZyAnaHR0cHM6Ly9jb21tb25zLndpa2ltZWRpYS5vcmcvd2lraS9TcGVjaWFsOkZpbGVQYXRoL0LDoW5oX1Ryw6FuZ19Dw7lfTGFvX03DonkuSlBHP3dpZHRoPTE2MDAnIiwKICAiY29udmVydCAvdG1wL2J0LmpwZyAtcmVzaXplICcxMjgweD4nIC1xdWFsaXR5IDgyIC1zdHJpcCBhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wNC1yaWNlLXBhcGVyLmpwZyIsCl0KZm9yIGMgaW4gY21kczoKICBwcmludChjWzo4MF0pOyByPXN1YnByb2Nlc3MucnVuKGMsIHNoZWxsPVRydWUpOyBwcmludCgnZXhpdCcsIHIucmV0dXJuY29kZSkKCnA9UGF0aCgnZGF0YS92aWV0bmFtLXBob3RvLWFsaWdubWVudC12MDI2LmpzJykKcz1wLnJlYWRfdGV4dCgpCm5ld19sb2NhbCA9ICIiImNvbnN0IFZJTkhMT05HX0xPQ0FMPVsKIFsvbWFuZyB0aMOtdHxtYW5nIHRoaXR8YnJpY2suP2tpbG58a2lsbiBjb3VudHJ5fGJvYXQga2lsbnxlbnRlciBvbGQga2lsbnxnb2xkZW4uP2hvdXIga2lsbi9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMy1raWxuLmpwZyddLAogWy9jw7kgbGFvIG3Donl8Y3UgbGFvIG1heXxyaWNlLj9wYXBlcnxiw6FuaCB0csOhbmd8YmFuaCB0cmFuZy9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wNC1yaWNlLXBhcGVyLmpwZyddLAogWy9jYW5hbCBib2F0fGZlcnJ5IGhvcHxob21lc3RheXxyaXZlci4/aXNsYW5kfGFuIGLDrG5ofGFuIGJpbmh8Z2V0IGxvc3R8Y3ljbGluZy9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMS1jYW5hbC5qcGcnXSwKIFsvdHLDoCDDtG58dHJhIG9ufGZsb2F0aW5nL2ksJ2Fzc2V0cy9pbWFnZXMvdmluaC1sb25nLzAyLXRyYS1vbi1mbG9hdGluZy5qcGcnXSwKIFsvY2FuYWx8dmluaCBsb25nfHBvdHRlcnl8dG9mdXx3ZWF2aW5nfGh5YWNpbnRofGZhcm1lcnxjb29rIGRpbm5lcnzEkeG7nW4gY2F8ZG9uIGNhfG9pbC4/bGFtcC9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMS1jYW5hbC5qcGcnXQpdOwoiIiIKaW1wb3J0IHJlCnMyPXJlLnN1YihyImNvbnN0IFZJTkhMT05HX0xPQ0FMPVxbW1xzXFNdKj9cXTsiLCBuZXdfbG9jYWwuc3RyaXAoKSwgcywgY291bnQ9MSkKaWYgczI9PXM6CiAgaWYgJ2NvbnN0IFZJTkhMT05HX0xPQ0FMPScgaW4gczoKICAgIHByaW50KCdmb3VuZCBidXQgcmVnZXggbWlzcycpCiAgZWxzZToKICAgIHMyPXMucmVwbGFjZSgnY29uc3QgSENNQ19MT0FMPVsnLCBuZXdfbG9jYWwrJ1xuY29uc3QgSENNQ19MT0FMPVsnLDEpCnAud3JpdGVfdGV4dChzMikKcHJpbnQoJ2RvbmUnKQo= | base64 -d > /tmp/vl.py
-          python3 /tmp/vl.py
+          python3 -c "
+from pathlib import Path
+p=Path('data/vietnam-photo-alignment-v026.js');s=p.read_text()
+old=\"const VINHLONG_LOCAL=[\\n [/canal|vinh long/i,'assets/images/vinh-long/01-canal.jpg']\\n];\"
+new=\"const VINHLONG_LOCAL=[\\n [/mang thit|brick.?kiln|kiln country|boat kiln|enter old kiln|golden.?hour kiln/i,'assets/images/vinh-long/03-kiln.jpg'],\\n [/cu lao may|rice.?paper|banh trang/i,'assets/images/vinh-long/04-rice-paper.jpg'],\\n [/canal boat|ferry hop|homestay|river.?island|an binh|get lost|cycling/i,'assets/images/vinh-long/01-canal.jpg'],\\n [/tra on|floating/i,'assets/images/vinh-long/02-tra-on-floating.jpg'],\\n [/canal|vinh long|pottery|tofu|weaving|hyacinth|farmer|cook dinner|don ca|oil.?lamp/i,'assets/images/vinh-long/01-canal.jpg']\\n];\"
+if old in s:
+ s=s.replace(old,new,1); print('replaced')
+else:
+ print('old not found');
+ import re
+ s2=re.sub(r'const VINHLONG_LOCAL=\\[[\\s\\S]*?\\];', new, s, count=1)
+ if s2!=s: s=s2; print('regex ok')
+ else: print('FAIL')
+p.write_text(s)
+"
           node --check data/vietnam-photo-alignment-v026.js
-          ls -la assets/images/vinh-long/
-          sed -i 's/vietnam-photo-alignment-v026.js?v=[^"]*/vietnam-photo-alignment-v026.js?v=20260922-vinhlong/g' index.html
+          grep -A8 'const VINHLONG_LOCAL' data/vietnam-photo-alignment-v026.js
+          sed -i 's/vietnam-photo-alignment-v026.js?v=[^"]*/vietnam-photo-alignment-v026.js?v=20260922-vl2/g' index.html
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git pull --rebase origin main || git pull origin main
-          git add assets/images/vinh-long assets/images/destinations/vinh-long.jpg data/vietnam-photo-alignment-v026.js index.html
+          git add data/vietnam-photo-alignment-v026.js index.html
           if git diff --cached --quiet; then echo no changes; exit 0; fi
-          git commit -m 'fix(vinh-long): local kiln + rice-paper bank; map experiences off PHOTO TO VERIFY'
+          git commit -m 'fix(vinh-long): map kiln/rice-paper/canal experiences to local photos'
           git push origin HEAD:main
