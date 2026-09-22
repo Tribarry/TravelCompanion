@@ -16,23 +16,10 @@ jobs:
           fetch-depth: 0
       - name: Expand VINHLONG_LOCAL
         run: |
-          python3 -c "
-from pathlib import Path
-p=Path('data/vietnam-photo-alignment-v026.js');s=p.read_text()
-old=\"const VINHLONG_LOCAL=[\\n [/canal|vinh long/i,'assets/images/vinh-long/01-canal.jpg']\\n];\"
-new=\"const VINHLONG_LOCAL=[\\n [/mang thit|brick.?kiln|kiln country|boat kiln|enter old kiln|golden.?hour kiln/i,'assets/images/vinh-long/03-kiln.jpg'],\\n [/cu lao may|rice.?paper|banh trang/i,'assets/images/vinh-long/04-rice-paper.jpg'],\\n [/canal boat|ferry hop|homestay|river.?island|an binh|get lost|cycling/i,'assets/images/vinh-long/01-canal.jpg'],\\n [/tra on|floating/i,'assets/images/vinh-long/02-tra-on-floating.jpg'],\\n [/canal|vinh long|pottery|tofu|weaving|hyacinth|farmer|cook dinner|don ca|oil.?lamp/i,'assets/images/vinh-long/01-canal.jpg']\\n];\"
-if old in s:
- s=s.replace(old,new,1); print('replaced')
-else:
- print('old not found');
- import re
- s2=re.sub(r'const VINHLONG_LOCAL=\\[[\\s\\S]*?\\];', new, s, count=1)
- if s2!=s: s=s2; print('regex ok')
- else: print('FAIL')
-p.write_text(s)
-"
+          echo ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCmltcG9ydCByZQpwPVBhdGgoImRhdGEvdmlldG5hbS1waG90by1hbGlnbm1lbnQtdjAyNi5qcyIpCnM9cC5yZWFkX3RleHQoKQpuZXc9IiIiY29uc3QgVklOSExPTkdfTE9DQUw9WwogWy9tYW5nIHRoaXR8YnJpY2suP2tpbG58a2lsbiBjb3VudHJ5fGJvYXQga2lsbnxlbnRlciBvbGQga2lsbnxnb2xkZW4uP2hvdXIga2lsbi9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMy1raWxuLmpwZyddLAogWy9jdSBsYW8gbWF5fHJpY2UuP3BhcGVyfGJhbmggdHJhbmcvaSwnYXNzZXRzL2ltYWdlcy92aW5oLWxvbmcvMDQtcmljZS1wYXBlci5qcGcnXSwKIFsvY2FuYWwgYm9hdHxmZXJyeSBob3B8aG9tZXN0YXl8cml2ZXIuP2lzbGFuZHxhbiBiaW5ofGdldCBsb3N0fGN5Y2xpbmcvaSwnYXNzZXRzL2ltYWdlcy92aW5oLWxvbmcvMDEtY2FuYWwuanBnJ10sCiBbL3RyYSBvbnxmbG9hdGluZy9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMi10cmEtb24tZmxvYXRpbmcuanBnJ10sCiBbL2NhbmFsfHZpbmggbG9uZ3xwb3R0ZXJ5fHRvZnV8d2VhdmluZ3xoeWFjaW50aHxmYXJtZXJ8Y29vayBkaW5uZXJ8ZG9uIGNhfG9pbC4/bGFtcC9pLCdhc3NldHMvaW1hZ2VzL3ZpbmgtbG9uZy8wMS1jYW5hbC5qcGcnXQpdOyIiIgpzMj1yZS5zdWIociJjb25zdCBWSU5ITE9OR19MT0NBTD1cW1tcc1xTXSo/XF07IiwgbmV3LCBzLCBjb3VudD0xKQphc3NlcnQgczIhPXMsICJyZXBsYWNlIGZhaWxlZCIKcC53cml0ZV90ZXh0KHMyKQpwcmludCgib2siKQo= | base64 -d > /tmp/e.py
+          python3 /tmp/e.py
           node --check data/vietnam-photo-alignment-v026.js
-          grep -A8 'const VINHLONG_LOCAL' data/vietnam-photo-alignment-v026.js
+          grep -A10 'const VINHLONG_LOCAL' data/vietnam-photo-alignment-v026.js
           sed -i 's/vietnam-photo-alignment-v026.js?v=[^"]*/vietnam-photo-alignment-v026.js?v=20260922-vl2/g' index.html
       - name: Commit
         run: |
